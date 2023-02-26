@@ -1,6 +1,7 @@
 <div align=center>
   
-<img width="350" alt="스크린샷 2023-02-27 오전 12 58 16" src="https://user-images.githubusercontent.com/78461009/221421525-9c028b79-85af-47b5-81a4-53cd81c16248.png">
+<img width="397" alt="스크린샷 2023-02-27 오전 1 14 48" src="https://user-images.githubusercontent.com/78461009/221422412-f1827191-acb7-4738-afb6-664daa7a1f6a.png">
+
   
 <h2>버려지는 식재료, 우리가 관리해줄게요</h1>
 <br>
