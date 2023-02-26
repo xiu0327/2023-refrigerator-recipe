@@ -22,7 +22,7 @@
 
 ## 1.1 ⚡️ 프론트엔드
 
-<img width="940" alt="스크린샷 2023-02-27 오전 12 13 03" src="https://user-images.githubusercontent.com/78461009/221419907-607bc152-9e3b-4b4d-a4a2-2416c8796c1a.png">
+<img width="993" alt="스크린샷 2023-02-27 오전 1 38 21" src="https://user-images.githubusercontent.com/78461009/221423824-1513d24b-e89b-4112-a36f-37a6b359b991.png">
 
 ## 1.2 ⚡️ 백엔드
 
