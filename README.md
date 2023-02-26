@@ -1,5 +1,13 @@
 <div align=center>
-
+  
+<img width="350" alt="스크린샷 2023-02-27 오전 12 58 16" src="https://user-images.githubusercontent.com/78461009/221421525-9c028b79-85af-47b5-81a4-53cd81c16248.png">
+  
+<h2>버려지는 식재료, 우리가 관리해줄게요</h1>
+<br>
+  <strong>냉장고 속 식재료 관리가 어려운 1인 가구를 위한 레시피 추천 서비스 !</strong>
+<br>
+<br>
+  
 [![Application](http://img.shields.io/badge/Application-F46A54?style=flat&logo=github&logoColor=white&link=)]()
 [![Storybook](http://img.shields.io/badge/Storybook-FF4785?style=flat&logo=Storybook&logoColor=white&link=h)]()
 [![API Docs](http://img.shields.io/badge/-API%20Docs-important?style=flat&logo=dev.to&logoColor=white&link=)]()
