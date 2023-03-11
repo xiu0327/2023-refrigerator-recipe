@@ -11,4 +11,9 @@ public class BusinessException extends RuntimeException{
         super(basicExceptionType.getMessage());
         this.basicExceptionType = basicExceptionType;
     }
+
+    public BusinessException(Throwable cause, BasicExceptionType basicExceptionType) {
+        super(cause);
+        this.basicExceptionType = basicExceptionType;
+    }
 }

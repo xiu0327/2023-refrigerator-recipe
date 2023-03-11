@@ -14,7 +14,6 @@ import java.util.concurrent.Executor;
 public class AsyncConfiguration implements AsyncConfigurer {
 
     @Override
-    @Bean(name = "maileExecutor")
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);

@@ -1,6 +1,7 @@
 package refrigerator.back.identification.adapter.in;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,16 +20,18 @@ public class IdentificationController {
 
     private final CheckNumberUseCase checkNumberUseCase;
     private final SendNumberUseCase sendNumberUseCase;
+    @Value("${spring.mail.timeout}")
+    private Long duration; // 5분
 
-    @PostMapping("/auth/identification/send")
+    @PostMapping("/api/identification/send")
     @ResponseStatus(HttpStatus.CREATED)
     public SendNumberResponseDTO send(@RequestBody SendNumberRequestDTO request){
         return SendNumberResponseDTO.builder()
-                .code(sendNumberUseCase.sendAuthenticationNumber(request.getEmail()))
+                .code(sendNumberUseCase.sendAuthenticationNumber(request.getEmail(), duration))
                 .build();
     }
 
-    @PostMapping("/auth/identification/check")
+    @PostMapping("/api/identification/check")
     public CheckNumberResponseDTO check(@RequestBody CheckNumberRequestDTO request){
         return CheckNumberResponseDTO.builder()
                 .status(checkNumberUseCase.checkAuthenticationNumber(request.getInputCode(), request.getEmail()))

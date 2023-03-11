@@ -18,11 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class IdentificationServiceTest {
 
     @Autowired IdentificationService identificationService;
+    private Long testDuration = 30L;
 
     @Test
     void 인증_번호_통합테스트() throws InterruptedException {
         String email = "codinging0326@gmail.com";
-        String code = identificationService.sendAuthenticationNumber(email);
+        String code = identificationService.sendAuthenticationNumber(email, 1000L);
+        Thread.sleep(500);
         Boolean result = identificationService.checkAuthenticationNumber(code, email);
         assertThat(result).isTrue();
     }
@@ -30,7 +32,7 @@ class IdentificationServiceTest {
     @Test
     void 인증_번호_유효시간_만료() throws InterruptedException {
         String email = "codinging0326@gmail.com";
-        String code = identificationService.sendAuthenticationNumber(email);
+        String code = identificationService.sendAuthenticationNumber(email, testDuration);
         Thread.sleep(50);
         assertThrows(BusinessException.class, () -> {
             try{

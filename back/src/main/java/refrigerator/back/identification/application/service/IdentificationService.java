@@ -17,10 +17,9 @@ public class IdentificationService implements SendNumberUseCase, CheckNumberUseC
 
     private final IdentificationMethod identificationMethod;
     private final RedisUtilPort redisUtilPort;
-    private final Long duration = 30L;
 
     @Override
-    public String sendAuthenticationNumber(String email) {
+    public String sendAuthenticationNumber(String email, Long duration) {
         String code = createCode();
         identificationMethod.sendAuthenticationCode(email, code);
         redisUtilPort.setData(email, code, duration);
