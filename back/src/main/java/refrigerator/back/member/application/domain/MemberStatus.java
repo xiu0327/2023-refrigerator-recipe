@@ -20,9 +20,9 @@ public enum MemberStatus {
     private String statusName;
     private String statusCode;
 
-    public static MemberStatus lookup(String name){
+    public static MemberStatus lookup(String code){
         return Arrays.stream(MemberStatus.values())
-                .filter(n -> n.getStatusName().equals(name))
+                .filter(n -> n.getStatusCode().equals(code))
                 .findAny()
                 .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER_STATUS));
     }

@@ -10,10 +10,11 @@ public enum MemberExceptionType implements BasicExceptionType {
     INCORRECT_PASSWORD_FORMAT("INCORRECT_PASSWORD_FORMAT", "비밀번호 형식에 어긋납니다.", HttpStatus.BAD_REQUEST),
     INCORRECT_NICKNAME_FORMAT("INCORRECT_NICKNAME_FORMAT", "허용하지 않는 닉네임 형식입니다.", HttpStatus.BAD_REQUEST),
     DUPLICATE_EMAIL("DUPLICATE_EMAIL", "중복된 이메일 입니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_MEMBER("NOT_FOUND_MEMBER", "회원을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_MEMBER_ROLE("NOT_FOUND_MEMBER_ROLE", "해당 접근 권한이 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_MEMBER_STATUS("NOT_FOUND_MEMBER_STATUS", "해당 회원 상태가 없습니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_PROFILE_IMAGE("NOT_FOUND_PROFILE_IMAGE", "해당 이미지를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)
+    NOT_FOUND_MEMBER("NOT_FOUND_MEMBER", "회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_MEMBER_ROLE("NOT_FOUND_MEMBER_ROLE", "해당 접근 권한이 존재하지 않습니다.", HttpStatus.FORBIDDEN),
+    NOT_FOUND_MEMBER_STATUS("NOT_FOUND_MEMBER_STATUS", "해당 회원 상태가 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_PROFILE_IMAGE("NOT_FOUND_PROFILE_IMAGE", "해당 이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_EQUAL_PASSWORD("NOT_EQUAL_PASSWORD", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
     ;
 
     private String errorCode;

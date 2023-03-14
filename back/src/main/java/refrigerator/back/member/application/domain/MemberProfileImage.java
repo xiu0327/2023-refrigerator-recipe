@@ -26,7 +26,7 @@ public enum MemberProfileImage {
         return result[random];
     }
 
-    protected static MemberProfileImage findImageByName(String name){
+    public static MemberProfileImage findImageByName(String name){
         return Arrays.stream(MemberProfileImage.values())
                 .filter(image -> image.getName().equals(name))
                 .findAny()
