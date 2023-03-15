@@ -13,9 +13,8 @@ import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.port.in.FindRecipeCourseUseCase;
 import refrigerator.back.recipe.application.port.in.FindRecipeDetailUseCase;
 import refrigerator.back.recipe.application.port.in.FindRecipeListUseCase;
-import refrigerator.back.score.application.port.in.FindMyRecipeScoreUseCase;
+import refrigerator.back.myscore.application.port.in.FindMyRecipeScoreUseCase;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -31,14 +30,18 @@ public class RecipeController {
     private final FindMyRecipeScoreUseCase findMyRecipeScoreUseCase;
 
     @GetMapping("/api/recipes/{recipeID}")
-    public RecipeDetailDTO findRecipeByID(@PathVariable("recipeID") Long recipeID, HttpServletRequest request, HttpServletResponse response){
+    public RecipeDetailDTO findRecipeByID(@PathVariable("recipeID") Long recipeID,
+                                          HttpServletRequest request,
+                                          HttpServletResponse response){
+        /* 스프링 시큐리티에서 email 들고올 예정 */
+        String email = "";
         RecipeViewsCookie cookie = new RecipeViewsCookie(recipeID);
         boolean isViewed = cookie.changeViewed(request);
         if (!isViewed){
             response.addCookie(cookie.createCookie());
         }
         RecipeDomain recipe = findRecipeDetailUseCase.getRecipe(recipeID, isViewed);
-        double myScore = findMyRecipeScoreUseCase.getMyScore(recipeID);
+        double myScore = findMyRecipeScoreUseCase.getMyScore(email, recipeID);
         return recipeDTOMapper.recipeDetailMapper(recipe, myScore);
     }
 

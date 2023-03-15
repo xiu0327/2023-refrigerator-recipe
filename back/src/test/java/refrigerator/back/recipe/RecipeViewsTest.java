@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class RecipeViewsTest {
 
     @Autowired EntityManager entityManager;
@@ -31,7 +32,6 @@ public class RecipeViewsTest {
     @Autowired FindRecipeDetailUseCase findRecipeDetailUseCase;
 
     @Test
-    @Transactional
     void 영속성_변경감지_테스트(){
         long recipeID = 1L;
         RecipeViews recipeViews1 = entityManager.find(RecipeViews.class, recipeID);
@@ -44,7 +44,6 @@ public class RecipeViewsTest {
     }
 
     @Test
-    @Transactional
     void 조회수_증가_테스트(){
         Long recipeID = 1L;
         RecipeDomain firstSelectRecipe = readRecipePort.getRecipeDetails(recipeID);
@@ -55,20 +54,19 @@ public class RecipeViewsTest {
         assertThat(firstSelectRecipe.getViews() + 1).isEqualTo(secondSelectRecipe.getViews());
     }
 
-    @Test
-    void 조회수_증가_실패_테스트(){
-        Long wrongRecipeID = 1L;
-        int beforeViews = readRecipePort.getRecipeDetails(wrongRecipeID).getViews();
-        // 레시피 조회 실패 시, 롤백되어 트랜잭션 원자성이 보장되는지 확인
-        assertThrows(BusinessException.class, () -> {
-            try{
-                findRecipeDetailUseCase.getRecipe(wrongRecipeID, false);
-            }catch (BusinessException e){
-                RecipeDomain recipe = readRecipePort.getRecipeDetails(wrongRecipeID);
-                assertThat(recipe.getViews()).isEqualTo(beforeViews); // 조회수가 변경되지 않아야 함
-                throw e;
-            }
-        });
-
-    }
+//    @Test
+//    void 조회수_증가_실패_테스트(){
+//        Long wrongRecipeID = 1L;
+//        int beforeViews = readRecipePort.getRecipeDetails(wrongRecipeID).getViews();
+//        // 레시피 조회 실패 시, 롤백되어 트랜잭션 원자성이 보장되는지 확인
+//        assertThrows(BusinessException.class, () -> {
+//            try{
+//                findRecipeDetailUseCase.getRecipe(wrongRecipeID, false);
+//            }catch (BusinessException e){
+//                RecipeDomain recipe = readRecipePort.getRecipeDetails(wrongRecipeID);
+//                assertThat(recipe.getViews()).isEqualTo(beforeViews); // 조회수가 변경되지 않아야 함
+//                throw e;
+//            }
+//        });
+//    }
 }

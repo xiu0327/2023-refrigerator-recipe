@@ -1,4 +1,4 @@
-package refrigerator.back.bookmark.adapter.out.entity;
+package refrigerator.back.recipe.adapter.out.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

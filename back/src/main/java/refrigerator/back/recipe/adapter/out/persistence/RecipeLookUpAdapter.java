@@ -3,14 +3,12 @@ package refrigerator.back.recipe.adapter.out.persistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.recipe.adapter.out.entity.Recipe;
 import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
 import refrigerator.back.recipe.adapter.out.repository.RecipeRepository;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain;
-import refrigerator.back.recipe.application.port.out.AddRecipeViewsPort;
 import refrigerator.back.recipe.application.port.out.ReadRecipePort;
 
 import java.util.List;
@@ -19,11 +17,10 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class RecipePersistenceAdapter implements ReadRecipePort, AddRecipeViewsPort {
+public class RecipeLookUpAdapter implements ReadRecipePort {
 
     private final RecipeRepository recipeRepository;
     private final RecipeMapper recipeMapper;
-
 
     @Override
     public RecipeDomain getRecipeDetails(Long recipeID) {
@@ -48,10 +45,5 @@ public class RecipePersistenceAdapter implements ReadRecipePort, AddRecipeViewsP
         return recipeRepository.findRecipeList(PageRequest.of(page, size))
                 .stream().map(recipeMapper::toRecipeDomain)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void addViews(Long recipeID) {
-        recipeRepository.updateRecipeViews(recipeID);
     }
 }

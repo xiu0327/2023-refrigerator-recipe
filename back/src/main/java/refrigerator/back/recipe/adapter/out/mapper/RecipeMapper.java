@@ -11,11 +11,13 @@ import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
 import refrigerator.back.recipe.application.domain.value.RecipeIngredientType;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RecipeMapper {
     RecipeMapper INSTANCE = Mappers.getMapper(RecipeMapper.class);
 
-    @Mapping(source = "difficulty", target = "difficulty", qualifiedByName = "typeNameToEnum", defaultValue = "NO_LEVEL")
+    @Mappings({
+            @Mapping(source = "difficulty", target = "difficulty", qualifiedByName = "typeNameToEnum", defaultValue = "NO_LEVEL"),
+    })
     RecipeDomain toRecipeDomain(Recipe recipe);
 
     @Mappings({

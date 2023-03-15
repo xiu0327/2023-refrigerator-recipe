@@ -1,4 +1,4 @@
-package refrigerator.back.score.adapter.out.entity;
+package refrigerator.back.recipe.adapter.out.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

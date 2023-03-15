@@ -1,7 +1,6 @@
-package refrigerator.back.score.adapter.out.entity;
+package refrigerator.back.myscore.adapter.out.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -10,8 +9,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "recipe_score_member")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
-public class MyScore {
+public class MyRecipeScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +26,16 @@ public class MyScore {
     private Long recipeID;
 
     @Column(name = "score")
-    private double score;
+    private Double score;
 
     @CreatedDate
     @Column(name = "registration_date")
     private LocalDateTime registrationDate;
 
+    @Transient
+    private String recipeName;
+
+    @Transient
+    private String recipeImage;
 
 }

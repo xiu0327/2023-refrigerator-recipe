@@ -31,9 +31,8 @@ public class MemberPersistenceAdapter implements FindMemberPort, CreateMemberPor
 
     @Override
     public MemberDomain findMember(String email) {
-        MemberEntity member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER));
-        return memberMapper.toMemberDomain(member);
+        Optional<MemberEntity> member = memberRepository.findByEmail(email);
+        return member.map(memberMapper::toMemberDomain).orElse(null);
     }
 
     @Override

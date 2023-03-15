@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import static refrigerator.back.bookmark.adapter.out.entity.QRecipeBookmark.*;
+
 import static refrigerator.back.recipe.adapter.out.entity.QRecipe.recipe;
+import static refrigerator.back.recipe.adapter.out.entity.QRecipeBookmark.*;
 import static refrigerator.back.recipe.adapter.out.entity.QRecipeCourse.recipeCourse;
 import static refrigerator.back.recipe.adapter.out.entity.QRecipeIngredient.recipeIngredient;
+import static refrigerator.back.recipe.adapter.out.entity.QRecipeScore.*;
 import static refrigerator.back.recipe.adapter.out.entity.QRecipeViews.*;
-import static refrigerator.back.score.adapter.out.entity.QRecipeScore.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -123,6 +124,18 @@ public class RecipeRepositoryImpl implements RecipeRepository{
                 .update(recipeViews)
                 .set(recipeViews.views, recipeViews.views.add(1))
                 .where(recipeViews.recipeID.eq(recipeID))
+                .execute();
+        em.flush();
+        em.clear();
+    }
+
+    @Override
+    public void updateRecipeScore(Long recipeID, double score) {
+        jpaQueryFactory
+                .update(recipeScore)
+                .set(recipeScore.person, recipeScore.person.add(1))
+                .set(recipeScore.score, recipeScore.score.add(score))
+                .where(recipeScore.recipeID.eq(recipeID))
                 .execute();
         em.flush();
         em.clear();

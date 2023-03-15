@@ -27,12 +27,8 @@ public class RecipeService implements FindRecipeListUseCase, FindRecipeDetailUse
     public RecipeDomain getRecipe(Long recipeID, boolean isViewed) {
         try{
             RecipeDomain recipe = recipeReadPort.getRecipeDetails(recipeID);
-            if (!isViewed){ // 조회 X -> 조회수 증가
+            if (!isViewed){
                 addRecipeViewsPort.addViews(recipeID);
-            }
-            /* 테스트용 */
-            if (recipeID == 1L){
-                throw new BusinessException(RecipeExceptionType.NOT_FOUND_RECIPE);
             }
             return recipe;
         }catch (RuntimeException e){
