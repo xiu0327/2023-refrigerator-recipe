@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.dto;
+package refrigerator.back.recipe.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,6 @@ public class RecipeDetailDTO extends RecipeOutputFormat {
     private String difficulty;
     private String image;
     private Double scoreAvg;
-    private Double myScore;
     private Integer views;
     private Set<RecipeIngredientDTO> ingredients;
 }

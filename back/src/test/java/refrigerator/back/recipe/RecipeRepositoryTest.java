@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.recipe.adapter.out.entity.Recipe;
-import refrigerator.back.recipe.adapter.out.entity.RecipeCourse;
+import refrigerator.back.recipe.adapter.out.dto.RecipeMappingDTO;
+import refrigerator.back.recipe.adapter.out.entity.*;
 import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
+import refrigerator.back.recipe.adapter.out.repository.RecipeQueryRepository;
 import refrigerator.back.recipe.adapter.out.repository.RecipeRepository;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
@@ -25,16 +26,28 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 class RecipeRepositoryTest {
 
-    @Autowired RecipeRepository recipeRepository;
+    @Autowired RecipeQueryRepository recipeRepository;
     @Autowired RecipeMapper recipeMapper;
 
     @Test
     void 레시피_단건_조회() {
-        long recipeID = 1L;
-        Recipe recipe = recipeRepository.findRecipeByID(recipeID);
+        Long recipeID = 7L;
+        RecipeMappingDTO recipe = recipeRepository.findRecipeByID(recipeID);
         RecipeDomain domain = recipeMapper.toRecipeDomain(recipe);
-        assertNotNull(domain.getRecipeName());
         assertNotNull(domain.getRecipeID());
+        assertNotNull(domain.getRecipeName());
+        assertNotNull(domain.getDescription());
+        assertNotNull(domain.getCookingTime());
+        assertNotNull(domain.getKcal());
+        assertNotNull(domain.getServings());
+        assertNotNull(domain.getDifficulty());
+        assertNotNull(domain.getRecipeType());
+        assertNotNull(domain.getRecipeCategory());
+        assertNotNull(domain.getImage());
+        assertNotNull(domain.getPerson());
+        assertNotNull(domain.getScore());
+        assertNotNull(domain.getViews());
+        assertNotNull(domain.getBookmarks());
         assertNotNull(domain.getIngredients());
         log.info(domain.getRecipeName());
     }
@@ -43,7 +56,7 @@ class RecipeRepositoryTest {
     void 레시피_목록_조회(){
         int pageSize = 11;
         List<RecipeDomain> result = recipeRepository.findRecipeList(PageRequest.of(0, pageSize))
-                .stream().map(recipeMapper::toRecipeDomain)
+                .stream().map(recipeMapper::listDtoToRecipeDomain)
                 .collect(Collectors.toList());
         assertThat(result.size()).isEqualTo(pageSize);
     }

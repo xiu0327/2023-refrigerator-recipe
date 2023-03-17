@@ -1,7 +1,7 @@
 package refrigerator.back.recipe.adapter.in.web;
 
 import org.springframework.stereotype.Component;
-import refrigerator.back.recipe.adapter.dto.*;
+import refrigerator.back.recipe.adapter.in.dto.*;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain;
@@ -20,7 +20,7 @@ public class RecipeDtoMapper {
         return new RecipeCourseDtoList(list);
     }
 
-    public RecipeDetailDTO recipeDetailMapper(RecipeDomain domain, double myScore){
+    public RecipeDetailDTO recipeDetailMapper(RecipeDomain domain){
         return RecipeDetailDTO.builder()
                 .recipeID(domain.getRecipeID())
                 .recipeName(domain.getRecipeName())
@@ -28,7 +28,6 @@ public class RecipeDtoMapper {
                 .difficulty(domain.getDifficulty().getLevelName())
                 .image(domain.getImage())
                 .scoreAvg(domain.getScoreAvg())
-                .myScore(myScore)
                 .kcal(RecipeDetailDTO.changeKcalFormat(domain.getKcal()))
                 .cookingTime(RecipeDetailDTO.changeCookingTimeFormat(domain.getCookingTime()))
                 .servings(RecipeDetailDTO.changeServingsFormat(domain.getServings()))

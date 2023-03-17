@@ -6,7 +6,7 @@ import refrigerator.back.myscore.application.port.in.FindMyRecipeScoreUseCase;
 import refrigerator.back.myscore.application.port.in.ModifyMyRecipeScoreUseCase;
 
 @Service
-public class ScoreService implements AssessMyRecipeScoreUseCase, FindMyRecipeScoreUseCase, ModifyMyRecipeScoreUseCase {
+public class MyRecipeScoreService implements AssessMyRecipeScoreUseCase, FindMyRecipeScoreUseCase, ModifyMyRecipeScoreUseCase {
 
     @Override
     public Long assessRecipeScore(String memberID, Long recipeID, double score) {

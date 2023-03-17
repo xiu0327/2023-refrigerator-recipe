@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.dto;
+package refrigerator.back.recipe.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -3,9 +3,9 @@ package refrigerator.back.recipe.adapter.out.persistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.recipe.adapter.out.entity.Recipe;
+import refrigerator.back.recipe.adapter.out.dto.RecipeMappingDTO;
 import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
-import refrigerator.back.recipe.adapter.out.repository.RecipeRepository;
+import refrigerator.back.recipe.adapter.out.repository.RecipeQueryRepository;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain;
@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecipeLookUpAdapter implements ReadRecipePort {
 
-    private final RecipeRepository recipeRepository;
+    private final RecipeQueryRepository recipeQueryRepository;
     private final RecipeMapper recipeMapper;
 
     @Override
     public RecipeDomain getRecipeDetails(Long recipeID) {
-        Recipe recipe = recipeRepository.findRecipeByID(recipeID);
+        RecipeMappingDTO recipe = recipeQueryRepository.findRecipeByID(recipeID);
         RecipeDomain recipeDomain = recipeMapper.toRecipeDomain(recipe);
         Set<RecipeIngredientDomain> ingredients = recipe.getIngredients().stream()
                 .map(recipeMapper::toIngredientDomain)
@@ -35,15 +35,15 @@ public class RecipeLookUpAdapter implements ReadRecipePort {
 
     @Override
     public List<RecipeCourseDomain> getRecipeCourse(Long recipeID) {
-        return recipeRepository.findRecipeCourse(recipeID)
+        return recipeQueryRepository.findRecipeCourse(recipeID)
                 .stream().map(recipeMapper::toCourseDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<RecipeDomain> getRecipeList(int page, int size) {
-        return recipeRepository.findRecipeList(PageRequest.of(page, size))
-                .stream().map(recipeMapper::toRecipeDomain)
+        return recipeQueryRepository.findRecipeList(PageRequest.of(page, size))
+                .stream().map(recipeMapper::listDtoToRecipeDomain)
                 .collect(Collectors.toList());
     }
 }

@@ -43,36 +43,17 @@ public class Recipe {
     @Column(name = "recipe_type", nullable = false, length = 20)
     private String recipeType;
 
-    @Column(name = "food_type", nullable = false, length = 20)
-    private String recipeFoodType;
+    @Column(name = "food_type")
+    private Integer recipeFoodType;
 
-    @Column(name = "recipe_category", length = 30)
-    private String recipeCategory;
+    @Column(name = "recipe_category")
+    private Integer recipeCategory;
 
     @Column(name = "main_image", nullable = false)
     private String image;
 
-    @Transient
-    private Integer score;
-
-    @Transient
-    private Integer person;
-
-    @Transient
-    private Integer views;
-
-    @Transient
-    private Integer bookmarks;
-
-    @Transient
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Set<RecipeIngredient> ingredients = new HashSet<>();
-
-    public void init(HashSet<RecipeIngredient> ingredients, Integer score, Integer person, Integer views, Integer bookmarks) {
-        this.ingredients = ingredients;
-        this.score = score;
-        this.person = person;
-        this.views = views;
-        this.bookmarks = bookmarks;
-    }
 
 }

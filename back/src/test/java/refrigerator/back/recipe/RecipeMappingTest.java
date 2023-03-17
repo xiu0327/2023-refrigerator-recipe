@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import refrigerator.back.global.TestData;
-import refrigerator.back.recipe.adapter.dto.RecipeCourseDTO;
-import refrigerator.back.recipe.adapter.dto.RecipeCourseDtoList;
-import refrigerator.back.recipe.adapter.dto.RecipeDetailDTO;
+import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDTO;
+import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDtoList;
+import refrigerator.back.recipe.adapter.in.dto.RecipeDetailDTO;
 import refrigerator.back.recipe.adapter.in.web.RecipeDtoMapper;
 import refrigerator.back.recipe.adapter.out.entity.Recipe;
 import refrigerator.back.recipe.adapter.out.entity.RecipeCourse;
@@ -32,32 +32,6 @@ public class RecipeMappingTest {
     @Autowired TestData testData;
     @Autowired RecipeMapper recipeMapper;
     @Autowired RecipeDtoMapper recipeDtoMapper;
-
-    @Test
-    void 레시피_도메인_To_엔티티(){
-        RecipeDomain domain = testData.getRecipeDomain();
-        Recipe mapperEntity = recipeMapper.toRecipeEntity(domain);
-
-        // 1. 타입 -> 타입명 변경 확인
-        assertThat(domain.getDifficulty().getLevelName()).isEqualTo(mapperEntity.getDifficulty());
-        // 2. ingredients 를 제외하고 null 값이 없어야 함
-        boolean result = isNotNullByEntity(mapperEntity);
-        assertThat(result).isTrue();
-        assertNull(mapperEntity.getIngredients());
-    }
-
-    @Test
-    void 레시피_엔티티_To_도메인(){
-        Recipe entity = testData.getRecipeEntity();
-        RecipeDomain mapperDomain = recipeMapper.toRecipeDomain(entity);
-
-        // 1. 타입명 -> 타입 변경 확인
-        assertThat(mapperDomain.getDifficulty().getLevelName()).isEqualTo(entity.getDifficulty());
-        // 2. ingredients 를 제외하고 null 값이 없어야 함
-        boolean result = isNotNullByDomain(mapperDomain);
-        assertThat(result).isTrue();
-        assertNull(mapperDomain.getIngredients());
-    }
 
     @Test
     void 레시피_재료_엔티티_To_도메인(){
@@ -95,8 +69,9 @@ public class RecipeMappingTest {
         Set<RecipeIngredientDomain> tmp = new HashSet<>();
         tmp.add(ingredientDomain);
         domain.initIngredient(tmp);
+        domain.calculateScoreAvg();
 
-        RecipeDetailDTO result = recipeDtoMapper.recipeDetailMapper(domain, 3.5);
+        RecipeDetailDTO result = recipeDtoMapper.recipeDetailMapper(domain);
 
 
         log.info("result = {}", result);
@@ -111,7 +86,6 @@ public class RecipeMappingTest {
         assertNotNull(result.getDifficulty());
         assertNotNull(result.getImage());
         assertNotNull(result.getScoreAvg());
-        assertNotNull(result.getMyScore());
         assertNotNull(result.getViews());
         assertNotNull(result.getIngredients());
     }
@@ -135,29 +109,4 @@ public class RecipeMappingTest {
         }
     }
 
-    private boolean isNotNullByEntity(Recipe mapper) {
-        boolean result = Stream.of(
-                mapper.getRecipeID(), mapper.getRecipeName(),
-                mapper.getDescription(), mapper.getCookingTime(),
-                mapper.getKcal(), mapper.getServings(),
-                mapper.getDifficulty(), mapper.getRecipeType(),
-                mapper.getRecipeFoodType(), mapper.getRecipeCategory(),
-                mapper.getImage(), mapper.getScore(),
-                mapper.getPerson(), mapper.getViews(), mapper.getBookmarks()
-        ).allMatch(Objects::nonNull);
-        return result;
-    }
-
-    private boolean isNotNullByDomain(RecipeDomain mapper) {
-        boolean result = Stream.of(
-                mapper.getRecipeID(), mapper.getRecipeName(),
-                mapper.getDescription(), mapper.getCookingTime(),
-                mapper.getKcal(), mapper.getServings(),
-                mapper.getDifficulty(), mapper.getRecipeType(),
-                mapper.getRecipeFoodType(), mapper.getRecipeCategory(),
-                mapper.getImage(), mapper.getScore(),
-                mapper.getPerson(), mapper.getViews(), mapper.getBookmarks()
-        ).allMatch(Objects::nonNull);
-        return result;
-    }
 }

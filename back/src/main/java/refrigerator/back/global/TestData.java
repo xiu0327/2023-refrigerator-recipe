@@ -9,9 +9,7 @@ import refrigerator.back.member.application.domain.MemberDomain;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.member.exception.MemberExceptionType;
-import refrigerator.back.recipe.adapter.out.entity.Recipe;
-import refrigerator.back.recipe.adapter.out.entity.RecipeCourse;
-import refrigerator.back.recipe.adapter.out.entity.RecipeIngredient;
+import refrigerator.back.recipe.adapter.out.entity.*;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
 
@@ -69,28 +67,6 @@ public class TestData {
                 .joinDate(LocalDateTime.now())
                 .memberStatus(MemberStatus.STEADY_STATUS.getStatusCode())
                 .profile(MemberProfileImage.PROFILE_IMAGE_FIVE.getName())
-                .build();
-    }
-
-    public Recipe getRecipeEntity(){
-        return Recipe.builder()
-                .recipeID(1L)
-                .image("image")
-                .recipeName("레시피명")
-                .difficulty("없음")
-                .kcal(3)
-                .servings(3)
-                .description("설명")
-                .bookmarks(2)
-                .cookingTime(40)
-                .person(2)
-                .recipeCategory("카테고리")
-                .recipeType("타입")
-                .score(3)
-                .recipeFoodType("음식타입")
-                .views(0)
-                .score(0)
-                .person(0)
                 .build();
     }
 
