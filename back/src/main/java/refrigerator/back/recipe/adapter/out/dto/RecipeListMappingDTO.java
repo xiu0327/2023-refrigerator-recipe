@@ -10,15 +10,13 @@ public class RecipeListMappingDTO {
     private String image;
     private Integer person;
     private Integer score;
-    private Integer bookmarks;
 
     @QueryProjection
-    public RecipeListMappingDTO(Long recipeID, String recipeName, String image, Integer person, Integer score, Integer count) {
+    public RecipeListMappingDTO(Long recipeID, String recipeName, String image, Integer person, Integer score) {
         this.recipeID = recipeID;
         this.recipeName = recipeName;
         this.image = image;
         this.person = person;
         this.score = score;
-        this.bookmarks = count;
     }
 }

@@ -2,12 +2,14 @@ package refrigerator.back.recipe.adapter.out.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "recipe_food_type")
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

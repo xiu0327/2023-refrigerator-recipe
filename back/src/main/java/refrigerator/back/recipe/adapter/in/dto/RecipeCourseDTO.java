@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 
 @Data
 @Builder

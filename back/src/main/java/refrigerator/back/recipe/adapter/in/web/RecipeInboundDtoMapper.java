@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class RecipeDtoMapper {
+public class RecipeInboundDtoMapper {
 
     public RecipeCourseDtoList recipeCourseListMapper(List<RecipeCourseDomain> course){
         List<RecipeCourseDTO> list = course.stream()

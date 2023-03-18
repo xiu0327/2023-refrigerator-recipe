@@ -4,7 +4,6 @@ import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.recipe.adapter.out.dto.RecipeListMappingDTO;
 import refrigerator.back.recipe.adapter.out.dto.RecipeMappingDTO;
-import refrigerator.back.recipe.adapter.out.entity.Recipe;
 import refrigerator.back.recipe.adapter.out.entity.RecipeCourse;
 import refrigerator.back.recipe.adapter.out.entity.RecipeIngredient;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
@@ -12,6 +11,7 @@ import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain;
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
 import refrigerator.back.recipe.application.domain.value.RecipeIngredientType;
+import refrigerator.back.recipe.application.domain.value.RecipeType;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RecipeMapper {
@@ -20,7 +20,8 @@ public interface RecipeMapper {
     @Mappings({
             @Mapping(source = "difficulty", target = "difficulty", qualifiedByName = "typeNameToEnum", defaultValue = "NO_LEVEL"),
             @Mapping(source = "recipeFoodTypeName", target = "recipeFoodType", defaultValue = "타입 없음"),
-            @Mapping(source = "recipeCategoryName", target = "recipeCategory", defaultValue = "카테고리 없음")
+            @Mapping(source = "recipeCategoryName", target = "recipeCategory", defaultValue = "카테고리 없음"),
+            @Mapping(source = "recipeType", target = "recipeType", defaultValue = "NOT_TYPE", qualifiedByName = "recipeTypeNameToType")
     })
     RecipeDomain toRecipeDomain(RecipeMappingDTO recipe);
 
@@ -46,5 +47,10 @@ public interface RecipeMapper {
     @Named("enumToTypeName")
     default String toRecipeDifficultyName(RecipeDifficulty type){
         return type.getLevelName();
+    }
+
+    @Named("recipeTypeNameToType")
+    default RecipeType toRecipeTypeNameToType(String name){
+        return RecipeType.lookup(name);
     }
 }

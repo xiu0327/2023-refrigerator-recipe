@@ -1,15 +1,19 @@
 package refrigerator.back.recipe.adapter.out.repository;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 import refrigerator.back.recipe.adapter.out.dto.*;
 import refrigerator.back.recipe.adapter.out.entity.*;
 import refrigerator.back.recipe.adapter.out.mapper.RecipeDTOMapper;
 
 import java.util.List;
 
+import static org.springframework.util.StringUtils.*;
 import static refrigerator.back.recipe.adapter.out.entity.QRecipe.recipe;
 import static refrigerator.back.recipe.adapter.out.entity.QRecipeBookmark.recipeBookmark;
 import static refrigerator.back.recipe.adapter.out.entity.QRecipeCategory.*;
@@ -40,21 +44,15 @@ public class RecipeQueryRepositoryImpl implements RecipeQueryRepository{
         return jpaQueryFactory
                 .select(new QRecipeListMappingDTO(
                         recipe.recipeID, recipe.recipeName, recipe.image,
-                        recipeScore.person, recipeScore.score,
-                        recipeBookmark.count))
+                        recipeScore.person, recipeScore.score))
                 .from(recipe)
-                .innerJoin(recipeScore).on(recipeScore.recipeID.eq(recipe.recipeID))
-                .innerJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
-                .innerJoin(recipeBookmark).on(recipeViews.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeScore).on(recipeScore.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
                 .orderBy(recipeViews.views.desc(), recipeBookmark.count.desc(), recipe.recipeName.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-    }
-
-    @Override
-    public List<Recipe> searchRecipe(RecipeSearchConditionDTO recipeSearch) {
-        return null;
     }
 
     @Override

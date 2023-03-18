@@ -12,7 +12,6 @@ import refrigerator.back.recipe.application.port.out.AddRecipeViewsPort;
 public class RecipeUpdateAdapter implements AddRecipeViewsPort, AddRecipeScorePort {
 
     private final RecipeRepository recipeRepository;
-    private final RecipeMapper recipeMapper;
 
     @Override
     public void addViews(Long recipeID) {

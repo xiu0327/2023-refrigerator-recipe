@@ -1,4 +1,4 @@
-package refrigerator.back.global.configure;
+package refrigerator.back.global.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class QuerydslConfiguration {
+public class QuerydslConfig {
 
     private final EntityManager em;
 

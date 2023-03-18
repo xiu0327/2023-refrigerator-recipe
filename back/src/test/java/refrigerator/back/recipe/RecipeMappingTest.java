@@ -10,8 +10,7 @@ import refrigerator.back.global.TestData;
 import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDTO;
 import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDtoList;
 import refrigerator.back.recipe.adapter.in.dto.RecipeDetailDTO;
-import refrigerator.back.recipe.adapter.in.web.RecipeDtoMapper;
-import refrigerator.back.recipe.adapter.out.entity.Recipe;
+import refrigerator.back.recipe.adapter.in.web.RecipeInboundDtoMapper;
 import refrigerator.back.recipe.adapter.out.entity.RecipeCourse;
 import refrigerator.back.recipe.adapter.out.entity.RecipeIngredient;
 import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
@@ -20,7 +19,6 @@ import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +29,8 @@ public class RecipeMappingTest {
 
     @Autowired TestData testData;
     @Autowired RecipeMapper recipeMapper;
-    @Autowired RecipeDtoMapper recipeDtoMapper;
+    @Autowired
+    RecipeInboundDtoMapper recipeDtoMapper;
 
     @Test
     void 레시피_재료_엔티티_To_도메인(){

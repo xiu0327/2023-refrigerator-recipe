@@ -3,6 +3,7 @@ package refrigerator.back.recipe.application.domain.entity;
 import lombok.Builder;
 import lombok.Getter;
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
+import refrigerator.back.recipe.application.domain.value.RecipeType;
 
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class RecipeDomain {
     private Integer kcal;
     private Integer servings;
     private RecipeDifficulty difficulty;
-    private String recipeType;
+    private RecipeType recipeType;
     private String recipeFoodType;
     private String recipeCategory;
     private String image;
@@ -33,13 +34,14 @@ public class RecipeDomain {
         this.ingredients = ingredients;
     }
 
-    public void calculateScoreAvg(){
+    public RecipeDomain calculateScoreAvg(){
         if (person > 0){
             this.scoreAvg = (double) score / person;
         }
         else{
             this.scoreAvg = 0.0;
         }
+        return this;
     }
 
 }

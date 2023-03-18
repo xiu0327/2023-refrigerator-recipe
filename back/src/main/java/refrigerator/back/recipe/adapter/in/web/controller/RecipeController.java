@@ -1,13 +1,17 @@
-package refrigerator.back.recipe.adapter.in.web;
+package refrigerator.back.recipe.adapter.in.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import refrigerator.back.recipe.adapter.in.cache.config.RecipeCacheKey;
 import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDtoList;
 import refrigerator.back.recipe.adapter.in.dto.RecipeDetailDTO;
 import refrigerator.back.recipe.adapter.in.dto.RecipeListDTO;
+import refrigerator.back.recipe.adapter.in.web.RecipeInboundDtoMapper;
+import refrigerator.back.recipe.adapter.in.web.RecipeViewsCookie;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.port.in.FindRecipeCourseUseCase;
@@ -22,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecipeController {
 
-    private final RecipeDtoMapper recipeDTOMapper;
+    private final RecipeInboundDtoMapper recipeDTOMapper;
     private final FindRecipeDetailUseCase findRecipeDetailUseCase;
     private final FindRecipeListUseCase findRecipeListUseCase;
     private final FindRecipeCourseUseCase findRecipeCourseUseCase;
@@ -47,6 +51,9 @@ public class RecipeController {
     }
 
     @GetMapping("/api/recipes")
+    @Cacheable(value = RecipeCacheKey.RECIPE,
+            key = "'recipes'",
+            cacheManager = "recipeCacheManager")
     public RecipeListDTO findAllRecipe(@RequestParam("page") int page, @RequestParam(value = "size", defaultValue = "11") int size){
         List<RecipeDomain> recipeList = findRecipeListUseCase.getRecipeList(page, size);
         return recipeDTOMapper.recipeListMapper(recipeList);

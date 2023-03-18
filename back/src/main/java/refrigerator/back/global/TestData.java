@@ -12,6 +12,7 @@ import refrigerator.back.member.exception.MemberExceptionType;
 import refrigerator.back.recipe.adapter.out.entity.*;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
+import refrigerator.back.recipe.application.domain.value.RecipeType;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -83,7 +84,7 @@ public class TestData {
                 .cookingTime(40)
                 .person(2)
                 .recipeCategory("카테고리")
-                .recipeType("타입")
+                .recipeType(RecipeType.KOREA)
                 .score(3)
                 .recipeFoodType("음식타입")
                 .views(0)
