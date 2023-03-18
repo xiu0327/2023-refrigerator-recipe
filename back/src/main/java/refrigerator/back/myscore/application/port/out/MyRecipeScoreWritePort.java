@@ -1,6 +1,8 @@
 package refrigerator.back.myscore.application.port.out;
 
+import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
+import refrigerator.back.myscore.application.domain.MyRecipeScoreDomain;
+
 public interface MyRecipeScoreWritePort {
-    void create(String memberID, Long recipeID, double score);
-    void update(Long scoreID, double newScore);
+    Long save(MyRecipeScoreDomain domain);
 }

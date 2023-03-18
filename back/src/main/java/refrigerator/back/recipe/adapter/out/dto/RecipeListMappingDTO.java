@@ -9,10 +9,10 @@ public class RecipeListMappingDTO {
     private String recipeName;
     private String image;
     private Integer person;
-    private Integer score;
+    private Double score;
 
     @QueryProjection
-    public RecipeListMappingDTO(Long recipeID, String recipeName, String image, Integer person, Integer score) {
+    public RecipeListMappingDTO(Long recipeID, String recipeName, String image, Integer person, Double score) {
         this.recipeID = recipeID;
         this.recipeName = recipeName;
         this.image = image;

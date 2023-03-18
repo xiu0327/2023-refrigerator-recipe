@@ -19,7 +19,7 @@ public class RecipeUpdateAdapter implements AddRecipeViewsPort, AddRecipeScorePo
     }
 
     @Override
-    public void addScore(Long recipeID, double score) {
-        recipeRepository.updateRecipeScore(recipeID, score);
+    public void addScore(Long recipeID, double score, int person) {
+        recipeRepository.updateRecipeScore(recipeID, score, person);
     }
 }

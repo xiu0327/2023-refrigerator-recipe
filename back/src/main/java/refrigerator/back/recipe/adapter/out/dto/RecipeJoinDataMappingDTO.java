@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class RecipeJoinDataMappingDTO {
-    private Integer score;
+    private Double score;
     private Integer person;
     private Integer views;
     private Integer bookmarks;
@@ -15,7 +15,7 @@ public class RecipeJoinDataMappingDTO {
     private String recipeCategoryName;
 
     @QueryProjection
-    public RecipeJoinDataMappingDTO(Integer score, Integer person, Integer views, Integer bookmarks, String recipeFoodTypeName, String recipeCategoryName) {
+    public RecipeJoinDataMappingDTO(Double score, Integer person, Integer views, Integer bookmarks, String recipeFoodTypeName, String recipeCategoryName) {
         this.score = score;
         this.person = person;
         this.views = views;

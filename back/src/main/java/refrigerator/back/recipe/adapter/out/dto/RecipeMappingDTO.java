@@ -20,7 +20,7 @@ public class RecipeMappingDTO {
     private String difficulty;
     private String recipeType;
     private String image;
-    private Integer score;
+    private Double score;
     private Integer person;
     private Integer views;
     private Integer bookmarks;

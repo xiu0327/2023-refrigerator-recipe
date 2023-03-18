@@ -85,10 +85,9 @@ public class TestData {
                 .person(2)
                 .recipeCategory("카테고리")
                 .recipeType(RecipeType.KOREA)
-                .score(3)
+                .score(3.0)
                 .recipeFoodType("음식타입")
                 .views(0)
-                .score(0)
                 .person(0)
                 .build();
     }

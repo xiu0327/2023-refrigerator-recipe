@@ -9,13 +9,15 @@ import java.time.LocalDateTime;
 @Builder
 public class MyRecipeScoreDomain {
     private Long scoreID;
+    private String memberID;
+    private Long recipeID;
     private String recipeName;
     private String recipeImage;
     private Double score;
-    private LocalDateTime registrationDate;
 
     /* 비즈니스 로직 */
-    public void modifyScore(double score){
+    public void modify(double score){
         this.score = score;
     }
+
 }

@@ -28,14 +28,8 @@ public class MyRecipeScore {
     @Column(name = "score")
     private Double score;
 
-    @CreatedDate
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
-
-    @Transient
-    private String recipeName;
-
-    @Transient
-    private String recipeImage;
+    public void modify(double score){
+        this.score = score;
+    }
 
 }

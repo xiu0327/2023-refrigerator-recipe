@@ -23,6 +23,6 @@ public class RecipeScore {
     private int person;
 
     @Column(name = "score", nullable = false)
-    private int score;
+    private double score;
 
 }

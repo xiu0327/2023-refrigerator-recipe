@@ -29,10 +29,10 @@ public class RecipeRepositoryImpl implements RecipeRepository{
     }
 
     @Override
-    public void updateRecipeScore(Long recipeID, double score) {
+    public void updateRecipeScore(Long recipeID, double score, int person) {
         jpaQueryFactory
                 .update(recipeScore)
-                .set(recipeScore.person, recipeScore.person.add(1))
+                .set(recipeScore.person, recipeScore.person.add(person))
                 .set(recipeScore.score, recipeScore.score.add(score))
                 .where(recipeScore.recipeID.eq(recipeID))
                 .execute();

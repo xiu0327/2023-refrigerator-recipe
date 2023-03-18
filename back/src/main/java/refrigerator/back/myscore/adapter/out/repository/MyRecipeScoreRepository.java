@@ -6,6 +6,6 @@ import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
 import java.util.List;
 import java.util.Optional;
 
-public interface MyRecipeScoreRepository extends JpaRepository<MyRecipeScore, Long> {
+public interface MyRecipeScoreRepository extends JpaRepository<MyRecipeScore, Long>, MyRecipeScoreQueryRepository {
 
 }

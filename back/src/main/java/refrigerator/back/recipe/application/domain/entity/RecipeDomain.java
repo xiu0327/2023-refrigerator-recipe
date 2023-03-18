@@ -23,7 +23,7 @@ public class RecipeDomain {
     private String recipeCategory;
     private String image;
     private Integer person;
-    private Integer score;
+    private Double score;
     private Integer views;
     private Integer bookmarks;
     private Double scoreAvg;
