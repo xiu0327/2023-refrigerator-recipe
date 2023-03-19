@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이메일 인증</title>
+</head>
+
+<body>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" ;>
+    <tr>
+        <td valign="top" align="center" style="padding-top: 35px;">
+            <img
+                    src="https://karrot-challenge-bucket.s3.ap-northeast-2.amazonaws.com/static/mailIcon.png"
+                    style="margin-bottom: 35px; width: 150px; height: 150px;"
+            />
+        </td>
+    </tr>
+    <div style="margin-bottom: 30px; text-align: center;">
+        <tr>
+            <td align="center" style="padding-bottom: 25px; font-size: 22px;">
+            <span
+            >환영합니다!
+              <span style="color: #3163cb; text-align: center;"
+              >이메일 주소</span
+              >를 인증해 주세요.</span
+            >
+            </td>
+        </tr>
+    </div>
+    <tr>
+        <td style="padding-bottom: 25px;">
+          <span style="display: block; text-align: center; font-size: 16px;"
+          ><span style="color: #3163cb; font-size: 16px;"
+          >냉장고를 부탁해</span
+          >
+            서비스 이메일 인증을 위한 메일입니다.</span
+          >
+            <span style="display: block; text-align: center; font-size: 16px;"
+            >회원가입 완료를 위하여 이메일 인증을 진행해 주세요.</span
+            >
+        </td>
+    </tr>
+    <tr>
+        <td style="margin: 20px; padding-bottom: 30px;">
+          <span
+                  style="
+              display: block;
+              text-align: center;
+              font-size: 18px;
+              padding-top: 2px;
+            "
+          ><b th:text="${code}">인증번호 : RSQ35CTY</b></span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
