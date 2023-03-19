@@ -25,7 +25,7 @@ public class RecipeCacheConfig {
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(RecipeCacheKey.FOOD_TYPE, RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_EXPIRE_SEC)));
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.CONDITION_EXPIRE_SEC)));
 
 
         return RedisCacheManager.RedisCacheManagerBuilder
@@ -40,7 +40,7 @@ public class RecipeCacheConfig {
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(RecipeCacheKey.CATEGORY, RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_EXPIRE_SEC)));
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.CONDITION_EXPIRE_SEC)));
 
 
         return RedisCacheManager.RedisCacheManagerBuilder

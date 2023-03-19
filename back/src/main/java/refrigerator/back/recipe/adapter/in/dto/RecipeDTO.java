@@ -16,4 +16,5 @@ public class RecipeDTO implements Serializable {
     private String recipeName;
     private String image;
     private double scoreAvg;
+    private Integer views;
 }

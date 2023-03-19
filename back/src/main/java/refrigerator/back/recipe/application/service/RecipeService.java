@@ -30,6 +30,7 @@ public class RecipeService implements FindRecipeListUseCase, FindRecipeDetailUse
             RecipeDomain recipe = recipeReadPort.getRecipeDetails(recipeID);
             if (!isViewed){
                 addRecipeViewsPort.addViews(recipeID);
+                recipe.increaseViews();
             }
             return recipe;
         }catch (RuntimeException e){

@@ -34,6 +34,10 @@ public class RecipeDomain {
         this.ingredients = ingredients;
     }
 
+    public void increaseViews(){
+        ++this.views;
+    }
+
     public RecipeDomain calculateScoreAvg(){
         if (person > 0){
             this.scoreAvg = (double) score / person;

@@ -24,9 +24,6 @@ public class RecipeSearchController {
     private final RecipeInboundDtoMapper mapper;
 
     @GetMapping("/api/recipe/search")
-    @Cacheable(value = RecipeCacheKey.RECIPE,
-            key = "'recipes'",
-            cacheManager = "recipeCacheManager")
     public RecipeListDTO search(@RequestParam("recipeType") String recipeType,
                                       @RequestParam("foodType") String foodType,
                                       @RequestParam("level") String difficulty,
@@ -39,7 +36,7 @@ public class RecipeSearchController {
 
     @GetMapping("/api/recipe/search/condition/food-type")
     @Cacheable(value = RecipeCacheKey.FOOD_TYPE,
-            key="'condition'",
+            key="'condition_food_type'",
             cacheManager = "recipeFoodTypeCacheManager")
     public RecipeConditionListDTO getConditionByFoodType(){
         return new RecipeConditionListDTO(findSearchConditionUseCase.findRecipeFoodTypeCond());
@@ -47,7 +44,7 @@ public class RecipeSearchController {
 
     @GetMapping("/api/recipe/search/condition/category")
     @Cacheable(value = RecipeCacheKey.CATEGORY,
-            key="'condition'",
+            key="'condition_category'",
             cacheManager = "recipeCategoryCacheManager")
     public RecipeConditionListDTO getConditionByCategory(){
         return new RecipeConditionListDTO(findSearchConditionUseCase.findRecipeCategoryCond());

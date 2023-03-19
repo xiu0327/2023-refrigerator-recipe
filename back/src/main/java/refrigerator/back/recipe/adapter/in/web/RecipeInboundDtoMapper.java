@@ -55,6 +55,7 @@ public class RecipeInboundDtoMapper {
                 .recipeID(domain.getRecipeID())
                 .recipeName(domain.getRecipeName())
                 .scoreAvg(domain.getScoreAvg())
+                .views(domain.getViews())
                 .image(domain.getImage()).build();
     }
 

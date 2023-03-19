@@ -52,7 +52,7 @@ public class RecipeController {
 
     @GetMapping("/api/recipes")
     @Cacheable(value = RecipeCacheKey.RECIPE,
-            key = "'recipes'",
+            key = "'recipes_' + #page",
             cacheManager = "recipeCacheManager")
     public RecipeListDTO findAllRecipe(@RequestParam("page") int page, @RequestParam(value = "size", defaultValue = "11") int size){
         List<RecipeDomain> recipeList = findRecipeListUseCase.getRecipeList(page, size);

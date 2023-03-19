@@ -44,7 +44,8 @@ public class RecipeQueryRepositoryImpl implements RecipeQueryRepository{
         return jpaQueryFactory
                 .select(new QRecipeListMappingDTO(
                         recipe.recipeID, recipe.recipeName, recipe.image,
-                        recipeScore.person, recipeScore.score))
+                        recipeScore.person, recipeScore.score,
+                        recipeViews.views))
                 .from(recipe)
                 .leftJoin(recipeScore).on(recipeScore.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
