@@ -33,6 +33,7 @@ public class MyRecipeScorePersistenceAdapter implements MyRecipeScoreReadPort, M
         return repository.findMyRecipeScoreList(memberID, PageRequest.of(page, size))
                 .stream().map(mapper::dtoToDomain)
                 .collect(Collectors.toList());
+
     }
 
     @Override
@@ -40,6 +41,18 @@ public class MyRecipeScorePersistenceAdapter implements MyRecipeScoreReadPort, M
         MyRecipeScore entity = repository.findById(scoreID)
                 .orElseThrow(RuntimeException::new);
         return mapper.toDomain(entity);
+    }
+
+    @Override
+    public List<MyRecipeScoreDomain> getMyRecipeScorePreview(String memberID) {
+        return repository.findScorePreview(memberID)
+                .stream().map(mapper::previewDtoToDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getMyRecipeScoreCount(String memberID) {
+        return repository.findMyRecipeScoreCount(memberID);
     }
 
     @Override

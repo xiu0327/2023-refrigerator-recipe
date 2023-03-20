@@ -65,7 +65,6 @@ public class TestData {
                 .email("email123@naver.com")
                 .password("password123!")
                 .nickname("닉네임")
-                .joinDate(LocalDateTime.now())
                 .memberStatus(MemberStatus.STEADY_STATUS.getStatusCode())
                 .profile(MemberProfileImage.PROFILE_IMAGE_FIVE.getName())
                 .build();

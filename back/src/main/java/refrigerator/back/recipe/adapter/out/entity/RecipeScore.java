@@ -25,4 +25,7 @@ public class RecipeScore {
     @Column(name = "score", nullable = false)
     private double score;
 
+    @Version
+    private Long version;
+
 }

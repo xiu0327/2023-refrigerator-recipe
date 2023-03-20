@@ -24,18 +24,6 @@ public class RecipeViewsTest {
     @Autowired FindRecipeDetailUseCase findRecipeDetailUseCase;
 
     @Test
-    void 영속성_변경감지_테스트(){
-        long recipeID = 1L;
-        RecipeViews recipeViews1 = entityManager.find(RecipeViews.class, recipeID);
-        int views = recipeViews1.getViews();
-        int newViews = views + 1;
-        RecipeViews recipeViews = entityManager.find(RecipeViews.class, recipeID);
-        recipeViews.addViews();
-        entityManager.flush();
-        entityManager.clear();
-    }
-
-    @Test
     void 조회수_증가_테스트(){
         Long recipeID = 1L;
         RecipeDomain firstSelectRecipe = readRecipePort.getRecipeDetails(recipeID);

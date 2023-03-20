@@ -25,14 +25,16 @@ public class MyRecipeScoreMapperTest {
         Long recipeID = 1L;
         Double score = 4.5;
         MyRecipeScoreDomain domain = MyRecipeScoreDomain.builder()
-                                        .memberID(memberID)
-                                        .recipeID(recipeID)
-                                        .score(score)
-                                        .build();
+                .memberID(memberID)
+                .recipeID(recipeID)
+                .score(score)
+                .createDate(LocalDateTime.now())
+                .build();
         MyRecipeScore entity = myRecipeScoreMapper.toEntity(domain);
         assertNotNull(entity.getMemberID());
         assertNotNull(entity.getRecipeID());
         assertNotNull(entity.getScore());
+        assertNotNull(entity.getCreateDate());
     }
 
     @Test
@@ -42,6 +44,8 @@ public class MyRecipeScoreMapperTest {
                 .recipeName("레시피명")
                 .recipeImage("레시피 이미지")
                 .score(5.0)
+                .createDate(LocalDateTime.now())
+                .recipeID(1L)
                 .build();
         MyRecipeScoreDomain domain = myRecipeScoreMapper.dtoToDomain(dto);
         // 도메인 모든 값이 not null
@@ -49,5 +53,6 @@ public class MyRecipeScoreMapperTest {
         assertNotNull(domain.getRecipeName());
         assertNotNull(domain.getRecipeImage());
         assertNotNull(domain.getScore());
+        assertNotNull(domain.getCreateDate());
     }
 }

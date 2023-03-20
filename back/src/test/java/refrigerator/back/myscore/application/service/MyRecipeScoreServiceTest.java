@@ -4,20 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
 import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
-import refrigerator.back.myscore.application.domain.MyRecipeScoreDomain;
+import refrigerator.back.myscore.application.domain.MyRecipeScoreListDomain;
 import refrigerator.back.myscore.application.port.in.AssessMyRecipeScoreUseCase;
 import refrigerator.back.myscore.application.port.in.FindMyRecipeScoreListUseCase;
+import refrigerator.back.myscore.application.port.in.FindMyRecipeScorePreviewUseCase;
 import refrigerator.back.myscore.application.port.in.ModifyMyRecipeScoreUseCase;
 import refrigerator.back.recipe.adapter.out.entity.RecipeScore;
 
 import javax.persistence.EntityManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -30,6 +29,7 @@ class MyRecipeScoreServiceTest {
     @Autowired
     FindMyRecipeScoreListUseCase findMyRecipeScoreList;
     @Autowired ModifyMyRecipeScoreUseCase modifyMyRecipeScoreUseCase;
+    @Autowired FindMyRecipeScorePreviewUseCase findMyRecipeScorePreviewUseCase;
     @Autowired TestData testData;
     @Autowired EntityManager em;
 
@@ -55,26 +55,43 @@ class MyRecipeScoreServiceTest {
     }
 
     @Test
-    void 별점_조회() {
+    void 별점_미리보기() {
         // given
-        List<Long> result = new ArrayList<>();
         testData.createMember();
         String memberID = TestData.MEMBER_EMAIL;
         double score = 3.5;
-        for (long recipeID = 1L ; recipeID <= 5L ; recipeID++){
-            Long scoreID = assessMyRecipeScoreUseCase.assessRecipeScore(memberID, recipeID, score);
-            result.add(scoreID);
+        int count = 0;
+        for (long recipeID = 1L ; recipeID <= 10L ; recipeID++){
+            assessMyRecipeScoreUseCase.assessRecipeScore(memberID, recipeID, score);
+            count++;
         }
         // when
-        List<Long> myScoreList = findMyRecipeScoreList.findMyScoreList(memberID, 0, 5)
-                .stream().map(MyRecipeScoreDomain::getScoreID)
-                .collect(Collectors.toList());
+        log.info("==== find start ====");
+        int previewSize = 5;
+        MyRecipeScoreListDomain myScoreList = findMyRecipeScorePreviewUseCase.findPreview(memberID, previewSize);
+        log.info("==== find end ====");
         // then
-        assertThat(myScoreList).isNotEmpty();
-        assertThat(myScoreList.size()).isEqualTo(5);
-        for (Long id : result) {
-            assertThat(id).isIn(myScoreList);
+        assertThat(myScoreList.getScores()).isNotEmpty();
+        assertThat(myScoreList.getCount()).isEqualTo(count);
+        assertThat(myScoreList.getScores().size()).isEqualTo(previewSize);
+    }
+
+    @Test
+    void 별점_조회(){
+        // given
+        testData.createMember();
+        String memberID = TestData.MEMBER_EMAIL;
+        double score = 3.5;
+        for (long recipeID = 1L ; recipeID <= 20L ; recipeID++){
+            assessMyRecipeScoreUseCase.assessRecipeScore(memberID, recipeID, score);
         }
+        // when
+        log.info("==== find start ====");
+        MyRecipeScoreListDomain myScoreList = findMyRecipeScoreList.findMyScoreList(memberID, 0, 11);
+        log.info("==== find end ====");
+        // then
+        assertThat(myScoreList.getScores()).isNotEmpty();
+        assertThat(myScoreList.getScores().size()).isEqualTo(11);
     }
 
     @Test

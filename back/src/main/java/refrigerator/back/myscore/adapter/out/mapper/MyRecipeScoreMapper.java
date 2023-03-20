@@ -3,6 +3,7 @@ package refrigerator.back.myscore.adapter.out.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.myscore.adapter.out.dto.MyRecipeScoreMappingDTO;
+import refrigerator.back.myscore.adapter.out.dto.MyRecipeScorePreviewMappingDTO;
 import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
 import refrigerator.back.myscore.application.domain.MyRecipeScoreDomain;
 
@@ -16,4 +17,5 @@ public interface MyRecipeScoreMapper {
     MyRecipeScore toEntity(MyRecipeScoreDomain domain);
 
     MyRecipeScoreDomain dtoToDomain(MyRecipeScoreMappingDTO dto);
+    MyRecipeScoreDomain previewDtoToDomain(MyRecipeScorePreviewMappingDTO dto);
 }

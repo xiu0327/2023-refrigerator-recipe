@@ -28,7 +28,6 @@ public class MemberMapperTest {
         assertNotNull(entity.getNickname());
         assertNotNull(entity.getEmail());
         assertNotNull(entity.getProfile());
-        assertNotNull(entity.getJoinDate());
         assertNotNull(entity.getPassword());
     }
 

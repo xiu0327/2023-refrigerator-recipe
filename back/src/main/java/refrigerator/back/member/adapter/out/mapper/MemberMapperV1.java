@@ -12,7 +12,6 @@ public class MemberMapperV1 implements MemberMapper{
         return MemberDomain.builder()
                 .memberID(memberEntity.getId())
                 .email(memberEntity.getEmail())
-                .joinDate(memberEntity.getJoinDate())
                 .nickname(memberEntity.getNickname())
                 .password(memberEntity.getPassword())
                 .profile(MemberProfileImage.findImageByName(memberEntity.getProfile()))
@@ -28,7 +27,6 @@ public class MemberMapperV1 implements MemberMapper{
                 .password(memberDomain.getPassword())
                 .nickname(memberDomain.getNickname())
                 .memberStatus(memberDomain.getMemberStatus().getStatusCode())
-                .joinDate(memberDomain.getJoinDate())
                 .profile(memberDomain.getProfile().getName())
                 .build();
     }

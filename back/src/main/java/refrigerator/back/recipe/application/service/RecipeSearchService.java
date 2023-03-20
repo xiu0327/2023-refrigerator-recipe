@@ -2,6 +2,7 @@ package refrigerator.back.recipe.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.port.in.FindSearchConditionUseCase;
@@ -19,6 +20,7 @@ public class RecipeSearchService implements SearchRecipeUseCase, FindSearchCondi
     private final SearchRecipePort searchRecipePort;
 
     @Override
+    @Transactional(readOnly = true)
     public List<RecipeDomain> search(String recipeType,
                                      String foodType,
                                      String difficulty,
