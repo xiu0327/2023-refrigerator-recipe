@@ -23,6 +23,17 @@ public class RecipeScore {
     private int person;
 
     @Column(name = "score", nullable = false)
-    private int score;
+    private double score;
+
+    @Version
+    private Long version;
+
+    public double calculateScore() {
+        if (person > 0){
+            return (double) score / person;
+        }
+        return 0.0;
+    }
+
 
 }

@@ -3,6 +3,8 @@ package refrigerator.back.comment.adapter.out.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import refrigerator.back.global.common.BaseTimeEntity;
+import refrigerator.back.global.common.BaseTimeEntityWithModify;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "recipe_comment")
 @Getter
 @NoArgsConstructor
-public class RecipeComment {
+public class RecipeComment extends BaseTimeEntityWithModify {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +25,6 @@ public class RecipeComment {
 
     @Column(name = "member_email")
     private String memberID;
-
-    @CreatedDate
-    @Column(name = "created_date")
-    private LocalDateTime createDate;
 
     @Column(name = "content", nullable = false)
     private String content;

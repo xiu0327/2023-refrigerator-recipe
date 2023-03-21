@@ -2,6 +2,7 @@ package refrigerator.back.myscore.adapter.out.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import refrigerator.back.global.common.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MyRecipeScore {
+public class MyRecipeScore extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,15 +28,5 @@ public class MyRecipeScore {
 
     @Column(name = "score")
     private Double score;
-
-    @CreatedDate
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
-
-    @Transient
-    private String recipeName;
-
-    @Transient
-    private String recipeImage;
 
 }

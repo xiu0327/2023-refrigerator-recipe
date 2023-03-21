@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import refrigerator.back.global.common.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberEntity {
+public class MemberEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +32,6 @@ public class MemberEntity {
 
     @Column(name = "nickname", nullable = false, length = 50)
     private String nickname;
-
-    @CreatedDate
-    @Column(name = "join_date")
-    private LocalDateTime joinDate;
 
     @Column(name = "status", nullable = false, length = 50)
     private String memberStatus;

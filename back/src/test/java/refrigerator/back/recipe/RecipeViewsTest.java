@@ -1,26 +1,18 @@
 package refrigerator.back.recipe;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.adapter.out.entity.RecipeViews;
-import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.port.in.FindRecipeDetailUseCase;
 import refrigerator.back.recipe.application.port.out.AddRecipeViewsPort;
 import refrigerator.back.recipe.application.port.out.ReadRecipePort;
-import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -30,18 +22,6 @@ public class RecipeViewsTest {
     @Autowired AddRecipeViewsPort addRecipeViewsPort;
     @Autowired ReadRecipePort readRecipePort;
     @Autowired FindRecipeDetailUseCase findRecipeDetailUseCase;
-
-    @Test
-    void 영속성_변경감지_테스트(){
-        long recipeID = 1L;
-        RecipeViews recipeViews1 = entityManager.find(RecipeViews.class, recipeID);
-        int views = recipeViews1.getViews();
-        int newViews = views + 1;
-        RecipeViews recipeViews = entityManager.find(RecipeViews.class, recipeID);
-        recipeViews.addViews();
-        entityManager.flush();
-        entityManager.clear();
-    }
 
     @Test
     void 조회수_증가_테스트(){

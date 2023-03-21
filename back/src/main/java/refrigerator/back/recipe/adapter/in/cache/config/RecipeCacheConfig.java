@@ -1,0 +1,77 @@
+package refrigerator.back.recipe.adapter.in.cache.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.cache.CacheKeyPrefix;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+
+
+@Configuration
+public class RecipeCacheConfig {
+
+    @Bean
+    @Primary
+    public RedisCacheManager recipeFoodTypeCacheManager(RedisConnectionFactory redisConnectionFactory){
+        RedisCacheConfiguration configuration = getConfiguration();
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        cacheConfigurations.put(RecipeCacheKey.FOOD_TYPE, RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.CONDITION_EXPIRE_SEC)));
+
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(redisConnectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations).build();
+    }
+
+    @Bean
+    public RedisCacheManager recipeCategoryCacheManager(RedisConnectionFactory redisConnectionFactory){
+        RedisCacheConfiguration configuration = getConfiguration();
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        cacheConfigurations.put(RecipeCacheKey.CATEGORY, RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.CONDITION_EXPIRE_SEC)));
+
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(redisConnectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations).build();
+    }
+
+    @Bean
+    public RedisCacheManager recipeCacheManager(RedisConnectionFactory redisConnectionFactory){
+        RedisCacheConfiguration configuration = getConfiguration();
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        cacheConfigurations.put(RecipeCacheKey.RECIPE, RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_EXPIRE_SEC)));
+
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(redisConnectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations).build();
+    }
+
+    private RedisCacheConfiguration getConfiguration() {
+        return RedisCacheConfiguration.defaultCacheConfig()
+                .disableCachingNullValues()
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.DEFAULT_EXPIRE_SEC)) // 캐시의 기본 유효시간 설정
+                .computePrefixWith(CacheKeyPrefix.simple())
+                .serializeKeysWith(RedisSerializationContext
+                        .SerializationPair
+                        .fromSerializer(new StringRedisSerializer()));
+    }
+
+}

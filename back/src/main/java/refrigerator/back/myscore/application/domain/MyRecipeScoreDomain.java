@@ -2,6 +2,7 @@ package refrigerator.back.myscore.application.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -9,13 +10,16 @@ import java.time.LocalDateTime;
 @Builder
 public class MyRecipeScoreDomain {
     private Long scoreID;
+    private String memberID;
+    private Long recipeID;
     private String recipeName;
     private String recipeImage;
     private Double score;
-    private LocalDateTime registrationDate;
+    private Integer views;
 
     /* 비즈니스 로직 */
-    public void modifyScore(double score){
+    public void modify(double score){
         this.score = score;
     }
+
 }
