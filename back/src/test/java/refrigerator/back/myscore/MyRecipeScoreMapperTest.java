@@ -28,13 +28,11 @@ public class MyRecipeScoreMapperTest {
                 .memberID(memberID)
                 .recipeID(recipeID)
                 .score(score)
-                .createDate(LocalDateTime.now())
                 .build();
         MyRecipeScore entity = myRecipeScoreMapper.toEntity(domain);
         assertNotNull(entity.getMemberID());
         assertNotNull(entity.getRecipeID());
         assertNotNull(entity.getScore());
-        assertNotNull(entity.getCreateDate());
     }
 
     @Test
@@ -53,6 +51,5 @@ public class MyRecipeScoreMapperTest {
         assertNotNull(domain.getRecipeName());
         assertNotNull(domain.getRecipeImage());
         assertNotNull(domain.getScore());
-        assertNotNull(domain.getCreateDate());
     }
 }

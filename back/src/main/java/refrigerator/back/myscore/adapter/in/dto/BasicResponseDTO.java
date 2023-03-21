@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MyRecipeScoreBasicResponseDTO {
+public class BasicResponseDTO {
     private Long scoreID;
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.myscore.adapter.out.dto.MyRecipeScoreMappingDTO;
 import refrigerator.back.myscore.adapter.out.mapper.MyRecipeScoreMapper;
 import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
 import refrigerator.back.myscore.adapter.out.repository.MyRecipeScoreRepository;
@@ -23,9 +22,10 @@ public class MyRecipeScorePersistenceAdapter implements MyRecipeScoreReadPort, M
     @Autowired MyRecipeScoreMapper mapper;
 
     @Override
-    public MyRecipeScoreDomain getMyRecipeScoreByID(Long scoreID) {
-        MyRecipeScoreMappingDTO myScore = repository.findMyRecipeScoreById(scoreID);
-        return mapper.dtoToDomain(myScore);
+    public MyRecipeScoreDomain getMyRecipeScore(String memberID, Long recipeID) {
+        MyRecipeScore myScore = repository.findMyRecipeScoreByMemberIdAndRecipeId(memberID, recipeID)
+                .orElseThrow(RuntimeException::new);
+        return mapper.toDomain(myScore);
     }
 
     @Override

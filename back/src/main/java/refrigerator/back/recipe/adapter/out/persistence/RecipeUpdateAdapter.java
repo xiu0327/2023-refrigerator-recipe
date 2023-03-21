@@ -6,10 +6,11 @@ import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
 import refrigerator.back.recipe.adapter.out.repository.RecipeRepository;
 import refrigerator.back.recipe.application.port.out.AddRecipeScorePort;
 import refrigerator.back.recipe.application.port.out.AddRecipeViewsPort;
+import refrigerator.back.recipe.application.port.out.UpdateRecipeBookmarkPort;
 
 @Repository
 @RequiredArgsConstructor
-public class RecipeUpdateAdapter implements AddRecipeViewsPort, AddRecipeScorePort {
+public class RecipeUpdateAdapter implements AddRecipeViewsPort, AddRecipeScorePort, UpdateRecipeBookmarkPort {
 
     private final RecipeRepository recipeRepository;
 
@@ -21,5 +22,15 @@ public class RecipeUpdateAdapter implements AddRecipeViewsPort, AddRecipeScorePo
     @Override
     public void addScore(Long recipeID, double score, int person) {
         recipeRepository.updateRecipeScore(recipeID, score, person);
+    }
+
+    @Override
+    public void addBookmark(Long recipeID) {
+        recipeRepository.updateBookmarkScore(recipeID, 1);
+    }
+
+    @Override
+    public void removeBookmark(Long recipeID) {
+        recipeRepository.updateBookmarkScore(recipeID, -1);
     }
 }

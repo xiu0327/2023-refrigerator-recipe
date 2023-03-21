@@ -15,7 +15,6 @@ public class MyRecipeScoreDomain {
     private String recipeName;
     private String recipeImage;
     private Double score;
-    private LocalDateTime createDate;
     private Integer views;
 
     /* 비즈니스 로직 */

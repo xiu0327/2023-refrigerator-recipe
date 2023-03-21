@@ -28,4 +28,12 @@ public class RecipeScore {
     @Version
     private Long version;
 
+    public double calculateScore() {
+        if (person > 0){
+            return (double) score / person;
+        }
+        return 0.0;
+    }
+
+
 }

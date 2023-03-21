@@ -22,24 +22,6 @@ public class MyRecipeScoreQueryRepositoryImpl implements MyRecipeScoreQueryRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public MyRecipeScoreMappingDTO findMyRecipeScoreById(Long scoreID) {
-        return jpaQueryFactory
-                .select(new QMyRecipeScoreMappingDTO(
-                        myRecipeScore.scoreID,
-                        recipe.recipeID,
-                        recipe.recipeName,
-                        recipe.image,
-                        myRecipeScore.score,
-                        recipeViews.views,
-                        myRecipeScore.createDate))
-                .from(myRecipeScore)
-                .innerJoin(myRecipeScore).on(myRecipeScore.scoreID.eq(scoreID))
-                .innerJoin(recipe).on(myRecipeScore.recipeID.eq(recipe.recipeID))
-                .innerJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
-                .fetchOne();
-    }
-
-    @Override
     public List<MyRecipeScoreMappingDTO> findMyRecipeScoreList(String memberID, Pageable pageable) {
         return jpaQueryFactory
                 .select(new QMyRecipeScoreMappingDTO(

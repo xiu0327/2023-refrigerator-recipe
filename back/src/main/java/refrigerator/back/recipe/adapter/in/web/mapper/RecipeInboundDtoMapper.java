@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.web;
+package refrigerator.back.recipe.adapter.in.web.mapper;
 
 import org.springframework.stereotype.Component;
 import refrigerator.back.recipe.adapter.in.dto.*;
