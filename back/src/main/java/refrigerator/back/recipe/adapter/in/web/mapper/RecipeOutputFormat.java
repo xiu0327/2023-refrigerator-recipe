@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.web;
+package refrigerator.back.recipe.adapter.in.web.mapper;
 
 public abstract class RecipeOutputFormat {
 

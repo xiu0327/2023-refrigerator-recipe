@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import refrigerator.back.recipe.adapter.in.web.RecipeOutputFormat;
+import refrigerator.back.recipe.adapter.in.web.mapper.RecipeOutputFormat;
 
 import java.util.Set;
 

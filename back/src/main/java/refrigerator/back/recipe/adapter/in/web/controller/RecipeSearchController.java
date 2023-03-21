@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.recipe.adapter.in.cache.config.RecipeCacheKey;
 import refrigerator.back.recipe.adapter.in.dto.RecipeConditionListDTO;
 import refrigerator.back.recipe.adapter.in.dto.RecipeListDTO;
-import refrigerator.back.recipe.adapter.in.web.RecipeInboundDtoMapper;
+import refrigerator.back.recipe.adapter.in.web.mapper.RecipeInboundDtoMapper;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.port.in.FindSearchConditionUseCase;
 import refrigerator.back.recipe.application.port.in.SearchRecipeUseCase;

@@ -10,7 +10,7 @@ import refrigerator.back.global.TestData;
 import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDTO;
 import refrigerator.back.recipe.adapter.in.dto.RecipeCourseDtoList;
 import refrigerator.back.recipe.adapter.in.dto.RecipeDetailDTO;
-import refrigerator.back.recipe.adapter.in.web.RecipeInboundDtoMapper;
+import refrigerator.back.recipe.adapter.in.web.mapper.RecipeInboundDtoMapper;
 import refrigerator.back.recipe.adapter.out.entity.RecipeCourse;
 import refrigerator.back.recipe.adapter.out.entity.RecipeIngredient;
 import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;

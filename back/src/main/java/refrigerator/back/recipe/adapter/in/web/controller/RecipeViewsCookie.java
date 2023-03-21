@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.web;
+package refrigerator.back.recipe.adapter.in.web.controller;
 
 import lombok.Builder;
 import lombok.Data;

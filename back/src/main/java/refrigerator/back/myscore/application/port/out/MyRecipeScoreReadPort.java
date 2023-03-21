@@ -5,7 +5,7 @@ import refrigerator.back.myscore.application.domain.MyRecipeScoreDomain;
 import java.util.List;
 
 public interface MyRecipeScoreReadPort {
-    MyRecipeScoreDomain getMyRecipeScoreByID(Long scoreID);
+    MyRecipeScoreDomain getMyRecipeScore(String memberID, Long recipeID);
     List<MyRecipeScoreDomain> getMyRecipeScoreList(String memberID, int page, int size);
     MyRecipeScoreDomain getPersistenceMyRecipeById(Long scoreID);
     List<MyRecipeScoreDomain> getMyRecipeScorePreview(String memberID);
