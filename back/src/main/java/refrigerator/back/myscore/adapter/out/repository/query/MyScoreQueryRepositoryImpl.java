@@ -5,13 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.myscore.adapter.out.dto.*;
+import refrigerator.back.recipe.application.domain.entity.QRecipe;
+import refrigerator.back.recipe.application.domain.entity.QRecipeScore;
 
 import java.util.List;
 
 import static refrigerator.back.myscore.application.domain.QMyScore.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipe.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeScore.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeViews.*;
+import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.*;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
 @Repository
 @RequiredArgsConstructor

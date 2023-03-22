@@ -13,9 +13,9 @@ import refrigerator.back.mybookmark.adapter.out.dto.QOutBookmarkPreviewDTO;
 import java.util.List;
 
 import static refrigerator.back.mybookmark.application.domain.QMyBookmark.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipe.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeScore.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeViews.*;
+import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.recipeScore;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
 
 @Repository

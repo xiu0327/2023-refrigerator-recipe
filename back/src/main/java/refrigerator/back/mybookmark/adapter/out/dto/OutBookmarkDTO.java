@@ -3,7 +3,7 @@ package refrigerator.back.mybookmark.adapter.out.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
-import refrigerator.back.recipe.adapter.out.entity.RecipeScore;
+import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 
 @Getter
 @Builder

@@ -1,9 +1,8 @@
 package refrigerator.back.recipe.application.port.in;
 
-import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
-
-import java.util.List;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
 
 public interface FindRecipeListUseCase {
-    List<RecipeDomain> getRecipeList(int page, int size);
+    InRecipeBasicListDTO<InRecipeDTO> getRecipeList(int page, int size);
 }
