@@ -6,29 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
-import refrigerator.back.myscore.adapter.in.dto.CookingResponseDTO;
-import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
-import refrigerator.back.myscore.application.domain.MyRecipeScoreListDomain;
-import refrigerator.back.myscore.application.port.in.CookingUseCase;
-import refrigerator.back.myscore.application.port.in.FindMyRecipeScoreListUseCase;
-import refrigerator.back.myscore.application.port.in.FindMyRecipeScorePreviewUseCase;
-import refrigerator.back.myscore.application.port.in.ModifyMyRecipeScoreUseCase;
+import refrigerator.back.myscore.adapter.in.dto.response.InCookingResponseDTO;
+import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreDTO;
+import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreListDTO;
+import refrigerator.back.myscore.adapter.in.dto.response.InMyScorePreviewDTO;
+import refrigerator.back.myscore.application.domain.MyScore;
 import refrigerator.back.recipe.adapter.out.entity.RecipeScore;
 
 import javax.persistence.EntityManager;
-
 
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Slf4j
-class MyRecipeScoreServiceTest {
+class MyScoreServiceTest {
 
-    @Autowired FindMyRecipeScoreListUseCase findMyRecipeScoreList;
-    @Autowired ModifyMyRecipeScoreUseCase modifyMyRecipeScoreUseCase;
-    @Autowired FindMyRecipeScorePreviewUseCase findMyRecipeScorePreviewUseCase;
-    @Autowired CookingUseCase cookingUseCase;
+    @Autowired MyScoreService myScoreService;
     @Autowired TestData testData;
     @Autowired EntityManager em;
 
@@ -42,9 +36,9 @@ class MyRecipeScoreServiceTest {
         double beforeScore = em.find(RecipeScore.class, recipeID).getScore();
         int beforePerson = em.find(RecipeScore.class, recipeID).getPerson();
         // when
-        CookingResponseDTO cooking = cookingUseCase.cooking(memberID, recipeID, score);
+        InCookingResponseDTO cooking = myScoreService.cooking(memberID, recipeID, score);
         // then
-        MyRecipeScore findScore = em.find(MyRecipeScore.class, cooking.getScoreID());
+        MyScore findScore = em.find(MyScore.class, cooking.getScoreID());
         RecipeScore afterRecipeScore = em.find(RecipeScore.class, recipeID);
         /* 해당 레시피를 처음 요리했는지 */
         assertThat(cooking.getIsCreated()).isTrue();
@@ -64,14 +58,14 @@ class MyRecipeScoreServiceTest {
         String memberID = TestData.MEMBER_EMAIL;
         Long recipeID = 1L;
         double oldScore = 4.5;
-        cookingUseCase.cooking(memberID, recipeID, oldScore);
+        myScoreService.cooking(memberID, recipeID, oldScore);
         int beforePerson = em.find(RecipeScore.class, recipeID).getPerson();
         double beforeScore = em.find(RecipeScore.class, recipeID).getScore();
         // when
         double newScore = 3.5;
-        CookingResponseDTO cooking = cookingUseCase.cooking(memberID, recipeID, newScore);
+        InCookingResponseDTO cooking = myScoreService.cooking(memberID, recipeID, newScore);
         // then
-        MyRecipeScore findScore = em.find(MyRecipeScore.class, cooking.getScoreID());
+        MyScore findScore = em.find(MyScore.class, cooking.getScoreID());
         int afterPerson = em.find(RecipeScore.class, recipeID).getPerson();
         double afterScore = em.find(RecipeScore.class, recipeID).getScore();
         /* 해당 레시피를 처음 요리했는지 */
@@ -101,7 +95,7 @@ class MyRecipeScoreServiceTest {
         // when
         log.info("==== find start ====");
         int previewSize = 5;
-        MyRecipeScoreListDomain myScoreList = findMyRecipeScorePreviewUseCase.findPreview(memberID, previewSize);
+        InMyScoreListDTO<InMyScorePreviewDTO> myScoreList = myScoreService.findPreviewList(memberID, previewSize);
         log.info("==== find end ====");
         // then
         assertThat(myScoreList.getScores()).isNotEmpty();
@@ -120,7 +114,7 @@ class MyRecipeScoreServiceTest {
         }
         // when
         log.info("==== find start ====");
-        MyRecipeScoreListDomain myScoreList = findMyRecipeScoreList.findMyScoreList(memberID, 0, 11);
+        InMyScoreListDTO<InMyScoreDTO> myScoreList = myScoreService.findMyScoreList(memberID, 0, 11);
         log.info("==== find end ====");
         // then
         assertThat(myScoreList.getScores()).isNotEmpty();
@@ -139,11 +133,11 @@ class MyRecipeScoreServiceTest {
         int beforePerson = em.find(RecipeScore.class, recipeID).getPerson();
         // when
         double newScore = 2.5;
-        System.out.println("MyRecipeScoreServiceTest.별점_수정 - start");
-        modifyMyRecipeScoreUseCase.modifyMyRecipeScore(scoreID, newScore);
-        System.out.println("MyRecipeScoreServiceTest.별점_수정 - end");
+        log.info("==== modify start ====");
+        myScoreService.modify(scoreID, newScore);
+        log.info("==== modify end ====");
         // then
-        MyRecipeScore findMyScore = em.find(MyRecipeScore.class, scoreID);
+        MyScore findMyScore = em.find(MyScore.class, scoreID);
         RecipeScore findRecipeScore = em.find(RecipeScore.class, recipeID);
         assertThat(findMyScore.getScore()).isEqualTo(newScore);
         assertThat(findRecipeScore.getScore()).isEqualTo(beforeScore + (newScore - score));

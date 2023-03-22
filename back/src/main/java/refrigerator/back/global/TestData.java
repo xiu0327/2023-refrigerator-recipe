@@ -9,7 +9,7 @@ import refrigerator.back.member.application.domain.MemberDomain;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.member.exception.MemberExceptionType;
-import refrigerator.back.myscore.adapter.out.entity.MyRecipeScore;
+import refrigerator.back.myscore.application.domain.MyScore;
 import refrigerator.back.recipe.adapter.out.entity.*;
 import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
@@ -42,7 +42,7 @@ public class TestData {
 
     @Transactional
     public Long createMyRecipeScore(String memberId, Long recipeId, Double score){
-        MyRecipeScore myRecipeScore = MyRecipeScore.builder()
+        MyScore myRecipeScore = MyScore.builder()
                 .memberID(memberId)
                 .recipeID(recipeId)
                 .score(score).build();
