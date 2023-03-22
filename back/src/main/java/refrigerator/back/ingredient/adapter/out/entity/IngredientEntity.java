@@ -36,10 +36,11 @@ public class IngredientEntity {
     @Column(name = "storage_method", nullable = false, length = 30)
     private String storageMethod;
 
+    //
     @Column(name = "registration_date", nullable = false)
     private LocalDateTime registrationDate;
 
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @Column(name = "email", nullable = false)
+    private String email;
 
 }
