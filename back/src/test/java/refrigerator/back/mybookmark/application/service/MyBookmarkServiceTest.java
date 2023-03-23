@@ -1,22 +1,19 @@
 package refrigerator.back.mybookmark.application.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkDTO;
-import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkListDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewListDTO;
 import refrigerator.back.mybookmark.application.domain.MyBookmark;
-import refrigerator.back.recipe.adapter.out.entity.RecipeBookmark;
+import refrigerator.back.recipe.application.domain.entity.RecipeBookmark;
 
 import javax.persistence.EntityManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

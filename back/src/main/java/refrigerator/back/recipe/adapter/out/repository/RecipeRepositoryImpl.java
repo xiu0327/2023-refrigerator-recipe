@@ -3,14 +3,12 @@ package refrigerator.back.recipe.adapter.out.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.recipe.adapter.out.entity.QRecipeBookmark;
 
 import javax.persistence.EntityManager;
 
-
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeBookmark.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeScore.*;
-import static refrigerator.back.recipe.adapter.out.entity.QRecipeViews.*;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeBookmark.recipeBookmark;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.recipeScore;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
 @Repository
 @RequiredArgsConstructor
