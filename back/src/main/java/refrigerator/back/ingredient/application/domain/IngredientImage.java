@@ -1,5 +1,4 @@
-package refrigerator.back.ingredient.adapter.out.entity;
-
+package refrigerator.back.ingredient.application.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class IngredientImageEntity {
+public class IngredientImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
