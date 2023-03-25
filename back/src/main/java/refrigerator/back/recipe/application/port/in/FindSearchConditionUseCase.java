@@ -1,8 +1,8 @@
 package refrigerator.back.recipe.application.port.in;
 
-import java.util.List;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
 
 public interface FindSearchConditionUseCase {
-    List<String> findRecipeFoodTypeCond();
-    List<String> findRecipeCategoryCond();
+    InRecipeBasicListDTO<String> findRecipeFoodTypeCond();
+    InRecipeBasicListDTO<String> findRecipeCategoryCond();
 }

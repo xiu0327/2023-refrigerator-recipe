@@ -1,7 +1,7 @@
 package refrigerator.back.recipe.application.port.in;
 
-import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeDetailDTO;
 
 public interface FindRecipeDetailUseCase {
-    RecipeDomain getRecipe(Long recipeID, boolean isViewed);
+    InRecipeDetailDTO getRecipe(Long recipeID, boolean isViewed);
 }

@@ -3,21 +3,19 @@ package refrigerator.back.recipe.adapter.out.persistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.recipe.adapter.out.dto.RecipeMappingDTO;
-import refrigerator.back.recipe.adapter.out.dto.RecipeSearchConditionDTO;
-import refrigerator.back.recipe.adapter.out.entity.RecipeCategory;
-import refrigerator.back.recipe.adapter.out.entity.RecipeFoodType;
-import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
-import refrigerator.back.recipe.adapter.out.repository.RecipeQueryRepository;
-import refrigerator.back.recipe.adapter.out.repository.RecipeSearchQueryRepository;
-import refrigerator.back.recipe.application.domain.entity.RecipeCourseDomain;
-import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
-import refrigerator.back.recipe.application.domain.entity.RecipeIngredientDomain;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
+import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
+import refrigerator.back.recipe.application.domain.entity.Recipe;
+import refrigerator.back.recipe.application.domain.entity.RecipeCategory;
+import refrigerator.back.recipe.application.domain.entity.RecipeCourse;
+import refrigerator.back.recipe.application.domain.entity.RecipeFoodType;
+import refrigerator.back.recipe.adapter.out.repository.query.RecipeQueryRepository;
+import refrigerator.back.recipe.adapter.out.repository.query.RecipeSearchQueryRepository;
+import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
 import refrigerator.back.recipe.application.port.out.ReadRecipePort;
 import refrigerator.back.recipe.application.port.out.SearchRecipePort;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -26,47 +24,37 @@ public class RecipeLookUpAdapter implements ReadRecipePort, SearchRecipePort {
 
     private final RecipeQueryRepository recipeQueryRepository;
     private final RecipeSearchQueryRepository recipeSearchQueryRepository;
-    private final RecipeMapper recipeMapper;
+    private final RecipeDtoMapper mapper;
 
     @Override
-    public RecipeDomain getRecipeDetails(Long recipeID) {
-        RecipeMappingDTO recipe = recipeQueryRepository.findRecipeByID(recipeID);
-        RecipeDomain recipeDomain = recipeMapper.toRecipeDomain(recipe);
-        Set<RecipeIngredientDomain> ingredients = recipe.getIngredients().stream()
-                .map(recipeMapper::toIngredientDomain)
-                .collect(Collectors.toSet());
-        recipeDomain.initIngredient(ingredients);
-        return recipeDomain;
+    public Recipe getRecipeDetails(Long recipeID) {
+        Recipe recipe = recipeQueryRepository.findRecipeById(recipeID);
+        recipe.initDetails(mapper.toRecipeDetails(
+                recipeQueryRepository.findRecipeDetails(recipeID)
+        ));
+        return recipe;
     }
 
     @Override
-    public List<RecipeCourseDomain> getRecipeCourse(Long recipeID) {
-        return recipeQueryRepository.findRecipeCourse(recipeID)
-                .stream().map(recipeMapper::toCourseDomain)
-                .collect(Collectors.toList());
+    public List<RecipeCourse> getRecipeCourse(Long recipeID) {
+        return recipeQueryRepository.findRecipeCourse(recipeID);
     }
 
     @Override
-    public List<RecipeDomain> getRecipeList(int page, int size) {
+    public List<InRecipeDTO> getRecipeList(int page, int size) {
         return recipeQueryRepository.findRecipeList(PageRequest.of(page, size))
-                .stream().map(recipeMapper::listDtoToRecipeDomain)
+                .stream().map(recipe -> mapper.toInRecipeDto(
+                                recipe,
+                                recipe.getScore().calculateScore()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<RecipeDomain> search(String recipeType,
-                                     String foodType,
-                                     String difficulty,
-                                     Double score,
-                                     int page,
-                                     int size) {
-        RecipeSearchConditionDTO dto = RecipeSearchConditionDTO.builder()
-                .recipeType(recipeType)
-                .recipeFoodType(foodType)
-                .difficulty(difficulty)
-                .score(score).build();
-        return recipeSearchQueryRepository.searchRecipe(dto, PageRequest.of(page, 11))
-                .stream().map(recipeMapper::listDtoToRecipeDomain)
+    public List<InRecipeDTO> search(RecipeSearchCondition condition, int page, int size) {
+        return recipeSearchQueryRepository.searchRecipe(condition, PageRequest.of(page, 11))
+                .stream().map(recipe -> mapper.toInRecipeDto(
+                        recipe,
+                        recipe.getScore().calculateScore()))
                 .collect(Collectors.toList());
     }
 

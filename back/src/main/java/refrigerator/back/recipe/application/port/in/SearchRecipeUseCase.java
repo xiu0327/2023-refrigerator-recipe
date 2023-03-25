@@ -1,11 +1,9 @@
 package refrigerator.back.recipe.application.port.in;
 
-import refrigerator.back.recipe.application.domain.entity.RecipeDomain;
-
-import java.util.List;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
+import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
+import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
 
 public interface SearchRecipeUseCase {
-    List<RecipeDomain> search(String recipeType, String foodType,
-                              String difficulty, Double score,
-                              int page, int size);
+    InRecipeBasicListDTO<InRecipeDTO> search(RecipeSearchCondition condition, int page, int size);
 }

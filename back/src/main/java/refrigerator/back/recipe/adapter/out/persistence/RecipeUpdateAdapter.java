@@ -2,7 +2,6 @@ package refrigerator.back.recipe.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.recipe.adapter.out.mapper.RecipeMapper;
 import refrigerator.back.recipe.adapter.out.repository.RecipeRepository;
 import refrigerator.back.recipe.application.port.out.AddRecipeScorePort;
 import refrigerator.back.recipe.application.port.out.AddRecipeViewsPort;
