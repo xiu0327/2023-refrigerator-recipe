@@ -12,7 +12,6 @@ import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreListDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScorePreviewDTO;
 import refrigerator.back.myscore.application.domain.MyScore;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
-import refrigerator.back.recipe.adapter.out.entity.RecipeScore;
 
 import javax.persistence.EntityManager;
 
