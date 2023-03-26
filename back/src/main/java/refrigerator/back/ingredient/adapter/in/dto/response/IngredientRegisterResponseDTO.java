@@ -1,4 +1,4 @@
-package refrigerator.back.ingredient.adapter.dto;
+package refrigerator.back.ingredient.adapter.in.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class IngredientRegisterResponseDTO {
 
-    private Long id;      // 식재료 id
-
+    private Long id;
 }

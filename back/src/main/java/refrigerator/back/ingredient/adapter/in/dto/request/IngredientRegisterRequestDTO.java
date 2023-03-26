@@ -1,4 +1,4 @@
-package refrigerator.back.ingredient.adapter.dto;
+package refrigerator.back.ingredient.adapter.in.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IngredientRegisterRequestDTO {
-
-    // 검증을 아마 해야할 듯.. @validation
-
+    // 검증 필요 @Validation
     private String name;                    // 식재료명
     private LocalDateTime expirationDate;   // 유통기한
     private String capacity;                // 용량
     private String capacityUnit;            // 용량 단위
     private String storageMethod;           // 보관 방식
 }
+
+

@@ -15,6 +15,7 @@ import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 
 import javax.persistence.EntityManager;
 
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest

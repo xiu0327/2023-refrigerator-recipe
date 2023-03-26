@@ -22,6 +22,7 @@ public class MyRecipeScoreController {
     private final FindMyScorePreviewUseCase findMyScorePreviewUseCase;
     private final CookingUseCase cookingUseCase;
 
+
     @PostMapping("/api/my-score/cooking")
     public ResponseEntity<InCookingResponseDTO> cooking(@RequestParam("recipeID") Long recipeID,
                                                         @RequestParam("score") Double score){

@@ -5,5 +5,5 @@ import java.time.LocalDateTime;
 public interface RegisterIngredientUseCase {
 
     Long register(String name, LocalDateTime expirationDate, String capacity,
-                String capacityUnit, String storageMethod, String email);
+                    String capacityUnit, String storageMethod, String email);
 }
