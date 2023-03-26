@@ -1,4 +1,4 @@
-package refrigerator.back.member.adapter.out.entity;
+package refrigerator.back.member.application.domain;
 
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "member_last_access_date")
 @Getter
-public class MemberLastAccessDateEntity {
+public class MemberLastAccessDate {
 
     @Id
     @Column(name = "member_last_access_date_id", nullable = false)
