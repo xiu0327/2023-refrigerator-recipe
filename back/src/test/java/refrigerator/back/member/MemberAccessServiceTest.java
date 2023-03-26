@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.adapter.out.entity.MemberEntity;
+import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.service.MemberAccessService;
 import refrigerator.back.member.exception.MemberExceptionType;
 
@@ -27,8 +27,8 @@ class MemberAccessServiceTest {
     void 회원_가입(){
         String email = TestData.MEMBER_EMAIL;
         Long memberID = memberAccessService.join(email, TestData.MEMBER_PASSWORD, TestData.MEMBER_NICKNAME);
-        MemberEntity member = testData.findMemberByEmail(email);
-        log.info(member.getProfile());
+        Member member = testData.findMemberByEmail(email);
+        log.info(member.getProfile().getName());
         assertThat(member.getProfile()).isNotNull();
         assertThat(memberID).isEqualTo(member.getId());
     }
@@ -56,7 +56,7 @@ class MemberAccessServiceTest {
         String newPassword = "newpasswod123!";
         testData.createMember();
         memberAccessService.updatePassword(TestData.MEMBER_EMAIL, newPassword);
-        MemberEntity findMember = testData.findMemberByEmail(TestData.MEMBER_EMAIL);
+        Member findMember = testData.findMemberByEmail(TestData.MEMBER_EMAIL);
         assertThat(findMember.getPassword()).isEqualTo(newPassword);
     }
 
