@@ -65,3 +65,29 @@
 .loginBtn span {
 	margin-left: 20px;
 }
+
+/* 이메일 로그인 */
+.loginEmailContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 25px;
+	gap: 15px;
+}
+
+.loginEmailTitle {
+	font-size: 27px;
+	font-weight: 600;
+}
+
+.loginEmailInput {
+	width: 320px;
+	height: 57px;
+}
+
+.loginEmailBtn {
+	width: 320px;
+	height: 57px;
+	margin-bottom: 35px;
+}

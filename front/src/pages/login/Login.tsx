@@ -27,10 +27,12 @@ export default function Login() {
 				<span className={styles.loginBtnBar}></span>
 			</div>
 			<div className={`d-grid gap-2`}>
-				<Button className={styles.loginBtn} variant="secondary" size="lg">
-					<EmojiSmile />
-					<span>이메일로 로그인하기</span>
-				</Button>
+				<Link legacyBehavior href="../login/loginEmail">
+					<Button className={styles.loginBtn} variant="secondary" size="lg">
+						<EmojiSmile />
+						<span>이메일로 로그인하기</span>
+					</Button>
+				</Link>
 				<Button className={styles.loginBtn} variant="primary" size="lg">
 					<Google />
 					<span>구글로 로그인하기</span>
