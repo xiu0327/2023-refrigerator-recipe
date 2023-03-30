@@ -2,29 +2,8 @@ import styles from "./styles.module.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
-import Link from "next/link";
-
-function MyVerticallyCenteredModal(props: any) {
-	return (
-		<Modal
-			{...props}
-			size="lg"
-			aria-labelledby="contained-modal-title-vcenter"
-			centered
-		>
-			<Modal.Body>
-				<p>가입이 완료되었습니다.</p>
-			</Modal.Body>
-			<Modal.Footer>
-				<Link legacyBehavior href="/">
-					<Button onClick={props.onHide}>확인</Button>
-				</Link>
-			</Modal.Footer>
-		</Modal>
-	);
-}
+import CheckModal from "@/components/global/modal";
 
 export default function Register() {
 	const [checkedEmail, setCheckedEmail] = useState(false);
@@ -131,7 +110,8 @@ export default function Register() {
 					가입하기
 				</Button>
 
-				<MyVerticallyCenteredModal
+				<CheckModal
+					ment={"가입이 완료되었습니다."}
 					show={modalShow}
 					onHide={() => setModalShow(false)}
 				/>
