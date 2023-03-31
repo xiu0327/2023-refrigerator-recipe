@@ -1,12 +1,11 @@
 package refrigerator.back.ingredient.application.port.out;
 
 import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 
 public interface WriteIngredient {
 
-    Long save(Ingredient save);
+    Long saveIngredient(Ingredient ingredient);
 
-    void update(Ingredient ingredient);
-
-    void delete(Ingredient ingredient);
+    void proposeIngredient(SuggestedIngredient ingredient);
 }

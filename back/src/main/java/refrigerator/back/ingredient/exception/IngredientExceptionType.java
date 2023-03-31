@@ -7,7 +7,7 @@ import refrigerator.back.global.exception.BasicExceptionType;
 @AllArgsConstructor
 public enum IngredientExceptionType implements BasicExceptionType {
 
-    TEST_ERROR("TEST_ERROR", "테스트 에러", HttpStatus.NOT_FOUND);
+    NOT_FOUND_INGREDIENT("NOT_FOUND_INGREDIENT", "해당 식재료를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
 
     private String errorCode;
     private String message;

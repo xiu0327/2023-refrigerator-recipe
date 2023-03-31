@@ -1,4 +1,4 @@
-package refrigerator.back.ingredient.adapter.in.dto.response;
+package refrigerator.back.ingredient.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,10 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class IngredientRegisterResponseDTO {
+public class IngredientLookUpRequestDTO {
 
-    private Long id;
+    String storage;
+    boolean deadline;
 }

@@ -1,14 +1,14 @@
 package refrigerator.back.ingredient.application.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.common.BaseTimeEntityWithModify;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "ingredient")
@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredient {
+@ToString
+public class Ingredient extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,37 +28,63 @@ public class Ingredient {
     private String name;
 
     @Column(name = "expiration_date", nullable = false)
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
+
+    @Column(name = "registration_date", nullable = false)
+    private LocalDate registrationDate;
 
     @Column(name = "capacity", nullable = false, length = 30)
-    private String capacity;
+    private Integer capacity;
 
     @Column(name = "capacity_unit", nullable = false, length = 30)
     private String capacityUnit;
 
-    @CreatedDate
-    @Column(name = "registration_date", nullable = false)
-    private LocalDateTime registrationDate;
-
     @Column(name = "storage_method", nullable = false, length = 30)
     private String storageMethod;
+
+    @Column(name = "image", nullable = false, length = 100)
+    private String image;
+
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted;
 
     @Column(name = "email", nullable = false)
     private String email;
 
-    public static Ingredient create(String name, LocalDateTime expirationDate, String capacity, String capacityUnit, String storageMethod, String email) {
-        return Ingredient.builder()
-                .name(name)
-                .expirationDate(expirationDate)
-                .capacity(capacity)
-                .capacityUnit(capacityUnit)
-                .registrationDate(LocalDateTime.now())
-                .storageMethod(storageMethod)
-                .email(email)
-                .build();
+    public void delete(){
+        this.deleted = true;
     }
 
-    public void modify(LocalDateTime expirationDate, String capacity, String storageMethod) {
+    public void undelete() {
+        this.deleted = false;
+    }
+
+    public Long getWholeDays() {
+        return ChronoUnit.DAYS.between(this.registrationDate, this.expirationDate);
+    }
+
+    public Long getRemainDays() {
+        return ChronoUnit.DAYS.between(LocalDate.now(), this.expirationDate);
+    }
+
+    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, String image, String email) {
+        this.name = name;
+        this.expirationDate = expirationDate;
+        this.capacity = capacity;
+        this.capacityUnit = capacityUnit;
+        this.storageMethod = storageMethod;
+        this.registrationDate = LocalDate.now();
+        this.image = image;
+        this.email = email;
+    }
+
+    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, String image, String email) {
+        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, image, email);
+        ingredient.undelete();
+        return ingredient;
+    }
+
+    public void modify(LocalDate expirationDate, Integer capacity, String storageMethod) {
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.storageMethod = storageMethod;

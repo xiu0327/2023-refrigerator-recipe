@@ -2,17 +2,21 @@ package refrigerator.back.ingredient.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.global.exception.BasicExceptionType;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientDetailResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisteredResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientResponseDTO;
 import refrigerator.back.ingredient.adapter.mapper.IngredientMapper;
-import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDetailResponseDTO;
-import refrigerator.back.ingredient.adapter.out.dto.OutIngredientResponseDTO;
 import refrigerator.back.ingredient.adapter.out.repository.query.IngredientQueryRepository;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.adapter.out.repository.IngredientRepository;
+import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
+import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
+import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.application.port.out.ReadIngredient;
 import refrigerator.back.ingredient.application.port.out.WriteIngredient;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
@@ -27,57 +31,66 @@ import java.util.stream.Collectors;
 public class IngredientAdapter implements WriteIngredient, ReadIngredient {
 
     private final IngredientRepository ingredientRepository;
-    private final IngredientQueryRepository ingredientQueryRepository;
-    private final IngredientMapper ingredientMapper;
+    private final IngredientMapper mapper;
 
     @Override
-    public Ingredient findOne(Long id) {
-        Optional<Ingredient> entity = ingredientRepository.findById(id);
-        return entity.orElse(null);
-    }
-
-    @Override
-    public Long save(Ingredient ingredient) {
+    public Long saveIngredient(Ingredient ingredient) {
         ingredientRepository.save(ingredient);
         return ingredient.getId();
     }
 
     @Override
-    public void update(Ingredient ingredient) {
-        ingredientRepository.save(ingredient);
+    public void proposeIngredient(SuggestedIngredient ingredient) {
+        ingredientRepository.saveSuggestIngredient(ingredient);
     }
 
     @Override
-    public void delete(Ingredient ingredient) {
-        ingredientRepository.delete(ingredient);
-    }
+    public Ingredient getIngredientById(Long id) {
+        Ingredient ingredient = ingredientRepository.findById(id).orElse(null);
 
-    @Override
-    public List<IngredientResponseDTO> findList(String storage, boolean deadline, String email) {
-        return ingredientQueryRepository
-                .findList(storage, deadline, email)
-                .stream()
-                .map(OutDTO -> ingredientMapper.toIngredientDto(OutDTO))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<IngredientResponseDTO> findSearchList(String name, String email) {
-        return ingredientQueryRepository
-                .findSearchList(name, email)
-                .stream()
-                .map(OutDTO -> ingredientMapper.toIngredientDto(OutDTO))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public IngredientDetailResponseDTO findIngredient(Long id, String email) {
-        OutIngredientDetailResponseDTO OutDTO = ingredientQueryRepository.findByIngredientId(id);
-        if(OutDTO.getEmail().equals(email)) {
-            return ingredientMapper.toIngredientDetailDto(OutDTO);
+        if (ingredient != null){
+            return ingredient;
         }
         else {
-            throw new BusinessException(IngredientExceptionType.TEST_ERROR);
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
         }
+
+    }
+
+    public IngredientDetailResponseDTO getIngredientDetail(Long id) {
+        try {
+            Ingredient ingredient = ingredientRepository
+                    .findByIdAndDeletedFalse(id)
+                    .orElse(null);
+
+            return mapper.toIngredientDetailDto(ingredient, ingredient.getWholeDays(), ingredient.getRemainDays());
+
+        } catch (RuntimeException e) {
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+        }
+    }
+
+    @Override
+    public List<IngredientResponseDTO> getIngredientList(IngredientSearchCondition condition, int page, int size) {
+       return ingredientRepository.findIngredientList(condition, PageRequest.of(page, size))
+               .stream()
+               .map(ingredient ->  mapper.toIngredientDto(ingredient, ingredient.getRemainDays()))
+               .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<IngredientResponseDTO> getIngredientListOfAll(String email) {
+        return ingredientRepository.findByEmailAndDeletedFalseOrderByNameAsc(email)
+                .stream()
+                .map(ingredient ->  mapper.toIngredientDto(ingredient, ingredient.getRemainDays()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<IngredientRegisteredResponseDTO> getIngredientListOfRegistered() {
+        return ingredientRepository.findRegisteredIngredient()
+                .stream()
+                .map(mapper::toIngredientRegisteredResponseDTO)
+                .collect(Collectors.toList());
     }
 }
