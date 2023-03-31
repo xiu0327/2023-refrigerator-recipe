@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.adapter.out.entity.MemberEntity;
-import refrigerator.back.member.application.domain.MemberDomain;
+import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.member.exception.MemberExceptionType;
@@ -25,15 +24,29 @@ public class TestData {
 
     @Transactional
     public void createMember(){
-        MemberEntity member = MemberEntity.builder()
+        Member member = Member.builder()
                 .email(MEMBER_EMAIL)
                 .password(MEMBER_PASSWORD)
                 .nickname(MEMBER_NICKNAME)
-                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE.getName())
-                .memberStatus(MemberStatus.STEADY_STATUS.getStatusCode()).build();
+                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
+                .memberStatus(MemberStatus.STEADY_STATUS).build();
         em.persist(member);
         em.flush();
         em.clear();
+    }
+
+    @Transactional
+    public String createMemberByEmail(String email){
+        Member member = Member.builder()
+                .email(email)
+                .password(MEMBER_PASSWORD)
+                .nickname(MEMBER_NICKNAME)
+                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
+                .memberStatus(MemberStatus.STEADY_STATUS).build();
+        em.persist(member);
+        em.flush();
+        em.clear();
+        return member.getEmail();
     }
 
     @Transactional
@@ -49,33 +62,10 @@ public class TestData {
     }
 
     @Transactional(readOnly = true)
-    public MemberEntity findMemberByEmail(String email){
-        return em.createQuery("select m from MemberEntity m where m.email= :email", MemberEntity.class)
+    public Member findMemberByEmail(String email){
+        return em.createQuery("select m from Member m where m.email= :email", Member.class)
                 .setParameter("email", email)
                 .getResultList().stream().findAny()
                 .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER));
-    }
-
-    public MemberDomain createMemberDomain(){
-        return MemberDomain.builder()
-                .memberID(1L)
-                .email("email123@naver.com")
-                .password("password123!")
-                .nickname("닉네임")
-                .joinDate(LocalDateTime.now())
-                .memberStatus(MemberStatus.STEADY_STATUS)
-                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
-                .build();
-    }
-
-    public MemberEntity createMemberEntity(){
-        return MemberEntity.builder()
-                .id(1L)
-                .email("email123@naver.com")
-                .password("password123!")
-                .nickname("닉네임")
-                .memberStatus(MemberStatus.STEADY_STATUS.getStatusCode())
-                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE.getName())
-                .build();
     }
 }

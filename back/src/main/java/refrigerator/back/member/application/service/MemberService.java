@@ -3,7 +3,7 @@ package refrigerator.back.member.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.member.application.domain.MemberDomain;
+import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.in.UpdateNicknameUseCase;
 import refrigerator.back.member.application.port.in.UpdateProfileUseCase;
 import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
@@ -20,7 +20,7 @@ public class MemberService implements UpdateNicknameUseCase, UpdateProfileUseCas
     @Override
     @Transactional
     public void updateNickname(String email, String newNickname) {
-        MemberDomain member = findMemberPort.findMember(email);
+        Member member = findMemberPort.findMember(email);
         member.updateNickname(newNickname);
         updateMemberPort.update(member);
     }
@@ -28,7 +28,7 @@ public class MemberService implements UpdateNicknameUseCase, UpdateProfileUseCas
     @Override
     @Transactional
     public void updateProfile(String email, String newProfileName) {
-        MemberDomain member = findMemberPort.findMember(email);
+        Member member = findMemberPort.findMember(email);
         member.updateProfile(newProfileName);
         updateMemberPort.update(member);
     }
@@ -36,7 +36,7 @@ public class MemberService implements UpdateNicknameUseCase, UpdateProfileUseCas
     @Override
     @Transactional
     public void withdrawMember(String email, String password) {
-        MemberDomain member = findMemberPort.findMember(email);
+        Member member = findMemberPort.findMember(email);
         member.withdraw(password);
         updateMemberPort.update(member);
     }

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.application.domain.MemberDomain;
+import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.in.DuplicateCheckEmailUseCase;
 import refrigerator.back.member.application.port.in.FindPasswordUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
@@ -25,7 +25,7 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
     @Transactional
     public Long join(String email, String password, String nickname) {
         duplicateCheck(email);
-        return createMemberPort.createMember(MemberDomain.join(email, password, nickname));
+        return createMemberPort.createMember(Member.join(email, password, nickname));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
     @Override
     @Transactional
     public void updatePassword(String email, String newPassword) {
-        MemberDomain member = findMemberPort.findMember(email);
+        Member member = findMemberPort.findMember(email);
         member.updatePassword(newPassword);
         updateMemberPort.update(member);
     }

@@ -39,7 +39,7 @@ public class MemberAccessController {
         findPasswordUseCase.updatePassword(request.getEmail(), request.getPassword());
     }
 
-    @GetMapping("/api/member/email/duplicate")
+    @GetMapping("/api/members/email/duplicate")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void duplicateCheckEmail(@RequestBody MemberDuplicateCheckEmailRequestDTO request){
         request.check();

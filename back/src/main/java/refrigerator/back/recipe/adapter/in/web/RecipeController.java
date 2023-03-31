@@ -23,7 +23,7 @@ public class RecipeController {
     private final FindRecipeListUseCase findRecipeListUseCase;
     private final FindRecipeCourseUseCase findRecipeCourseUseCase;
 
-    @GetMapping("/api/recipes/{recipeID}")
+    @GetMapping("/api/recipe/{recipeID}")
     public InRecipeDetailDTO findRecipeByID(@PathVariable("recipeID") Long recipeID,
                                             HttpServletRequest request,
                                             HttpServletResponse response){
@@ -35,12 +35,12 @@ public class RecipeController {
         return findRecipeDetailUseCase.getRecipe(recipeID, isViewed);
     }
 
-    @GetMapping("/api/recipes/{recipeID}/course")
+    @GetMapping("/api/recipe/{recipeID}/course")
     public InRecipeBasicListDTO<InRecipeCourseDTO> findRecipeCourseByID(@PathVariable("recipeID") Long recipeID){
         return findRecipeCourseUseCase.getRecipeCourse(recipeID);
     }
 
-    @GetMapping("/api/recipes")
+    @GetMapping("/api/recipe")
     @Cacheable(value = RecipeCacheKey.RECIPE, key = "'recipes_' + #page", cacheManager = "recipeCacheManager")
     public InRecipeBasicListDTO<InRecipeDTO> findAllRecipe(
             @RequestParam("page") int page,

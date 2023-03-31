@@ -45,9 +45,11 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
     @Override
     @Transactional
     public void modify(Long scoreID, double newScore) {
-        myScoreReadPort.findById(scoreID)
-                .orElseThrow(() -> new BusinessException(MyRecipeScoreExceptionType.NOT_FOUND_SCORE))
-                .modify(newScore);
+        MyScore myScore = myScoreReadPort.findById(scoreID)
+                .orElseThrow(() -> new BusinessException(MyRecipeScoreExceptionType.NOT_FOUND_SCORE));
+        Double oldScore = myScore.getScore();
+        myScore.modify(newScore);
+        addRecipeScorePort.addScore(myScore.getRecipeID(), newScore - oldScore, 0);
     }
 
     @Override
