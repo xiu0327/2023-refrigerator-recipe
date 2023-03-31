@@ -9,6 +9,7 @@ import refrigerator.back.member.application.port.in.DuplicateCheckEmailUseCase;
 import refrigerator.back.member.application.port.in.FindPasswordUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
 import refrigerator.back.member.application.port.out.CreateMemberPort;
+import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.port.out.UpdateMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
@@ -20,12 +21,17 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
     private final CreateMemberPort createMemberPort;
     private final FindMemberPort findMemberPort;
     private final UpdateMemberPort updateMemberPort;
+    private final EncryptPasswordPort encryptPasswordPort;
 
     @Override
     @Transactional
     public Long join(String email, String password, String nickname) {
         duplicateCheck(email);
-        return createMemberPort.createMember(Member.join(email, password, nickname));
+        return createMemberPort.createMember(
+                Member.join(
+                        email,
+                        encryptPasswordPort.encrypt(password),
+                        nickname));
     }
 
     @Override

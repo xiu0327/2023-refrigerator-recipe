@@ -6,7 +6,7 @@ import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.identification.application.domain.IdentificationMethod;
 import refrigerator.back.identification.application.port.in.CheckNumberUseCase;
 import refrigerator.back.identification.application.port.in.SendNumberUseCase;
-import refrigerator.back.identification.application.port.out.RedisUtilPort;
+import refrigerator.back.identification.application.port.out.IdentificationRedisPort;
 import refrigerator.back.identification.exception.IdentificationExceptionType;
 
 import java.util.UUID;
@@ -16,7 +16,7 @@ import java.util.UUID;
 public class IdentificationService implements SendNumberUseCase, CheckNumberUseCase {
 
     private final IdentificationMethod identificationMethod;
-    private final RedisUtilPort redisUtilPort;
+    private final IdentificationRedisPort redisUtilPort;
 
     @Override
     public String sendAuthenticationNumber(String email, Long duration) {

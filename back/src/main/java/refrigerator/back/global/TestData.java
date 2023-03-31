@@ -50,6 +50,20 @@ public class TestData {
     }
 
     @Transactional
+    public String createMemberByEmailAndPassword(String email, String password){
+        Member member = Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(MEMBER_NICKNAME)
+                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
+                .memberStatus(MemberStatus.STEADY_STATUS).build();
+        em.persist(member);
+        em.flush();
+        em.clear();
+        return member.getEmail();
+    }
+
+    @Transactional
     public Long createMyRecipeScore(String memberId, Long recipeId, Double score){
         MyScore myRecipeScore = MyScore.builder()
                 .memberID(memberId)
