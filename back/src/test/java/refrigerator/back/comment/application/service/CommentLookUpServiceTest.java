@@ -8,11 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentDTO;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentListDTO;
-import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
 import refrigerator.back.global.TestData;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -26,7 +24,6 @@ class CommentLookUpServiceTest {
     @Autowired CommentLookUpService commentLookUpService;
     @Autowired WriteCommentUseCase writeCommentUseCase;
     @Autowired TestData testData;
-    @Autowired EntityManager em;
 
     @Test
     void 댓글_조회() {

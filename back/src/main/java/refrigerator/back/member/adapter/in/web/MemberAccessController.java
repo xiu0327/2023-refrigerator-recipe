@@ -17,11 +17,14 @@ public class MemberAccessController {
     private final DuplicateCheckEmailUseCase duplicateCheckEmailUseCase;
 
 
-    @PostMapping("/api/members")
+    @PostMapping("/api/members/join")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberJoinResponseDTO joinMember(@RequestBody MemberJoinRequestDTO request){
         request.check();
-        Long memberID = joinUseCase.join(request.getEmail(), request.getPassword(), request.getNickname());
+        Long memberID = joinUseCase.join(
+                request.getEmail(),
+                request.getPassword(),
+                request.getNickname());
         return new MemberJoinResponseDTO(memberID);
     }
 

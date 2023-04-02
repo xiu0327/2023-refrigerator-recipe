@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.TestData;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
@@ -69,7 +70,7 @@ class MemberServiceTest {
     void 회원_탈퇴_성공() {
         String inputPW = TestData.MEMBER_PASSWORD;
         Member member = getMember();
-        member.withdraw(inputPW);
+        member.withdraw();
         updateMemberPort.update(member);
         Member findMember = testData.findMemberByEmail(TestData.MEMBER_EMAIL);
         assertThat(findMember.getMemberStatus()).isEqualTo(MemberStatus.LEAVE_STATUS);
@@ -81,11 +82,11 @@ class MemberServiceTest {
             try{
                 String inputPW = "asdfas123";
                 Member domain = getMember();
-                domain.withdraw(inputPW);
+                domain.withdraw();
                 updateMemberPort.update(domain);
             }catch (BusinessException e){
                 log.info(e.getBasicExceptionType().getMessage()); // 비밀번호가 일치하지 않습니다.
-                assertThat(e.getBasicExceptionType()).isEqualTo(MemberExceptionType.NOT_EQUAL_PASSWORD);
+                assertThat(e.getBasicExceptionType()).isEqualTo(AuthenticationExceptionType.NOT_EQUAL_PASSWORD);
                 throw e;
             }
         });

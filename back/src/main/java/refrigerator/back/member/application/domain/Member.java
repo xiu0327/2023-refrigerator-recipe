@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.exception.MemberExceptionType;
@@ -64,8 +65,7 @@ public class Member extends BaseTimeEntity {
         this.password = newPassword;
     }
 
-    public void withdraw(String password){
-        isEqualPassword(password);
+    public void withdraw(){
         this.memberStatus = MemberStatus.LEAVE_STATUS;
     }
 
@@ -79,7 +79,7 @@ public class Member extends BaseTimeEntity {
 
     public void isEqualPassword(String password){
         if (!this.password.equals(password)){
-            throw new BusinessException(MemberExceptionType.NOT_EQUAL_PASSWORD);
+            throw new BusinessException(AuthenticationExceptionType.NOT_EQUAL_PASSWORD);
         }
     }
 

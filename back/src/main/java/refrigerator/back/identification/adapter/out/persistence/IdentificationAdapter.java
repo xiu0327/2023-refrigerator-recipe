@@ -1,16 +1,16 @@
-package refrigerator.back.identification.adapter.out.persistence.util;
+package refrigerator.back.identification.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
-import refrigerator.back.identification.application.port.out.RedisUtilPort;
+import refrigerator.back.identification.application.port.out.IdentificationRedisPort;
 
 import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
-public class RedisUtil implements RedisUtilPort {
+public class IdentificationAdapter implements IdentificationRedisPort {
 
     private final StringRedisTemplate redisTemplate;
 
