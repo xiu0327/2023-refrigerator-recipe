@@ -12,13 +12,19 @@ public class EmailAuthenticationToken implements Authentication {
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    @Builder
     public EmailAuthenticationToken(String username, String password,
                                     Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
         setAuthenticated(true);
+    }
+
+    public EmailAuthenticationToken(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.authorities = null;
+        setAuthenticated(false);
     }
 
     @Override

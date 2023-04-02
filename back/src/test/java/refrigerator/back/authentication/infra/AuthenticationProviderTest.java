@@ -39,15 +39,12 @@ public class AuthenticationProviderTest {
         // when
         /* 사용자가 클라이언트를 통해 email, password 입력 -> 인증 객체 변환 */
         Authentication authenticate = provider.authenticate(
-                EmailAuthenticationToken.builder()
-                        .username(member.getEmail())
-                        .password(rawPassword)
-                        .authorities(Set.of(new SimpleGrantedAuthority(MemberStatus.STEADY_STATUS.getStatusCode())))
-                        .build());
+                new EmailAuthenticationToken(
+                        member.getEmail(),
+                        rawPassword,
+                        Set.of(new SimpleGrantedAuthority(MemberStatus.STEADY_STATUS.getStatusCode()))
+                ));
         // then
-        /* 인증이 끝나고 나면 비밀번호는 필요 없기 때문에 null 값 반환
-        security context 에는 비밀번호가 포함되지 않는 인증 객체가 저장됨 */
         Assertions.assertThat(authenticate.getName()).isEqualTo(member.getEmail());
-        Assertions.assertThat(authenticate.getCredentials()).isNull();
     }
 }

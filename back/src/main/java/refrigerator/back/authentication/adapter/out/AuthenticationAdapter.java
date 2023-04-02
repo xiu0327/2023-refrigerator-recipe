@@ -26,11 +26,14 @@ public class AuthenticationAdapter implements EncryptPasswordPort, AuthenticateP
     }
 
     @Override
+    public Boolean match(String password, String rawPassword) {
+        return passwordEncoder.matches(password, rawPassword);
+    }
+
+    @Override
     public String authenticate(String username, String password) {
-        Authentication authentication = authenticationProvider.authenticate(EmailAuthenticationToken.builder()
-                .username(username)
-                .password(password)
-                .build());
+        Authentication authentication = authenticationProvider.authenticate(
+                new EmailAuthenticationToken(username, password));
         return authentication.getAuthorities()
                 .stream().map(Objects::toString)
                 .findFirst()

@@ -26,6 +26,6 @@ public class AuthenticationController {
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO reissue(@RequestBody ReissueTokenRequestDTO request){
-        return tokenReissueUseCase.reissue(request.getAccessToken());
+        return tokenReissueUseCase.reissue(request.getAccessToken(), request.getRefreshToken());
     }
 }

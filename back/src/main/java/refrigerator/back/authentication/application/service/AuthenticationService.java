@@ -23,29 +23,39 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
     private final FindEmailByToken findEmailByToken;
     private final FindRefreshTokenByEmailPort findRefreshTokenByEmailPort;
     private final FindMemberPort findMemberPort;
+    private final ValidateTokenPort validateTokenPort;
 
     @Override
     public TokenDTO login(String email, String password) {
         String authority = authenticatePort.authenticate(email, password);
         String accessToken = createTokenPort.createAccessToken(email, authority);
-        createTokenPort.createRefreshToken(email, authority);
+        String refreshToken = createTokenPort.createRefreshToken(email, authority);
         return TokenDTO.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
     @Override
-    public TokenDTO reissue(String accessToken) {
-        String email = findEmailByToken.findEmailByToken(accessToken);
+    public TokenDTO reissue(String accessToken, String refreshToken) {
+        checkToken(accessToken, refreshToken);
+        String email = findEmailByToken.findEmailByToken(refreshToken);
         String authority = findMemberPort.findMember(email).getMemberStatus().getStatusCode();
-        String refreshToken = findRefreshTokenByEmailPort.findRefreshToken(email);
-        if (refreshToken == null){
-            throw new BusinessException(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
+        String findRefreshToken = findRefreshTokenByEmailPort.findRefreshToken(email);
+        if (!refreshToken.equals(findRefreshToken)){
+            throw new BusinessException(JwtExceptionType.BAD_TOKEN);
         }
         return TokenDTO.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(createTokenPort.createAccessToken(email, authority))
+                .refreshToken(findRefreshToken)
                 .build();
+    }
+
+    private void checkToken(String accessToken, String refreshToken) {
+        if (!validateTokenPort.validate(accessToken, refreshToken)){
+            throw new BusinessException(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
+        }
     }
 }

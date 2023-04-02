@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import refrigerator.back.global.exception.BusinessException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
@@ -48,13 +50,14 @@ public class JwtAuthenticationFilter extends GenericFilter {
             }
             chain.doFilter(request, response);
         }catch (BusinessException e){
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().print(
+            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+            httpServletResponse.setContentType("application/json");
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            httpServletResponse.setCharacterEncoding("UTF-8");
+            httpServletResponse.getWriter().print(
                     "{\"error\": \""+e.getBasicExceptionType().getErrorCode()+"\", \"message\" : \""+
                             e.getBasicExceptionType().getMessage()+"\"}");
         }
-
     }
 
     private boolean checkToken(String token){

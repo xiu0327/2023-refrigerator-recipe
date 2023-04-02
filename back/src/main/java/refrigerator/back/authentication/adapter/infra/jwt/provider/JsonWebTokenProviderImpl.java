@@ -1,9 +1,6 @@
 package refrigerator.back.authentication.adapter.infra.jwt.provider;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +51,8 @@ public class JsonWebTokenProviderImpl implements JsonWebTokenProvider {
     @Override
     public TokenStatus validateToken(String token) {
         try{
-            Jwts.parserBuilder().setSigningKey(key)
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
             return TokenStatus.PASS;

@@ -35,7 +35,6 @@ public class SecurityJwtFilterTest {
             if (claims.get(AUTHORITIES_KEY) == null || !hasText(claims.get(AUTHORITIES_KEY).toString())){
                 throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_AUTHORITY);
             }
-            claims.get(AUTHORITIES_KEY);
             Authentication authentication = new EmailAuthenticationToken(
                     claims.getSubject(),
                     "",

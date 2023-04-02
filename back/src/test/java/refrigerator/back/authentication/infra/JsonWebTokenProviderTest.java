@@ -12,7 +12,7 @@ import refrigerator.back.member.application.domain.MemberStatus;
 
 @SpringBootTest
 @Slf4j
-class JsonWebTokenProviderTest {
+class  JsonWebTokenProviderTest {
 
     @Autowired JsonWebTokenProvider jsonWebTokenProvider;
 
@@ -46,4 +46,5 @@ class JsonWebTokenProviderTest {
         Assertions.assertThat(
                 jsonWebTokenProvider.validateToken(token)).isEqualTo(TokenStatus.EXPIRED);
     }
+
 }
