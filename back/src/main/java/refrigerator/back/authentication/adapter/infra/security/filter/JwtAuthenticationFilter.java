@@ -50,14 +50,17 @@ public class JwtAuthenticationFilter extends GenericFilter {
             }
             chain.doFilter(request, response);
         }catch (BusinessException e){
-            HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.setContentType("application/json");
-            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            httpServletResponse.setCharacterEncoding("UTF-8");
-            httpServletResponse.getWriter().print(
-                    "{\"error\": \""+e.getBasicExceptionType().getErrorCode()+"\", \"message\" : \""+
-                            e.getBasicExceptionType().getMessage()+"\"}");
+            makeResponseMessage((HttpServletResponse) response, e);
         }
+    }
+
+    private void makeResponseMessage(HttpServletResponse response, BusinessException e) throws IOException {
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().print(
+                "{\"error\": \""+ e.getBasicExceptionType().getErrorCode()+"\", \"message\" : \""+
+                        e.getBasicExceptionType().getMessage()+"\"}");
     }
 
     private boolean checkToken(String token){
