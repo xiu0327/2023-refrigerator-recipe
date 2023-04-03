@@ -1,5 +1,5 @@
 package refrigerator.back.comment.application.port.in;
 
 public interface EditCommentUseCase {
-    Long edit(Long commentId, String content);
+    Long edit(String memberId, Long commentId, String content);
 }

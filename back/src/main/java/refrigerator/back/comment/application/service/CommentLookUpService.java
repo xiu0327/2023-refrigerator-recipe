@@ -18,13 +18,19 @@ public class CommentLookUpService implements FindCommentListUseCase, FindComment
 
     private final CommentReadPort commentReadPort;
 
-    @Override
-    public List<InCommentDTO> findComments(Long recipeId, int page, int size) {
-        return commentReadPort.findCommentList(recipeId, page, size);
-    }
 
     @Override
     public InCommentListDTO findCommentPreviews(Long recipeId, int size) {
         return commentReadPort.findCommentPreviewList(recipeId, size);
+    }
+
+    @Override
+    public List<InCommentDTO> findCommentsByHeart(Long recipeId, int page, int size) {
+        return commentReadPort.findCommentListByHeart(recipeId, page, size);
+    }
+
+    @Override
+    public List<InCommentDTO> findCommentsByDate(Long recipeId, int page, int size) {
+        return commentReadPort.findCommentListByDate(recipeId, page, size);
     }
 }

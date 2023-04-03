@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
+import refrigerator.back.authentication.adapter.in.dto.ReissueTokenRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.global.TestData;
@@ -105,6 +106,18 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void reissue() {
+    void 토큰_재발행() throws Exception {
+        // given
+        String password = "password123!";
+        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
+        TokenDTO token = loginUseCase.login(email, password);
+        // when
+        ReissueTokenRequestDTO request = new ReissueTokenRequestDTO(token.getAccessToken(), token.getRefreshToken());
+        String requestJson = new ObjectMapper().writeValueAsString(request);
+        mockMvc.perform(post("/api/auth/reissue")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        ).andExpect(status().is2xxSuccessful()
+        ).andDo(print());
     }
 }

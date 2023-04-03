@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static refrigerator.back.comment.adapter.out.persistence.CommentSortCondition.*;
+
 @Repository
 @RequiredArgsConstructor
 public class CommentPersistenceAdapter implements CommentReadPort, CommentWritePort, CommentFindOnePort {
@@ -37,15 +39,22 @@ public class CommentPersistenceAdapter implements CommentReadPort, CommentWriteP
     }
 
     @Override
-    public List<InCommentDTO> findCommentList(Long recipeId, int page, int size) {
-        return repository.findCommentList(recipeId, PageRequest.of(page, size))
+    public List<InCommentDTO> findCommentListByHeart(Long recipeId, int page, int size) {
+        return repository.findCommentList(recipeId, PageRequest.of(page, size), HEART)
+                .stream().map(mapper::toInCommentDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InCommentDTO> findCommentListByDate(Long recipeId, int page, int size) {
+        return repository.findCommentList(recipeId, PageRequest.of(page, size), DATE)
                 .stream().map(mapper::toInCommentDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Optional<Comment> findCommentById(Long commentId) {
-        return repository.findById(commentId);
+        return repository.findByCommentID(commentId);
     }
 
     @Override
