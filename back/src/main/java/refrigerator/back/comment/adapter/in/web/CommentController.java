@@ -43,10 +43,10 @@ public class CommentController {
     }
 
     @DeleteMapping("/api/comments/{commentId}")
-    public CommentBasicResponseDTO delete(@PathVariable("commentId") Long commentId){
-        return new CommentBasicResponseDTO(
-                deleteCommentUseCase.delete(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("commentId") Long commentId){
+        deleteCommentUseCase.delete(
                 getMemberEmail(),
-                commentId));
+                commentId);
     }
 }

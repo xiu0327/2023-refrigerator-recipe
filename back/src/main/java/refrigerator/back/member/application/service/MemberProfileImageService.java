@@ -9,7 +9,7 @@ public class MemberProfileImageService implements CreateImageUrlUseCase {
 
     @Value("${s3.image.route}")
     private String route;
-    @Value("${s3.image.path}")
+    @Value("${s3.image.profile.path}")
     private String path;
 
     @Override

@@ -1,13 +1,10 @@
 package refrigerator.back.authentication.adapter.in.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.member.exception.MemberExceptionType;
 
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

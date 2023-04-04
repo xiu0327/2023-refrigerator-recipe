@@ -2,11 +2,12 @@ package refrigerator.back.member.adapter.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.member.exception.MemberExceptionType;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberWithdrawRequestDTO extends InputDataFormatCheck {

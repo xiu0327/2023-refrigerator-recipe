@@ -2,8 +2,9 @@ package refrigerator.back.mybookmark.adapter.in.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class InBookmarkPreviewDTO {
     private Long bookmarkId;

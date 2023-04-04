@@ -15,6 +15,12 @@ plugins {
 jib {
 	from {
 		image = "adoptopenjdk:11-jre"
+		platforms {
+			platform {
+				architecture = "arm64"
+				os = "linux"
+			}
+		}
 	}
 	to {
 		image = "xiu0327/refrigerator"

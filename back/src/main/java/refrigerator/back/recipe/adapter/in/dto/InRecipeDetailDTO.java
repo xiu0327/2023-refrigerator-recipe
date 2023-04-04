@@ -2,12 +2,14 @@ package refrigerator.back.recipe.adapter.in.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import refrigerator.back.recipe.application.domain.entity.RecipeOutputFormat;
 
 import java.util.Set;
 
 @Data
 @Builder
+@EqualsAndHashCode(callSuper=false)
 public class InRecipeDetailDTO extends RecipeOutputFormat {
     private Long recipeID;
     private String recipeName;

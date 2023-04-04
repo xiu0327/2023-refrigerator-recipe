@@ -2,10 +2,11 @@ package refrigerator.back.comment.adapter.in.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
 @Builder
 public class InCommentDTO {
     private Long commentId;
