@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentListDTO;
-import refrigerator.back.comment.application.port.in.FindCommentListUseCase;
-import refrigerator.back.comment.application.port.in.FindCommentPreviewListUseCase;
+import refrigerator.back.comment.application.port.in.comment.FindCommentListUseCase;
+import refrigerator.back.comment.application.port.in.comment.FindCommentPreviewListUseCase;
 
 @RestController
 @RequiredArgsConstructor

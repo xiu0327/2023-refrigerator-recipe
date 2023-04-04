@@ -12,9 +12,7 @@ import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.adapter.out.dto.OutCommentDTO;
 import refrigerator.back.comment.adapter.out.dto.QOutCommentDTO;
 import refrigerator.back.comment.adapter.out.persistence.CommentSortCondition;
-import refrigerator.back.comment.application.domain.CommentHeart;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static refrigerator.back.comment.application.domain.QComment.*;
@@ -26,7 +24,6 @@ import static refrigerator.back.member.application.domain.QMember.*;
 public class CommentQueryRepositoryImpl implements CommentQueryRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final EntityManager em;
 
     @Override
     public Page<OutCommentDTO> findCommentPreviewList(Long recipeId, Pageable page) {
@@ -91,35 +88,4 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
     }
 
 
-    @Override
-    public long updateCommentHeartCount(Long commentId, int value) {
-        long result = jpaQueryFactory
-                .update(commentHeart)
-                .set(commentHeart.count, commentHeart.count.add(value))
-                .where(commentHeart.commentId.eq(commentId),
-                        commentHeart.deleteStatus.eq(false))
-                .execute();
-        em.flush();
-        em.clear();
-        return result;
-    }
-
-    @Override
-    public long deleteCommentHeartCount(Long commentId) {
-        long result = jpaQueryFactory
-                .update(commentHeart)
-                .set(commentHeart.deleteStatus, true)
-                .where(commentHeart.commentId.eq(commentId),
-                        commentHeart.deleteStatus.eq(false))
-                .execute();
-        em.flush();
-        em.clear();
-        return result;
-    }
-
-    @Override
-    public Long persistCommentHeart(CommentHeart commentHeart) {
-        em.persist(commentHeart);
-        return commentHeart.getCommentId();
-    }
 }

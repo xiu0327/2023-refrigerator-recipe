@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import refrigerator.back.comment.adapter.in.dto.request.EditCommentRequestDTO;
 import refrigerator.back.comment.adapter.in.dto.request.WriteCommentRequestDTO;
 import refrigerator.back.comment.adapter.in.dto.response.CommentBasicResponseDTO;
-import refrigerator.back.comment.application.port.in.*;
-import refrigerator.back.global.common.MemberInformation;
+import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCase;
+import refrigerator.back.comment.application.port.in.comment.EditCommentUseCase;
+import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 
