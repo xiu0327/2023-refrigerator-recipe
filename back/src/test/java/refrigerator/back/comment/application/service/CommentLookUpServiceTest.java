@@ -1,14 +1,13 @@
 package refrigerator.back.comment.application.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentDTO;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentListDTO;
-import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
+import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 import refrigerator.back.global.TestData;
 
 import java.util.List;

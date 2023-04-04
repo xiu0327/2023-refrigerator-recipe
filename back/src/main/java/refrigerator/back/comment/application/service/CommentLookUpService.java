@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentDTO;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentListDTO;
-import refrigerator.back.comment.application.port.in.FindCommentListUseCase;
-import refrigerator.back.comment.application.port.in.FindCommentPreviewListUseCase;
+import refrigerator.back.comment.application.port.in.comment.FindCommentListUseCase;
+import refrigerator.back.comment.application.port.in.comment.FindCommentPreviewListUseCase;
 import refrigerator.back.comment.application.port.out.CommentReadPort;
 
 import java.util.List;

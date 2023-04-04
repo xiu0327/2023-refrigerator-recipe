@@ -3,6 +3,7 @@ package refrigerator.back.global;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
@@ -81,5 +82,14 @@ public class TestData {
                 .setParameter("email", email)
                 .getResultList().stream().findAny()
                 .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER));
+    }
+
+    @Transactional(readOnly = true)
+    public CommentHeartPeople findLikedPeopleList(String memberId, Long commentId){
+        return em.createQuery("select p from CommentHeartPeople p where p.memberId= :memberId and p.commentId= :commentId", CommentHeartPeople.class)
+                .setParameter("memberId", memberId)
+                .setParameter("commentId", commentId)
+                .getResultList().stream().findAny()
+                .orElseThrow(() -> new RuntimeException("좋아요 누른 사람 찾을 수 없음"));
     }
 }
