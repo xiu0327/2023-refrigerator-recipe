@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
@@ -28,7 +27,6 @@ public class SecurityConfig {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final AuthenticationProvider authenticationProvider;
-    private final PasswordEncoder passwordEncoder;
 
     @Value("${jwt.tokenPassword}")
     private String tokenPassword;
@@ -45,6 +43,7 @@ public class SecurityConfig {
                 .mvcMatchers("/api/members/join").permitAll()
                 .mvcMatchers("/api/auth/login").permitAll()
                 .mvcMatchers("/api/auth/reissue").permitAll()
+                .mvcMatchers("/test").permitAll()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
                 .anyRequest().authenticated()
                 .and()

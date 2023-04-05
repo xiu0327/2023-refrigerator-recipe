@@ -28,4 +28,9 @@ public class AuthenticationController {
     public TokenDTO reissue(@RequestBody ReissueTokenRequestDTO request){
         return tokenReissueUseCase.reissue(request.getAccessToken(), request.getRefreshToken());
     }
+
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
 }

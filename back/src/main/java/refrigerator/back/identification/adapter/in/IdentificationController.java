@@ -32,7 +32,7 @@ public class IdentificationController {
     }
 
     @PostMapping("/api/identification/check")
-    public CheckNumberResponseDTO check(@RequestBody CheckNumberRequestDTO request){
+    public CheckNumberResponseDTO checkNumber(@RequestBody CheckNumberRequestDTO request){
         return CheckNumberResponseDTO.builder()
                 .status(checkNumberUseCase.checkAuthenticationNumber(request.getInputCode(), request.getEmail()))
                 .build();
