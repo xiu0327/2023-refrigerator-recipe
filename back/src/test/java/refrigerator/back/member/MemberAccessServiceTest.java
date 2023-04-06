@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.global.TestData;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
@@ -20,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberAccessServiceTest {
 
     @Autowired TestData testData;
-    @Autowired
-    MemberAccessService memberAccessService;
+    @Autowired MemberAccessService memberAccessService;
+    @Autowired EncryptPasswordPort encryptPasswordPort;
 
     @Test
     void 회원_가입(){
@@ -53,11 +54,13 @@ class MemberAccessServiceTest {
 
     @Test
     void 비밀번호_수정(){
-        String newPassword = "newpasswod123!";
-        testData.createMember();
-        memberAccessService.updatePassword(TestData.MEMBER_EMAIL, newPassword);
-        Member findMember = testData.findMemberByEmail(TestData.MEMBER_EMAIL);
-        assertThat(findMember.getPassword()).isEqualTo(newPassword);
+        String email = "email123@gmail.com";
+        String password = "password123!";
+        testData.createMemberByEmailAndPassword(email, password);
+        String newPassword = "password12334!";
+        memberAccessService.updatePassword(email, newPassword);
+        Member findMember = testData.findMemberByEmail(email);
+        assertThat(encryptPasswordPort.match(newPassword, findMember.getPassword())).isTrue();
     }
 
     @Test

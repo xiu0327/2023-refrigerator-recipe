@@ -1,11 +1,12 @@
 package refrigerator.back.recipe.adapter.in.dto;
 
 import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.List;
 
-@Data
+@Getter
 public class InRecipeBasicListDTO<T> implements Serializable {
     List<T> data;
 

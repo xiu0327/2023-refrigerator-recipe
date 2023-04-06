@@ -3,8 +3,9 @@ package refrigerator.back.authentication.adapter.in.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class TokenDTO {

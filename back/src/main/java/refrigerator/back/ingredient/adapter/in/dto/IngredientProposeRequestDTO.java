@@ -1,12 +1,9 @@
 package refrigerator.back.ingredient.adapter.in.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor

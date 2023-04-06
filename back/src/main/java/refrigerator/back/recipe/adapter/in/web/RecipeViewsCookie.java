@@ -2,11 +2,12 @@ package refrigerator.back.recipe.adapter.in.web;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-@Data
+@Getter
 public class RecipeViewsCookie {
 
     private int validTime = 24 * 60 * 60;

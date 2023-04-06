@@ -1,11 +1,12 @@
 package refrigerator.back.ingredient.adapter.in.dto;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Getter
 @NoArgsConstructor
 public class IngredientListResponseDTO<T> {
 

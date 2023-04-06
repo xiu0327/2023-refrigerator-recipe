@@ -44,7 +44,7 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
         String authority = findMemberPort.findMember(email).getMemberStatus().getStatusCode();
         String findRefreshToken = findRefreshTokenByEmailPort.findRefreshToken(email);
         if (!refreshToken.equals(findRefreshToken)){
-            throw new BusinessException(JwtExceptionType.BAD_TOKEN);
+            throw new BusinessException(JwtExceptionType.INVALID_REFRESH_TOKEN);
         }
         return TokenDTO.builder()
                 .grantType(BEARER_TYPE)

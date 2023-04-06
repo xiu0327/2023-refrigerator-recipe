@@ -9,6 +9,7 @@ import refrigerator.back.mybookmark.adapter.out.dto.OutBookmarkPreviewDTO;
 
 @Mapper(componentModel = "spring")
 public interface BookmarkDtoMapper {
+
     BookmarkDtoMapper INSTANCE = Mappers.getMapper(BookmarkDtoMapper.class);
 
     InBookmarkPreviewDTO toBookmarkPreviewDTO(OutBookmarkPreviewDTO dto);

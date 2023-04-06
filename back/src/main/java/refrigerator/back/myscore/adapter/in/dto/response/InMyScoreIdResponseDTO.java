@@ -1,9 +1,9 @@
 package refrigerator.back.myscore.adapter.in.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class InMyScoreIdResponseDTO {
     private Long scoreID;

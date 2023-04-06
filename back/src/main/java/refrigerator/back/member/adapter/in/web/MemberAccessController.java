@@ -1,12 +1,20 @@
 package refrigerator.back.member.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.member.adapter.dto.*;
+import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
+import refrigerator.back.member.adapter.in.dto.request.MemberFindPasswordRequestDTO;
+import refrigerator.back.member.adapter.in.dto.request.MemberJoinRequestDTO;
+import refrigerator.back.member.adapter.in.dto.request.MemberUpdatePasswordRequestDTO;
+import refrigerator.back.member.adapter.in.dto.response.MemberFindPasswordResponseDTO;
+import refrigerator.back.member.adapter.in.dto.response.MemberJoinResponseDTO;
 import refrigerator.back.member.application.port.in.DuplicateCheckEmailUseCase;
 import refrigerator.back.member.application.port.in.FindPasswordUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
+
+import static refrigerator.back.global.common.MemberInformation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +23,8 @@ public class MemberAccessController {
     private final JoinUseCase joinUseCase;
     private final FindPasswordUseCase findPasswordUseCase;
     private final DuplicateCheckEmailUseCase duplicateCheckEmailUseCase;
+    @Value("${jwt.type}")
+    private String grantType;
 
 
     @PostMapping("/api/members/join")
@@ -29,22 +39,24 @@ public class MemberAccessController {
     }
 
     @PostMapping("/api/members/password/find")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findPassword(@RequestBody MemberFindPasswordRequestDTO request){
+    public MemberFindPasswordResponseDTO findPassword(@RequestBody MemberFindPasswordRequestDTO request){
         request.check();
-        findPasswordUseCase.findPassword(request.getEmail());
+        String authToken = findPasswordUseCase.findPassword(request.getEmail());
+        return new MemberFindPasswordResponseDTO(grantType, authToken);
     }
 
     @PutMapping("/api/members/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePassword(@RequestBody MemberUpdatePasswordRequestDTO request){
         request.check();
-        findPasswordUseCase.updatePassword(request.getEmail(), request.getPassword());
+        findPasswordUseCase.updatePassword(
+                getMemberEmail(),
+                request.getPassword());
     }
 
     @GetMapping("/api/members/email/duplicate")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void duplicateCheckEmail(@RequestBody MemberDuplicateCheckEmailRequestDTO request){
+    public void duplicateCheckEmail(@RequestBody MemberEmailParameterRequestDTO request){
         request.check();
         duplicateCheckEmailUseCase.duplicateCheck(request.getEmail());
     }
