@@ -1,16 +1,15 @@
-package refrigerator.back.member.adapter.dto;
+package refrigerator.back.member.adapter.in.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDuplicateCheckEmailRequestDTO extends InputDataFormatCheck {
+public class MemberFindPasswordRequestDTO extends InputDataFormatCheck {
+
     private String email;
 
     @Override

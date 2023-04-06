@@ -40,6 +40,14 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByToken,
         return refreshToken;
     }
 
+    @Override
+    public String createTokenWithDuration(String username, String authority, long duration) {
+        return jsonWebTokenProvider.createToken(
+                username,
+                authority,
+                duration);
+    }
+
 
     @Override
     public String findEmailByToken(String token) {

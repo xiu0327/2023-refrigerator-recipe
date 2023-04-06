@@ -7,5 +7,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SendNumberResponseDTO {
-    private String code;
+    private Boolean state;
 }

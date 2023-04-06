@@ -25,16 +25,13 @@ public class IdentificationController {
 
     @PostMapping("/api/identification/send")
     @ResponseStatus(HttpStatus.CREATED)
-    public SendNumberResponseDTO send(@RequestBody SendNumberRequestDTO request){
-        return SendNumberResponseDTO.builder()
-                .code(sendNumberUseCase.sendAuthenticationNumber(request.getEmail(), duration))
-                .build();
+    public void send(@RequestBody SendNumberRequestDTO request){
+        sendNumberUseCase.sendAuthenticationNumber(request.getEmail(), duration);
     }
 
     @PostMapping("/api/identification/check")
-    public CheckNumberResponseDTO checkNumber(@RequestBody CheckNumberRequestDTO request){
-        return CheckNumberResponseDTO.builder()
-                .status(checkNumberUseCase.checkAuthenticationNumber(request.getInputCode(), request.getEmail()))
-                .build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void checkNumber(@RequestBody CheckNumberRequestDTO request){
+        checkNumberUseCase.checkAuthenticationNumber(request.getInputCode(), request.getEmail());
     }
 }

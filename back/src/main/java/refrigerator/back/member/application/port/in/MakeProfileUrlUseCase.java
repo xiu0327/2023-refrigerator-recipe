@@ -1,5 +1,5 @@
 package refrigerator.back.member.application.port.in;
 
-public interface CreateImageUrlUseCase {
+public interface MakeProfileUrlUseCase {
     String createURL(String imageName);
 }

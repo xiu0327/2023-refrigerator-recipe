@@ -1,4 +1,4 @@
-package refrigerator.back.member.adapter.dto;
+package refrigerator.back.member.adapter.in.dto.response;
 
 import lombok.*;
 
