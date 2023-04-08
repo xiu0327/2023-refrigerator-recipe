@@ -47,4 +47,8 @@ public class MyBookmark extends BaseTimeEntity {
         this.deleted = false;
     }
 
+    public boolean isDeleted(){
+        return this.deleted;
+    }
+
 }

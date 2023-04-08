@@ -8,7 +8,8 @@ import refrigerator.back.global.exception.BasicExceptionType;
 @Getter
 @AllArgsConstructor
 public enum MyBookmarkExceptionType implements BasicExceptionType {
-    NOT_FOUND_BOOKMARK("NOT_FOUND_BOOKMARK", "북마크를 찾을 수 없습니다.", HttpStatus.NOT_FOUND)
+    NOT_FOUND_BOOKMARK("NOT_FOUND_BOOKMARK", "북마크를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    ALREADY_ADD_BOOKMARK("ALREADY_ADD_BOOKMARK", "이미 추가된 북마크입니다.", HttpStatus.BAD_REQUEST)
     ;
 
     private String errorCode;

@@ -38,6 +38,9 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
                 bookmarkReadPort.findBookmarkByMemberIdAndRecipeId(memberId, recipeId);
         if (findMyBookmark.isPresent()){
             MyBookmark myBookmark = findMyBookmark.get();
+            if (!myBookmark.isDeleted()){
+                throw new BusinessException(MyBookmarkExceptionType.ALREADY_ADD_BOOKMARK);
+            }
             myBookmark.undeleted();
             updateRecipeBookmarkPort.addBookmark(recipeId);
             return myBookmark.getRecipeId();
