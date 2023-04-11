@@ -22,4 +22,5 @@ public class RecipeTrieNode {
     public void setData(String data) {
         this.data = data;
     }
+
 }

@@ -1,4 +1,4 @@
-package refrigerator.back.word_completion.adapter.infra.hangule;
+package refrigerator.back.word_completion.adapter.infra;
 
 import java.util.Arrays;
 import java.util.List;

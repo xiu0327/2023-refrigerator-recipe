@@ -19,7 +19,7 @@ class RecipeWordCompletionServiceTest {
 
     @Test
     void 자동_완성() {
-        String keyword = "당";
+        String keyword = "당근";
         long start = System.currentTimeMillis();
         List<String> result = service.search(keyword);
         long end = System.currentTimeMillis() - start;
