@@ -33,7 +33,7 @@ public class MemberController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setUpdateNicknameUseCase(@RequestBody MemberNicknameUpdateRequestDTO request){
         request.check();
-        updateNicknameUseCase.updateNickname(getMemberEmail(), request.getNewNickname());
+        updateNicknameUseCase.updateNickname(getMemberEmail(), request.getNickname());
     }
 
     @PutMapping("/api/members/profile")

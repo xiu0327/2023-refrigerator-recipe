@@ -9,10 +9,7 @@ import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkListDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewListDTO;
 import refrigerator.back.mybookmark.application.domain.MyBookmark;
-import refrigerator.back.mybookmark.application.port.in.AddBookmarkUseCase;
-import refrigerator.back.mybookmark.application.port.in.FindBookmarkListUseCase;
-import refrigerator.back.mybookmark.application.port.in.FindBookmarkPreviewUseCase;
-import refrigerator.back.mybookmark.application.port.in.RemoveBookmarkUseCase;
+import refrigerator.back.mybookmark.application.port.in.*;
 import refrigerator.back.mybookmark.application.port.out.BookmarkReadPort;
 import refrigerator.back.mybookmark.application.port.out.BookmarkWritePort;
 import refrigerator.back.mybookmark.exception.MyBookmarkExceptionType;
@@ -25,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseCase,
-        FindBookmarkPreviewUseCase, FindBookmarkListUseCase {
+        FindBookmarkPreviewUseCase, FindBookmarkListUseCase, FindRecipeIdByAddedBookmarkUseCase {
 
     private final BookmarkWritePort bookmarkWritePort;
     private final BookmarkReadPort bookmarkReadPort;
@@ -34,21 +31,27 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
     @Override
     @Transactional
     public Long add(String memberId, Long recipeId) {
-        Optional<MyBookmark> findMyBookmark =
-                bookmarkReadPort.findBookmarkByMemberIdAndRecipeId(memberId, recipeId);
+        Optional<MyBookmark> findMyBookmark = bookmarkReadPort.findBookmarkByMemberIdAndRecipeId(memberId, recipeId);
         if (findMyBookmark.isPresent()){
-            MyBookmark myBookmark = findMyBookmark.get();
-            if (!myBookmark.isDeleted()){
-                throw new BusinessException(MyBookmarkExceptionType.ALREADY_ADD_BOOKMARK);
-            }
-            myBookmark.undeleted();
-            updateRecipeBookmarkPort.addBookmark(recipeId);
-            return myBookmark.getRecipeId();
+            return renewalBookmark(recipeId, findMyBookmark.get());
         }
+        return createBookmark(memberId, recipeId);
+    }
+
+    private Long createBookmark(String memberId, Long recipeId) {
         MyBookmark myBookmark = MyBookmark.create(memberId, recipeId);
         bookmarkWritePort.save(myBookmark);
         updateRecipeBookmarkPort.addBookmark(recipeId);
         return myBookmark.getBookmarkId();
+    }
+
+    private Long renewalBookmark(Long recipeId, MyBookmark myBookmark) {
+        if (!myBookmark.isDeleted()){
+            throw new BusinessException(MyBookmarkExceptionType.ALREADY_ADD_BOOKMARK);
+        }
+        myBookmark.undeleted();
+        updateRecipeBookmarkPort.addBookmark(recipeId);
+        return myBookmark.getRecipeId();
     }
 
     @Override
@@ -61,21 +64,20 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
     @Override
     @Transactional(readOnly = true)
     public InBookmarkPreviewListDTO findPreviews(String memberId, int size) {
-        List<InBookmarkPreviewDTO> bookmarks = bookmarkReadPort.findBookmarkPreviewList(memberId);
-        return InBookmarkPreviewListDTO.builder()
-                .bookmarks(bookmarks.stream()
-                        .limit(size)
-                        .collect(Collectors.toList()))
-                .count(bookmarks.size())
-                .build();
+        return bookmarkReadPort.findBookmarkPreviewList(memberId, 0, size);
     }
 
     @Override
     @Transactional
     public void remove(Long bookmarkId) {
         MyBookmark myBookmark = bookmarkReadPort.findBookmarkById(bookmarkId)
-                .orElseThrow(() -> new BusinessException(MyBookmarkExceptionType.NOT_FOUND_BOOKMARK));
+                .orElseThrow(() -> new BusinessException(MyBookmarkExceptionType.ALREADY_DELETE_BOOKMARK));
         myBookmark.delete();
         updateRecipeBookmarkPort.removeBookmark(myBookmark.getRecipeId());
+    }
+
+    @Override
+    public List<Long> findRecipeIdList(String memberId) {
+        return bookmarkReadPort.findRecipeIdByAddedBookmark(memberId);
     }
 }

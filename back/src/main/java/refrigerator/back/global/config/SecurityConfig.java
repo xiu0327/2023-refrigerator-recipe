@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .mvcMatchers("/api/members/password/find").permitAll()
                 .mvcMatchers("/api/members/email/duplicate").permitAll()
                 .mvcMatchers("/api/members/profile/list").permitAll()
-                .mvcMatchers("/test").permitAll()
+                .mvcMatchers("/api/word-completion/recipe/**").permitAll()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
                 .anyRequest().authenticated()
                 .and()

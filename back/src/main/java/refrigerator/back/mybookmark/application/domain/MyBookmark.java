@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "recipe_bookmark_member")
-@Getter
 @NoArgsConstructor
 public class MyBookmark extends BaseTimeEntity {
 
@@ -51,4 +50,16 @@ public class MyBookmark extends BaseTimeEntity {
         return this.deleted;
     }
 
+    /* getter */
+    public Long getBookmarkId() {
+        return bookmarkId;
+    }
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public Long getRecipeId() {
+        return recipeId;
+    }
 }

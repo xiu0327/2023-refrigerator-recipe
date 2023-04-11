@@ -2,11 +2,14 @@ package refrigerator.back.myscore.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreDTO;
+import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreListDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScorePreviewDTO;
 import refrigerator.back.myscore.adapter.mapper.MyScoreDtoMapper;
+import refrigerator.back.myscore.adapter.out.dto.OutMyScorePreviewDTO;
 import refrigerator.back.myscore.adapter.out.repository.MyScoreRepository;
 import refrigerator.back.myscore.application.domain.MyScore;
 import refrigerator.back.myscore.application.port.out.MyScoreReadPort;
@@ -38,10 +41,12 @@ public class MyScorePersistenceAdapter implements MyScoreReadPort, MyScoreWriteP
     }
 
     @Override
-    public List<InMyScorePreviewDTO> getMyScorePreview(String memberID) {
-        return repository.findScorePreview(memberID)
+    public InMyScoreListDTO<InMyScorePreviewDTO> getMyScorePreview(String memberID, int size) {
+        Page<OutMyScorePreviewDTO> result = repository.findScorePreview(memberID, PageRequest.of(0, size));
+        List<InMyScorePreviewDTO> scores = result.getContent()
                 .stream().map(mapper::toInMyScorePreviewDto)
                 .collect(Collectors.toList());
+        return new InMyScoreListDTO<>(scores, Long.valueOf(result.getTotalElements()).intValue());
     }
 
     @Override

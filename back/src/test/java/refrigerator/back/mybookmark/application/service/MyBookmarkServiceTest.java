@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewListDTO;
 import refrigerator.back.mybookmark.application.domain.MyBookmark;
+import refrigerator.back.mybookmark.exception.MyBookmarkExceptionType;
 import refrigerator.back.recipe.application.domain.entity.RecipeBookmark;
 
 import javax.persistence.EntityManager;
@@ -41,7 +43,56 @@ class MyBookmarkServiceTest {
         MyBookmark myBookmark = em.find(MyBookmark.class, bookmarkId);
         int after = em.find(RecipeBookmark.class, recipeId).getCount();
         assertThat(myBookmark).isNotNull();
-        assertThat(myBookmark.getDeleted()).isFalse();
+        assertThat(myBookmark.isDeleted()).isFalse();
+        assertThat(myBookmark.getCreateDate()).isNotNull();
+        assertThat(myBookmark.getMemberId()).isEqualTo(memberId);
+        /* 북마크를 추가하면 레시피 북마크 개수가 증가 */
+        assertThat(after).isEqualTo(before + 1);
+    }
+
+    @Test
+    void 재북마크() {
+        // given
+        String memberId = createMember();
+        Long recipeId = 1L;
+        int before = em.find(RecipeBookmark.class, recipeId).getCount();
+        Long bookmarkId = service.add(memberId, recipeId);
+        service.remove(bookmarkId);
+        // when
+        /* select 1번, update 1번 나가야 함 */
+        service.add(memberId, recipeId);
+        // then
+        MyBookmark myBookmark = em.find(MyBookmark.class, bookmarkId);
+        int after = em.find(RecipeBookmark.class, recipeId).getCount();
+        assertThat(myBookmark).isNotNull();
+        assertThat(myBookmark.isDeleted()).isFalse();
+        assertThat(myBookmark.getCreateDate()).isNotNull();
+        assertThat(myBookmark.getMemberId()).isEqualTo(memberId);
+        /* 북마크를 추가하면 레시피 북마크 개수가 증가 */
+        assertThat(after).isEqualTo(before + 1);
+    }
+
+    @Test
+    void 북마크_중복_추가_에러발생() {
+        // given
+        String memberId = createMember();
+        Long recipeId = 1L;
+        int before = em.find(RecipeBookmark.class, recipeId).getCount();
+        Long bookmarkId = service.add(memberId, recipeId);
+        // when
+        assertThrows(BusinessException.class, () -> {
+            try{
+                service.add(memberId, recipeId);
+            }catch (BusinessException e){
+                assertThat(e.getBasicExceptionType()).isEqualTo(MyBookmarkExceptionType.ALREADY_ADD_BOOKMARK);
+                throw e;
+            }
+        });
+        // then
+        MyBookmark myBookmark = em.find(MyBookmark.class, bookmarkId);
+        int after = em.find(RecipeBookmark.class, recipeId).getCount();
+        assertThat(myBookmark).isNotNull();
+        assertThat(myBookmark.isDeleted()).isFalse();
         assertThat(myBookmark.getCreateDate()).isNotNull();
         assertThat(myBookmark.getMemberId()).isEqualTo(memberId);
         /* 북마크를 추가하면 레시피 북마크 개수가 증가 */
@@ -114,12 +165,37 @@ class MyBookmarkServiceTest {
         // then
         MyBookmark deletedBookmark = em.find(MyBookmark.class, deletedId);
         int afterCount = em.find(RecipeBookmark.class, deletedRecipeId).getCount();
-        assertThat(deletedBookmark.getDeleted()).isTrue();
+        assertThat(deletedBookmark.isDeleted()).isTrue();
         List<InBookmarkPreviewDTO> after = service.findPreviews(memberId, 10).getBookmarks();
         assertThat(deletedBookmark.getBookmarkId()).isIn(getBookmarkIdList(before));
         assertThat(deletedBookmark.getBookmarkId()).isNotIn(getBookmarkIdList(after));
         /* 북마크를 삭제하면, 레시피의 북마크 개수가 1 감소 */
         assertThat(afterCount).isEqualTo(beforeCount - 1);
+    }
+
+    @Test
+    void 북마크_삭제_실패() {
+        /* 이미 삭제된 북마크를 삭제하려는 경우 */
+        // given
+        String memberId = createMember();
+        Long recipeID = 3L;
+        Long bookmarkId = service.add(memberId, recipeID);
+        service.remove(bookmarkId);
+        // when
+        assertThrows(BusinessException.class, () -> {
+            try{
+                service.remove(bookmarkId);
+            }catch (BusinessException e){
+                assertThat(e.getBasicExceptionType()).isEqualTo(MyBookmarkExceptionType.ALREADY_DELETE_BOOKMARK);
+                throw e;
+            }
+        });
+        // then
+        MyBookmark deletedBookmark = em.find(MyBookmark.class, bookmarkId);
+        int afterCount = em.find(RecipeBookmark.class, bookmarkId).getCount();
+        assertThat(deletedBookmark.isDeleted()).isTrue();
+        /* 북마크를 삭제하면, 레시피의 북마크 개수가 1 감소 */
+        assertThat(afterCount).isEqualTo(0);
     }
 
     private List<Long> getBookmarkIdList(List<InBookmarkPreviewDTO> list) {
