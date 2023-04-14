@@ -7,6 +7,7 @@ import org.mapstruct.factory.Mappers;
 import refrigerator.back.recipe.adapter.in.dto.*;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeDTO;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeDetailDTO;
+import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendDTO;
 import refrigerator.back.recipe.application.domain.entity.*;
 
 @Mapper(componentModel = "spring")
@@ -19,7 +20,7 @@ public interface RecipeDtoMapper {
     InRecipeDTO toInRecipeDto(OutRecipeDTO dto, Double scoreAvg);
     InRecipeCourseDTO toInRecipeCourseDto(RecipeCourse recipeCourse);
     InRecipeDetailDTO toInRecipeDetailsDto(Recipe recipe, RecipeDetails details, Double scoreAvg);
-
     InRecipeIngredientDTO toInRecipeIngredientDto(RecipeIngredient ingredient);
+    InRecipeRecommendDTO toInRecipeRecommendDto(OutRecipeRecommendDTO dto, Double recipeScore);
 
 }
