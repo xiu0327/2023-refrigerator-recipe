@@ -4,14 +4,13 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import refrigerator.back.word_completion.application.domain.RecipeNameParserUtils;
-
-import java.text.Normalizer;
+import refrigerator.back.word_completion.application.domain.WordParserUtils;
 
 @SpringBootTest
 class HangulParserTest {
 
-    @Autowired RecipeNameParserUtils recipeNameParserUtils;
+    @Autowired
+    WordParserUtils recipeNameParserUtils;
 
     @Test
     void 자모_분리(){

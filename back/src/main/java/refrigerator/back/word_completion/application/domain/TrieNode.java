@@ -2,19 +2,17 @@ package refrigerator.back.word_completion.application.domain;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Getter
-public class RecipeTrieNode {
+public class TrieNode {
 
     private final Character key;
     private String data;
-    private final Map<Character, RecipeTrieNode> children = new HashMap<>();
+    private final Map<Character, TrieNode> children = new HashMap<>();
 
-    public RecipeTrieNode(Character key) {
+    public TrieNode(Character key) {
         this.key = key;
         this.data = null;
     }

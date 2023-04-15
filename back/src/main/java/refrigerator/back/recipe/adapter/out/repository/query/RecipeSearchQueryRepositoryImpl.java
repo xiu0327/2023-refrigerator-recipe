@@ -2,6 +2,7 @@ package refrigerator.back.recipe.adapter.out.repository.query;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeBookmark.recipeBookmark;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeCategory.*;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeFoodType.*;
+import static refrigerator.back.recipe.application.domain.entity.QRecipeIngredient.*;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.recipeScore;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
@@ -39,16 +41,26 @@ public class RecipeSearchQueryRepositoryImpl implements RecipeSearchQueryReposit
                 .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeFoodType).on(recipeFoodType.typeID.eq(recipe.recipeFoodType))
                 .where(
-                        recipeNameContains(condition.getSearchWord()),
                         recipeTypeEq(condition.getRecipeType()),
                         recipeDifficultyEq(condition.getDifficulty()),
                         recipeScoreGoe(condition.getScore()),
-                        recipeFoodTypeEq(condition.getRecipeFoodType())
+                        recipeFoodTypeEq(condition.getRecipeFoodType()),
+                        isContain(condition.getSearchWord())
                 )
                 .orderBy(recipeViews.views.desc(), recipeBookmark.count.desc(), recipe.recipeName.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+    private BooleanExpression isContain(String searchWord){
+        return isKeywordInRecipeIngredient(searchWord).or(recipeNameContains(searchWord));
+    }
+
+    private BooleanExpression isKeywordInRecipeIngredient(String searchWord) {
+        return searchWord != null ? recipe.recipeID.in(JPAExpressions.select(recipeIngredient.recipeID)
+                .from(recipeIngredient)
+                .where(recipeIngredient.name.eq(searchWord))) : null;
     }
 
     private BooleanExpression recipeNameContains(String searchWord) {
