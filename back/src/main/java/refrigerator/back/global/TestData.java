@@ -92,4 +92,8 @@ public class TestData {
                 .getResultList().stream().findAny()
                 .orElseThrow(() -> new RuntimeException("좋아요 누른 사람 찾을 수 없음"));
     }
+
+    public String makeTokenHeader(String token){
+        return "Bearer " + token;
+    }
 }

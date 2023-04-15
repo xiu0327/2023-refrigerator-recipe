@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.global.common.BasicListResponseDTO;
 import refrigerator.back.global.common.InputDataFormatCheck;
+import refrigerator.back.global.common.MemberInformation;
 import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
@@ -32,13 +33,13 @@ public class MemberController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setUpdateNicknameUseCase(@RequestBody MemberNicknameUpdateRequestDTO request){
         request.check();
-        updateNicknameUseCase.updateNickname(getMemberEmail(), request.getNewNickname());
+        updateNicknameUseCase.updateNickname(getMemberEmail(), request.getNickname());
     }
 
     @PutMapping("/api/members/profile")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void setUpdateProfileUseCase(@RequestBody MemberProfileUpdateRequestDTO request){
-        updateProfileUseCase.updateProfile(getMemberEmail(), request.getNewProfileName());
+    public void setUpdateProfileUseCase(@RequestParam("imageName") String imageName){
+        updateProfileUseCase.updateProfile(getMemberEmail(), imageName);
     }
 
     @DeleteMapping("/api/members")
@@ -48,9 +49,8 @@ public class MemberController {
     }
 
     @GetMapping("/api/members")
-    public MemberDTO findMember(@RequestBody MemberEmailParameterRequestDTO request){
-        request.check();
-        Member member = findMemberInfoUseCase.findMember(request.getEmail());
+    public MemberDTO findMember(){
+        Member member = findMemberInfoUseCase.findMember(getMemberEmail());
         return new MemberDTO(
                 makeProfileUrlUseCase.createURL(member.getProfile().getName()),
                 member.getNickname());

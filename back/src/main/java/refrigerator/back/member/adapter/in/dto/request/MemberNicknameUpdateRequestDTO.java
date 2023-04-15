@@ -10,10 +10,10 @@ import refrigerator.back.member.exception.MemberExceptionType;
 @NoArgsConstructor
 public class MemberNicknameUpdateRequestDTO extends InputDataFormatCheck {
 
-    private String newNickname;
+    private String nickname;
 
     @Override
     public void check() {
-        inputCheck(NICKNAME_REGEX, newNickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
+        inputCheck(NICKNAME_REGEX, nickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
     }
 }

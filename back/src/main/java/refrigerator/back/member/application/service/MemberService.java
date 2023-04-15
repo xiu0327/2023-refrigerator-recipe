@@ -7,6 +7,7 @@ import refrigerator.back.authentication.application.port.out.EncryptPasswordPort
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
+import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.port.in.FindMemberInfoUseCase;
 import refrigerator.back.member.application.port.in.UpdateNicknameUseCase;
 import refrigerator.back.member.application.port.in.UpdateProfileUseCase;
@@ -23,22 +24,17 @@ public class MemberService implements UpdateNicknameUseCase, UpdateProfileUseCas
     private final UpdateMemberPort updateMemberPort;
     private final FindMemberPort findMemberPort;
     private final EncryptPasswordPort encryptPasswordPort;
-    private final MemberProfileImageService memberProfileImageService;
 
     @Override
     @Transactional
     public void updateNickname(String email, String newNickname) {
-        Member member = findMemberPort.findMember(email);
-        member.updateNickname(newNickname);
-        updateMemberPort.update(member);
+        updateMemberPort.updateNickname(email, newNickname);
     }
 
     @Override
     @Transactional
     public void updateProfile(String email, String newProfileName) {
-        Member member = findMemberPort.findMember(email);
-        member.updateProfile(newProfileName);
-        updateMemberPort.update(member);
+        updateMemberPort.updateProfile(email, MemberProfileImage.findImageByName(newProfileName));
     }
 
     @Override

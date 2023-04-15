@@ -29,8 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -71,6 +70,8 @@ class AuthenticationControllerTest {
         ).andExpect(status().is2xxSuccessful()
         ).andExpect(jsonPath("$.grantType").isString()
         ).andExpect(jsonPath("$.accessToken").isString()
+        ).andExpect(cookie().exists("Refresh-Token")
+        ).andExpect(cookie().httpOnly("Refresh-Token", true)
         ).andDo(print());
     }
 

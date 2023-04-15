@@ -9,6 +9,9 @@ import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
@@ -19,8 +22,12 @@ public class AuthenticationController {
 
     @PostMapping("/api/auth/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public TokenDTO login(@RequestBody LoginRequestDTO request){
-        return loginUseCase.login(request.getEmail(), request.getPassword());
+    public TokenDTO login(@RequestBody LoginRequestDTO request, HttpServletResponse response){
+        TokenDTO token = loginUseCase.login(request.getEmail(), request.getPassword());
+        Cookie cookie = new Cookie("Refresh-Token", token.getRefreshToken());
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+        return token;
     }
 
     @PostMapping("/api/auth/reissue")
@@ -29,8 +36,4 @@ public class AuthenticationController {
         return tokenReissueUseCase.reissue(request.getAccessToken(), request.getRefreshToken());
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
 }

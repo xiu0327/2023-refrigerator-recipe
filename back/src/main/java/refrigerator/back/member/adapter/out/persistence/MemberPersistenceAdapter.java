@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.adapter.out.repository.MemberRepository;
+import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.port.out.CreateMemberPort;
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.port.out.UpdateMemberPort;
@@ -31,5 +32,15 @@ public class MemberPersistenceAdapter implements FindMemberPort, CreateMemberPor
     @Override
     public void update(Member member) {
         memberRepository.save(member);
+    }
+
+    @Override
+    public void updateNickname(String email, String nickname) {
+        memberRepository.updateNickname(email, nickname);
+    }
+
+    @Override
+    public void updateProfile(String email, MemberProfileImage profile) {
+        memberRepository.updateProfile(email, profile);
     }
 }
