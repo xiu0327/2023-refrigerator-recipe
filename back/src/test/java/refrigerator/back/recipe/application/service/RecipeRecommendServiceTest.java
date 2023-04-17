@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe.application.port.out.FindIngredientNameListByMemberPort;
 import refrigerator.back.recipe.application.port.out.FindRecommendRecipeInfoPort;
+import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import javax.persistence.EntityManager;
 
@@ -59,6 +61,21 @@ class RecipeRecommendServiceTest {
             assertNotNull(result.get(i).getRecipeName());
         }
     }
+
+    @Test
+    @DisplayName("사용자가 등록한 식재료가 없을 경우, 에러 발생")
+    void recommend_fail() {
+        String memberId = testData.createMemberByEmail("email123@gmail.com");
+        org.junit.jupiter.api.Assertions.assertThrows(BusinessException.class, () -> {
+            try{
+                recipeRecommendService.recommend(memberId);
+            }catch(BusinessException e){
+                Assertions.assertThat(e.getBasicExceptionType()).isEqualTo(RecipeExceptionType.EMPTY_MEMBER_INGREDIENT);
+                throw e;
+            }
+        });
+    }
+
 
     @Test
     @DisplayName("일치율이 높은 상위 10개 레시피 식별자 값 구함")
