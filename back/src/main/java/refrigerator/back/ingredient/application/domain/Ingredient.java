@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Ingredient extends BaseTimeEntity {
+public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +42,8 @@ public class Ingredient extends BaseTimeEntity {
     @Column(name = "storage_method", nullable = false, length = 30)
     private String storageMethod;
 
-    @Column(name = "image", nullable = false, length = 100)
-    private String image;
+    @Column(name = "ingredient_image_id", nullable = false)
+    private Long ingredientImageId;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -59,27 +59,23 @@ public class Ingredient extends BaseTimeEntity {
         this.deleted = false;
     }
 
-    public Long getWholeDays() {
-        return ChronoUnit.DAYS.between(this.registrationDate, this.expirationDate);
-    }
-
     public Long getRemainDays() {
-        return ChronoUnit.DAYS.between(LocalDate.now(), this.expirationDate);
+        return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, String image, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Long imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
         this.registrationDate = LocalDate.now();
-        this.image = image;
+        this.ingredientImageId = imageId;
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, String image, String email) {
-        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, image, email);
+    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Long imageId, String email) {
+        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;
     }
