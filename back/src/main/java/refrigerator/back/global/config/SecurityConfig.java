@@ -10,6 +10,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -36,6 +37,12 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().antMatchers("/api/**");
+//    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
@@ -48,6 +55,7 @@ public class SecurityConfig {
                 .mvcMatchers("/api/members/email/duplicate").permitAll()
                 .mvcMatchers("/api/members/profile/list").permitAll()
                 .mvcMatchers("/api/word-completion/**").permitAll()
+                .mvcMatchers("/api/recipe/search/**").permitAll()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
                 .anyRequest().authenticated()
                 .and()

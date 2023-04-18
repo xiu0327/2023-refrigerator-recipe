@@ -14,7 +14,6 @@ import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
 import refrigerator.back.recipe.application.port.in.FindSearchConditionUseCase;
 import refrigerator.back.recipe.application.port.in.SearchRecipeUseCase;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class RecipeSearchController {
             key="'condition_food_type'",
             cacheManager = "recipeFoodTypeCacheManager")
     public InRecipeBasicListDTO<String> getConditionByFoodType(){
-        return findSearchConditionUseCase.findRecipeFoodTypeCond();
+        return new InRecipeBasicListDTO<>(findSearchConditionUseCase.findRecipeFoodTypeCond());
     }
 
     @GetMapping("/api/recipe/search/condition/category")
@@ -46,7 +45,23 @@ public class RecipeSearchController {
             key="'condition_category'",
             cacheManager = "recipeCategoryCacheManager")
     public InRecipeBasicListDTO<String> getConditionByCategory(){
-        return findSearchConditionUseCase.findRecipeCategoryCond();
+        return new InRecipeBasicListDTO<>(findSearchConditionUseCase.findRecipeCategoryCond());
+    }
+
+    @GetMapping("/api/recipe/search/condition/recipe-type")
+    @Cacheable(value = RecipeCacheKey.RECIPE_TYPE,
+            key="'condition_recipe_type'",
+            cacheManager = "recipeTypeCacheManager")
+    public InRecipeBasicListDTO<String> getConditionByRecipeType(){
+        return new InRecipeBasicListDTO<>(findSearchConditionUseCase.findRecipeTypeCond());
+    }
+
+    @GetMapping("/api/recipe/search/condition/difficulty")
+    @Cacheable(value = RecipeCacheKey.RECIPE_TYPE,
+            key="'condition_difficulty'",
+            cacheManager = "recipeDifficultyCacheManager")
+    public InRecipeBasicListDTO<String> getConditionByRecipeDifficulty(){
+        return new InRecipeBasicListDTO<>(findSearchConditionUseCase.findRecipeDifficultyCond());
     }
 
 }

@@ -1,6 +1,5 @@
 package refrigerator.back.mybookmark.application.domain;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.global.common.BaseTimeEntity;
 
