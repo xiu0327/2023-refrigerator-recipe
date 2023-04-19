@@ -32,7 +32,7 @@ class CommentLookUpServiceTest {
     void 댓글_조회() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1;
+        Long recipeId = 1L;
         for (int i = 0 ; i < 40; i++){
             writeCommentUseCase.write(recipeId, memberId, "댓글_" + i);
         }
@@ -56,7 +56,7 @@ class CommentLookUpServiceTest {
     void 댓글_미리보기() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1;
+        Long recipeId = 1L;
         int allSize = 40;
         for (int i = 0; i < allSize; i++){
             writeCommentUseCase.write(recipeId, memberId, "댓글_" + i);
