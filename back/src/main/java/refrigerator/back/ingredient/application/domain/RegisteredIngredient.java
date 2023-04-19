@@ -25,7 +25,7 @@ public class RegisteredIngredient {
     @Column(name = "unit", nullable = false, length = 20)
     private String unit;
 
-    @Column(name = "ingredient_image_id", nullable = false)
-    private Long ingredientImageId;
+    @Column(name = "image", nullable = false)
+    private Integer imageId;
 
 }

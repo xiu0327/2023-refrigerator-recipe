@@ -42,8 +42,8 @@ public class Ingredient {
     @Column(name = "storage_method", nullable = false, length = 30)
     private String storageMethod;
 
-    @Column(name = "ingredient_image_id", nullable = false)
-    private Long ingredientImageId;
+    @Column(name = "image", nullable = false)
+    private Integer imageId;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -63,18 +63,18 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Long imageId, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
         this.registrationDate = LocalDate.now();
-        this.ingredientImageId = imageId;
+        this.imageId = imageId;
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Long imageId, String email) {
+    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;

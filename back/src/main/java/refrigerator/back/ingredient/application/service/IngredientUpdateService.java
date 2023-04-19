@@ -24,7 +24,7 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
 
     @Override
     public Long registerIngredient(String name, LocalDate expirationDate, Integer capacity,
-                                   String capacityUnit, String storageMethod, Long imageId, String email) {
+                                   String capacityUnit, String storageMethod, Integer imageId, String email) {
 
         return writeIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, capacity,
                                     capacityUnit, storageMethod, imageId, email));

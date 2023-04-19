@@ -15,7 +15,7 @@ public class IngredientImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredient_image_id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "url", nullable = false, length = 400)
     private String url;

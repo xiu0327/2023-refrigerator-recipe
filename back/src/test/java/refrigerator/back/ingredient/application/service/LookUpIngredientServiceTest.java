@@ -34,41 +34,41 @@ class LookUpIngredientServiceTest {
     @BeforeEach
     void before() {
         ingredientService.registerIngredient("당근", LocalDate.of(2023, 3, 30),
-                10, "개", "냉장", 1L,"ehgus5825@naver.com");
+                10, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("고구마", LocalDate.of(2023, 3, 24),
-                20, "개", "냉장", 1L,"ehgus5825@naver.com");
+                20, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("호박", LocalDate.of(2023, 3, 24),
-                20, "개", "냉장", 1L,"ehgus5825@naver.com");
+                20, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("김치", LocalDate.of(2023, 3, 24),
-                20, "개", "냉장", 1L,"ehgus5825@naver.com");
+                20, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("토란", LocalDate.of(2023, 3, 25),
-                30, "개", "냉장", 1L,"ehgus5825@naver.com");
+                30, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("감자", LocalDate.of(2023, 3, 26),
-                40, "개", "냉장", 1L,"ehgus5825@naver.com");
+                40, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("치즈", LocalDate.of(2023, 3, 27),
-                50, "장", "냉장", 1L,"ehgus5825@naver.com");
+                50, "장", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("쌀", LocalDate.of(2023, 3, 28),
-                60, "g", "냉장", 1L,"ehgus5825@naver.com");
+                60, "g", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("돼지고기", LocalDate.of(2023, 3, 29),
-                70, "g", "냉장", 1L,"ehgus5825@naver.com");
+                70, "g", "냉장", 1,"ehgus5825@naver.com");
     }
 
     @Test
     void 식재료_조회_test () {
         ingredientService.registerIngredient("당근!!!!", LocalDate.of(2023, 3, 31),
-                10, "개", "냉장", 1L, "ehgus5825@naver.com");
+                10, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("고구마!!!!", LocalDate.of(2023, 4, 1),
-                20, "개", "냉장", 1L, "ehgus5825@naver.com");
+                20, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("토란!!!!", LocalDate.of(2023, 4, 2),
-                30, "개", "냉장", 1L, "ehgus5825@naver.com");
+                30, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("감자!!!!", LocalDate.of(2023, 4, 3),
-                40, "개", "냉장", 1L, "ehgus5825@naver.com");
+                40, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("치즈!!!", LocalDate.of(2023, 4, 4),
-                50, "장", "냉장", 1L,"ehgus5825@naver.com");
+                50, "장", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("쌀!!!!", LocalDate.of(2023, 4, 5),
-                60, "g", "냉장", 1L,"ehgus5825@naver.com");
+                60, "g", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("돼지고기!!!!", LocalDate.of(2023, 4, 6),
-                70, "g", "냉장", 1L,"ehgus5825@naver.com");
+                70, "g", "냉장", 1,"ehgus5825@naver.com");
 
         for (int i = 0; i < 4; i++) {
             List<IngredientResponseDTO> ingredientList = ingredientLookUpService.getIngredientList(new IngredientSearchCondition("냉장", false, "ehgus5825@naver.com"), i, 5);
@@ -95,19 +95,19 @@ class LookUpIngredientServiceTest {
         assertThat(ingredientListOfAll.size()).isEqualTo(9);
 
         Long ingredient1 = ingredientService.registerIngredient("당근!!!!", LocalDate.of(2022, 10, 1),
-                10, "개", "냉장", 1L, "ehgus5825@naver.com");
+                10, "개", "냉장", 1, "ehgus5825@naver.com");
         Long ingredient2 = ingredientService.registerIngredient("고구마!!!!", LocalDate.of(2021, 12, 2),
-                20, "개", "실온", 1L, "ehgus5825@naver.com");
+                20, "개", "실온", 1, "ehgus5825@naver.com");
         Long ingredient3 = ingredientService.registerIngredient("토란!!!!", LocalDate.of(2022, 8, 3),
-                30, "개", "실온", 1L, "ehgus5825@naver.com");
+                30, "개", "실온", 1, "ehgus5825@naver.com");
         Long ingredient4 = ingredientService.registerIngredient("감자!!!!", LocalDate.of(2023, 7, 4),
-                40, "개", "실온", 1L, "ehgus5825@naver.com");
+                40, "개", "실온", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("치즈!!!", LocalDate.of(2022, 6, 5),
-                50, "장", "냉장", 1L,"ehgus5825@naver.com");
+                50, "장", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("쌀!!!!", LocalDate.of(2020, 5, 6),
-                60, "g", "실온", 1L,"ehgus5825@naver.com");
+                60, "g", "실온", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("돼지고기!!!!", LocalDate.of(2023, 4, 7),
-                70, "g", "냉동", 1L,"ehgus5825@naver.com");
+                70, "g", "냉동", 1,"ehgus5825@naver.com");
 
         ingredientAdapter.getIngredientById(ingredient1).delete();
         ingredientAdapter.getIngredientById(ingredient2).delete();
@@ -130,7 +130,7 @@ class LookUpIngredientServiceTest {
     @Test
     void 식재료_단건_조회() {
         Long id = ingredientService.registerIngredient("돼지고기", LocalDate.of(2023, 4, 9),
-                70, "g", "냉동", 1L,"ehgus5825@naver.com");
+                70, "g", "냉동", 1,"ehgus5825@naver.com");
 
         IngredientDetailResponseDTO responseDTO = ingredientLookUpService.getIngredient(id);
         log.info(responseDTO.toString());
@@ -144,7 +144,7 @@ class LookUpIngredientServiceTest {
         assertThat(responseDTO.getImage()).isEqualTo("test.png");
 
         Long id1 = ingredientService.registerIngredient("소고기", LocalDate.of(2023, 4, 6),
-                80, "g", "냉동", 1L,"ehgus5825@naver.com");
+                80, "g", "냉동", 1,"ehgus5825@naver.com");
 
         Ingredient ingredient = ingredientAdapter.getIngredientById(id1);
         ingredient.delete();
@@ -156,19 +156,19 @@ class LookUpIngredientServiceTest {
     @Test
     void 식재료_목록_조회() {
         ingredientService.registerIngredient("당근!!!!", LocalDate.of(2023, 3, 31),
-                10, "개", "냉장", 1L, "ehgus5825@naver.com");
+                10, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("고구마!!!!", LocalDate.of(2023, 4, 1),
-                20, "개", "냉장", 1L, "ehgus5825@naver.com");
+                20, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("토란!!!!", LocalDate.of(2023, 4, 2),
-                30, "개", "냉장", 1L, "ehgus5825@naver.com");
+                30, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("감자!!!!", LocalDate.of(2023, 4, 3),
-                40, "개", "냉장", 1L, "ehgus5825@naver.com");
+                40, "개", "냉장", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("치즈!!!", LocalDate.of(2023, 4, 4),
-                50, "장", "냉장", 1L,"ehgus5825@naver.com");
+                50, "장", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("쌀!!!!", LocalDate.of(2023, 4, 5),
-                60, "g", "냉장", 1L,"ehgus5825@naver.com");
+                60, "g", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("돼지고기!!!!", LocalDate.of(2023, 4, 6),
-                70, "g", "냉장", 1L,"ehgus5825@naver.com");
+                70, "g", "냉장", 1,"ehgus5825@naver.com");
 
         IngredientSearchCondition condition1 = new IngredientSearchCondition("냉장", false, "ehgus5825@naver.com");
 
@@ -184,13 +184,13 @@ class LookUpIngredientServiceTest {
         assertThat(list1.size()).isEqualTo(15);
 
         ingredientService.registerIngredient("청양고추", LocalDate.of(2023, 4, 3),
-                40, "개", "냉동", 1L, "ehgus5825@naver.com");
+                40, "개", "냉동", 1, "ehgus5825@naver.com");
         ingredientService.registerIngredient("배추김치", LocalDate.of(2023, 4, 4),
-                50, "장", "냉동", 1L,"ehgus5825@naver.com");
+                50, "장", "냉동", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("검정콩", LocalDate.of(2023, 4, 5),
-                60, "g", "냉동", 1L,"ehgus5825@naver.com");
+                60, "g", "냉동", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("양고기", LocalDate.of(2023, 4, 6),
-                70, "g", "냉동", 1L,"ehgus5825@naver.com");
+                70, "g", "냉동", 1,"ehgus5825@naver.com");
 
         IngredientSearchCondition condition2 = new IngredientSearchCondition("냉동", false, "ehgus5825@naver.com");
 
@@ -241,23 +241,23 @@ class LookUpIngredientServiceTest {
     @Test
     void 임박_식재료_목록_조회() {
         ingredientService.registerIngredient("당근", LocalDate.of(2023, 4, 8),
-                10, "개", "냉장", 1L,"ehgus5825@naver.com");
+                10, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("고구마", LocalDate.of(2023, 4, 8),
-                20, "개", "냉장", 1L,"ehgus5825@naver.com");
+                20, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("호박", LocalDate.of(2023, 4, 8),
-                20, "개", "냉장", 1L,"ehgus5825@naver.com");
+                20, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("김치", LocalDate.of(2023, 4, 8),
-                20, "개", "냉장", 1L,"ehgus5825@naver.com");
+                20, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("토란", LocalDate.of(2023, 4, 10),
-                30, "개", "냉장", 1L,"ehgus5825@naver.com");
+                30, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("감자", LocalDate.of(2023, 4, 10),
-                40, "개", "냉장", 1L,"ehgus5825@naver.com");
+                40, "개", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("치즈", LocalDate.of(2023, 4, 10),
-                50, "장", "냉장", 1L,"ehgus5825@naver.com");
+                50, "장", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("쌀", LocalDate.of(2023, 4, 12),
-                60, "g", "냉장", 1L,"ehgus5825@naver.com");
+                60, "g", "냉장", 1,"ehgus5825@naver.com");
         ingredientService.registerIngredient("돼지고기", LocalDate.of(2023, 4, 12),
-                70, "g", "냉장", 1L,"ehgus5825@naver.com");
+                70, "g", "냉장", 1,"ehgus5825@naver.com");
 
         List<IngredientResponseDTO> ingredientListByDeadline1 = ingredientLookUpService.getIngredientListByDeadline(1L, "ehgus5825@naver.com");
 

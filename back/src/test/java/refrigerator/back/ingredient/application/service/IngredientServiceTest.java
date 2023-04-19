@@ -29,7 +29,7 @@ class IngredientServiceTest {
     @Test
     void 식재료_등록() {
         Long id = ingredientService.registerIngredient("당근", LocalDate.now(), 30,
-                "개", "냉장", 1L, "ehgus5825@naver.com");
+                "개", "냉장", 1, "ehgus5825@naver.com");
 
         Ingredient findIngredient = ingredientAdapter.getIngredientById(id);
 
@@ -40,7 +40,7 @@ class IngredientServiceTest {
     @Test
     void 식재료_수정() {
         Long id = ingredientService.registerIngredient("당근", LocalDate.now(), 30,
-                "개", "냉장", 1L,"ehgus5825@naver.com");
+                "개", "냉장", 1,"ehgus5825@naver.com");
 
         ingredientService.modifyIngredient(id, LocalDate.of(2023, 3,24),
                 40, "냉동");
@@ -55,7 +55,7 @@ class IngredientServiceTest {
     @Test
     void 식재료_삭제() {
         Long id = ingredientService.registerIngredient("당근", LocalDate.now(), 30,
-                "개", "냉장", 1L, "ehgus5825@naver.com");
+                "개", "냉장", 1, "ehgus5825@naver.com");
 
         ingredientService.removeIngredient(id);
 
@@ -67,19 +67,19 @@ class IngredientServiceTest {
     void 식재료_일괄_삭제() {
         List<Long> ids = new ArrayList<>();
         ids.add(ingredientService.registerIngredient("당근", LocalDate.of(2022, 10, 1),
-                10, "개", "냉장", 1L,"ehgus5825@naver.com"));
+                10, "개", "냉장", 1,"ehgus5825@naver.com"));
         ids.add(ingredientService.registerIngredient("고구마", LocalDate.of(2021, 12, 2),
-                20, "개", "실온", 1L,"ehgus5825@naver.com"));
+                20, "개", "실온", 1,"ehgus5825@naver.com"));
         ids.add(ingredientService.registerIngredient("토란", LocalDate.of(2022, 8, 3),
-                30, "개", "실온", 1L,"ehgus5825@naver.com"));
+                30, "개", "실온", 1,"ehgus5825@naver.com"));
         ids.add(ingredientService.registerIngredient("감자", LocalDate.of(2023, 7, 4),
-                40, "개", "실온", 1L,"ehgus5825@naver.com"));
+                40, "개", "실온", 1,"ehgus5825@naver.com"));
         ids.add(ingredientService.registerIngredient("치즈", LocalDate.of(2022, 6, 5),
-                50, "장", "냉장", 1L,"ehgus5825@naver.com"));
+                50, "장", "냉장", 1,"ehgus5825@naver.com"));
         ids.add(ingredientService.registerIngredient("쌀", LocalDate.of(2020, 5, 6),
-                60, "g", "실온", 1L,"ehgus5825@naver.com"));
+                60, "g", "실온", 1,"ehgus5825@naver.com"));
         ids.add(ingredientService.registerIngredient("돼지고기", LocalDate.of(2023, 4, 7),
-                70, "g", "냉동", 1L,"ehgus5825@naver.com"));
+                70, "g", "냉동", 1,"ehgus5825@naver.com"));
 
         ingredientService.removeAllIngredients(ids);
 
