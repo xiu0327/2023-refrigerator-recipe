@@ -2,6 +2,8 @@ package refrigerator.back.myscore.application.domain;
 
 import lombok.*;
 import refrigerator.back.global.common.BaseTimeEntity;
+import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.myscore.exception.MyRecipeScoreExceptionType;
 
 import javax.persistence.*;
 
@@ -29,6 +31,12 @@ public class MyScore extends BaseTimeEntity {
 
     public void modify(double score){
         this.score = score;
+    }
+
+    public static void checkScoreScope(Double score){
+        if (score <= 0.0 || score > 5.0){
+            throw new BusinessException(MyRecipeScoreExceptionType.WRONG_SCORE_SCOPE);
+        }
     }
 
     public static MyScore create(String memberID, Long recipeID, Double score){

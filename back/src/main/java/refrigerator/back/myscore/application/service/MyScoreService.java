@@ -36,15 +36,13 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
 
     @Override
     public InMyScoreListDTO<InMyScorePreviewDTO> findPreviewList(String memberID, int size) {
-        List<InMyScorePreviewDTO> scores = myScoreReadPort.getMyScorePreview(memberID);
-        return new InMyScoreListDTO<>(scores.stream()
-                .limit(size)
-                .collect(Collectors.toList()), scores.size());
+        return myScoreReadPort.getMyScorePreview(memberID, size);
     }
 
     @Override
     @Transactional
     public void modify(Long scoreID, double newScore) {
+        MyScore.checkScoreScope(newScore);
         MyScore myScore = myScoreReadPort.findById(scoreID)
                 .orElseThrow(() -> new BusinessException(MyRecipeScoreExceptionType.NOT_FOUND_SCORE));
         Double oldScore = myScore.getScore();
@@ -55,9 +53,8 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
     @Override
     @Transactional
     public InCookingResponseDTO cooking(String memberID, Long recipeID, Double newScore) {
-
+        MyScore.checkScoreScope(newScore);
         Optional<MyScore> result = myScoreReadPort.findByMemberIdAndRecipeId(memberID, recipeID);
-
         if (result.isPresent()){ // 재요리
             return reCooking(newScore, result.get());
         }
@@ -65,8 +62,7 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
     }
 
     private InCookingResponseDTO firstCooking(String memberID, Long recipeID, Double score) {
-        Long scoreID = myScoreWritePort.save(
-                MyScore.create(memberID, recipeID, score));
+        Long scoreID = myScoreWritePort.save(MyScore.create(memberID, recipeID, score));
         addRecipeScorePort.addScore(recipeID, score, 1);
         return InCookingResponseDTO.builder()
                 .scoreID(scoreID)

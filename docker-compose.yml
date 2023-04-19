@@ -1,0 +1,13 @@
+version: '3'
+services:
+  cache:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - 6379:6379
+  app:
+    depends_on:
+      - cache
+    image: xiu0327/refrigerator
+    ports:
+      - 8080:8080

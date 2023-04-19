@@ -14,7 +14,7 @@ public enum MemberExceptionType implements BasicExceptionType {
     NOT_FOUND_MEMBER_ROLE("NOT_FOUND_MEMBER_ROLE", "해당 접근 권한이 존재하지 않습니다.", HttpStatus.FORBIDDEN),
     NOT_FOUND_MEMBER_STATUS("NOT_FOUND_MEMBER_STATUS", "해당 회원 상태가 없습니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_PROFILE_IMAGE("NOT_FOUND_PROFILE_IMAGE", "해당 이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    NOT_EQUAL_PASSWORD("NOT_EQUAL_PASSWORD", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
+    WITHDRAWN_MEMBER("WITHDRAWN_MEMBER", "탈퇴한 회원 입니다.", HttpStatus.BAD_REQUEST)
     ;
 
     private String errorCode;

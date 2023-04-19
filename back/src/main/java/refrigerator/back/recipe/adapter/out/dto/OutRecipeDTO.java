@@ -2,9 +2,10 @@ package refrigerator.back.recipe.adapter.out.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
+import lombok.Getter;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 
-@Data
+@Getter
 public class OutRecipeDTO {
     private Long recipeID;
     private String recipeName;

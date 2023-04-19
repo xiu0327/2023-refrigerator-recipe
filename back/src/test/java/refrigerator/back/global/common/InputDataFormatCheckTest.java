@@ -1,9 +1,7 @@
 package refrigerator.back.global.common;
 
 import org.junit.jupiter.api.Test;
-import refrigerator.back.member.adapter.dto.MemberJoinRequestDTO;
-
-import static org.junit.jupiter.api.Assertions.*;
+import refrigerator.back.member.adapter.in.dto.request.MemberJoinRequestDTO;
 
 class InputDataFormatCheckTest {
 

@@ -17,8 +17,6 @@ import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.*;

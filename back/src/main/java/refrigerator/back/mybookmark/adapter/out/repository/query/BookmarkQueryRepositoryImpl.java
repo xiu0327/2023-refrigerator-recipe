@@ -1,8 +1,11 @@
 package refrigerator.back.mybookmark.adapter.out.repository.query;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.mybookmark.adapter.out.dto.OutBookmarkDTO;
 import refrigerator.back.mybookmark.adapter.out.dto.OutBookmarkPreviewDTO;
@@ -25,8 +28,8 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<OutBookmarkPreviewDTO> findBookmarkPreview(String memberId) {
-        return jpaQueryFactory
+    public Page<OutBookmarkPreviewDTO> findBookmarkPreview(String memberId, Pageable pageable) {
+        List<OutBookmarkPreviewDTO> content = jpaQueryFactory
                 .select(new QOutBookmarkPreviewDTO(
                         myBookmark.bookmarkId,
                         myBookmark.recipeId,
@@ -37,7 +40,15 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository{
                 .where(myBookmark.memberId.eq(memberId),
                         myBookmark.deleted.eq(false))
                 .orderBy(myBookmark.createDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        JPAQuery<Long> count = jpaQueryFactory.select(myBookmark.count())
+                .from(myBookmark)
+                .where(myBookmark.memberId.eq(memberId),
+                        myBookmark.deleted.eq(false));
+        return PageableExecutionUtils.getPage(content, pageable, count::fetchOne);
     }
 
     @Override
@@ -59,6 +70,15 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository{
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(myBookmark.createDate.desc())
+                .fetch();
+    }
+
+    @Override
+    public List<Long> findRecipeIdAddedBookmarks(String memberId) {
+        return jpaQueryFactory.select(myBookmark.recipeId)
+                .from(myBookmark)
+                .where(myBookmark.memberId.eq(memberId),
+                        myBookmark.deleted.eq(false))
                 .fetch();
     }
 }

@@ -3,6 +3,7 @@ package refrigerator.back.global;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
@@ -50,6 +51,20 @@ public class TestData {
     }
 
     @Transactional
+    public String createMemberByEmailAndPassword(String email, String password){
+        Member member = Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(MEMBER_NICKNAME)
+                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
+                .memberStatus(MemberStatus.STEADY_STATUS).build();
+        em.persist(member);
+        em.flush();
+        em.clear();
+        return member.getEmail();
+    }
+
+    @Transactional
     public Long createMyRecipeScore(String memberId, Long recipeId, Double score){
         MyScore myRecipeScore = MyScore.builder()
                 .memberID(memberId)
@@ -67,5 +82,18 @@ public class TestData {
                 .setParameter("email", email)
                 .getResultList().stream().findAny()
                 .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER));
+    }
+
+    @Transactional(readOnly = true)
+    public CommentHeartPeople findLikedPeopleList(String memberId, Long commentId){
+        return em.createQuery("select p from CommentHeartPeople p where p.memberId= :memberId and p.commentId= :commentId", CommentHeartPeople.class)
+                .setParameter("memberId", memberId)
+                .setParameter("commentId", commentId)
+                .getResultList().stream().findAny()
+                .orElseThrow(() -> new RuntimeException("좋아요 누른 사람 찾을 수 없음"));
+    }
+
+    public String makeTokenHeader(String token){
+        return "Bearer " + token;
     }
 }

@@ -2,8 +2,9 @@ package refrigerator.back.global.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class BasicExceptionFormat {
     private String code;

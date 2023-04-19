@@ -3,8 +3,10 @@ package refrigerator.back.comment.application.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.common.BaseTimeEntityWithModify;
+import refrigerator.back.global.exception.BusinessException;
 
 import javax.persistence.*;
 
@@ -59,5 +61,11 @@ public class Comment extends BaseTimeEntityWithModify {
 
     public void delete(){
         this.deletedState = true;
+    }
+
+    public void isEqualsAuthor(String memberId){
+        if (!memberID.equals(memberId)){
+            throw new BusinessException(CommentExceptionType.NO_EDIT_RIGHTS);
+        }
     }
 }

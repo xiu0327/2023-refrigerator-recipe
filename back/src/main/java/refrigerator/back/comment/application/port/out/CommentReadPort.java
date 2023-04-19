@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface CommentReadPort {
     InCommentListDTO findCommentPreviewList(Long recipeId, int size);
-    List<InCommentDTO> findCommentList(Long recipeId, int page, int size);
+    List<InCommentDTO> findCommentListByHeart(Long recipeId, int page, int size);
+    List<InCommentDTO> findCommentListByDate(Long recipeId, int page, int size);
 }

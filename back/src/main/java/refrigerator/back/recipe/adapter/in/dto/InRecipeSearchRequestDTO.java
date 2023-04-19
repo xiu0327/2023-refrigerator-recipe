@@ -1,12 +1,12 @@
 package refrigerator.back.recipe.adapter.in.dto;
 
 import lombok.Builder;
-import lombok.Data;
+
+import lombok.Getter;
 import org.springframework.lang.Nullable;
 
-import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
 @Builder
 public class InRecipeSearchRequestDTO {
     @Nullable

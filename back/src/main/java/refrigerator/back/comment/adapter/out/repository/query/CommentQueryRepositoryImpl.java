@@ -1,6 +1,6 @@
 package refrigerator.back.comment.adapter.out.repository.query;
 
-import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,14 +11,9 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.adapter.out.dto.OutCommentDTO;
 import refrigerator.back.comment.adapter.out.dto.QOutCommentDTO;
-import refrigerator.back.comment.application.domain.CommentHeart;
-import refrigerator.back.comment.application.domain.QComment;
-import refrigerator.back.comment.application.domain.QCommentHeart;
-import refrigerator.back.member.application.domain.QMember;
+import refrigerator.back.comment.adapter.out.persistence.CommentSortCondition;
 
-import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 import static refrigerator.back.comment.application.domain.QComment.*;
 import static refrigerator.back.comment.application.domain.QCommentHeart.*;
@@ -29,7 +24,6 @@ import static refrigerator.back.member.application.domain.QMember.*;
 public class CommentQueryRepositoryImpl implements CommentQueryRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final EntityManager em;
 
     @Override
     public Page<OutCommentDTO> findCommentPreviewList(Long recipeId, Pageable page) {
@@ -67,7 +61,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
     }
 
     @Override
-    public List<OutCommentDTO> findCommentList(Long recipeId, Pageable page) {
+    public List<OutCommentDTO> findCommentList(Long recipeId, Pageable page, CommentSortCondition sortCondition) {
         return jpaQueryFactory
                 .select(new QOutCommentDTO(
                         comment.commentID,
@@ -82,23 +76,16 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
                 .offset(page.getOffset())
                 .limit(page.getPageSize())
                 .where(recipeIdEq(recipeId), notDeleted())
+                .orderBy(conditionEq(sortCondition))
                 .fetch();
     }
 
-    @Override
-    public void updateCommentHeartCount(Long commentId, int value) {
-        jpaQueryFactory
-                .update(commentHeart)
-                .set(commentHeart.count, commentHeart.count.add(value))
-                .where(commentHeart.commentId.eq(commentId))
-                .execute();
-        em.flush();
-        em.clear();
+    private OrderSpecifier<?> conditionEq(CommentSortCondition sortCondition) {
+        if (sortCondition == CommentSortCondition.HEART){
+            return commentHeart.count.desc();
+        }
+        return comment.createDate.desc();
     }
 
-    @Override
-    public Long persistCommentHeart(CommentHeart commentHeart) {
-        em.persist(commentHeart);
-        return commentHeart.getCommentId();
-    }
+
 }

@@ -4,12 +4,14 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.ingredient.application.domain.QIngredient;
 import refrigerator.back.recipe.adapter.out.dto.*;
 import refrigerator.back.recipe.application.domain.entity.Recipe;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourse;
 
-import java.util.List;
+import java.util.*;
 
+import static refrigerator.back.ingredient.application.domain.QIngredient.*;
 import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeBookmark.recipeBookmark;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeCategory.recipeCategory;
