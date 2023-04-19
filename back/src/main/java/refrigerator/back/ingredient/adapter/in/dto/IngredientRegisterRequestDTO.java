@@ -15,7 +15,7 @@ public class IngredientRegisterRequestDTO {
     private Integer capacity;               // 용량
     private String capacityUnit;            // 용량 단위
     private String storageMethod;           // 보관 방식
-    private String image;                   // 사진 (수정 가능성)
+    private Integer imageId;                // 사진 (수정 가능성)
 }
 
 

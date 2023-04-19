@@ -12,4 +12,6 @@ public interface FindIngredientListUseCase {
     List<IngredientResponseDTO> getIngredientListOfAll(String email);
 
     List<IngredientRegisteredResponseDTO> getIngredientListOfRegistered();
+
+    List<IngredientResponseDTO> getIngredientListByDeadline(Long days, String email);
 }

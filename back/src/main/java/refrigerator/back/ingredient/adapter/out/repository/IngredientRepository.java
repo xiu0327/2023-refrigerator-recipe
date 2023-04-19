@@ -8,6 +8,7 @@ import refrigerator.back.ingredient.adapter.out.repository.query.IngredientQuery
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,5 +20,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long>, I
 
     @Query("select si from SuggestedIngredient si")
     List<SuggestedIngredient> findSuggestedIngredientList();
+
+    List<Ingredient> findByExpirationDateAndEmail(LocalDate expirationDate, String email);
 
 }

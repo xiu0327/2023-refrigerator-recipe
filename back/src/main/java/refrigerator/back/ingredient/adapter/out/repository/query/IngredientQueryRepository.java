@@ -1,5 +1,6 @@
 package refrigerator.back.ingredient.adapter.out.repository.query;
 
+import com.querydsl.core.Fetchable;
 import org.springframework.data.domain.Pageable;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;

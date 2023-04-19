@@ -43,4 +43,10 @@ public class IngredientLookUpController {
     public IngredientDetailResponseDTO findIngredient(@PathVariable("ingredientId") Long id) {
         return findIngredientDetailUseCase.getIngredient(id);
     }
+
+    @GetMapping("api/ingredients/deadline/{days}")
+    public IngredientListResponseDTO<IngredientResponseDTO> findIngredientListByDeadline(@PathVariable("days") Long days) {
+        String email = "";
+        return new IngredientListResponseDTO<>(findIngredientListUseCase.getIngredientListByDeadline(days, email));
+    }
 }
