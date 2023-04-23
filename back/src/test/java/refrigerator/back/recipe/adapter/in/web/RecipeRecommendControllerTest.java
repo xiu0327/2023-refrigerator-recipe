@@ -36,7 +36,6 @@ class RecipeRecommendControllerTest {
     @Autowired MockMvc mockMvc;
     @Autowired WebApplicationContext context;
     @Autowired CreateTokenPort createTokenPort;
-    @Autowired EntityManager em;
     @Autowired TestData testData;
 
     @Before
@@ -51,15 +50,7 @@ class RecipeRecommendControllerTest {
     void recommend() throws Exception {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-        em.persist(Ingredient.create(
-                ingredientName,
-                LocalDate.now(),
-                70,
-                "g",
-                "보관방식",
-                "이미지",
-                email
-        ));
+        testData.createIngredient(ingredientName, email);
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 2000);
         mockMvc.perform(get("/api/recipe/recommend")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))

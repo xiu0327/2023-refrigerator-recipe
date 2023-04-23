@@ -1,22 +1,25 @@
 package refrigerator.back.searchword.application.domain;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.time.Period;
 
+@Getter
+@Builder
 public class Ingredient {
     private String name;
-    private LocalDate expirationDate;
-
-    public String getName() {
-        return name;
-    }
+    private LocalDate date;
 
     public Integer calculationDDay(){
-        return Period.between(expirationDate, LocalDate.now()).getDays();
+        Period period = Period.between(LocalDate.now(), date);
+        int total = period.getDays() + period.getMonths() * 30 + period.getYears() * 365;
+        return total;
     }
 
     public boolean isExpired(){
-        int days = Period.between(LocalDate.now(), expirationDate).getDays();
-        return days <= 0;
+        int days = calculationDDay();
+        return days >= 0;
     }
 }

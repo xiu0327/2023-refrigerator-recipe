@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
@@ -12,6 +13,7 @@ import refrigerator.back.member.exception.MemberExceptionType;
 import refrigerator.back.myscore.application.domain.MyScore;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -95,5 +97,30 @@ public class TestData {
 
     public String makeTokenHeader(String token){
         return "Bearer " + token;
+    }
+
+    public void createIngredient(String ingredientName, String memberId){
+        em.persist(Ingredient.create(
+                ingredientName,
+                LocalDate.now(),
+                70,
+                "g",
+                "보관방식",
+                0,
+                memberId
+        ));
+    }
+
+
+    public void createIngredientWithDate(String ingredientName, String memberId, LocalDate date){
+        em.persist(Ingredient.create(
+                ingredientName,
+                date,
+                70,
+                "g",
+                "보관방식",
+                0,
+                memberId
+        ));
     }
 }

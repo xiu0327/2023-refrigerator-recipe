@@ -1,9 +1,13 @@
 package refrigerator.back.searchword.adapter.out.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
+@Getter
+@Builder
 public class OutIngredientDTO {
     private String name;
     private LocalDate date;

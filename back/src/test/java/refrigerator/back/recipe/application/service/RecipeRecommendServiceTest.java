@@ -32,7 +32,6 @@ class RecipeRecommendServiceTest {
     @Autowired RecipeRecommendService recipeRecommendService;
     @Autowired FindRecommendRecipeInfoPort findRecommendRecipeInfoPort;
     @Autowired FindIngredientNameListByMemberPort findIngredientNameListByMemberPort;
-    @Autowired EntityManager em;
     @Autowired TestData testData;
 
     @Test
@@ -40,15 +39,7 @@ class RecipeRecommendServiceTest {
     void recommend() {
         String memberId = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-        em.persist(Ingredient.create(
-                ingredientName,
-                LocalDate.now(),
-                70,
-                "g",
-                "보관방식",
-                "이미지",
-                memberId
-        ));
+        testData.createIngredient(ingredientName, memberId);
         List<InRecipeRecommendDTO> result = recipeRecommendService.recommend(memberId);
         for (int i = 0 ; i < result.size() ; i++){
             if (!(i == result.size() - 1)){
@@ -95,15 +86,7 @@ class RecipeRecommendServiceTest {
     Map<Long, Double> calculationMatchPercent() {
         String memberId = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-        em.persist(Ingredient.create(
-                ingredientName,
-                LocalDate.now(),
-                70,
-                "g",
-                "보관방식",
-                "이미지",
-                memberId
-        ));
+        testData.createIngredient(ingredientName, memberId);
         List<String> ingredientNameListByMember = findIngredientNameListByMemberPort.findIngredientNameListByMember(memberId);
         Map<Long, Set<String>> ingredient = findRecommendRecipeInfoPort.getRecipeIngredientNameList();
         Map<Long, Double> result = recipeRecommendService.calculationMatchPercent(
