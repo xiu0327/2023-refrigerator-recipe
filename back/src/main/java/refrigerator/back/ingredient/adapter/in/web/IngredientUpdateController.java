@@ -21,7 +21,7 @@ public class IngredientUpdateController {
     public IngredientRegisterResponseDTO registerIngredient(@RequestBody IngredientRegisterRequestDTO request) {
         String email = "";
         Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getCapacity(),
-                                                               request.getCapacityUnit(), request.getStorageMethod(), request.getImage(), email);
+                                                               request.getCapacityUnit(), request.getStorageMethod(), request.getImageId(), email);
 
         return new IngredientRegisterResponseDTO(id);
     }
@@ -47,6 +47,8 @@ public class IngredientUpdateController {
     @PostMapping("/api/ingredients/propose")
     @ResponseStatus(HttpStatus.CREATED)
     public void proposeIngredient(@RequestBody IngredientProposeRequestDTO request) {
-        registerIngredientUseCase.proposeIngredient(request.getName(), request.getCapacityUnit());
+        String email = "";
+
+        registerIngredientUseCase.proposeIngredient(request.getName(), request.getCapacityUnit(), email);
     }
 }

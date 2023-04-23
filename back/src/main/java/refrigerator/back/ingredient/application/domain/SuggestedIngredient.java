@@ -23,4 +23,7 @@ public class SuggestedIngredient {
 
     @Column(name = "unit", nullable = false, length = 20)
     private String unit;
+
+    @Column(name = "email", nullable = false)
+    private String email;
 }
