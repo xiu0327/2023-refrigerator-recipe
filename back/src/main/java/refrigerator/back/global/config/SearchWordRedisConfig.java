@@ -1,33 +1,34 @@
 package refrigerator.back.global.config;
 
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 @EnableCaching
-public class RedisConfig extends CachingConfigurerSupport {
+public class SearchWordRedisConfig {
 
-    @Value("${spring.redis.basic.host}")
+    @Value("${spring.redis.searchWord.host}")
     private String host;
 
-    @Value("${spring.redis.basic.port}")
+    @Value("${spring.redis.searchWord.port}")
     private int port;
 
     @Bean
-    public RedisTemplate<String, String> redisTemplate() {
+    public RedisTemplate<String, String> searchWordRedisTemplate(){
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setConnectionFactory(searchWordConnectionFactory());
         return redisTemplate;
     }
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
+    public RedisConnectionFactory searchWordConnectionFactory(){
         return new LettuceConnectionFactory(host, port);
     }
 
