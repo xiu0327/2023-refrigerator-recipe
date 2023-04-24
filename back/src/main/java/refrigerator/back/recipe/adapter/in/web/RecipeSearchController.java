@@ -2,10 +2,12 @@ package refrigerator.back.recipe.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import refrigerator.back.global.common.MemberInformation;
 import refrigerator.back.recipe.adapter.in.cache.config.RecipeCacheKey;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
@@ -13,6 +15,7 @@ import refrigerator.back.recipe.adapter.in.dto.InRecipeSearchRequestDTO;
 import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
 import refrigerator.back.recipe.application.port.in.FindSearchConditionUseCase;
 import refrigerator.back.recipe.application.port.in.SearchRecipeUseCase;
+import refrigerator.back.searchword.application.port.in.AddSearchWordUseCase;
 
 
 @RestController
@@ -21,12 +24,16 @@ public class RecipeSearchController {
 
     private final SearchRecipeUseCase searchRecipeUseCase;
     private final FindSearchConditionUseCase findSearchConditionUseCase;
+    private final AddSearchWordUseCase addSearchWordUseCase;
     private final RecipeDtoMapper mapper;
 
     @GetMapping("/api/recipe/search")
     public InRecipeBasicListDTO<InRecipeDTO> search(@RequestBody InRecipeSearchRequestDTO condition,
                                 @RequestParam("page") int page,
                                 @RequestParam(value = "size", defaultValue = "11") int size){
+        if (condition.getSearchWord() != null && StringUtils.hasText(condition.getSearchWord())){
+            addSearchWordUseCase.addSearchWord(MemberInformation.getMemberEmail(), condition.getSearchWord());
+        }
         return searchRecipeUseCase.search(
                 mapper.toRecipeSearchCondition(condition),
                 page, size);

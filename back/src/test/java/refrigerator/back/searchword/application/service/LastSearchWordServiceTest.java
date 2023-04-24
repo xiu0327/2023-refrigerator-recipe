@@ -1,12 +1,17 @@
 package refrigerator.back.searchword.application.service;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
+import refrigerator.back.searchword.application.port.in.FindLastSearchWordUseCase;
 import refrigerator.back.searchword.application.port.out.GetSearchWordListSizePort;
 
 import java.util.List;
@@ -25,9 +30,10 @@ class LastSearchWordServiceTest {
     @DisplayName("검색어 추가")
     void addSearchWord() {
         String memberId = testData.createMemberByEmail("email@gmail.com");
-        lastSearchWordService.addSearchWord(memberId, "검색어");
-        Long result = getSearchWordListSizePort.getWordListSize(memberId);
-        Assertions.assertThat(result).isEqualTo(1);
+        String searchWord = "검색어";
+        lastSearchWordService.addSearchWord(memberId, searchWord);
+        String findSearchWord = lastSearchWordService.getLastSearchWords(memberId).get(0);
+        Assertions.assertThat(findSearchWord).isEqualTo(searchWord);
     }
 
     @Test
@@ -37,8 +43,8 @@ class LastSearchWordServiceTest {
         String searchWord = "검색어";
         lastSearchWordService.addSearchWord(memberId, searchWord);
         lastSearchWordService.delete(memberId, searchWord);
-        Long result = getSearchWordListSizePort.getWordListSize(memberId);
-        Assertions.assertThat(result).isEqualTo(0);
+        List<String> result = lastSearchWordService.getLastSearchWords(memberId);
+        Assertions.assertThat(searchWord).isNotIn(result);
     }
 
     @Test
@@ -48,8 +54,7 @@ class LastSearchWordServiceTest {
         lastSearchWordService.addSearchWord(memberId, "검색어1");
         lastSearchWordService.addSearchWord(memberId, "검색어2");
         List<String> result = lastSearchWordService.getLastSearchWords(memberId);
-        Assertions.assertThat("검색어1").isIn(result);
-        Assertions.assertThat("검색어2").isIn(result);
-        Assertions.assertThat(result.size()).isEqualTo(2);
+        Assertions.assertThat("검색어1").isEqualTo(result.get(1));
+        Assertions.assertThat("검색어2").isEqualTo(result.get(0));
     }
 }

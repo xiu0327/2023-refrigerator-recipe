@@ -2,15 +2,11 @@ package refrigerator.back.ingredient.adapter.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientDetailResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientLookUpRequestDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisteredResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.*;
+import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface IngredientMapper {
@@ -24,4 +20,6 @@ public interface IngredientMapper {
     IngredientRegisteredResponseDTO toIngredientRegisteredResponseDTO(RegisteredIngredient ingredient);
 
     IngredientSearchCondition toIngredientSearchCondition(IngredientLookUpRequestDTO dto, String email);
+
+    RecipeIngredientVolumeDTO toIngredientVolumeByRecipe(OutRecipeIngredientVolumeDTO dto);
 }

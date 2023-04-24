@@ -103,7 +103,7 @@ public class TestData {
         em.persist(Ingredient.create(
                 ingredientName,
                 LocalDate.now(),
-                70,
+                70.0,
                 "g",
                 "보관방식",
                 0,
@@ -116,7 +116,7 @@ public class TestData {
         em.persist(Ingredient.create(
                 ingredientName,
                 date,
-                70,
+                70.0,
                 "g",
                 "보관방식",
                 0,

@@ -36,7 +36,7 @@ public class LastSearchWordService implements AddSearchWordUseCase, DeleteSearch
     public void delete(String memberId, String value) {
         String key = makeLastSearchWordKey(memberId);
         Long size = getSearchWordListSizePort.getWordListSize(key);
-        if (size != null && size > 1){
+        if (size != null && size >= 1){
             deleteSearchWordPort.delete(key, value);
             return;
         }

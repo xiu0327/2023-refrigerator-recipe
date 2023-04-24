@@ -14,8 +14,7 @@ public class Ingredient {
 
     public Integer calculationDDay(){
         Period period = Period.between(LocalDate.now(), date);
-        int total = period.getDays() + period.getMonths() * 30 + period.getYears() * 365;
-        return total;
+        return period.getDays() + period.getMonths() * 30 + period.getYears() * 365;
     }
 
     public boolean isExpired(){

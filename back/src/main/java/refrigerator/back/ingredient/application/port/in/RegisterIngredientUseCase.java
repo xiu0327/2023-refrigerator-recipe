@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface RegisterIngredientUseCase {
 
-    Long registerIngredient(String name, LocalDate expirationDate, Integer capacity,
+    Long registerIngredient(String name, LocalDate expirationDate, Double capacity,
                             String capacityUnit, String storageMethod, Integer imageId, String email);
 
     void proposeIngredient(String name, String capacityUnit, String email);
