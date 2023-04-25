@@ -1,8 +1,6 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
-import { Button } from "react-bootstrap";
-import Login from "./login/Login";
+import Login from "./login/login";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,29 +1,18 @@
-import styles from "./styles.module.css";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
+import styles from "./styles.module.scss";
 import { useState } from "react";
-import CheckModal from "@/components/global/modal";
+import InputBtn from "@/components/member/InputBtn/InputBtn";
+import InputContent from "@/components/member/InputContent/InputContent";
+import ModalOnBtn from "@/components/member/ModalOnBtn/ModalOnBtn";
 
 export default function Register() {
 	const [checkedEmail, setCheckedEmail] = useState(false);
 	const [checkedPw, setCheckedPw] = useState(true);
 	const [clickBtn, setClickBtn] = useState(true);
-	const [modalShow, setModalShow] = useState(false);
 	return (
 		<div className={styles.registerContainer}>
 			<span className={styles.registerTitle}>회원가입</span>
 			<div>
-				<InputGroup className={`${styles.registerInput} mb-3`}>
-					<Form.Control
-						placeholder="이메일"
-						aria-label="Recipient's username"
-						aria-describedby="basic-addon2"
-					/>
-					<Button variant="outline-secondary" id="button-addon2">
-						중복 확인
-					</Button>
-				</InputGroup>
+				<InputBtn formTitle="이메일" btnTitle="중복 확인" />
 				<div className={styles.checkEmail}>
 					{checkedEmail ? (
 						<span className={styles.checkEmailTrue}>
@@ -34,21 +23,9 @@ export default function Register() {
 					)}
 				</div>
 			</div>
-			<InputGroup className={`${styles.registerInput} mb-3`}>
-				<Form.Control
-					placeholder="비밀번호"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-			</InputGroup>
+			<InputContent title="비밀번호" />
 			<div>
-				<InputGroup className={`${styles.registerInput} mb-3`}>
-					<Form.Control
-						placeholder="비밀번호 확인"
-						aria-label="Recipient's username"
-						aria-describedby="basic-addon2"
-					/>
-				</InputGroup>
+				<InputContent title="비밀번호 확인" />
 				<div className={styles.checkPw}>
 					{checkedPw ? (
 						<span className={styles.checkPwTrue}>비밀번호가 일치합니다.</span>
@@ -59,24 +36,9 @@ export default function Register() {
 					)}
 				</div>
 			</div>
-			<InputGroup className={`${styles.registerInput} mb-3`}>
-				<Form.Control
-					placeholder="닉네임"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-			</InputGroup>
+			<InputContent title="닉네임" />
 			<div>
-				<InputGroup className={`${styles.registerInput} mb-3`}>
-					<Form.Control
-						placeholder="이메일 인증"
-						aria-label="Recipient's username"
-						aria-describedby="basic-addon2"
-					/>
-					<Button variant="outline-secondary" id="button-addon2">
-						인증번호 전송
-					</Button>
-				</InputGroup>
+				<InputBtn formTitle="이메일 인증" btnTitle="인증번호 전송" />
 				<div className={styles.clickBtn}>
 					{clickBtn ? (
 						<span className={styles.clickTrue}>
@@ -90,31 +52,9 @@ export default function Register() {
 					)}
 				</div>
 			</div>
-			<InputGroup className={`${styles.registerInput} mb-3`}>
-				<Form.Control
-					placeholder="인증번호 입력"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-				<Button variant="outline-secondary" id="button-addon2">
-					인증번호 입력
-				</Button>
-			</InputGroup>
+			<InputBtn formTitle="인증번호 입력" btnTitle="인증번호 확인" />
 			<div className={`d-grid gap-2`}>
-				<Button
-					className={styles.registerBtn}
-					variant="primary"
-					size="lg"
-					onClick={() => setModalShow(true)}
-				>
-					가입하기
-				</Button>
-
-				<CheckModal
-					ment={"가입이 완료되었습니다."}
-					show={modalShow}
-					onHide={() => setModalShow(false)}
-				/>
+				<ModalOnBtn title="가입하기" ment="가입" />
 			</div>
 		</div>
 	);

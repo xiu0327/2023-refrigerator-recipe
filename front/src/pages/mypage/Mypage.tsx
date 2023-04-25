@@ -1,6 +1,8 @@
-import { useRef, useState } from "react";
-import styles from "./styles.module.css";
-import { GripVertical, PencilFill, PencilSquare } from "react-bootstrap-icons";
+import styles from "./styles.module.scss";
+import { PencilFill } from "react-bootstrap-icons";
+import ConfirmCancelModal from "@/components/member/ConfirmCancelModal/ConfirmCancelModal";
+import LinkBtn from "@/components/member/LinkBtn/LinkBtn";
+import ScrollContent from "@/components/member/ScrollContent/ScrollContent";
 import Link from "next/link";
 import { Button } from "react-bootstrap";
 
@@ -19,42 +21,24 @@ export default function Mypage() {
 			</div>
 			<div className={styles.mypageStar}>
 				<span className={styles.mypageStarTitle}>내가 남긴 별점 (11)</span>
-				<div className={styles.mypageStarScroll}>
-					<div className={styles.mypageStarContent}>사진 1</div>
-					<div className={styles.mypageStarContent}>사진 2</div>
-					<div className={styles.mypageStarContent}>사진 3</div>
-					<div className={styles.mypageStarContent}>사진 4</div>
-					<div className={styles.mypageStarContent}>사진 5</div>
-					<div className={styles.mypageStarContent}>더보기(링크)</div>
-				</div>
+				<ScrollContent content="star" />
 			</div>
 			<div className={styles.mypageBookmark}>
 				<span className={styles.mypageBookmarkTitle}>북마크 (26)</span>
-				<div className={styles.mypageBookmarkScroll}>
-					<div className={styles.mypageBookmarkContent}>사진 1</div>
-					<div className={styles.mypageBookmarkContent}>사진 2</div>
-					<div className={styles.mypageBookmarkContent}>사진 3</div>
-					<div className={styles.mypageBookmarkContent}>사진 4</div>
-					<div className={styles.mypageBookmarkContent}>사진 5</div>
-					<div className={styles.mypageBookmarkContent}>더보기(링크)</div>
-				</div>
+				<ScrollContent content="bookmark" />
 			</div>
 			<div className={`d-grid gap-2`}>
-				<Link legacyBehavior href="../announcement/Announcement">
-					<Button className={styles.loginBtn} variant="primary" size="lg">
-						<span>공지사항</span>
-					</Button>
-				</Link>
-				<Link legacyBehavior href="../password/Password">
-					<Button className={styles.loginBtn} variant="primary" size="lg">
-						<span>비밀번호 변경</span>
-					</Button>
-				</Link>
+				<LinkBtn title={"공지사항"} link={"../announcement/announcement"} />
+				<LinkBtn title={"비밀번호 찾기"} link={"../password/password"} />
 			</div>
 			<div className={styles.mypageLink}>
-				<a href="../logout/Logout">로그아웃</a>
+				<ConfirmCancelModal title="로그아웃" ment="로그아웃 하시겠습니까?" />
 				<span>|</span>
-				<a href="../secession/Secession">회원탈퇴</a>
+				<Link legacyBehavior href="../unregister/unregister">
+					<Button className={styles.mypageUnregister} variant="primary">
+						회원탈퇴
+					</Button>
+				</Link>
 			</div>
 		</div>
 	);

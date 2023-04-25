@@ -1,61 +1,19 @@
-import styles from "./styles.module.css";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Modal from "react-bootstrap/Modal";
+import styles from "./styles.module.scss";
 import { useState } from "react";
-import Link from "next/link";
-
-function MyVerticallyCenteredModal(props: any) {
-	return (
-		<Modal
-			{...props}
-			size="lg"
-			aria-labelledby="contained-modal-title-vcenter"
-			centered
-		>
-			<Modal.Body>
-				<p>변경이 완료되었습니다.</p>
-			</Modal.Body>
-			<Modal.Footer>
-				<Link legacyBehavior href="/">
-					<Button onClick={props.onHide}>확인</Button>
-				</Link>
-			</Modal.Footer>
-		</Modal>
-	);
-}
-/* 확인 모달 */
+import LoginInput from "@/components/member/InputContent/InputContent";
+import InputButton from "@/components/member/InputBtn/InputBtn";
+import ModalOnBtn from "@/components/member/ModalOnBtn/ModalOnBtn";
 
 export default function Password() {
 	const [checkedPw, setCheckedPw] = useState(true);
 	const [clickBtn, setClickBtn] = useState(true);
-	const [modalShow, setModalShow] = useState(false);
 	return (
 		<div className={styles.passwordContainer}>
 			<span className={styles.passwordTitle}>비밀번호 변경</span>
-			<InputGroup className={`${styles.passwordInput} mb-3`}>
-				<Form.Control
-					placeholder="기존 비밀번호"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-			</InputGroup>
-			<InputGroup className={`${styles.passwordInput} mb-3`}>
-				<Form.Control
-					placeholder="새 비밀번호"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-			</InputGroup>
+			<LoginInput title={"기존 비밀번호"} />
+			<LoginInput title={"새 비밀번호"} />
 			<div>
-				<InputGroup className={`${styles.passwordInput} mb-3`}>
-					<Form.Control
-						placeholder="새 비밀번호 확인"
-						aria-label="Recipient's username"
-						aria-describedby="basic-addon2"
-					/>
-				</InputGroup>
+				<LoginInput title={"새 비밀번호 확인"} />
 				<div className={styles.checkPw}>
 					{checkedPw ? (
 						<span className={styles.checkPwTrue}>비밀번호가 일치합니다.</span>
@@ -67,16 +25,7 @@ export default function Password() {
 				</div>
 			</div>
 			<div>
-				<InputGroup className={`${styles.passwordInput} mb-3`}>
-					<Form.Control
-						placeholder="이메일 인증"
-						aria-label="Recipient's username"
-						aria-describedby="basic-addon2"
-					/>
-					<Button variant="outline-secondary" id="button-addon2">
-						인증번호 전송
-					</Button>
-				</InputGroup>
+				<InputButton formTitle="이메일 인증" btnTitle="인증번호 전송" />
 				<div className={styles.clickBtn}>
 					{clickBtn ? (
 						<span className={styles.clickTrue}>
@@ -90,31 +39,8 @@ export default function Password() {
 					)}
 				</div>
 			</div>
-			<InputGroup className={`${styles.passwordInput} mb-3`}>
-				<Form.Control
-					placeholder="인증번호 입력"
-					aria-label="Recipient's username"
-					aria-describedby="basic-addon2"
-				/>
-				<Button variant="outline-secondary" id="button-addon2">
-					인증번호 입력
-				</Button>
-			</InputGroup>
-			<div className={`d-grid gap-2`}>
-				<Button
-					className={styles.passwordBtn}
-					variant="primary"
-					size="lg"
-					onClick={() => setModalShow(true)}
-				>
-					변경하기
-				</Button>
-
-				<MyVerticallyCenteredModal
-					show={modalShow}
-					onHide={() => setModalShow(false)}
-				/>
-			</div>
+			<InputButton formTitle="인증번호 입력" btnTitle="인증번호 입력" />
+			<ModalOnBtn title="변경하기" ment="변경" />
 		</div>
 	);
 }
