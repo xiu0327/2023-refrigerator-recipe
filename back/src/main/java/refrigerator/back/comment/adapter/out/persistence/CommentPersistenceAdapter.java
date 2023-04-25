@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.comment.adapter.in.dto.response.InCommentDTO;
-import refrigerator.back.comment.adapter.in.dto.response.InCommentListDTO;
 import refrigerator.back.comment.adapter.mapper.CommentMapper;
 import refrigerator.back.comment.adapter.out.dto.OutCommentDTO;
 import refrigerator.back.comment.adapter.out.repository.CommentRepository;
 import refrigerator.back.comment.application.domain.Comment;
+import refrigerator.back.comment.application.domain.CommentDto;
+import refrigerator.back.comment.application.domain.CommentListDto;
 import refrigerator.back.comment.application.port.out.CommentFindOnePort;
 import refrigerator.back.comment.application.port.out.CommentReadPort;
 import refrigerator.back.comment.application.port.out.CommentWritePort;
@@ -28,27 +28,27 @@ public class CommentPersistenceAdapter implements CommentReadPort, CommentWriteP
     private final CommentMapper mapper;
 
     @Override
-    public InCommentListDTO findCommentPreviewList(Long recipeId, int size) {
+    public CommentListDto findCommentPreviewList(Long recipeId, int size) {
         Page<OutCommentDTO> result = repository.findCommentPreviewList(recipeId, PageRequest.of(0, size));
-        return InCommentListDTO.builder()
+        return CommentListDto.builder()
                 .comments(result.getContent()
-                        .stream().map(mapper::toInCommentDto)
+                        .stream().map(mapper::toCommentDto)
                         .collect(Collectors.toList()))
                 .count(Long.valueOf(result.getTotalElements()).intValue())
                 .build();
     }
 
     @Override
-    public List<InCommentDTO> findCommentListByHeart(Long recipeId, int page, int size) {
+    public List<CommentDto> findCommentListByHeart(Long recipeId, int page, int size) {
         return repository.findCommentList(recipeId, PageRequest.of(page, size), HEART)
-                .stream().map(mapper::toInCommentDto)
+                .stream().map(mapper::toCommentDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<InCommentDTO> findCommentListByDate(Long recipeId, int page, int size) {
+    public List<CommentDto> findCommentListByDate(Long recipeId, int page, int size) {
         return repository.findCommentList(recipeId, PageRequest.of(page, size), DATE)
-                .stream().map(mapper::toInCommentDto)
+                .stream().map(mapper::toCommentDto)
                 .collect(Collectors.toList());
     }
 

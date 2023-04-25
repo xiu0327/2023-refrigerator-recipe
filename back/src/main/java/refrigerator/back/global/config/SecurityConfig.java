@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.adapter.infra.oauth.Oauth2FailureHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2SuccessHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.PrincipalOAuth2DetailsService;
 import refrigerator.back.authentication.adapter.infra.security.filter.JwtAuthenticationFilter;
@@ -32,6 +33,7 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
+    private final Oauth2FailureHandler oauth2FailureHandler;
 
     @Value("${jwt.tokenPassword}")
     private String tokenPassword;
@@ -55,7 +57,8 @@ public class SecurityConfig {
                 .userService(principalOAuth2DetailsService);
         http
                 .oauth2Login()
-                        .successHandler(oauth2SuccessHandler);
+                .successHandler(oauth2SuccessHandler)
+                .failureHandler(oauth2FailureHandler);
         http
                 .authorizeRequests()
                 .mvcMatchers("/api/members/join").permitAll()
@@ -67,7 +70,10 @@ public class SecurityConfig {
                 .mvcMatchers("/api/word-completion/**").permitAll()
                 .mvcMatchers("/api/recipe/search/condition/**").permitAll()
                 .mvcMatchers("/oauth2/authorization/google").permitAll()
+                .mvcMatchers("/oauth2/authorization/naver").permitAll()
+                .mvcMatchers("/api/recipe/**").permitAll()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
+                .mvcMatchers("/api/recipe/recommend").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

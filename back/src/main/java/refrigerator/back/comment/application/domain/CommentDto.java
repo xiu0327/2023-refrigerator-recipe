@@ -1,18 +1,17 @@
-package refrigerator.back.comment.adapter.in.dto.response;
+package refrigerator.back.comment.application.domain;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class InCommentDTO {
+public class CommentDto {
     private Long commentId;
     private String nickname;
     private Integer heart;
-    private String date;
+    private LocalDateTime createDate;
     private Boolean modifiedState;
     private String content;
 }

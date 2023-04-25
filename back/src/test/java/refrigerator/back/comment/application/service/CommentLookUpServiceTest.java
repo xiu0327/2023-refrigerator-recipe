@@ -38,7 +38,7 @@ class CommentLookUpServiceTest {
         // then
         for (InCommentDTO comment : comments) {
             assertNotNull(comment.getCommentId());
-            assertNotNull(comment.getCreateDate());
+            assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
             assertNotNull(comment.getNickname());
@@ -63,7 +63,7 @@ class CommentLookUpServiceTest {
         for (InCommentDTO comment : comments) {
             assertThat(comment.getCommentId()).isEqualTo(--firstId);
             assertNotNull(comment.getCommentId());
-            assertNotNull(comment.getCreateDate());
+            assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
             assertNotNull(comment.getNickname());
@@ -89,7 +89,7 @@ class CommentLookUpServiceTest {
         // then
         for (InCommentDTO comment : comments) {
             assertNotNull(comment.getCommentId());
-            assertNotNull(comment.getCreateDate());
+            assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
             assertNotNull(comment.getNickname());

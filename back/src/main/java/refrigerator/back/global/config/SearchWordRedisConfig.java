@@ -14,10 +14,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching
 public class SearchWordRedisConfig {
 
-    @Value("${spring.redis.searchWord.host}")
+    @Value("${spring.redis.search.host}")
     private String host;
 
-    @Value("${spring.redis.searchWord.port}")
+    @Value("${spring.redis.search.port}")
     private int port;
 
     @Bean

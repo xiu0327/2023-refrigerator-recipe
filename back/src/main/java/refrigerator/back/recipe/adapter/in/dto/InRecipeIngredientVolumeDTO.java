@@ -13,4 +13,5 @@ public class InRecipeIngredientVolumeDTO {
     private String name;
     private Double volume;
     private String unit;
+    private String type;
 }
