@@ -1,46 +1,46 @@
 .registerContainer {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-top: 25px;
-	gap: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+  gap: 15px;
 }
 
 .registerTitle {
-	font-size: 27px;
-	font-weight: 600;
+  font-size: 27px;
+  font-weight: 600;
 }
 
 .registerInput {
-	width: 320px;
-	height: 57px;
+  width: 320px;
+  height: 57px;
 }
 
 .registerBtn {
-	width: 320px;
-	height: 57px;
-	margin-bottom: 35px;
+  width: 320px;
+  height: 57px;
+  margin-bottom: 35px;
 }
 
 .checkEmail,
 .checkPw,
 .clickBtn {
-	margin-top: -12px;
+  margin-top: -12px;
 }
 
 .checkEmailTrue,
 .checkPwTrue {
-	color: blue;
+  color: blue;
 }
 
 .checkEmailFalse,
 .checkPwFalse {
-	color: red;
+  color: red;
 }
 
 .clickTrue span {
-	display: flex;
-	font-size: 12px;
-	justify-content: left;
-}
+  display: flex;
+  font-size: 12px;
+  justify-content: left;
+}/*# sourceMappingURL=styles.module.css.map */

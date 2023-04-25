@@ -1,0 +1,28 @@
+.loginContainer {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+
+	img {
+		width: 320px;
+		height: 300px;
+		margin: 35px 0px;
+	}
+}
+
+/* 이메일 로그인 */
+.loginEmailContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 25px;
+	gap: 15px;
+}
+
+.loginEmailTitle {
+	font-size: 27px;
+	font-weight: 600;
+}
