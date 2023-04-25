@@ -2,10 +2,12 @@ package refrigerator.back.recipe.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe.application.port.in.RecommendRecipeUseCase;
 import refrigerator.back.recipe.application.port.out.FindIngredientNameListByMemberPort;
 import refrigerator.back.recipe.application.port.out.FindRecommendRecipeInfoPort;
+import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,6 +23,9 @@ public class RecipeRecommendService implements RecommendRecipeUseCase {
     public List<InRecipeRecommendDTO> recommend(String memberId) {
         Map<Long, Set<String>> ingredient = findRecommendRecipeInfoPort.getRecipeIngredientNameList();
         List<String> ingredientNameListByMember = findIngredientNamePort.findIngredientNameListByMember(memberId);
+        if (ingredientNameListByMember.size() <= 0){
+            throw new BusinessException(RecipeExceptionType.EMPTY_MEMBER_INGREDIENT);
+        }
         Map<Long, Double> matchPercent = calculationMatchPercent(ingredient, ingredientNameListByMember);
         List<InRecipeRecommendDTO> recommendRecipeInfo =
                 findRecommendRecipeInfoPort.findRecommendRecipeInfo(getRecommendRecipeIds(matchPercent));

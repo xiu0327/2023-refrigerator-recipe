@@ -23,4 +23,6 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long>, I
 
     List<Ingredient> findByExpirationDateAndEmail(LocalDate expirationDate, String email);
 
+    List<Ingredient> findByEmailAndDeletedFalse(String email);
+
 }

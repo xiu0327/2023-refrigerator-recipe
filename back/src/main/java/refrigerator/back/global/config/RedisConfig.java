@@ -13,15 +13,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Value("${spring.redis.host}")
+    @Value("${spring.redis.basic.host}")
     private String host;
 
-    @Value("${spring.redis.port}")
+    @Value("${spring.redis.basic.port}")
     private int port;
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, String> redisTemplate() {
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }

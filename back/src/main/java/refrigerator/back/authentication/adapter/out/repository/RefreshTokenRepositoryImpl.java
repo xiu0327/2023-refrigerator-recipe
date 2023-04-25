@@ -1,16 +1,20 @@
 package refrigerator.back.authentication.adapter.out.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
 
 @Repository
-@RequiredArgsConstructor
 public class RefreshTokenRepositoryImpl implements RefreshTokenRepository{
 
-    private final StringRedisTemplate stringRedisTemplate;
+    private final RedisTemplate<String, String> stringRedisTemplate;
+
+    public RefreshTokenRepositoryImpl(
+            @Qualifier("redisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Override
     public String getData(String key) {

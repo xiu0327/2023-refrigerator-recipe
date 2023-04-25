@@ -57,6 +57,8 @@ public class MyScoreQueryRepositoryImpl implements MyScoreQueryRepository {
                 .leftJoin(recipe).on(recipe.recipeID.eq(myScore.recipeID))
                 .where(myScore.memberID.eq(memberID))
                 .orderBy(myScore.createDate.desc())
+                .limit(page.getPageSize())
+                .offset(page.getOffset())
                 .fetch();
         JPAQuery<Long> count = jpaQueryFactory.select(myScore.count())
                 .from(myScore)

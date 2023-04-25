@@ -10,10 +10,14 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.adapter.infra.oauth.Oauth2FailureHandler;
+import refrigerator.back.authentication.adapter.infra.oauth.Oauth2SuccessHandler;
+import refrigerator.back.authentication.adapter.infra.oauth.PrincipalOAuth2DetailsService;
 import refrigerator.back.authentication.adapter.infra.security.filter.JwtAuthenticationFilter;
 
 import java.util.Collections;
@@ -27,6 +31,9 @@ public class SecurityConfig {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final AuthenticationProvider authenticationProvider;
+    private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
+    private final Oauth2FailureHandler oauth2FailureHandler;
 
     @Value("${jwt.tokenPassword}")
     private String tokenPassword;
@@ -36,19 +43,37 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().antMatchers("/api/**");
+//    }
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(principalOAuth2DetailsService);
+        http
+                .oauth2Login()
+                .successHandler(oauth2SuccessHandler)
+                .failureHandler(oauth2FailureHandler);
+        http
                 .authorizeRequests()
                 .mvcMatchers("/api/members/join").permitAll()
-                .mvcMatchers("/api/auth/login").permitAll()
-                .mvcMatchers("/api/auth/reissue").permitAll()
+                .mvcMatchers("/api/auth/**").permitAll()
                 .mvcMatchers("/api/identification/**").permitAll()
                 .mvcMatchers("/api/members/password/find").permitAll()
                 .mvcMatchers("/api/members/email/duplicate").permitAll()
                 .mvcMatchers("/api/members/profile/list").permitAll()
-                .mvcMatchers("/api/word-completion/recipe/**").permitAll()
+                .mvcMatchers("/api/word-completion/**").permitAll()
+                .mvcMatchers("/api/recipe/search/condition/**").permitAll()
+                .mvcMatchers("/oauth2/authorization/google").permitAll()
+                .mvcMatchers("/oauth2/authorization/naver").permitAll()
+                .mvcMatchers("/api/recipe/**").permitAll()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
+                .mvcMatchers("/api/recipe/recommend").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

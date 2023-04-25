@@ -8,6 +8,7 @@ import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendIngredientDTO;
 import refrigerator.back.recipe.adapter.out.dto.QOutRecipeRecommendDTO;
 import refrigerator.back.recipe.adapter.out.dto.QOutRecipeRecommendIngredientDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static refrigerator.back.ingredient.application.domain.QIngredient.ingredient;
@@ -23,9 +24,12 @@ public class RecipeRecommendQueryRepositoryImpl implements RecipeRecommendQueryR
 
     @Override
     public List<String> findIngredientNameByMember(String memberId) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.of(2200, 1, 1);
         return jpaQueryFactory.select(ingredient.name)
                 .from(ingredient)
-                .where(ingredient.email.eq(memberId))
+                .where(ingredient.email.eq(memberId),
+                        ingredient.expirationDate.between(startDate, endDate))
                 .fetch();
     }
 

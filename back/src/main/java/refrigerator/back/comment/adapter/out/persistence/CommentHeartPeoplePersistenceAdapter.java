@@ -1,6 +1,8 @@
 package refrigerator.back.comment.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.adapter.out.repository.CommentRepository;
@@ -13,11 +15,16 @@ import refrigerator.back.global.exception.BusinessException;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class CommentHeartPeoplePersistenceAdapter implements CommentHeartPeopleReadPort, CommentHeartPeopleWritePort {
 
     private final CommentRepository commentRepository;
-    private final StringRedisTemplate stringRedisTemplate;
+    private final RedisTemplate<String, String> stringRedisTemplate;
+
+    public CommentHeartPeoplePersistenceAdapter(CommentRepository commentRepository,
+                                                @Qualifier("redisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+        this.commentRepository = commentRepository;
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Override
     public List<Long> findLikedComment(String memberId) {

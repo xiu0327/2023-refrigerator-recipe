@@ -23,7 +23,7 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     private final ReadIngredientPort readIngredientPort;
 
     @Override
-    public Long registerIngredient(String name, LocalDate expirationDate, Integer capacity,
+    public Long registerIngredient(String name, LocalDate expirationDate, Double capacity,
                                    String capacityUnit, String storageMethod, Integer imageId, String email) {
 
         return writeIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, capacity,
@@ -42,7 +42,7 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     }
 
     @Override
-    public void modifyIngredient(Long id, LocalDate expirationDate, Integer capacity, String storageMethod) {
+    public void modifyIngredient(Long id, LocalDate expirationDate, Double capacity, String storageMethod) {
         Ingredient ingredient = readIngredientPort.getIngredientById(id);
         ingredient.modify(expirationDate, capacity, storageMethod);
         writeIngredientPort.saveIngredient(ingredient);

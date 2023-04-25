@@ -6,6 +6,6 @@ import java.time.LocalDateTime;
 public interface ModifyIngredientUseCase {
 
     void modifyIngredient(Long id, LocalDate expirationDate,
-                          Integer capacity, String storageMethod);
+                          Double capacity, String storageMethod);
 
 }

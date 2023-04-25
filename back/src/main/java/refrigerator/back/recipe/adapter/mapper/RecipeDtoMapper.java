@@ -1,9 +1,8 @@
 package refrigerator.back.recipe.adapter.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
+import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientVolumeDTO;
 import refrigerator.back.recipe.adapter.in.dto.*;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeDTO;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeDetailDTO;
@@ -22,5 +21,6 @@ public interface RecipeDtoMapper {
     InRecipeDetailDTO toInRecipeDetailsDto(Recipe recipe, RecipeDetails details, Double scoreAvg);
     InRecipeIngredientDTO toInRecipeIngredientDto(RecipeIngredient ingredient);
     InRecipeRecommendDTO toInRecipeRecommendDto(OutRecipeRecommendDTO dto, Double recipeScore);
+    InRecipeIngredientVolumeDTO toInRecipeIngredientVolumeDTO(OutRecipeIngredientVolumeDTO dto);
 
 }

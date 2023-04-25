@@ -1,10 +1,12 @@
 package refrigerator.back.authentication.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
+import refrigerator.back.authentication.application.port.in.OAuth2LoginUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 import refrigerator.back.authentication.application.port.out.*;
 import refrigerator.back.authentication.exception.JwtExceptionType;
@@ -58,4 +60,5 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
             throw new BusinessException(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
         }
     }
+
 }

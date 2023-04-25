@@ -94,10 +94,8 @@ class MyScoreServiceTest {
             count++;
         }
         // when
-        log.info("==== find start ====");
         int previewSize = 5;
         InMyScoreListDTO<InMyScorePreviewDTO> myScoreList = myScoreService.findPreviewList(memberID, previewSize);
-        log.info("==== find end ====");
         // then
         assertThat(myScoreList.getScores()).isNotEmpty();
         assertThat(myScoreList.getCount()).isEqualTo(count);
