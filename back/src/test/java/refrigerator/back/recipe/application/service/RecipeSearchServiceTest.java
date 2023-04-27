@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
 import refrigerator.back.recipe.application.domain.entity.Recipe;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredient;
 import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
 import refrigerator.back.recipe.application.domain.value.RecipeType;
+import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -56,6 +58,26 @@ class RecipeSearchServiceTest {
                             ingredientNames.contains(searchWord)
             ).isTrue();
         }
+    }
+
+    @Test
+    void 레시피_검색_실패_별점_범위() {
+        /* 허용하지 않는 별점의 범위를 입력했을 때, 에러 발생 */
+        // given
+        String searchRecipeType = RecipeType.KOREA.getName();
+        RecipeSearchCondition condition = RecipeSearchCondition.builder()
+                .recipeType(searchRecipeType)
+                .score(6.2)
+                .searchWord("김치").build();
+        // when
+        Assertions.assertThrows(BusinessException.class, () -> {
+            try{
+                searchService.search(condition, 0, 15);
+            } catch(BusinessException e){
+                assertThat(e.getBasicExceptionType()).isEqualTo(RecipeExceptionType.NOT_ACCEPTABLE_RANGE);
+                throw e;
+            }
+        });
     }
 
 }

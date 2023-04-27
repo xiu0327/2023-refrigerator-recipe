@@ -40,11 +40,13 @@ public class RecipeSearchQueryRepositoryImpl implements RecipeSearchQueryReposit
                 .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeFoodType).on(recipeFoodType.typeID.eq(recipe.recipeFoodType))
+                .leftJoin(recipeCategory).on(recipeCategory.categoryID.eq(recipe.recipeCategory))
                 .where(
                         recipeTypeEq(condition.getRecipeType()),
                         recipeDifficultyEq(condition.getDifficulty()),
                         recipeScoreGoe(condition.getScore()),
                         recipeFoodTypeEq(condition.getRecipeFoodType()),
+                        recipeCategoryEq(condition.getCategory()),
                         isContain(condition.getSearchWord())
                 )
                 .orderBy(recipeViews.views.desc(), recipeBookmark.count.desc(), recipe.recipeName.asc())
@@ -53,8 +55,22 @@ public class RecipeSearchQueryRepositoryImpl implements RecipeSearchQueryReposit
                 .fetch();
     }
 
+    private BooleanExpression recipeCategoryEq(String category) {
+        if (category != null){
+            if (hasText(category)){
+                return recipeCategory.categoryName.eq(category);
+            }
+        }
+        return null;
+    }
+
     private BooleanExpression isContain(String searchWord){
-        return isKeywordInRecipeIngredient(searchWord).or(recipeNameContains(searchWord));
+        if (searchWord != null){
+            if (hasText(searchWord)){
+                return isKeywordInRecipeIngredient(searchWord).or(recipeNameContains(searchWord));
+            }
+        }
+        return null;
     }
 
     private BooleanExpression isKeywordInRecipeIngredient(String searchWord) {
@@ -64,7 +80,7 @@ public class RecipeSearchQueryRepositoryImpl implements RecipeSearchQueryReposit
     }
 
     private BooleanExpression recipeNameContains(String searchWord) {
-        return searchWord != null ? recipe.recipeName.contains(searchWord) : null;
+        return recipe.recipeName.contains(searchWord);
     }
 
     private BooleanExpression recipeScoreGoe(Double score) {
@@ -72,15 +88,30 @@ public class RecipeSearchQueryRepositoryImpl implements RecipeSearchQueryReposit
     }
 
     private BooleanExpression recipeDifficultyEq(String difficulty) {
-        return hasText(difficulty) ? recipe.difficulty.eq(difficulty) : null;
+        if (difficulty != null){
+            if (hasText(difficulty)){
+                return recipe.difficulty.eq(difficulty);
+            }
+        }
+        return null;
     }
 
     private BooleanExpression recipeFoodTypeEq(String foodType) {
-        return hasText(foodType) ? recipeFoodType.typeName.eq(foodType) : null;
+        if (foodType != null){
+            if (hasText(foodType)){
+                return recipeFoodType.typeName.eq(foodType);
+            }
+        }
+        return null;
     }
 
     private BooleanExpression recipeTypeEq(String recipeType) {
-        return hasText(recipeType) ? recipe.recipeType.eq(recipeType) : null;
+        if (recipeType != null){
+            if (hasText(recipeType)){
+                return recipe.recipeType.eq(recipeType);
+            }
+        }
+        return null;
     }
 
     @Override

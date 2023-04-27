@@ -18,5 +18,6 @@ public class IngredientUpdateRequestDTO {
     private Double capacity;                // 용량
 
     @NotEmpty
+
     private String storageMethod;           // 보관방법
 }

@@ -12,8 +12,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
-class RecipeWordCompletionControllerTest {
+class WordCompletionControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -40,6 +38,14 @@ class RecipeWordCompletionControllerTest {
     void 레시피_자동_완성() throws Exception {
         String keyword = "참치";
         mockMvc.perform(get("/api/word-completion/recipe?keyword=" + keyword)
+        ).andExpect(status().is2xxSuccessful()
+        ).andDo(print());
+    }
+
+    @Test
+    void 식재료_자동_완성() throws Exception {
+        String keyword = "ㅇ";
+        mockMvc.perform(get("/api/word-completion/ingredient?keyword=" + keyword)
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }

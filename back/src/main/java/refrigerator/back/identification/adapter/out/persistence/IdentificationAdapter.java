@@ -1,6 +1,8 @@
 package refrigerator.back.identification.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
@@ -9,10 +11,14 @@ import refrigerator.back.identification.application.port.out.IdentificationRedis
 import java.time.Duration;
 
 @Component
-@RequiredArgsConstructor
 public class IdentificationAdapter implements IdentificationRedisPort {
 
-    private final StringRedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
+
+    public IdentificationAdapter(
+            @Qualifier("redisTemplate") RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public String getData(String key){

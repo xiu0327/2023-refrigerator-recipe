@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe.application.port.out.FindIngredientNameListByMemberPort;
 import refrigerator.back.recipe.application.port.out.FindRecommendRecipeInfoPort;
+import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import javax.persistence.EntityManager;
 
@@ -30,7 +32,6 @@ class RecipeRecommendServiceTest {
     @Autowired RecipeRecommendService recipeRecommendService;
     @Autowired FindRecommendRecipeInfoPort findRecommendRecipeInfoPort;
     @Autowired FindIngredientNameListByMemberPort findIngredientNameListByMemberPort;
-    @Autowired EntityManager em;
     @Autowired TestData testData;
 
     @Test
@@ -38,15 +39,7 @@ class RecipeRecommendServiceTest {
     void recommend() {
         String memberId = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-        em.persist(Ingredient.create(
-                ingredientName,
-                LocalDate.now(),
-                70.0,
-                "g",
-                "보관방식",
-                1,
-                memberId
-        ));
+        testData.createIngredient(ingredientName, memberId);
         List<InRecipeRecommendDTO> result = recipeRecommendService.recommend(memberId);
         for (int i = 0 ; i < result.size() ; i++){
             if (!(i == result.size() - 1)){
@@ -59,6 +52,21 @@ class RecipeRecommendServiceTest {
             assertNotNull(result.get(i).getRecipeName());
         }
     }
+
+    @Test
+    @DisplayName("사용자가 등록한 식재료가 없을 경우, 에러 발생")
+    void recommend_fail() {
+        String memberId = testData.createMemberByEmail("email123@gmail.com");
+        org.junit.jupiter.api.Assertions.assertThrows(BusinessException.class, () -> {
+            try{
+                recipeRecommendService.recommend(memberId);
+            }catch(BusinessException e){
+                Assertions.assertThat(e.getBasicExceptionType()).isEqualTo(RecipeExceptionType.EMPTY_MEMBER_INGREDIENT);
+                throw e;
+            }
+        });
+    }
+
 
     @Test
     @DisplayName("일치율이 높은 상위 10개 레시피 식별자 값 구함")
@@ -78,15 +86,8 @@ class RecipeRecommendServiceTest {
     Map<Long, Double> calculationMatchPercent() {
         String memberId = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-        em.persist(Ingredient.create(
-                ingredientName,
-                LocalDate.now(),
-                70.0,
-                "g",
-                "보관방식",
-                1,
-                memberId
-        ));
+
+        testData.createIngredient(ingredientName, memberId);
         List<String> ingredientNameListByMember = findIngredientNameListByMemberPort.findIngredientNameListByMember(memberId);
         Map<Long, Set<String>> ingredient = findRecommendRecipeInfoPort.getRecipeIngredientNameList();
         Map<Long, Double> result = recipeRecommendService.calculationMatchPercent(

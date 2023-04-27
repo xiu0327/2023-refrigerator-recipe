@@ -18,8 +18,7 @@ public enum RecipeType {
     JAPAN("일본"),
     CHINA("중국"),
     FUSSION("퓨전"),
-    KOREA("한식"),
-    NOT_TYPE("타입 없음")
+    KOREA("한식")
     ;
 
     private String name;

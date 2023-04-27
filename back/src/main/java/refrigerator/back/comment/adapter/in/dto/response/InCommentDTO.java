@@ -12,7 +12,7 @@ public class InCommentDTO {
     private Long commentId;
     private String nickname;
     private Integer heart;
-    private LocalDate createDate;
+    private String date;
     private Boolean modifiedState;
     private String content;
 }

@@ -63,7 +63,7 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {   
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
@@ -95,5 +95,14 @@ public class Ingredient {
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.storageMethod = storageMethod;
+    }
+
+    public void deductionVolume(Double volume){
+        double result = this.capacity - volume;
+        if (result < 0){
+            this.capacity = 0.0;
+        } else{
+            this.capacity = result;
+        }
     }
 }

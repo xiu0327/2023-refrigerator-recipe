@@ -28,7 +28,7 @@ class CommentLookUpServiceTest {
     void 댓글_조회_하트순() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1l;
+        Long recipeId = 1L;
         for (int i = 0 ; i < 40; i++){
             writeCommentUseCase.write(recipeId, memberId, "댓글_" + i);
         }
@@ -38,7 +38,7 @@ class CommentLookUpServiceTest {
         // then
         for (InCommentDTO comment : comments) {
             assertNotNull(comment.getCommentId());
-            assertNotNull(comment.getCreateDate());
+            assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
             assertNotNull(comment.getNickname());
@@ -63,7 +63,7 @@ class CommentLookUpServiceTest {
         for (InCommentDTO comment : comments) {
             assertThat(comment.getCommentId()).isEqualTo(--firstId);
             assertNotNull(comment.getCommentId());
-            assertNotNull(comment.getCreateDate());
+            assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
             assertNotNull(comment.getNickname());
@@ -76,7 +76,7 @@ class CommentLookUpServiceTest {
     void 댓글_미리보기() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1l;
+        Long recipeId = 1L;
         int allSize = 40;
         for (int i = 0; i < allSize; i++){
             writeCommentUseCase.write(recipeId, memberId, "댓글_" + i);
@@ -89,7 +89,7 @@ class CommentLookUpServiceTest {
         // then
         for (InCommentDTO comment : comments) {
             assertNotNull(comment.getCommentId());
-            assertNotNull(comment.getCreateDate());
+            assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
             assertNotNull(comment.getNickname());

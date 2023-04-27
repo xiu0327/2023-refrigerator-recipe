@@ -21,6 +21,7 @@ public class IngredientRegisterRequestDTO {
     private Double capacity;               // 용량
 
     @NotEmpty
+
     private String capacityUnit;            // 용량 단위
 
     @NotEmpty

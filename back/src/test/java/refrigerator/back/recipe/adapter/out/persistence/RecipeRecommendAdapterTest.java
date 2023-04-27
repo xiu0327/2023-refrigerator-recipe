@@ -43,15 +43,7 @@ class RecipeRecommendAdapterTest {
     void findIngredientNameListByMember() {
         String memberId = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-        em.persist(Ingredient.create(
-                ingredientName,
-                LocalDate.now(),
-                70.0,
-                "g",
-                "보관방식",
-                1,
-                memberId
-        ));
+        testData.createIngredient(ingredientName, memberId);
         List<String> result = recipeRecommendAdapter.findIngredientNameListByMember(memberId);
         Assertions.assertThat(ingredientName).contains(result);
     }
