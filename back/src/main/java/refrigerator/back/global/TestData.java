@@ -3,6 +3,7 @@ package refrigerator.back.global;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
@@ -109,6 +110,12 @@ public class TestData {
                 0,
                 memberId
         ));
+    }
+
+    public Comment createComment(String memberId){
+        Comment comment = Comment.write(1L, memberId, "내용");
+        em.persist(comment);
+        return comment;
     }
 
 

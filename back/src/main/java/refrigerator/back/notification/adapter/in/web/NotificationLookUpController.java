@@ -25,8 +25,8 @@ public class NotificationLookUpController {
     }
 
     // 신규 알림 생성 조회
-    @GetMapping("/api/notifications/sign")
-    public boolean getNotificationSign() {
-        return findNotificationListUseCase.getNotificationSign(getMemberEmail());
-    }
+//    @GetMapping("/api/notifications/sign")
+//    public boolean getNotificationSign() {
+//        return findNotificationListUseCase.getNotificationSign(getMemberEmail());
+//    }
 }

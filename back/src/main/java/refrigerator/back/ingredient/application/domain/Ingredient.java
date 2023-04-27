@@ -34,7 +34,7 @@ public class Ingredient {
     private LocalDate registrationDate;
 
     @Column(name = "capacity", nullable = false, length = 30)
-    private Integer capacity;
+    private Double capacity;
 
     @Column(name = "capacity_unit", nullable = false, length = 30)
     private String capacityUnit;
@@ -63,26 +63,34 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
         this.registrationDate = LocalDate.now();
-        this.imageId = imageId;
+        this.image = imageId;
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;
     }
 
-    public void modify(LocalDate expirationDate, Integer capacity, String storageMethod) {
+    public void modify(LocalDate expirationDate, Double capacity, String storageMethod) {
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.storageMethod = storageMethod;
+    }
+
+    public void deductionVolume(Double volume) {
+        if (capacity < volume){
+            this.capacity = 0.0;
+            return;
+        }
+        this.capacity -= volume;
     }
 }
