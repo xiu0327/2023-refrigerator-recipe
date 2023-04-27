@@ -8,6 +8,8 @@ import refrigerator.back.ingredient.application.port.in.ModifyIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 
+import static refrigerator.back.global.common.MemberInformation.*;
+
 @RestController
 @RequiredArgsConstructor
 public class IngredientUpdateController {
@@ -19,9 +21,8 @@ public class IngredientUpdateController {
     @PostMapping("/api/ingredients")
     @ResponseStatus(HttpStatus.CREATED)
     public IngredientRegisterResponseDTO registerIngredient(@RequestBody IngredientRegisterRequestDTO request) {
-        String email = "";
         Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getCapacity(),
-                                                               request.getCapacityUnit(), request.getStorageMethod(), request.getImageId(), email);
+                                                               request.getCapacityUnit(), request.getStorageMethod(), request.getImageId(), getMemberEmail());
 
         return new IngredientRegisterResponseDTO(id);
     }
@@ -47,8 +48,6 @@ public class IngredientUpdateController {
     @PostMapping("/api/ingredients/propose")
     @ResponseStatus(HttpStatus.CREATED)
     public void proposeIngredient(@RequestBody IngredientProposeRequestDTO request) {
-        String email = "";
-
-        registerIngredientUseCase.proposeIngredient(request.getName(), request.getCapacityUnit(), email);
+        registerIngredientUseCase.proposeIngredient(request.getName(), request.getCapacityUnit(), getMemberEmail());
     }
 }

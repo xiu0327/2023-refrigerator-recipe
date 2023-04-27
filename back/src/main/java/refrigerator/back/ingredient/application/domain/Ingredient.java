@@ -43,7 +43,7 @@ public class Ingredient {
     private String storageMethod;
 
     @Column(name = "image", nullable = false)
-    private Integer imageId;
+    private Integer image;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -63,19 +63,30 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {   
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
         this.registrationDate = LocalDate.now();
-        this.imageId = imageId;
+        this.image = image;
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
-        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
+    public Ingredient(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
+        this.name = name;
+        this.expirationDate = expirationDate;
+        this.capacity = capacity;
+        this.capacityUnit = capacityUnit;
+        this.storageMethod = storageMethod;
+        this.registrationDate = registrationDate;
+        this.image = image;
+        this.email = email;
+    }
+
+    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
+        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, image, email);
         ingredient.undelete();
         return ingredient;
     }

@@ -44,33 +44,28 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
     public Ingredient getIngredientById(Long id) {
         Ingredient ingredient = ingredientRepository.findById(id).orElse(null);
 
-        if (ingredient != null){
-            return ingredient;
-        }
-        else {
+        if (ingredient == null)
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
-        }
 
+        return ingredient;
     }
 
     public IngredientDetailResponseDTO getIngredientDetail(Long id) {
-        try {
-            Ingredient ingredient = ingredientRepository
-                    .findByIdAndDeletedFalse(id)
-                    .orElse(null);
+        Ingredient ingredient = ingredientRepository
+                .findByIdAndDeletedFalse(id)
+                .orElse(null);
 
-            return mapper.toIngredientDetailDto(ingredient, ingredient.getRemainDays());
-
-        } catch (RuntimeException e) {
+        if(ingredient == null)
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
-        }
+
+        return mapper.toIngredientDetailDto(ingredient);
     }
 
     @Override
     public List<IngredientResponseDTO> getIngredientList(IngredientSearchCondition condition, int page, int size) {
        return ingredientRepository.findIngredientList(condition, PageRequest.of(page, size))
                .stream()
-               .map(ingredient ->  mapper.toIngredientDto(ingredient, ingredient.getRemainDays()))
+               .map(mapper::toIngredientDto)
                .collect(Collectors.toList());
     }
 
@@ -78,7 +73,7 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
     public List<IngredientResponseDTO> getIngredientListOfAll(String email) {
         return ingredientRepository.findByEmailAndDeletedFalseOrderByNameAsc(email)
                 .stream()
-                .map(ingredient ->  mapper.toIngredientDto(ingredient, ingredient.getRemainDays()))
+                .map(mapper::toIngredientDto)
                 .collect(Collectors.toList());
     }
 
@@ -94,7 +89,7 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
     public List<IngredientResponseDTO> getIngredientListByDeadline(LocalDate date, String email) {
         return ingredientRepository.findByExpirationDateAndEmail(date, email)
                 .stream()
-                .map(ingredient ->  mapper.toIngredientDto(ingredient, ingredient.getRemainDays()))
+                .map(mapper::toIngredientDto)
                 .collect(Collectors.toList());
     }
 }

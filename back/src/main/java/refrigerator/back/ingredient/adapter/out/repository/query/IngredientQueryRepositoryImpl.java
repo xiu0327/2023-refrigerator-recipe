@@ -17,6 +17,7 @@ import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.*;
@@ -40,7 +41,7 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
     @Override
     public List<Ingredient> findIngredientList(IngredientSearchCondition condition, Pageable pageable) {
         NumberExpression<Integer> rankPath = new CaseBuilder()
-                .when(ingredient.expirationDate.goe(ingredient.registrationDate)).then(2)
+                .when(ingredient.expirationDate.goe(LocalDate.now())).then(2)
                 .otherwise(1);
 
         return jpaQueryFactory
@@ -76,6 +77,9 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
     }
 
     private BooleanExpression deadlineCheck(boolean deadline) {
-        return deadline ? ingredient.registrationDate.gt(ingredient.expirationDate) : null;
+
+        return deadline ? ingredient.expirationDate.lt(LocalDate.now()) : null;
+
+
     }
 }

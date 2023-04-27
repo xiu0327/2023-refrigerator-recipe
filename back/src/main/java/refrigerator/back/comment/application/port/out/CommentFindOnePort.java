@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface CommentFindOnePort {
     Optional<Comment> findCommentById(Long commentId);
+
     Optional<Comment> findCommentByRecipeId(Long recipeId);
 }

@@ -5,9 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import refrigerator.back.global.common.MemberInformation;
 import refrigerator.back.notification.adapter.in.dto.NotificationListResponseDTO;
 import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
 import refrigerator.back.notification.application.port.in.FindNotificationListUseCase;
+
+import static refrigerator.back.global.common.MemberInformation.*;
 
 @Controller
 public class NotificationLookUpController {
@@ -18,14 +21,12 @@ public class NotificationLookUpController {
     @GetMapping("/api/notifications/")
     public NotificationListResponseDTO<NotificationResponseDTO> getNotificationList(@RequestParam("size") int size,
                                                                                     @RequestParam(value = "page", defaultValue = "10") int page) {
-        String email = "";
-        return new NotificationListResponseDTO<>(findNotificationListUseCase.getNotificationList(email, size, page));
+        return new NotificationListResponseDTO<>(findNotificationListUseCase.getNotificationList(getMemberEmail(), size, page));
     }
 
     // 신규 알림 생성 조회
     @GetMapping("/api/notifications/sign")
     public boolean getNotificationSign() {
-        String email = "";
-        return findNotificationListUseCase.getNotificationSign(email);
+        return findNotificationListUseCase.getNotificationSign(getMemberEmail());
     }
 }

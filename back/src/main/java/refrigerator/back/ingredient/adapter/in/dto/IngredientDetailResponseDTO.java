@@ -17,6 +17,6 @@ public class IngredientDetailResponseDTO {
     private Long remainDays;         // 남은일수
     private Integer capacity;           // 용량
     private String capacityUnit;        // 용량단위
-    private String image;               // 이미지
+    private Integer image;               // 이미지
 
 }

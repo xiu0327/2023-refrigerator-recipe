@@ -15,14 +15,15 @@ import javax.persistence.*;
 @Builder
 public class MemberNotification {
 
-    @Id @GeneratedValue
-    @Column(name = "member_notification")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_notification_id")
     private Long id;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "sign")
+    @Column(name = "sign", nullable = false)
     private boolean sign;
 
     public void signOff() {
@@ -31,5 +32,11 @@ public class MemberNotification {
 
     public void signOn() {
         this.sign = true;
+    }
+
+    public static MemberNotification create(String email) {
+        MemberNotification memberNotification = MemberNotification.builder().email(email).build();
+        memberNotification.signOff();
+        return memberNotification;
     }
 }

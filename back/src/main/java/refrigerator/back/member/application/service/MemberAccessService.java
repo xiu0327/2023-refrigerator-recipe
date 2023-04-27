@@ -14,6 +14,7 @@ import refrigerator.back.authentication.application.port.out.EncryptPasswordPort
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.port.out.UpdateMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
+import refrigerator.back.notification.application.service.NotificationService;
 
 @Service
 @RequiredArgsConstructor
@@ -24,16 +25,23 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
     private final UpdateMemberPort updateMemberPort;
     private final EncryptPasswordPort encryptPasswordPort;
     private final CreateTokenPort createTokenPort;
+    private final NotificationService notificationService;
 
     @Override
     @Transactional
     public Long join(String email, String password, String nickname) {
         duplicateCheck(email);
-        return createMemberPort.createMember(
+
+        Long memberId = createMemberPort.createMember(
                 Member.join(
                         email,
                         encryptPasswordPort.encrypt(password),
                         nickname));
+
+        notificationService.createMemberNotification(email);
+
+        return memberId;
+
     }
 
     @Override

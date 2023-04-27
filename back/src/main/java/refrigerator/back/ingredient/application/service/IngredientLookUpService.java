@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class IngredientLookUpService implements FindIngredientListUseCase, FindIngredientDetailUseCase {
 
     private final ReadIngredientPort readIngredientPort;
