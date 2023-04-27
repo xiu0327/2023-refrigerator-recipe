@@ -1,4 +1,4 @@
-package back;
+package back.run;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,18 +27,16 @@ public class JobScheduler {
     @Autowired
     private Job scheduleJob;
 
+    // @Scheduled(cron = "0 0 0 1/1 * ? *")
     @Scheduled(cron = "1 * * * * *")
     public void jobScheduled() throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
                                 JobRestartException, JobInstanceAlreadyCompleteException {
 
         Map<String, JobParameter> jobParameterMap = new HashMap<>();
 
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
-        Date time = new Date();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
 
-        String time1 = format1.format(time);
-
-        jobParameterMap.put("date", new JobParameter(time1));
+        jobParameterMap.put("date", new JobParameter(LocalDateTime.now().format(format)));
 
         JobParameters parameters = new JobParameters(jobParameterMap);
 

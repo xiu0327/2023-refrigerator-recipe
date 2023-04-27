@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,6 @@ public class NotificationScheduleConfig {
     @Bean
     public Job scheduleJob(){
         return jobBuilderFactory.get("scheduleJob")
-                .incrementer(new RunIdIncrementer())
                 .preventRestart()
                 .start(deleteNotificationStep())
                 .next(createDeadlineNotificationByOneStep())
@@ -78,7 +78,7 @@ public class NotificationScheduleConfig {
     public Step createDeadlineNotificationByOneStep() {
         return stepBuilderFactory.get("createDeadlineNotificationStep")
                 .<OutIngredientDTO, Notifications> chunk(chunkSize)
-                .reader(createDeadlineNotificationByOneReader())
+                .reader(createDeadlineNotificationByOneReader(null))
                 .processor(createDeadlineNotificationByOneProcessor())
                 .writer(createDeadlineNotificationWriter())
                 .build();
@@ -86,10 +86,14 @@ public class NotificationScheduleConfig {
 
     @Bean
     @StepScope
-    public JpaPagingItemReader<OutIngredientDTO> createDeadlineNotificationByOneReader() {
+    public JpaPagingItemReader<OutIngredientDTO> createDeadlineNotificationByOneReader(@Value("#{jobParameters['date']}") String date) {
+
+        System.out.println("date = " + date);
+
+        LocalDate date1 = LocalDate.from(LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS")));
 
         Map<String, Object> parameterValues = new HashMap<>();
-        parameterValues.put("date", LocalDate.now().plusDays(1));
+        parameterValues.put("date", date1.plusDays(1));
 
         return new JpaPagingItemReaderBuilder<OutIngredientDTO>()
                 .name("createDeadlineNotificationReader")
@@ -105,9 +109,9 @@ public class NotificationScheduleConfig {
     public ItemProcessor<OutIngredientDTO, Notifications> createDeadlineNotificationByOneProcessor() {
 
         return dto -> Notifications.create(
-                "image1.png",
-                createNotificationMessage(dto.getName(), dto.getCount(), 1L),
-                "1",
+                1,
+                createNotificationMessage(dto.getName(), dto.getCount(), 1),
+                1,
                 "localhost:8080/api/ingredients/deadline/1",
                 "GET",
                 dto.getEmail()
@@ -121,7 +125,7 @@ public class NotificationScheduleConfig {
     public Step createDeadlineNotificationByThreeStep() {
         return stepBuilderFactory.get("createDeadlineNotificationStep")
                 .<OutIngredientDTO, Notifications> chunk(chunkSize)
-                .reader(createDeadlineNotificationByThreeReader())
+                .reader(createDeadlineNotificationByThreeReader(null))
                 .processor(createDeadlineNotificationByThreeProcessor())
                 .writer(createDeadlineNotificationWriter())
                 .build();
@@ -129,10 +133,12 @@ public class NotificationScheduleConfig {
 
     @Bean
     @StepScope
-    public JpaPagingItemReader<OutIngredientDTO> createDeadlineNotificationByThreeReader() {
+    public JpaPagingItemReader<OutIngredientDTO> createDeadlineNotificationByThreeReader(@Value("#{jobParameters['date']}") String date) {
+
+        LocalDate date1 = LocalDate.from(LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS")));
 
         Map<String, Object> parameterValues = new HashMap<>();
-        parameterValues.put("date", LocalDate.now().plusDays(3));
+        parameterValues.put("date", date1.plusDays(1));
 
         return new JpaPagingItemReaderBuilder<OutIngredientDTO>()
                 .name("createDeadlineNotificationReader")
@@ -148,9 +154,9 @@ public class NotificationScheduleConfig {
     public ItemProcessor<OutIngredientDTO, Notifications> createDeadlineNotificationByThreeProcessor() {
 
         return dto -> Notifications.create(
-                "image1.png",
-                createNotificationMessage(dto.getName(), dto.getCount(), 3L),
-                "1",
+                1,
+                createNotificationMessage(dto.getName(), dto.getCount(), 3),
+                1,
                 "localhost:8080/api/ingredients/deadline/3",
                 "GET",
                 dto.getEmail()
@@ -165,7 +171,7 @@ public class NotificationScheduleConfig {
         return jpaItemWriter;
     }
 
-    private String createNotificationMessage(String name, Long count, Long days) {
+    private String createNotificationMessage(String name, Long count, Integer days) {
         return name + " 외 "+ count + "개 식재료의 소비기한이 " + days + "일 남았습니다. 식재료 확인하러가기!";
     }
 }

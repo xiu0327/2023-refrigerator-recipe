@@ -9,6 +9,7 @@ import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUse
 import refrigerator.back.comment.application.port.in.people.FindLikedPeopleListUseCase;
 import refrigerator.back.global.common.BasicListResponseDTO;
 import refrigerator.back.global.common.MemberInformation;
+import refrigerator.back.notification.application.service.NotificationService;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 

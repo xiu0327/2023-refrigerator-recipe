@@ -6,7 +6,7 @@ import refrigerator.back.notification.application.domain.Notifications;
 
 import java.util.List;
 
-public interface ReadNotification {
+public interface ReadNotificationPort {
 
     // 알림 리스트 조회
     List<NotificationResponseDTO> getNotificationList(String email, int page, int size);

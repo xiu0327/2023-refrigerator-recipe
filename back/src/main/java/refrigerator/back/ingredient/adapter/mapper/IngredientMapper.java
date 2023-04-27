@@ -17,9 +17,9 @@ public interface IngredientMapper {
 
     IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
-    IngredientDetailResponseDTO toIngredientDetailDto(Ingredient ingredient, Long remainDays);
+    IngredientDetailResponseDTO toIngredientDetailDto(Ingredient ingredient);
 
-    IngredientResponseDTO toIngredientDto(Ingredient ingredient, Long remainDays);
+    IngredientResponseDTO toIngredientDto(Ingredient ingredient);
 
     IngredientRegisteredResponseDTO toIngredientRegisteredResponseDTO(RegisteredIngredient ingredient);
 

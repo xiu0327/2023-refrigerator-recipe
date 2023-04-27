@@ -41,10 +41,10 @@ class RecipeRecommendServiceTest {
         em.persist(Ingredient.create(
                 ingredientName,
                 LocalDate.now(),
-                70,
+                70.0,
                 "g",
                 "보관방식",
-                "이미지",
+                1,
                 memberId
         ));
         List<InRecipeRecommendDTO> result = recipeRecommendService.recommend(memberId);
@@ -81,10 +81,10 @@ class RecipeRecommendServiceTest {
         em.persist(Ingredient.create(
                 ingredientName,
                 LocalDate.now(),
-                70,
+                70.0,
                 "g",
                 "보관방식",
-                "이미지",
+                1,
                 memberId
         ));
         List<String> ingredientNameListByMember = findIngredientNameListByMemberPort.findIngredientNameListByMember(memberId);

@@ -26,6 +26,6 @@ public class RegisteredIngredient {
     private String unit;
 
     @Column(name = "image", nullable = false)
-    private Integer imageId;
+    private Integer image;
 
 }

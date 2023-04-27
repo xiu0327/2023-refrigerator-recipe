@@ -10,6 +10,6 @@ public interface NotificationMapper {
 
     NotificationMapper INSTANCE = Mappers.getMapper(NotificationMapper.class);
 
-    public NotificationResponseDTO toNotificationResponseDTO(Notifications notifications, String registerTime);
+    public NotificationResponseDTO toNotificationResponseDTO(Notifications notifications);
 
 }

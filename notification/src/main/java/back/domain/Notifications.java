@@ -15,32 +15,33 @@ import java.time.LocalDateTime;
 @ToString
 public class Notifications {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
     private Long id;
 
-    @Column(name = "image")
-    private String image;
+    @Column(name = "image", nullable = false)
+    private Integer image;
 
-    @Column(name = "message")
+    @Column(name = "message", nullable = false, length = 1000)
     private String message;
 
-    @Column(name = "type")
-    private String type;
+    @Column(name = "type", nullable = false)
+    private Integer type;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;
 
-    @Column(name = "path")
+    @Column(name = "path", nullable = false, length = 400)
     private String path;
 
-    @Column(name = "read_status")
-    private boolean readStatus;
+    @Column(name = "read_status", nullable = false)
+    private boolean readStatus; // true : 읽음 / false : 안 읽음
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "method")
+    @Column(name = "method", nullable = false, length = 30)
     private String method;
 
     public void isRead() {
@@ -51,7 +52,7 @@ public class Notifications {
         this.readStatus = false;
     }
 
-    public Notifications(String image, String message, String type, String path, String method, String email) {
+    public Notifications(Integer image, String message, Integer type, String path, String method, String email) {
         this.image = image;
         this.message = message;
         this.type = type;
@@ -61,7 +62,7 @@ public class Notifications {
         this.email = email;
     }
 
-    public static Notifications create(String image, String message, String type, String path, String method, String email) {
+    public static Notifications create(Integer image, String message, Integer type, String path, String method, String email) {
         Notifications notification = new Notifications(image, message, type, path, method, email);
         notification.isNotRead();
         return notification;
