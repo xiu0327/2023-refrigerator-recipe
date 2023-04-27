@@ -14,7 +14,8 @@ public class NotificationQueryRepositoryImpl implements NotificationQueryReposit
     private final EntityManager em;
 
     @Override
-    public void saveMemberNotification(MemberNotification notification) {
+    public Long saveMemberNotification(MemberNotification notification) {
         em.persist(notification);
+        return notification.getId();
     }
 }

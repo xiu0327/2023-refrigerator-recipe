@@ -1,63 +1,81 @@
 package refrigerator.back.notification.application.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
 import refrigerator.back.notification.application.domain.MemberNotification;
 import refrigerator.back.notification.application.domain.Notifications;
 import refrigerator.back.notification.application.port.in.FindNotificationListUseCase;
 import refrigerator.back.notification.application.port.in.ModifyNotificationUseCase;
-import refrigerator.back.notification.application.port.out.ReadNotification;
-import refrigerator.back.notification.application.port.out.WriteNotification;
+import refrigerator.back.notification.application.port.out.ReadNotificationPort;
+import refrigerator.back.notification.application.port.out.WriteNotificationPort;
 
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class NotificationService implements FindNotificationListUseCase, ModifyNotificationUseCase {
 
-    ReadNotification readNotification;
-    WriteNotification writeNotification;
+    private final WriteNotificationPort writeNotificationPort;
+    private final ReadNotificationPort readNotificationPort;
 
-    // 알림 조회
+    // 알림 목록 조회
     @Override
     public List<NotificationResponseDTO> getNotificationList(String email, int page, int size) {
 
-        MemberNotification memberNotification = readNotification.getMemberNotification(email);
+        MemberNotification memberNotification = readNotificationPort.getMemberNotification(email);
         memberNotification.signOff();
-        writeNotification.saveMemberNotification(memberNotification);
+        writeNotificationPort.saveMemberNotification(memberNotification);
 
-        return readNotification.getNotificationList(email, page, size);
+        return readNotificationPort.getNotificationList(email, page, size);
+    }
+
+    // 멤버 알림 생성 (회원 가입시)
+    public Long createMemberNotification(String email){
+        return writeNotificationPort.saveMemberNotification(MemberNotification.create(email));
     }
 
     // 신규 알림 생성 조회
     @Override
+    @Transactional(readOnly = true)
     public boolean getNotificationSign(String email) {
-        return readNotification.getMemberNotification(email).isSign();
+        return readNotificationPort.getMemberNotification(email).isSign();
     }
 
     // 알림 수정 (안읽음 -> 읽음)
     @Override
     public void modifyNotification(Long id) {
 
-        Notifications notification = readNotification.getNotification(id);
+        Notifications notification = readNotificationPort.getNotification(id);
         notification.isRead();
-        writeNotification.saveNotification(notification);
+        writeNotificationPort.saveNotification(notification);
     }
 
     // 댓글 좋아요 알림 생성
-    // - 댓글 좋아요 버튼 로직에 있어야함. => comment
-    public void createNotification(String email) {
+    public Long createCommentHeartNotification(String anotherId, Comment comment) {
 
-        /// ... 댓글 좋아요에 관련된 내용
-        // Notification 생성에관련된 내용
+        String memberId = comment.getMemberID();
 
-        // 알림 생성
-        writeNotification.saveNotification(
-                Notifications.create("test.png", "!!!!", "a", "wdqwd", "get", "dwdq")
-        );
+        Long id = writeNotificationPort.saveNotification(
+                Notifications.create(4,
+                        createNotificationMessage(anotherId, memberId),
+                        4,
+                        "localhost:8080/api/recipe/" + comment.getRecipeID(), // 수정
+                        "GET",
+                        memberId));
 
         // Sign 변경
-        MemberNotification memberNotification = readNotification.getMemberNotification(email);
+        MemberNotification memberNotification = readNotificationPort.getMemberNotification(memberId);
         memberNotification.signOn();
-        writeNotification.saveMemberNotification(memberNotification);
+        writeNotificationPort.saveMemberNotification(memberNotification);
+
+        return id;
+    }
+
+    private String createNotificationMessage(String anotherId, String memberId) {
+        return anotherId + "님이 " + memberId + "님의 댓글을 좋아합니다.";
     }
 }

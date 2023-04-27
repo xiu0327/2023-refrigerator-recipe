@@ -4,5 +4,5 @@ import refrigerator.back.notification.application.domain.MemberNotification;
 
 public interface NotificationQueryRepository {
 
-    void saveMemberNotification(MemberNotification notification);
+    Long saveMemberNotification(MemberNotification notification);
 }

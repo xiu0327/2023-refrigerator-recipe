@@ -34,7 +34,7 @@ public class Ingredient {
     private LocalDate registrationDate;
 
     @Column(name = "capacity", nullable = false, length = 30)
-    private Double capacity;
+    private Integer capacity;
 
     @Column(name = "capacity_unit", nullable = false, length = 30)
     private String capacityUnit;
@@ -43,7 +43,7 @@ public class Ingredient {
     private String storageMethod;
 
     @Column(name = "image", nullable = false)
-    private Integer imageId;
+    private Integer image;
 
     @Column(name = "deleted", nullable = false)
     private boolean deleted;
@@ -63,7 +63,7 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
@@ -74,24 +74,15 @@ public class Ingredient {
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+    public static Ingredient create(String name, LocalDate expirationDate, Integer capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;
     }
 
-    public void modify(LocalDate expirationDate, Double capacity, String storageMethod) {
+    public void modify(LocalDate expirationDate, Integer capacity, String storageMethod) {
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.storageMethod = storageMethod;
-    }
-
-    public void deductionVolume(Double volume){
-        double result = this.capacity - volume;
-        if (result < 0){
-            this.capacity = 0.0;
-        } else{
-            this.capacity = result;
-        }
     }
 }
