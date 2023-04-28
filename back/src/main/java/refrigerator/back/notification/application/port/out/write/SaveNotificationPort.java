@@ -1,4 +1,4 @@
-package refrigerator.back.notification.application.port.out;
+package refrigerator.back.notification.application.port.out.write;
 
 import refrigerator.back.notification.application.domain.Notification;
 

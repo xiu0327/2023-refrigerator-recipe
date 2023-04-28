@@ -2,16 +2,17 @@ package refrigerator.back.notification.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.notification.application.domain.CommentNotificationDetails;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationType;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
-import refrigerator.back.notification.application.port.out.FindCommentDetailsPort;
-import refrigerator.back.notification.application.port.out.FindSenderNicknamePort;
-import refrigerator.back.notification.application.port.out.ModifyMemberNotificationPort;
-import refrigerator.back.notification.application.port.out.SaveNotificationPort;
+import refrigerator.back.notification.application.port.out.read.FindCommentDetailsPort;
+import refrigerator.back.notification.application.port.out.read.FindSenderNicknamePort;
+import refrigerator.back.notification.application.port.out.write.ModifyMemberNotificationPort;
+import refrigerator.back.notification.application.port.out.write.SaveNotificationPort;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class CreateNotificationService implements CreateCommentHeartNotification
     private final ModifyMemberNotificationPort modifyMemberNotificationPort;
 
     @Override
+//    @Async
     public Long createCommentHeartNotification(String senderId, Long commentId) {
         String senderNickname = findSenderNicknamePort.getNickname(senderId);
         CommentNotificationDetails details = commentDetailsPort.getDetails(commentId);

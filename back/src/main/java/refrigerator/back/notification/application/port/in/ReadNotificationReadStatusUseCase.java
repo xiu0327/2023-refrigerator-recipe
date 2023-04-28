@@ -1,5 +1,5 @@
 package refrigerator.back.notification.application.port.in;
 
-public interface ChangeNotificationReadStatusUseCase {
+public interface ReadNotificationReadStatusUseCase {
     void readNotification(Long id);
 }

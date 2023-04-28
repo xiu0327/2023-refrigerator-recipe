@@ -1,9 +1,11 @@
 package refrigerator.back.notification.adapter.out.repository.query;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.notification.application.domain.Notification;
 
 import javax.persistence.EntityManager;
 
@@ -27,6 +29,26 @@ public class NotificationQueryRepositoryImpl implements NotificationQueryReposit
                 .execute();
         em.flush();
         em.clear();
+    }
+
+    @Override
+    public List<Notification> findNotificationList(String memberId, Pageable pageable) {
+        return jpaQueryFactory.selectFrom(notification)
+                .where(notification.memberId.eq(memberId))
+                .orderBy(notification.createDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+    @Override
+    public Integer countingNotReadNotification(String memberId) {
+        Long result = jpaQueryFactory.select(notification.count())
+                .from(notification)
+                .where(notification.memberId.eq(memberId),
+                        notification.readStatus.eq(false))
+                .fetchOne();
+        return result.intValue();
     }
 
 }

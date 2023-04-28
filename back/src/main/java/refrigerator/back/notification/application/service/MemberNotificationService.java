@@ -3,16 +3,17 @@ package refrigerator.back.notification.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import refrigerator.back.notification.application.port.in.ChangeMemberNotificationSignUseCase;
 import refrigerator.back.notification.application.port.in.CreateMemberNotificationUseCase;
 import refrigerator.back.notification.application.port.in.GetMemberNotificationSignUseCase;
-import refrigerator.back.notification.application.port.out.CreateMemberNotificationPort;
-import refrigerator.back.notification.application.port.out.FindMemberNotificationSignPort;
-import refrigerator.back.notification.application.port.out.ModifyMemberNotificationPort;
+import refrigerator.back.notification.application.port.in.UpdateMemberNotificationSignUseCase;
+import refrigerator.back.notification.application.port.out.write.CreateMemberNotificationPort;
+import refrigerator.back.notification.application.port.out.read.FindMemberNotificationSignPort;
+import refrigerator.back.notification.application.port.out.write.ModifyMemberNotificationPort;
 
 @Service
 @RequiredArgsConstructor
-public class MemberNotificationService implements CreateMemberNotificationUseCase, GetMemberNotificationSignUseCase, ChangeMemberNotificationSignUseCase {
+public class MemberNotificationService implements
+        CreateMemberNotificationUseCase, GetMemberNotificationSignUseCase, UpdateMemberNotificationSignUseCase {
 
     private final CreateMemberNotificationPort createMemberNotificationPort;
     private final FindMemberNotificationSignPort findMemberNotificationSignPort;
@@ -29,12 +30,7 @@ public class MemberNotificationService implements CreateMemberNotificationUseCas
     }
 
     @Override
-    public void SignOff(String memberId) {
+    public void updateNotification(String memberId) {
         modifyMemberNotificationPort.modify(memberId, false);
-    }
-
-    @Override
-    public void SingOn(String memberId) {
-        modifyMemberNotificationPort.modify(memberId, true);
     }
 }

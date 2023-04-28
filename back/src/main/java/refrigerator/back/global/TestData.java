@@ -12,6 +12,7 @@ import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.member.exception.MemberExceptionType;
 import refrigerator.back.myscore.application.domain.MyScore;
+import refrigerator.back.notification.application.domain.Notification;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -94,6 +95,11 @@ public class TestData {
                 .setParameter("commentId", commentId)
                 .getResultList().stream().findAny()
                 .orElseThrow(() -> new RuntimeException("좋아요 누른 사람 찾을 수 없음"));
+    }
+
+    @Transactional(readOnly = true)
+    public Notification findNotificationById(Long id){
+        return em.find(Notification.class, id);
     }
 
     public String makeTokenHeader(String token){

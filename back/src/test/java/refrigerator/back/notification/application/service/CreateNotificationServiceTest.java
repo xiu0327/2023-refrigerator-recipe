@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
-import refrigerator.back.notification.application.port.out.FindMemberNotificationSignPort;
-import refrigerator.back.notification.application.port.out.ReadNotificationPort;
+import refrigerator.back.notification.application.port.out.read.FindMemberNotificationSignPort;
+import refrigerator.back.notification.application.port.out.read.FindNotificationPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,8 @@ class CreateNotificationServiceTest {
     @Autowired CreateCommentHeartNotificationUseCase createCommentHeartNotificationUseCase;
     @Autowired
     FindMemberNotificationSignPort findMemberNotificationStatusPort;
-    @Autowired ReadNotificationPort readNotificationPort;
+    @Autowired
+    FindNotificationPort readNotificationPort;
     @Autowired TestData testData;
 
     @Test

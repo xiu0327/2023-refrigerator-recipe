@@ -7,25 +7,25 @@ import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 import refrigerator.back.notification.application.port.in.FindNotificationListUseCase;
-import refrigerator.back.notification.application.port.in.ChangeNotificationReadStatusUseCase;
-import refrigerator.back.notification.application.port.out.ReadNotificationPort;
-import refrigerator.back.notification.application.port.out.SaveNotificationPort;
-import refrigerator.back.notification.application.port.out.UpdateNotificationReadStatusPort;
+import refrigerator.back.notification.application.port.in.ReadNotificationReadStatusUseCase;
+import refrigerator.back.notification.application.port.out.read.FindNotificationListPort;
+import refrigerator.back.notification.application.port.out.write.UpdateNotificationReadStatusPort;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
-public class NotificationService implements FindNotificationListUseCase, ChangeNotificationReadStatusUseCase {
+public class NotificationService implements FindNotificationListUseCase, ReadNotificationReadStatusUseCase {
     private final UpdateNotificationReadStatusPort updateNotificationReadStatusPort;
-    private final ReadNotificationPort readNotificationPort;
     private final NotificationTimeService notificationTimeService;
+    private final FindNotificationListPort findNotificationListPort;
 
     @Override
+    @Transactional(readOnly = true)
     public List<NotificationResponseDTO> getNotificationList(String email, int page, int size) {
-        return readNotificationPort.getNotificationList(email, page, size).stream()
+        List<Notification> notifications = findNotificationListPort.findNotificationList(email, page, size);
+        return notifications.stream()
                 .map(this::mapping)
                 .collect(Collectors.toList());
     }
@@ -40,8 +40,8 @@ public class NotificationService implements FindNotificationListUseCase, ChangeN
                 .registerTime(notificationTimeService.replace(notification.getCreateDate())).build();
     }
 
-
     @Override
+    @Transactional
     public void readNotification(Long id) {
         updateNotificationReadStatusPort.updateReadStatus(id, true);
     }

@@ -8,5 +8,4 @@ import refrigerator.back.notification.application.domain.Notification;
 import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long>, NotificationQueryRepository {
-    List<Notification> findByMemberIdOrderByCreateDateDesc(String memberId, Pageable pageable);
 }

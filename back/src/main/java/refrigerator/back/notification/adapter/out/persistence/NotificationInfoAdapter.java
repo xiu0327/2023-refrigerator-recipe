@@ -7,8 +7,8 @@ import refrigerator.back.notification.adapter.mapper.NotificationMapper;
 import refrigerator.back.notification.adapter.out.dto.OutCommentDetailsDTO;
 import refrigerator.back.notification.adapter.out.dto.QOutCommentDetailsDTO;
 import refrigerator.back.notification.application.domain.CommentNotificationDetails;
-import refrigerator.back.notification.application.port.out.FindCommentDetailsPort;
-import refrigerator.back.notification.application.port.out.FindSenderNicknamePort;
+import refrigerator.back.notification.application.port.out.read.FindCommentDetailsPort;
+import refrigerator.back.notification.application.port.out.read.FindSenderNicknamePort;
 
 import static refrigerator.back.comment.application.domain.QComment.*;
 import static refrigerator.back.member.application.domain.QMember.*;

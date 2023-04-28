@@ -8,12 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
 import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
-import refrigerator.back.notification.application.port.out.ReadNotificationPort;
+import refrigerator.back.notification.application.port.out.read.FindNotificationPort;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -22,7 +21,7 @@ class NotificationServiceTest {
     @Autowired TestData testData;
     @Autowired NotificationService notificationService;
     @Autowired CreateCommentHeartNotificationUseCase createCommentHeartNotificationUseCase;
-    @Autowired ReadNotificationPort readNotificationPort;
+    @Autowired FindNotificationPort readNotificationPort;
 
     @Test
     void 알림_조회() {

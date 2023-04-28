@@ -3,9 +3,9 @@ package refrigerator.back.notification.adapter.out.persistence;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.notification.application.port.out.FindMemberNotificationSignPort;
-import refrigerator.back.notification.application.port.out.ModifyMemberNotificationPort;
-import refrigerator.back.notification.application.port.out.CreateMemberNotificationPort;
+import refrigerator.back.notification.application.port.out.read.FindMemberNotificationSignPort;
+import refrigerator.back.notification.application.port.out.write.ModifyMemberNotificationPort;
+import refrigerator.back.notification.application.port.out.write.CreateMemberNotificationPort;
 
 @Repository
 public class NotificationByMemberAdapter implements CreateMemberNotificationPort, ModifyMemberNotificationPort, FindMemberNotificationSignPort {
@@ -17,12 +17,10 @@ public class NotificationByMemberAdapter implements CreateMemberNotificationPort
         this.repository = repository;
     }
 
-
     @Override
     public void create(String memberId) {
         repository.opsForValue().set(memberId, false);
     }
-
 
     @Override
     public void modify(String memberId, boolean value) {
