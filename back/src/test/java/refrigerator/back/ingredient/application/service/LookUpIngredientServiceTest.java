@@ -160,21 +160,6 @@ class LookUpIngredientServiceTest {
     }
 
     @Test
-    void 등록된_식재료_목록_조회() {
-        List<IngredientRegisteredResponseDTO> ingredientListOfRegistered = ingredientLookUpService.getIngredientListOfRegistered();
-
-        for (IngredientRegisteredResponseDTO dto : ingredientListOfRegistered) {
-            // log.info(dto.toString());
-            assertThat(dto.getId()).isNotNull();
-            assertThat(dto.getName()).isNotNull();
-            assertThat(dto.getUnit()).isNotNull();
-            // assertThat(dto.getImage()).isNotNull();
-        }
-
-        assertThat(ingredientListOfRegistered.size()).isEqualTo(506);
-    }
-
-    @Test
     void 임박_식재료_목록_조회() {
 
         ArrayList<String> arrayList1 = new ArrayList<>(Arrays.asList("당근", "고구마", "호박", "김치"));

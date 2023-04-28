@@ -63,30 +63,19 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {   
+    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
         this.registrationDate = LocalDate.now();
-        this.image = image;
+        this.image = imageId;
         this.email = email;
     }
 
-    public Ingredient(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
-        this.name = name;
-        this.expirationDate = expirationDate;
-        this.capacity = capacity;
-        this.capacityUnit = capacityUnit;
-        this.storageMethod = storageMethod;
-        this.registrationDate = registrationDate;
-        this.image = image;
-        this.email = email;
-    }
-
-    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
-        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, image, email);
+    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;
     }
@@ -97,12 +86,11 @@ public class Ingredient {
         this.storageMethod = storageMethod;
     }
 
-    public void deductionVolume(Double volume){
-        double result = this.capacity - volume;
-        if (result < 0){
+    public void deductionVolume(Double volume) {
+        if (capacity < volume){
             this.capacity = 0.0;
-        } else{
-            this.capacity = result;
+            return;
         }
+        this.capacity -= volume;
     }
 }

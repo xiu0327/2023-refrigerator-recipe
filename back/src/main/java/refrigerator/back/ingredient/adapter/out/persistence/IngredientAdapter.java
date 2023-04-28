@@ -78,14 +78,6 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
     }
 
     @Override
-    public List<IngredientRegisteredResponseDTO> getIngredientListOfRegistered() {
-        return ingredientRepository.findRegisteredIngredient()
-                .stream()
-                .map(mapper::toIngredientRegisteredResponseDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<IngredientResponseDTO> getIngredientListByDeadline(LocalDate date, String email) {
         return ingredientRepository.findByExpirationDateAndEmail(date, email)
                 .stream()

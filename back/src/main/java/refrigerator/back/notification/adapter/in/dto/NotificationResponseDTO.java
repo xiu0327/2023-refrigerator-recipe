@@ -14,6 +14,7 @@ public class NotificationResponseDTO {
     private Long id;
     private String image;
     private String message;
+    private String type;
     private String registerTime;
     private String path;
     private boolean readStatus;

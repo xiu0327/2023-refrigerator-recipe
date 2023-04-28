@@ -13,6 +13,7 @@ import refrigerator.back.member.adapter.in.dto.response.MemberJoinResponseDTO;
 import refrigerator.back.member.application.port.in.DuplicateCheckEmailUseCase;
 import refrigerator.back.member.application.port.in.FindPasswordUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
+import refrigerator.back.notification.application.port.in.CreateMemberNotificationUseCase;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 
@@ -23,6 +24,7 @@ public class MemberAccessController {
     private final JoinUseCase joinUseCase;
     private final FindPasswordUseCase findPasswordUseCase;
     private final DuplicateCheckEmailUseCase duplicateCheckEmailUseCase;
+    private final CreateMemberNotificationUseCase createMemberNotificationUseCase;
     @Value("${jwt.type}")
     private String grantType;
 
@@ -35,6 +37,7 @@ public class MemberAccessController {
                 request.getEmail(),
                 request.getPassword(),
                 request.getNickname());
+        createMemberNotificationUseCase.createMemberNotification(request.getEmail());
         return new MemberJoinResponseDTO(memberID);
     }
 

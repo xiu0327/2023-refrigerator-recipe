@@ -9,6 +9,7 @@ import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUse
 import refrigerator.back.comment.application.port.in.people.FindLikedPeopleListUseCase;
 import refrigerator.back.global.common.BasicListResponseDTO;
 import refrigerator.back.global.common.MemberInformation;
+import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
 import refrigerator.back.notification.application.service.NotificationService;
 
 import static refrigerator.back.global.common.MemberInformation.*;
@@ -20,6 +21,7 @@ public class CommentHeartController {
     private final AddCommentHeartUseCase addCommentHeartUseCase;
     private final ReduceCommentHeartUseCase reduceCommentHeartUseCase;
     private final FindLikedPeopleListUseCase findLikedPeopleListUseCase;
+    private final CreateCommentHeartNotificationUseCase createCommentHeartNotificationUseCase;
 
     @PostMapping("/api/comments/{commentId}/heart/add")
     @ResponseStatus(HttpStatus.CREATED)
@@ -27,6 +29,7 @@ public class CommentHeartController {
         addCommentHeartUseCase.addHeart(
                 getMemberEmail(),
                 commentId);
+        createCommentHeartNotificationUseCase.createCommentHeartNotification(getMemberEmail(), commentId);
         return new CommentBasicResponseDTO(commentId);
     }
 

@@ -3,6 +3,7 @@ package refrigerator.back.global;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
@@ -11,6 +12,7 @@ import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.member.exception.MemberExceptionType;
 import refrigerator.back.myscore.application.domain.MyScore;
+import refrigerator.back.notification.application.domain.Notification;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -95,12 +97,17 @@ public class TestData {
                 .orElseThrow(() -> new RuntimeException("좋아요 누른 사람 찾을 수 없음"));
     }
 
+    @Transactional(readOnly = true)
+    public Notification findNotificationById(Long id){
+        return em.find(Notification.class, id);
+    }
+
     public String makeTokenHeader(String token){
         return "Bearer " + token;
     }
 
-    public void createIngredient(String ingredientName, String memberId){
-        em.persist(Ingredient.create(
+    public Long createIngredient(String ingredientName, String memberId){
+        Ingredient entity = Ingredient.create(
                 ingredientName,
                 LocalDate.now(),
                 70.0,
@@ -108,7 +115,15 @@ public class TestData {
                 "보관방식",
                 0,
                 memberId
-        ));
+        );
+        em.persist(entity);
+        return entity.getId();
+    }
+
+    public Comment createComment(String memberId){
+        Comment comment = Comment.write(1L, memberId, "내용");
+        em.persist(comment);
+        return comment;
     }
 
 

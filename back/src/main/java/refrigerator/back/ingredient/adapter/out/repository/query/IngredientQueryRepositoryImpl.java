@@ -32,13 +32,6 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
     private final EntityManager em;
 
     @Override
-    public List<RegisteredIngredient> findRegisteredIngredient() {
-        return jpaQueryFactory
-                .selectFrom(registeredIngredient)
-                .fetch();
-    }
-
-    @Override
     public List<Ingredient> findIngredientList(IngredientSearchCondition condition, Pageable pageable) {
         NumberExpression<Integer> rankPath = new CaseBuilder()
                 .when(ingredient.expirationDate.goe(LocalDate.now())).then(2)

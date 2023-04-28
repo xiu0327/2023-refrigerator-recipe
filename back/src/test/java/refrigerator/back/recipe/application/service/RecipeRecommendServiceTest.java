@@ -86,7 +86,6 @@ class RecipeRecommendServiceTest {
     Map<Long, Double> calculationMatchPercent() {
         String memberId = testData.createMemberByEmail("email123@gmail.com");
         String ingredientName = "콩나물";
-
         testData.createIngredient(ingredientName, memberId);
         List<String> ingredientNameListByMember = findIngredientNameListByMemberPort.findIngredientNameListByMember(memberId);
         Map<Long, Set<String>> ingredient = findRecommendRecipeInfoPort.getRecipeIngredientNameList();
