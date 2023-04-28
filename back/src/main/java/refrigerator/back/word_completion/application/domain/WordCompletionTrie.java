@@ -37,6 +37,8 @@ public class WordCompletionTrie {
         for (char value : keyword_split.toCharArray()) {
             if (currentNode.getChildren().containsKey(value)){
                 currentNode = currentNode.getChildren().get(value);
+            }else{
+                return answer;
             }
         }
 

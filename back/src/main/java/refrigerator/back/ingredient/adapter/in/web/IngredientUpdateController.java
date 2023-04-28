@@ -39,7 +39,7 @@ public class IngredientUpdateController {
         removeIngredientUseCase.removeIngredient(id);
     }
 
-    @DeleteMapping("/api/ingredients/")
+    @DeleteMapping("/api/ingredients")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeAllIngredient(@RequestBody IngredientListRemoveRequestDTO request) {
         removeIngredientUseCase.removeAllIngredients(request.getRemoveIds());

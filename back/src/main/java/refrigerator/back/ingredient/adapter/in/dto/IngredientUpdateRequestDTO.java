@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class IngredientUpdateRequestDTO {
 
     @NotEmpty
-    private LocalDate ExpirationDate;       // 유통기한
+    private LocalDate expirationDate;       // 유통기한
 
     @NotEmpty
     private Double capacity;                // 용량
