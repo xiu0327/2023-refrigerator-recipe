@@ -106,8 +106,8 @@ public class TestData {
         return "Bearer " + token;
     }
 
-    public void createIngredient(String ingredientName, String memberId){
-        em.persist(Ingredient.create(
+    public Long createIngredient(String ingredientName, String memberId){
+        Ingredient entity = Ingredient.create(
                 ingredientName,
                 LocalDate.now(),
                 70.0,
@@ -115,7 +115,9 @@ public class TestData {
                 "보관방식",
                 0,
                 memberId
-        ));
+        );
+        em.persist(entity);
+        return entity.getId();
     }
 
     public Comment createComment(String memberId){
