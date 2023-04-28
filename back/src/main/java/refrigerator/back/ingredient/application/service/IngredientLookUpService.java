@@ -32,11 +32,6 @@ public class IngredientLookUpService implements FindIngredientListUseCase, FindI
     }
 
     @Override
-    public List<IngredientRegisteredResponseDTO> getIngredientListOfRegistered() {
-        return readIngredientPort.getIngredientListOfRegistered();
-    }
-
-    @Override
     public List<IngredientResponseDTO> getIngredientListByDeadline(Long days, String email) {
         return readIngredientPort.getIngredientListByDeadline(LocalDate.now().plusDays(days), email);
     }

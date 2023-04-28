@@ -4,11 +4,16 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.common.BaseTimeEntityWithModify;
+import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "ingredient")
@@ -63,46 +68,56 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {   
+    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
         this.registrationDate = LocalDate.now();
-        this.image = image;
+        this.image = imageId;
         this.email = email;
     }
 
-    public Ingredient(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
-        this.name = name;
-        this.expirationDate = expirationDate;
-        this.capacity = capacity;
-        this.capacityUnit = capacityUnit;
-        this.storageMethod = storageMethod;
-        this.registrationDate = registrationDate;
-        this.image = image;
-        this.email = email;
-    }
+    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+        if(checkMethod(storageMethod) == false){
+            throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
+        }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer image, String email) {
-        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, image, email);
+        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;
     }
 
     public void modify(LocalDate expirationDate, Double capacity, String storageMethod) {
+        if(checkMethod(storageMethod) == false){
+            throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
+        }
+
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.storageMethod = storageMethod;
     }
 
-    public void deductionVolume(Double volume){
-        double result = this.capacity - volume;
-        if (result < 0){
-            this.capacity = 0.0;
-        } else{
-            this.capacity = result;
+    private static boolean checkMethod(String storageMethod) {
+        List<String> method = new ArrayList<>(Arrays.asList("냉장", "냉동", "실온", "조미료"));
+
+        boolean check = false;
+
+        for (String s : method) {
+            if(storageMethod.equals(s)){
+                check = true;
+            }
         }
+
+        return check;
+    }
+
+    public void deductionVolume(Double volume) {
+        if (capacity < volume){
+            this.capacity = 0.0;
+            return;
+        }
+        this.capacity -= volume;
     }
 }

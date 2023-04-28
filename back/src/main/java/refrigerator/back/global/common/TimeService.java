@@ -15,6 +15,7 @@ public class TimeService implements CommentTimeService, NotificationTimeService 
         Duration duration = Duration.between(date, now);
         Period period = Period.between(date.toLocalDate(), now.toLocalDate());
 
+        if(duration.toMinutes()<1){ return duration.toSeconds() + " 초 전";}
         if(duration.toHours()<1){ return duration.toMinutes() + " 분 전";}
         if(duration.toDays()<1){ return duration.toHours() + " 시간 전";}
 

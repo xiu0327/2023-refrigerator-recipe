@@ -10,7 +10,6 @@ import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import java.util.List;
 
 public interface IngredientQueryRepository {
-    List<RegisteredIngredient> findRegisteredIngredient();
 
     List<Ingredient> findIngredientList(IngredientSearchCondition condition, Pageable pageable);
 
