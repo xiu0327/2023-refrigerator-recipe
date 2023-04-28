@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.notification.application.domain.Notification;
+import refrigerator.back.notification.application.domain.QNotification;
 
 import javax.persistence.EntityManager;
 

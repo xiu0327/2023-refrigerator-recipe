@@ -43,6 +43,7 @@ class IngredientLookUpControllerTest {
 
     @Test
     void 식재료_목록_조회() throws Exception {
+
         String email = testData.createMemberByEmail("asd123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 

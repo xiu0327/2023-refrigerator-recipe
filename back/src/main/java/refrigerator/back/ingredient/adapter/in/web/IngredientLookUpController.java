@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.*;
 import refrigerator.back.global.common.MemberInformation;
 import refrigerator.back.ingredient.adapter.in.dto.*;
 import refrigerator.back.ingredient.adapter.mapper.IngredientMapper;
+import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.in.FindIngredientListUseCase;
 import refrigerator.back.ingredient.application.port.in.FindIngredientDetailUseCase;
+
+import javax.validation.Valid;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 
@@ -25,7 +28,7 @@ public class IngredientLookUpController {
                                                                                @RequestParam(value = "size", defaultValue = "12") int size) {
         return new IngredientListResponseDTO<>(
                 findIngredientListUseCase.getIngredientList(
-                        mapper.toIngredientSearchCondition(requestDTO, getMemberEmail()), page, size));
+                        IngredientSearchCondition.check(mapper.toIngredientSearchCondition(requestDTO, getMemberEmail())), page, size));
     }
 
     @GetMapping("/api/ingredients/search")

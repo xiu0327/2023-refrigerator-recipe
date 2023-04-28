@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
-import refrigerator.back.global.TestData;
 import refrigerator.back.notification.application.port.in.CreateMemberNotificationUseCase;
+import refrigerator.back.global.TestData;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,9 +32,9 @@ class NotificationLookUpControllerTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired WebApplicationContext context;
-    @Autowired TestData testData;
     @Autowired CreateTokenPort createTokenPort;
     @Autowired CreateMemberNotificationUseCase createMemberNotificationUseCase;
+    @Autowired TestData testData;
 
     @Before
     public void setting(){

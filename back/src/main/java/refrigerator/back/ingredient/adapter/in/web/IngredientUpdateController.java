@@ -8,6 +8,8 @@ import refrigerator.back.ingredient.application.port.in.ModifyIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 
+import javax.validation.Valid;
+
 import static refrigerator.back.global.common.MemberInformation.*;
 
 @RestController
@@ -39,7 +41,7 @@ public class IngredientUpdateController {
         removeIngredientUseCase.removeIngredient(id);
     }
 
-    @DeleteMapping("/api/ingredients/")
+    @DeleteMapping("/api/ingredients")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeAllIngredient(@RequestBody IngredientListRemoveRequestDTO request) {
         removeIngredientUseCase.removeAllIngredients(request.getRemoveIds());
@@ -47,7 +49,7 @@ public class IngredientUpdateController {
 
     @PostMapping("/api/ingredients/propose")
     @ResponseStatus(HttpStatus.CREATED)
-    public void proposeIngredient(@RequestBody IngredientProposeRequestDTO request) {
+    public void proposeIngredient(@RequestBody @Valid IngredientProposeRequestDTO request) {
         registerIngredientUseCase.proposeIngredient(request.getName(), request.getCapacityUnit(), getMemberEmail());
     }
 }
