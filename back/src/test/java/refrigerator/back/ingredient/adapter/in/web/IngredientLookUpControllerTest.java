@@ -44,14 +44,14 @@ class IngredientLookUpControllerTest {
     @Test
     void 식재료_목록_조회() throws Exception {
 
-        String email = testData.createMemberByEmail("asd123@gmail.com");
+        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
         testData.createIngredient("안심", email);
 
         IngredientLookUpRequestDTO request = IngredientLookUpRequestDTO.builder()
                 .storage("냉장")
-                .deadline(true).build();
+                .deadline(false).build();
 
         String content = new ObjectMapper().writeValueAsString(request);
 
@@ -66,12 +66,14 @@ class IngredientLookUpControllerTest {
     @Test
     void 식재료_목록_조회_실패() throws Exception {
 
-        String email = testData.createMemberByEmail("asd123@gmail.com");
+        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
+
+        testData.createIngredient("안심", email);
 
         IngredientLookUpRequestDTO request = IngredientLookUpRequestDTO.builder()
                 .storage("방관")
-                .deadline(true).build();
+                .deadline(false).build();
 
         String content = new ObjectMapper().writeValueAsString(request);
 

@@ -35,8 +35,5 @@ public class IngredientSearchCondition {
             throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
 
         return condition;
-
-
-
     }
 }

@@ -1,5 +1,6 @@
 package refrigerator.back.ingredient.application.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,12 @@ import refrigerator.back.ingredient.adapter.out.repository.IngredientRepository;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
+import static refrigerator.back.ingredient.application.domain.QIngredient.ingredient;
 
 @SpringBootTest
 @Transactional
@@ -23,6 +26,9 @@ class IngredientServiceTest {
     @Autowired IngredientUpdateService ingredientService;
     @Autowired IngredientAdapter ingredientAdapter;
     @Autowired IngredientRepository ingredientRepository;
+
+    @Autowired JPAQueryFactory jpaQueryFactory;
+    @Autowired EntityManager em;
 
     @Test
     void 식재료_등록() {
@@ -57,8 +63,7 @@ class IngredientServiceTest {
 
         ingredientService.removeIngredient(id);
 
-        Ingredient findIngredient = ingredientAdapter.getIngredientById(id);
-        assertThat(findIngredient.isDeleted()).isTrue();
+        assertThat(ingredientAdapter.getIngredientById(id).isDeleted()).isTrue();
     }
 
     @Test

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ReadIngredientPort {
 
-    Ingredient getIngredientById(Long id);
+    Ingredient getIngredient(Long id);
 
     IngredientDetailResponseDTO getIngredientDetail(Long id);
 

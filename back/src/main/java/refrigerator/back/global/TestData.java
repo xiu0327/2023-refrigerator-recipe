@@ -111,7 +111,7 @@ public class TestData {
                 LocalDate.now(),
                 70.0,
                 "g",
-                "냉동",
+                "냉장",
                 0,
                 memberId
         );

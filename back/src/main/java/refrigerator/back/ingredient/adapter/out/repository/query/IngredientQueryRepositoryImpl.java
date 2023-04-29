@@ -32,6 +32,30 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
     private final EntityManager em;
 
     @Override
+    public void deleteIngredient(Long id) {
+
+        jpaQueryFactory.update(ingredient)
+                .set(ingredient.deleted, true)
+                .where(ingredient.id.eq(id))
+                .execute();
+
+        em.flush();
+        em.clear();
+    }
+
+    @Override
+    public void deleteAllIngredients(List<Long> ids) {
+
+        jpaQueryFactory.update(ingredient)
+                .set(ingredient.deleted, true)
+                .where(ingredient.id.in(ids))
+                .execute();
+
+        em.flush();
+        em.clear();
+    }
+
+    @Override
     public List<Ingredient> findIngredientList(IngredientSearchCondition condition, Pageable pageable) {
         NumberExpression<Integer> rankPath = new CaseBuilder()
                 .when(ingredient.expirationDate.goe(LocalDate.now())).then(2)
@@ -42,7 +66,8 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
                 .where(
                         storageCheck(condition.getStorage()),
                         deadlineCheck(condition.isDeadline()),
-                        emailCheck(condition.getEmail())
+                        emailCheck(condition.getEmail()),
+                        ingredient.deleted.eq(false)
                 )
                 .orderBy(rankPath.desc(), ingredient.expirationDate.asc(), ingredient.name.asc()) // 이어서 코딩
                 .offset(pageable.getOffset())

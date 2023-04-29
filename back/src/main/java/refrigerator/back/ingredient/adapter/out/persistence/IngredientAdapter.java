@@ -41,8 +41,20 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
     }
 
     @Override
+    public void deleteIngredient(Long id) {
+        ingredientRepository.deleteIngredient(id);
+    }
+
+    @Override
+    public void deleteAllIngredients(List<Long> ids) {
+        ingredientRepository.deleteAllIngredients(ids);
+    }
+
+    // 테스트용
     public Ingredient getIngredientById(Long id) {
-        Ingredient ingredient = ingredientRepository.findById(id).orElse(null);
+        Ingredient ingredient = ingredientRepository
+                .findById(id)
+                .orElse(null);
 
         if (ingredient == null)
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
@@ -50,6 +62,19 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
         return ingredient;
     }
 
+    @Override
+    public Ingredient getIngredient(Long id) {
+        Ingredient ingredient = ingredientRepository
+                .findByIdAndDeletedFalse(id)
+                .orElse(null);
+
+        if (ingredient == null)
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+
+        return ingredient;
+    }
+
+    @Override
     public IngredientDetailResponseDTO getIngredientDetail(Long id) {
         Ingredient ingredient = ingredientRepository
                 .findByIdAndDeletedFalse(id)
@@ -79,7 +104,7 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
 
     @Override
     public List<IngredientResponseDTO> getIngredientListByDeadline(LocalDate date, String email) {
-        return ingredientRepository.findByExpirationDateAndEmail(date, email)
+        return ingredientRepository.findByExpirationDateAndEmailAndDeletedFalse(date, email)
                 .stream()
                 .map(mapper::toIngredientDto)
                 .collect(Collectors.toList());

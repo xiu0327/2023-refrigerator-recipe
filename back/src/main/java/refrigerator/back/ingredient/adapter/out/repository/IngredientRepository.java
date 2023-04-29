@@ -21,7 +21,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long>, I
     @Query("select si from SuggestedIngredient si")
     List<SuggestedIngredient> findSuggestedIngredientList();
 
-    List<Ingredient> findByExpirationDateAndEmail(LocalDate expirationDate, String email);
+    List<Ingredient> findByExpirationDateAndEmailAndDeletedFalse(LocalDate expirationDate, String email);
 
     List<Ingredient> findByEmailAndDeletedFalse(String email);
 
