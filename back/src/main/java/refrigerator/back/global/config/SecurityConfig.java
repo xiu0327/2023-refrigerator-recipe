@@ -43,7 +43,7 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-//    @Bean
+//    @BeanF
 //    public WebSecurityCustomizer webSecurityCustomizer() {
 //        return (web) -> web.ignoring().antMatchers("/api/**");
 //    }

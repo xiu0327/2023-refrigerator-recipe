@@ -16,7 +16,6 @@ import refrigerator.back.notification.application.domain.Notification;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -112,7 +111,7 @@ public class TestData {
                 LocalDate.now(),
                 70.0,
                 "g",
-                "보관방식",
+                "냉동",
                 0,
                 memberId
         );
@@ -133,7 +132,7 @@ public class TestData {
                 date,
                 70.0,
                 "g",
-                "보관방식",
+                "냉동",
                 0,
                 memberId
         ));
