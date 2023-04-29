@@ -36,7 +36,5 @@ public class IngredientSearchCondition {
 
         return condition;
 
-
-
     }
 }
