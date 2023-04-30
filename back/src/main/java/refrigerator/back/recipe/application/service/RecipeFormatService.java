@@ -1,5 +1,8 @@
 package refrigerator.back.recipe.application.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RecipeFormatService {
     public String changeKcalFormat(int kcal){
         return kcal + "kcal";

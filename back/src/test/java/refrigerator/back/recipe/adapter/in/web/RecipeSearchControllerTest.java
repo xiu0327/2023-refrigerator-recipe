@@ -49,6 +49,17 @@ class RecipeSearchControllerTest {
     }
 
     @Test
+    @DisplayName("레시피 조회")
+    void findById() throws Exception {
+        String memberId = testData.createMemberByEmail("email@gmail.com");
+        String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 3000);
+        mockMvc.perform(get("/api/recipe/1")
+                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+        ).andExpect(status().is2xxSuccessful()
+        ).andDo(print());
+    }
+
+    @Test
     @DisplayName("레시피 검색")
     void search() throws Exception {
         String memberId = testData.createMemberByEmail("email@gmail.com");

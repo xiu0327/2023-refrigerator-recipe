@@ -29,6 +29,7 @@ public class RecipeService implements FindRecipeListUseCase, FindRecipeDetailUse
     private final ReadRecipePort recipeReadPort;
     private final AddRecipeViewsPort addRecipeViewsPort;
     private final RecipeDtoMapper mapper;
+    private final RecipeFormatService recipeFormatService;
 
     @Override
     @Transactional
@@ -53,6 +54,11 @@ public class RecipeService implements FindRecipeListUseCase, FindRecipeDetailUse
         dto.setIngredients(recipe.getIngredients()
                 .stream().map(mapper::toInRecipeIngredientDto)
                 .collect(Collectors.toSet()));
+        dto.settingFormat(
+                recipeFormatService.changeServingsFormat(recipe.getServings()),
+                recipeFormatService.changeKcalFormat(recipe.getKcal()),
+                recipeFormatService.changeCookingTimeFormat(recipe.getCookingTime())
+        );
         return dto;
     }
 

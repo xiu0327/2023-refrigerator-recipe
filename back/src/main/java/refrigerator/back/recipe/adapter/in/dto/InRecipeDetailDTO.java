@@ -26,4 +26,10 @@ public class InRecipeDetailDTO extends RecipeOutputFormat {
     private String recipeCategoryName;
     private Set<InRecipeIngredientDTO> ingredients;
 
+    public void settingFormat(String servings, String kcal, String cookingTime){
+        this.servings = servings;
+        this.kcal = kcal;
+        this.cookingTime = cookingTime;
+    }
+
 }
