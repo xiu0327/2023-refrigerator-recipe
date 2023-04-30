@@ -50,6 +50,8 @@ class LookUpIngredientServiceTest {
             ids.add(setIngredient(name, LocalDate.now().plusDays(days++), 100.0, "개", "냉장", 1, "asd123@naver.com"));
         }
 
+        // deadline check (false)
+
         Integer count1 = 0;
 
         for (int i = 0; i < 6; i++) {
@@ -58,7 +60,7 @@ class LookUpIngredientServiceTest {
 
             count1 += ingredientList.size();
             for (IngredientResponseDTO dto : ingredientList) {
-                //log.info(dto.toString());
+                log.info(dto.toString());
                 assertThat(dto.getId()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
@@ -66,7 +68,7 @@ class LookUpIngredientServiceTest {
             }
         }
 
-        // log.info("----------------------------------------------------------------");
+        // deadline check (true)
 
         Integer count2 = 0;
 
@@ -76,7 +78,7 @@ class LookUpIngredientServiceTest {
 
             count2 += ingredientList.size();
             for (IngredientResponseDTO dto : ingredientList) {
-                //log.info(dto.toString());
+                log.info(dto.toString());
                 assertThat(dto.getId()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
@@ -87,10 +89,13 @@ class LookUpIngredientServiceTest {
         assertThat(count1).isEqualTo(29);
         assertThat(count2).isEqualTo(14);
 
+        // storage check
+
         List<String> namesByCold = new ArrayList<>(Arrays.asList("청양고추", "배추김치", "검정콩", "양고기"));
+        List<Long> idList = new ArrayList<>();
 
         for (String name : namesByCold) {
-            setIngredient(name, LocalDate.now().plusDays(5), 30.0, "g", "냉동", 1, "asd123@naver.com");
+            idList.add(setIngredient(name, LocalDate.now().plusDays(5), 30.0, "g", "냉동", 1, "asd123@naver.com"));
         }
 
         List<IngredientResponseDTO> list2 = ingredientLookUpService.getIngredientList(
@@ -105,8 +110,17 @@ class LookUpIngredientServiceTest {
         }
 
         assertThat(list2.size()).isEqualTo(4);
+
+        // delete check
+
+        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(idList.get(1)).getId());
+        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(idList.get(2)).getId());
+
+        assertThat(ingredientLookUpService.getIngredientList(
+                new IngredientSearchCondition("냉동", false, "asd123@naver.com"), 0, 15).size()).isEqualTo(2);
+
     }
-    
+
     @Test
     void 식재료_검색() {
 
@@ -114,11 +128,10 @@ class LookUpIngredientServiceTest {
 
         List<Long> ids = setIngredientList(names, LocalDate.now().plusDays(10), 100.0, "g", 1, "asd123@naver.com");
 
-        List<Ingredient> all = ingredientRepository.findAll();
+        // delete check
 
-        for (Ingredient ingredient : all) {
-            System.out.println("ingredient = " + ingredient);
-        }
+        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(ids.get(1)).getId());
+        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(ids.get(2)).getId());
 
         List<IngredientResponseDTO> ingredientNotDeleted = ingredientLookUpService.getIngredientListOfAll("asd123@naver.com");
 
@@ -130,7 +143,7 @@ class LookUpIngredientServiceTest {
             assertThat(dto.getRemainDays()).isNotNull();
         }
 
-        assertThat(ingredientNotDeleted.size()).isEqualTo(7);
+        assertThat(ingredientNotDeleted.size()).isEqualTo(5);
     }
 
     @Test
@@ -153,10 +166,13 @@ class LookUpIngredientServiceTest {
 
         ingredientAdapter.getIngredientById(id).delete();
 
+        // 삭제된 식재료 조회
         assertThatThrownBy(() -> ingredientLookUpService.getIngredient(id))
                 .isInstanceOf(BusinessException.class);
 
-        assertThat(ingredientAdapter.getIngredientById(id)).isNotNull();
+        // 없는 식재료 조회
+        assertThatThrownBy(() -> ingredientAdapter.getIngredientById(-1L))
+                .isInstanceOf(BusinessException.class);;
     }
 
     @Test
@@ -166,11 +182,15 @@ class LookUpIngredientServiceTest {
         ArrayList<String> arrayList2 = new ArrayList<>(Arrays.asList("토란", "감자", "치즈"));
         ArrayList<String> arrayList3 = new ArrayList<>(Arrays.asList("쌀", "돼지고기"));
 
-        setIngredientList(arrayList1, LocalDate.now().plusDays(1), 20.0, "개", 1, "asd123@naver.com");
-        setIngredientList(arrayList2, LocalDate.now().plusDays(3), 20.0, "개", 1, "asd123@naver.com");
-        setIngredientList(arrayList3, LocalDate.now().plusDays(5), 20.0, "개", 1, "asd123@naver.com");
+        List<Long> ids1 = setIngredientList(arrayList1, LocalDate.now().plusDays(1), 20.0, "개", 1, "asd123@naver.com");
+        List<Long> ids2 = setIngredientList(arrayList2, LocalDate.now().plusDays(3), 20.0, "개", 1, "asd123@naver.com");
+        List<Long> ids3 = setIngredientList(arrayList3, LocalDate.now().plusDays(5), 20.0, "개", 1, "asd123@naver.com");
 
         List<List<IngredientResponseDTO>> ingredientListByDeadline = new ArrayList<>();
+
+        ingredientService.removeIngredient(ids1.get(1));
+        ingredientService.removeIngredient(ids2.get(1));
+        ingredientService.removeIngredient(ids3.get(1));
 
         ingredientListByDeadline.add(ingredientLookUpService.getIngredientListByDeadline(1L, "asd123@naver.com"));
         ingredientListByDeadline.add(ingredientLookUpService.getIngredientListByDeadline(3L, "asd123@naver.com"));
@@ -179,14 +199,16 @@ class LookUpIngredientServiceTest {
         for (List<IngredientResponseDTO> ingredientResponseDTOS : ingredientListByDeadline) {
             for (IngredientResponseDTO dto : ingredientResponseDTOS) {
                 //log.info(dto.toString());
+                assertThat(dto.getId()).isNotNull();
+                assertThat(dto.getName()).isNotNull();
+                assertThat(dto.getImage()).isNotNull();
+                assertThat(dto.getRemainDays()).isNotNull();
             }
         }
-    }
 
-    @Test
-    void NULL_테스트() {
-        assertThatThrownBy(() -> ingredientAdapter.getIngredientById(-1L))
-                .isInstanceOf(BusinessException.class);
+        assertThat(ingredientListByDeadline.get(0).size()).isEqualTo(3);
+        assertThat(ingredientListByDeadline.get(1).size()).isEqualTo(2);
+        assertThat(ingredientListByDeadline.get(2).size()).isEqualTo(1);
     }
 
     List<Long> setIngredientList(List<String> names, LocalDate date, Double capacity, String unit, Integer image, String email) {

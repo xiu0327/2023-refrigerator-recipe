@@ -14,4 +14,8 @@ public interface IngredientQueryRepository {
     List<Ingredient> findIngredientList(IngredientSearchCondition condition, Pageable pageable);
 
     void saveSuggestIngredient(SuggestedIngredient ingredient);
+
+    void deleteIngredient(Long id);
+
+    void deleteAllIngredients(List<Long> ids);
 }
