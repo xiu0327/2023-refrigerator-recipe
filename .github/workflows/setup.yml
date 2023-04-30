@@ -10,7 +10,6 @@ env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
     APPLICATION_PROPERTIES: ${{secrets.APPLICATION_PROPERTIES}}
     APPLICATION_OAUTH: ${{secrets.APPLICATION_OAUTH}}
-    IMAGE: xiu0327/refrigerator
 
 jobs:
     setup-build-publish-deploy:
