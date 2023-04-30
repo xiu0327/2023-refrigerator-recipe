@@ -43,9 +43,9 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-//    @BeanF
+//    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/api/**");
+//        return (web) -> web.ignoring().antMatchers("/api/");
 //    }
 
 

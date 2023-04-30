@@ -29,12 +29,12 @@ class RecommendSearchWordServiceTest {
     void getRecommendSearchWords() {
         String memberId = testData.createMemberByEmail("email@gmail.com");
         testData.createIngredientWithDate("콩나물", memberId, LocalDate.of(2023, 4, 22));
-        testData.createIngredientWithDate("도라지", memberId, LocalDate.of(2023, 4, 28));
-        testData.createIngredientWithDate("계란", memberId, LocalDate.of(2023, 4, 29));
-        testData.createIngredientWithDate("콩", memberId, LocalDate.of(2023, 4, 30));
-        testData.createIngredientWithDate("돼지고기", memberId, LocalDate.of(2023, 5, 28));
-        testData.createIngredientWithDate("당근", memberId, LocalDate.of(2023, 5, 29));
-        testData.createIngredientWithDate("부추", memberId, LocalDate.of(2023, 5, 30));
+        testData.createIngredientWithDate("도라지", memberId, LocalDate.of(2023, 8, 28));
+        testData.createIngredientWithDate("계란", memberId, LocalDate.of(2023, 8, 29));
+        testData.createIngredientWithDate("콩", memberId, LocalDate.of(2023, 8, 30));
+        testData.createIngredientWithDate("돼지고기", memberId, LocalDate.of(2023, 9, 28));
+        testData.createIngredientWithDate("당근", memberId, LocalDate.of(2023, 9, 29));
+        testData.createIngredientWithDate("부추", memberId, LocalDate.of(2023, 9, 30));
         List<String> result = findRecommendSearchWordUseCase.getRecommendSearchWords(memberId);
         assertThat(result.size()).isEqualTo(5);
         assertThat(result.get(0)).isEqualTo("도라지");

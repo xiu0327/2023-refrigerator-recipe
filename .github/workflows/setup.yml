@@ -1,0 +1,40 @@
+name: build application docker
+
+on:
+    push:
+        branches: [back-main-v1]
+    pull_request:
+        branches: [back-main-v1]
+
+env:
+    APPLICATION_YML: ${{secrets.APPLICATION_YML}}
+    APPLICATION_PROPERTIES: ${{secrets.APPLICATION_PROPERTIES}}
+    APPLICATION_OAUTH: ${{secrets.APPLICATION_OAUTH}}
+    IMAGE: xiu0327/refrigerator
+
+jobs:
+    setup-build-publish-deploy:
+        name: Setup Build Publish deploy
+        runs-on: ubuntu-latest
+        
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v2
+        
+        - name: Set up application option
+          uses: actions/checkout@v2
+          run: touch ./back/src/main/resources/application.yml
+          run: touch ./back/src/main/resources/applitcaion.properties
+          run: touch ./back/src/main/resources/application-oauth.yml
+          run: echo "${{env.APPLICATION_YML}}" > ./back/src/main/resources/application.yml
+          run: echo "${{env.APPLICATION_PROPERTIES}}" > ./back/src/main/resources/applitcaion.properties
+          run: echo "${{env.APPLICATION_OAUTH}" > ./back/src/main/resources/application-oauth.yml
+          
+        - name: Set up JDK 11
+          uses: actions/setup-java@v1
+          with:
+            java-version: 11
+            
+        - name: Build with Gradle
+          run: ./gradlew jib
+

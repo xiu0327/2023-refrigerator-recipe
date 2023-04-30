@@ -115,7 +115,7 @@ class IngredientUpdateControllerTest {
         // 차후 validation으로 검증 테스트할 때 또 고쳐야함
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
-                .ExpirationDate(LocalDate.now().plusDays(15))
+                .expirationDate(LocalDate.now().plusDays(15))
                 .capacity(30.0)
                 .storageMethod("냉동")
                 .build();
@@ -141,7 +141,7 @@ class IngredientUpdateControllerTest {
         // validation 에러, email 에러
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
-                .ExpirationDate(LocalDate.now().plusDays(15))
+                .expirationDate(LocalDate.now().plusDays(15))
                 .capacity(30.0)
                 .storageMethod("수비드")
                 .build();

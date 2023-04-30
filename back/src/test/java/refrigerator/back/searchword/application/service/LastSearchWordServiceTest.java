@@ -39,7 +39,7 @@ class LastSearchWordServiceTest {
     @Test
     @DisplayName("검색어 삭제")
     void delete() {
-        String memberId = testData.createMemberByEmail("email@gmail.com");
+        String memberId = testData.createMemberByEmail("email45678@gmail.com");
         String searchWord = "검색어";
         lastSearchWordService.addSearchWord(memberId, searchWord);
         lastSearchWordService.delete(memberId, searchWord);

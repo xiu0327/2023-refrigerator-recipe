@@ -53,7 +53,7 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     @Override
     public void removeIngredient(Long id) {
         Ingredient ingredient = readIngredientPort.getIngredientById(id);
-        if(ingredient.isDeleted() == true){
+        if(ingredient.isDeleted()){
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
         }
         ingredient.delete();
