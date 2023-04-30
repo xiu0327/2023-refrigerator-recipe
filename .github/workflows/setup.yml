@@ -3,8 +3,6 @@ name: build application docker
 on:
     push:
         branches: [back-main-v1]
-    pull_request:
-        branches: [back-main-v1]
 
 env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
