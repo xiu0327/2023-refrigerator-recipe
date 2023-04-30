@@ -35,5 +35,6 @@ jobs:
               java-version: 11
 
           - name: Build with Gradle
-            run: ./gradlew jib
+            run: ./back/gradlew jib
+
 
