@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class RecipeIngredientVolumeDTO {
     private String name;
-    private Double volume;
+    private Double capacity;
     private String unit;
 }
