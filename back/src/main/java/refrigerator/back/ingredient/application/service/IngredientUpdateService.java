@@ -45,18 +45,30 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
 
     @Override
     public void modifyIngredient(Long id, LocalDate expirationDate, Double capacity, String storageMethod) {
-        Ingredient ingredient = readIngredientPort.getIngredient(id);
+        Ingredient ingredient = readIngredientPort.getIngredientById(id);
         ingredient.modify(expirationDate, capacity, storageMethod);
         writeIngredientPort.saveIngredient(ingredient);
     }
 
     @Override
     public void removeIngredient(Long id) {
-        writeIngredientPort.deleteIngredient(id);
+        Ingredient ingredient = readIngredientPort.getIngredientById(id);
+        if(ingredient.isDeleted() == true){
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+        }
+        ingredient.delete();
+        writeIngredientPort.saveIngredient(ingredient);
     }
 
     @Override
     public void removeAllIngredients(List<Long> ids) {
-        writeIngredientPort.deleteAllIngredients(ids);
+        for (Long id : ids) {
+            Ingredient ingredient = readIngredientPort.getIngredientById(id);
+            if(ingredient.isDeleted() == true){
+                throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+            }
+            ingredient.delete();
+            writeIngredientPort.saveIngredient(ingredient);
+        }
     }
 }

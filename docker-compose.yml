@@ -12,11 +12,20 @@ services:
     ports:
       - 6378:6378
     volumes:
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/search/redis.conf:/usr/local/etc/redis/redis.conf
+  notification:
+    container_name: redis-notification
+    image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6377:6377
+    volumes:
+      - ./redis/notification/redis.conf:/usr/local/etc/redis/redis.conf
   app:
     depends_on:
       - cache
       - search
+      - notification
     image: xiu0327/refrigerator
     ports:
       - 8080:8080
