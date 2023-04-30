@@ -23,10 +23,8 @@ jobs:
           - name: Set up application option
             run: |
               touch ./back/src/main/resources/application.yml
-              touch ./back/src/main/resources/applitcaion.properties
               touch ./back/src/main/resources/application-oauth.yml
               echo "${{env.APPLICATION_YML}}" > ./back/src/main/resources/application.yml
-              echo "${{env.APPLICATION_PROPERTIES}}" > ./back/src/main/resources/applitcaion.properties
               echo "${{env.APPLICATION_OAUTH}}" > ./back/src/main/resources/application-oauth.yml
 
           - name: Set up JDK 11
