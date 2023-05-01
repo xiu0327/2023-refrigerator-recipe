@@ -1,12 +1,11 @@
 package refrigerator.back.authentication.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
+import refrigerator.back.authentication.application.domain.TokenInfoDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
-import refrigerator.back.authentication.application.port.in.OAuth2LoginUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 import refrigerator.back.authentication.application.port.out.*;
 import refrigerator.back.authentication.exception.JwtExceptionType;
@@ -40,10 +39,13 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
     }
 
     @Override
-    public TokenDTO reissue(String accessToken, String refreshToken) {
-        checkToken(accessToken, refreshToken);
-        String email = findEmailByToken.findEmailByToken(refreshToken);
-        String authority = findMemberPort.findMember(email).getMemberStatus().getStatusCode();
+    public TokenDTO reissue(String refreshToken) {
+        if (validateTokenPort.isExpired(refreshToken)){
+            throw new BusinessException(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
+        }
+        TokenInfoDTO tokenInfo = findEmailByToken.findEmailByToken(refreshToken);
+        String email = tokenInfo.getEmail();
+        String authority = tokenInfo.getRole();
         String findRefreshToken = findRefreshTokenByEmailPort.findRefreshToken(email);
         if (!refreshToken.equals(findRefreshToken)){
             throw new BusinessException(JwtExceptionType.INVALID_REFRESH_TOKEN);
@@ -51,14 +53,8 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
         return TokenDTO.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(createTokenPort.createAccessToken(email, authority))
-                .refreshToken(findRefreshToken)
                 .build();
     }
 
-    private void checkToken(String accessToken, String refreshToken) {
-        if (!validateTokenPort.validate(accessToken, refreshToken)){
-            throw new BusinessException(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
-        }
-    }
 
 }

@@ -113,7 +113,7 @@ class AuthenticationControllerTest {
         String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
         TokenDTO token = loginUseCase.login(email, password);
         // when
-        ReissueTokenRequestDTO request = new ReissueTokenRequestDTO(token.getAccessToken(), token.getRefreshToken());
+        ReissueTokenRequestDTO request = new ReissueTokenRequestDTO(token.getRefreshToken());
         String requestJson = new ObjectMapper().writeValueAsString(request);
         mockMvc.perform(post("/api/auth/reissue")
                 .contentType(MediaType.APPLICATION_JSON)

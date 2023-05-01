@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
+import refrigerator.back.authentication.application.domain.TokenInfoDTO;
 import refrigerator.back.authentication.application.port.out.FindEmailByToken;
 import refrigerator.back.authentication.application.port.out.FindRefreshTokenByEmailPort;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
@@ -50,9 +51,9 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByToken,
 
 
     @Override
-    public String findEmailByToken(String token) {
+    public TokenInfoDTO findEmailByToken(String token) {
         Claims claims = jsonWebTokenProvider.parseClaims(token);
-        return claims.getSubject();
+        return new TokenInfoDTO(claims.getSubject(), (String)claims.get("auth"));
     }
 
     @Override
@@ -70,5 +71,11 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByToken,
         }
         // 액세스 토큰 = 만료, 리프레시 토큰 = 만료 -> 재발급 불가능, 그 이외 모든 경우 재발급 가능
         return !(accessTokenStatus == EXPIRED && refreshTokenStatus == EXPIRED);
+    }
+
+    @Override
+    public boolean isExpired(String token) {
+        TokenStatus tokenStatus = jsonWebTokenProvider.validateToken(token);
+        return tokenStatus == EXPIRED;
     }
 }

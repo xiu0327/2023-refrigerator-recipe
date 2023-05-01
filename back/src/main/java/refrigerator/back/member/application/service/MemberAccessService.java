@@ -29,13 +29,11 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
     @Transactional
     public Long join(String email, String password, String nickname) {
         duplicateCheck(email);
-
-        Long memberId = createMemberPort.createMember(
+        return createMemberPort.createMember(
                 Member.join(
                         email,
                         encryptPasswordPort.encrypt(password),
                         nickname));
-        return memberId;
 
     }
 

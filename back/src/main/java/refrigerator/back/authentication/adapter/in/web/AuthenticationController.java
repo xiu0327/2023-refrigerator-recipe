@@ -25,7 +25,6 @@ public class AuthenticationController {
     @Value("${oauth.password}")
     private String oauthPassword;
 
-
     @PostMapping("/api/auth/login")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO loginByBasic(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
@@ -49,7 +48,7 @@ public class AuthenticationController {
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO reissue(@RequestBody ReissueTokenRequestDTO request){
-        return tokenReissueUseCase.reissue(request.getAccessToken(), request.getRefreshToken());
+        return tokenReissueUseCase.reissue(request.getRefreshToken());
     }
 
 }
