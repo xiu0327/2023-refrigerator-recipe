@@ -26,4 +26,6 @@ public class InRecipeSearchRequestDTO {
     private String difficulty;
     @Nullable
     private Double score;
+
+
 }

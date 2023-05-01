@@ -37,7 +37,8 @@ public class NotificationService implements FindNotificationListUseCase, ReadNot
                 .message(notification.getMessage())
                 .readStatus(notification.isReadStatus())
                 .type(notification.getType().toString())
-                .registerTime(notificationTimeService.replace(notification.getCreateDate())).build();
+                .registerTime(notificationTimeService.replace(notification.getCreateDate()))
+                .build();
     }
 
     @Override
