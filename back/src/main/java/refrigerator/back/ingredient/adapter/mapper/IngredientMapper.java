@@ -19,7 +19,7 @@ public interface IngredientMapper {
 
     IngredientRegisteredResponseDTO toIngredientRegisteredResponseDTO(RegisteredIngredient ingredient);
 
-    IngredientSearchCondition toIngredientSearchCondition(IngredientLookUpRequestDTO dto, String email);
+    IngredientSearchCondition toIngredientSearchCondition(String storage, boolean deadline, String email);
 
     RecipeIngredientVolumeDTO toIngredientVolumeByRecipe(OutRecipeIngredientVolumeDTO dto);
 }

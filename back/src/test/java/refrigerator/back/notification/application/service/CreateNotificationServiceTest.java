@@ -19,10 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CreateNotificationServiceTest {
 
     @Autowired CreateCommentHeartNotificationUseCase createCommentHeartNotificationUseCase;
-    @Autowired
-    FindMemberNotificationSignPort findMemberNotificationStatusPort;
-    @Autowired
-    FindNotificationPort readNotificationPort;
+    @Autowired FindMemberNotificationSignPort findMemberNotificationStatusPort;
+    @Autowired FindNotificationPort readNotificationPort;
     @Autowired TestData testData;
 
     @Test

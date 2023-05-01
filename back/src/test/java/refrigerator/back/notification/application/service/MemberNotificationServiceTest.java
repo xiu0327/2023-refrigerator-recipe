@@ -22,8 +22,7 @@ class MemberNotificationServiceTest {
 
     @Autowired MemberNotificationService memberNotificationService;
     @Autowired CreateCommentHeartNotificationUseCase createCommentHeartNotificationUseCase;
-    @Autowired
-    UpdateMemberNotificationSignUseCase updateMemberNotificationSignUseCase;
+    @Autowired UpdateMemberNotificationSignUseCase updateMemberNotificationSignUseCase;
     @Autowired TestData testData;
 
     @Test
