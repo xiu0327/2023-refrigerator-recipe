@@ -53,80 +53,37 @@ class AuthenticationServiceTest {
         String authority = MemberStatus.STEADY_STATUS.getStatusCode();
         testData.createMemberByEmailAndPassword(email, passwordEncoder.encode(password));
         // when
-        String accessToken = jsonWebTokenProvider.createToken(email, authority, 300);
         String refreshToken = jsonWebTokenProvider.createToken(email, authority, 1000 * 60);
         refreshTokenRepository.setData(email, refreshToken, 1000 * 60);
         // then
-        /* accessToken 유효 기간이 만료 */
-        Thread.sleep(350);
-        assertThat(jsonWebTokenProvider.validateToken(accessToken)).isEqualTo(TokenStatus.EXPIRED);
         /* accessToken 재발급 */
-        TokenDTO newAccessToken = authenticationService.reissue(accessToken, refreshToken);
+        TokenDTO newAccessToken = authenticationService.reissue(refreshToken);
         assertNotNull(newAccessToken.getAccessToken());
-        assertNotNull(newAccessToken.getRefreshToken());
         assertThat(jsonWebTokenProvider.validateToken(newAccessToken.getAccessToken())).isEqualTo(TokenStatus.PASS);
-        assertThat(jsonWebTokenProvider.validateToken(newAccessToken.getRefreshToken())).isEqualTo(TokenStatus.PASS);
     }
 
     @Test
-    void 토큰_재발행_실패_토큰_모두_만료() throws InterruptedException {
-        /* accessToken 만료, refreshToken 만료 -> 에러 발생 */
+    void 토큰_재발행_실패_토큰_만료() throws InterruptedException {
+        /* refreshToken 만료 -> 에러 발생 */
         // given
         String email = "email123@gmail.com";
         String password = "password123";
         String authority = MemberStatus.STEADY_STATUS.getStatusCode();
         testData.createMemberByEmailAndPassword(email, passwordEncoder.encode(password));
         // when
-        String accessToken = jsonWebTokenProvider.createToken(email, authority, 300);
         String refreshToken = jsonWebTokenProvider.createToken(email, authority, 400);
         refreshTokenRepository.setData(email, refreshToken, 400);
         // then
         Thread.sleep(450);
         assertThrows(BusinessException.class, () -> {
             try{
-                authenticationService.reissue(accessToken, refreshToken);
+                authenticationService.reissue(refreshToken);
             } catch (BusinessException e){
-                log.info(e.getMessage());
-                assertThat(jsonWebTokenProvider.validateToken(accessToken)).isEqualTo(TokenStatus.EXPIRED);
-                assertThat(jsonWebTokenProvider.validateToken(refreshToken)).isEqualTo(TokenStatus.EXPIRED);
+                TokenStatus actual = jsonWebTokenProvider.validateToken(refreshToken);
+                assertThat(actual).isEqualTo(TokenStatus.EXPIRED);
                 assertThat(e.getBasicExceptionType()).isEqualTo(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
                 throw e;
             }
         });
     }
-
-    @Test
-    void 토큰_재발행_실패_액세스_토큰_만료() throws InterruptedException {
-        /* accessToken 유효, refreshToken 만료 -> 에러 발생 */
-        // given
-        String email = "email123@gmail.com";
-        String password = "password123";
-        String authority = MemberStatus.STEADY_STATUS.getStatusCode();
-        testData.createMemberByEmailAndPassword(email, passwordEncoder.encode(password));
-        // when
-        String accessToken = jsonWebTokenProvider.createToken(email, authority, 300);
-        String refreshToken = jsonWebTokenProvider.createToken(email, authority, 1000 * 5);
-        refreshTokenRepository.setData(email, refreshToken, 1000 * 5);
-        // then
-        /* accessToken 만료, refreshToken 유효 */
-        Thread.sleep(350);
-        assertThat(jsonWebTokenProvider.validateToken(accessToken)).isEqualTo(TokenStatus.EXPIRED);
-        assertThat(jsonWebTokenProvider.validateToken(refreshToken)).isEqualTo(TokenStatus.PASS);
-        assertThat(refreshTokenRepository.getData(email)).isEqualTo(refreshToken);
-        /* accessToken 유효, refreshToken 만료 */
-        Thread.sleep(1000 * 5);
-        String newAccessToken = jsonWebTokenProvider.createToken(email, authority, 1000 * 60);
-        assertThrows(BusinessException.class, () -> {
-            try{
-                authenticationService.reissue(newAccessToken, refreshToken);
-            }catch (BusinessException e){
-                log.info(e.getMessage());
-                assertThat(jsonWebTokenProvider.validateToken(newAccessToken)).isEqualTo(TokenStatus.PASS);
-                assertThat(jsonWebTokenProvider.validateToken(refreshToken)).isEqualTo(TokenStatus.EXPIRED);
-                assertThat(e.getBasicExceptionType()).isEqualTo(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
-                throw e;
-            }
-        });
-    }
-
 }
