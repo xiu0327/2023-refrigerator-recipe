@@ -23,12 +23,14 @@ public class IngredientLookUpController {
     private final IngredientMapper mapper;
 
     @GetMapping("/api/ingredients")
-    public IngredientListResponseDTO<IngredientResponseDTO> findIngredientList(@RequestBody IngredientLookUpRequestDTO requestDTO,
-                                                                               @RequestParam("page") int page,
+    public IngredientListResponseDTO<IngredientResponseDTO> findIngredientList( //@RequestBody IngredientLookUpRequestDTO requestDTO,
+                                                                               @RequestParam(value = "storage", defaultValue = "냉장") String storage,
+                                                                               @RequestParam(value = "deadline", defaultValue = "false") boolean deadline,
+                                                                               @RequestParam(value = "page") int page,
                                                                                @RequestParam(value = "size", defaultValue = "12") int size) {
         return new IngredientListResponseDTO<>(
                 findIngredientListUseCase.getIngredientList(
-                        IngredientSearchCondition.check(mapper.toIngredientSearchCondition(requestDTO, getMemberEmail())), page, size));
+                        IngredientSearchCondition.check(mapper.toIngredientSearchCondition(storage, deadline, getMemberEmail())), page, size));
     }
 
     @GetMapping("/api/ingredients/search")

@@ -49,15 +49,15 @@ class IngredientLookUpControllerTest {
 
         testData.createIngredient("안심", email);
 
-        IngredientLookUpRequestDTO request = IngredientLookUpRequestDTO.builder()
-                .storage("냉장")
-                .deadline(false).build();
+//        IngredientLookUpRequestDTO request = IngredientLookUpRequestDTO.builder()
+//                .storage("냉장")
+//                .deadline(false).build();
 
-        String content = new ObjectMapper().writeValueAsString(request);
+//        String content = new ObjectMapper().writeValueAsString(request);
 
-        mockMvc.perform(get("/api/ingredients?page=0")
+        mockMvc.perform(get("/api/ingredients?storage=냉장&deadline=false&page=0")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(content)
+//                .content(content)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
