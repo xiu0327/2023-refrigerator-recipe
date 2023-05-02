@@ -30,8 +30,8 @@ public class MyScoreQueryRepositoryImpl implements MyScoreQueryRepository {
                 .select(new QOutMyScoreDTO(
                         myScore.scoreID,
                         recipe.recipeID,
-                        recipe.recipeName,
                         recipe.image,
+                        recipe.recipeName,
                         recipeScore,
                         recipeViews.views))
                 .from(myScore)
@@ -51,8 +51,8 @@ public class MyScoreQueryRepositoryImpl implements MyScoreQueryRepository {
                 .select(new QOutMyScorePreviewDTO(
                         myScore.scoreID,
                         recipe.recipeID,
-                        recipe.recipeName,
-                        recipe.image))
+                        recipe.image,
+                        recipe.recipeName))
                 .from(myScore)
                 .leftJoin(recipe).on(recipe.recipeID.eq(myScore.recipeID))
                 .where(myScore.memberID.eq(memberID))

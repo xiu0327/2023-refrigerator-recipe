@@ -1,5 +1,7 @@
 package refrigerator.back.authentication.application.port.out;
 
+import refrigerator.back.authentication.application.domain.TokenInfoDTO;
+
 public interface FindEmailByToken {
-    String findEmailByToken(String token);
+    TokenInfoDTO findEmailByToken(String token);
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2FailureHandler;
@@ -43,14 +45,32 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-//    @BeanF
+//    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/api/**");
+//        return (web) -> web.ignoring().antMatchers("/api/");
 //    }
-
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .and()
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(principalOAuth2DetailsService)
+                .and()
+                .successHandler(oauth2SuccessHandler)
+                .failureHandler(oauth2FailureHandler);
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/recipe/recommend").authenticated()
+                .mvcMatchers("/api/recipe/search/condition/**").permitAll()
+                .mvcMatchers("/api/recipe/search/**").authenticated()
+                .and()
+                .httpBasic().disable()
+                .formLogin().disable();
+
         http
                 .oauth2Login()
                 .userInfoEndpoint()
@@ -59,6 +79,7 @@ public class SecurityConfig {
                 .oauth2Login()
                 .successHandler(oauth2SuccessHandler)
                 .failureHandler(oauth2FailureHandler);
+
         http
                 .authorizeRequests()
                 .mvcMatchers("/api/members/join").permitAll()
@@ -68,18 +89,14 @@ public class SecurityConfig {
                 .mvcMatchers("/api/members/email/duplicate").permitAll()
                 .mvcMatchers("/api/members/profile/list").permitAll()
                 .mvcMatchers("/api/word-completion/**").permitAll()
-                .mvcMatchers("/api/recipe/search/condition/**").permitAll()
                 .mvcMatchers("/oauth2/authorization/google").permitAll()
                 .mvcMatchers("/oauth2/authorization/naver").permitAll()
                 .mvcMatchers("/api/recipe/**").permitAll()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
-                .mvcMatchers("/api/recipe/recommend").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .cors().disable()
-                .httpBasic().disable()
-                .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

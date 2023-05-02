@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
+import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
 import refrigerator.back.searchword.application.port.in.AddSearchWordUseCase;
 
 import java.time.LocalDate;
@@ -68,20 +68,21 @@ class SearchWordControllerTest {
 
     @Test
     void 최근_검색어_조회() throws Exception {
-        String memberId = testData.createMemberByEmail("email@gmail.com");
+        String memberId = testData.createMemberByEmail("email12345@gmail.com");
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 4000);
+        addSearchWordUseCase.addSearchWord(memberId, "감자");
         mockMvc.perform(get("/api/search-word/last")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andExpect(jsonPath("$.data").isNotEmpty()
         ).andDo(print());
-
     }
 
     @Test
     void 최근_검색어_삭제() throws Exception {
         String memberId = testData.createMemberByEmail("email@gmail.com");
         String word = "검색어2";
+        addSearchWordUseCase.addSearchWord(memberId, word);
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 4000);
         mockMvc.perform(delete("/api/search-word?word=" + word)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
