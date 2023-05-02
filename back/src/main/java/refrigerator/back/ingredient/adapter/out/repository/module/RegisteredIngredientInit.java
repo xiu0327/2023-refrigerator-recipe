@@ -1,24 +1,31 @@
-package refrigerator.back.ingredient.adapter.out.repository.query;
+package refrigerator.back.ingredient.adapter.out.repository.module;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 import static refrigerator.back.ingredient.application.domain.QRegisteredIngredient.registeredIngredient;
 
 @Component
 @RequiredArgsConstructor
-public class RegisteredIngredientQuery {
+public class RegisteredIngredientInit {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private List<RegisteredIngredient> ingredients;
 
-    public List<RegisteredIngredient> findIngredientList() {
-        return jpaQueryFactory
+    @PostConstruct
+    public void init(){
+        this.ingredients = jpaQueryFactory
                 .selectFrom(registeredIngredient)
-                .fetch();
+                .fetch();;
     }
+
+    public List<RegisteredIngredient> getIngredientList() {
+        return ingredients;
+    }
+
 }

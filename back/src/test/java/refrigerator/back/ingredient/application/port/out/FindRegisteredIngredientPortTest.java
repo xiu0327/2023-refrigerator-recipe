@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.ingredient.adapter.out.module.RegisteredIngredientInit;
+import refrigerator.back.ingredient.adapter.out.persistence.RegisteredIngredientAdapter;
+import refrigerator.back.ingredient.adapter.out.repository.module.RegisteredIngredientInit;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.word_completion.application.port.out.FindRegisteredIngredientNameListPort;
 
@@ -29,8 +30,8 @@ class FindRegisteredIngredientPortTest {
 
     @Test
     void 현재_구현체_확인(){
-        Assertions.assertThat(findRegisteredIngredientPort.getClass()).isEqualTo(RegisteredIngredientInit.class);
-        Assertions.assertThat(findRegisteredIngredientNameListPort.getClass()).isEqualTo(RegisteredIngredientInit.class);
+        Assertions.assertThat(findRegisteredIngredientPort.getClass()).isEqualTo(RegisteredIngredientAdapter.class);
+        Assertions.assertThat(findRegisteredIngredientNameListPort.getClass()).isEqualTo(RegisteredIngredientAdapter.class);
     }
 
     @Test
