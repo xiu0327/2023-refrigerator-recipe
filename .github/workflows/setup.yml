@@ -8,6 +8,7 @@ env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
     APPLICATION_PROPERTIES: ${{secrets.APPLICATION_PROPERTIES}}
     APPLICATION_OAUTH: ${{secrets.APPLICATION_OAUTH}}
+    TEST_APPLICATION_YML: ${{secrets.TEST_APPLICATION_YML}}
 
 jobs:
     setup-build-publish-deploy:
@@ -22,7 +23,7 @@ jobs:
             run: |
               touch ./back/src/main/resources/application.yml
               touch ./back/src/main/resources/application-oauth.yml
-              echo "${{env.APPLICATION_YML}}" > ./back/src/main/resources/application.yml
+              echo "${{env.TEST_APPLICATION_YML}}" > ./back/src/main/resources/application.yml
               echo "${{env.APPLICATION_OAUTH}}" > ./back/src/main/resources/application-oauth.yml
 
           - name: Set up JDK 11
