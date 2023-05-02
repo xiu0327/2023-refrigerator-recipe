@@ -2,6 +2,7 @@ package refrigerator.back.word_completion.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import refrigerator.back.word_completion.application.port.out.FindRegisteredIngredientNameListPort;
 import refrigerator.back.word_completion.application.port.out.FindRecipeWordListPort;
 
 import javax.annotation.PostConstruct;
@@ -15,23 +16,22 @@ public class WordCompletionInit {
 
     private final FindRecipeWordListPort findRecipeWordListPort;
     private List<String> recipeNames;
-    private List<String> ingredientNames;
+    private final FindRegisteredIngredientNameListPort findIngredientNameListPort;
 
     @PostConstruct
     public void init(){
         this.recipeNames = findRecipeWordListPort.findRecipeNameList();
-        this.ingredientNames = findRecipeWordListPort.findIngredientNameList();
     }
 
     public Set<String> getRecipeWordCompletionList(){
         Set<String> result = new HashSet<>();
         result.addAll(recipeNames);
-        result.addAll(ingredientNames);
+        result.addAll(findIngredientNameListPort.findIngredientNameList());
         return result;
     }
 
     public List<String> getIngredientWordCompletionList(){
-        return ingredientNames;
+        return findIngredientNameListPort.findIngredientNameList();
     }
 
 }

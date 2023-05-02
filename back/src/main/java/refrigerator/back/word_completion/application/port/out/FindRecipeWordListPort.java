@@ -4,5 +4,4 @@ import java.util.List;
 
 public interface FindRecipeWordListPort {
     List<String> findRecipeNameList();
-    List<String> findIngredientNameList();
 }

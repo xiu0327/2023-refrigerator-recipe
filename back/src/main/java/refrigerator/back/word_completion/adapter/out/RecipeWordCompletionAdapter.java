@@ -27,11 +27,4 @@ public class RecipeWordCompletionAdapter implements FindRecipeWordListPort {
                 .fetch();
     }
 
-    @Override
-    public List<String> findIngredientNameList() {
-        return jpaQueryFactory
-                .select(registeredIngredient.name)
-                .from(registeredIngredient)
-                .fetch();
-    }
 }
