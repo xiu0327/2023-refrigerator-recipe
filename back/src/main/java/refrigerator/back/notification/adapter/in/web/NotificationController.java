@@ -23,6 +23,7 @@ public class NotificationController {
         return new NotificationListResponseDTO<>(
                 findNotificationListUseCase.getNotificationList(getMemberEmail(), page, size));
     }
+
     @PutMapping("/api/notifications/{notificationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void readNotification(@PathVariable("notificationId") Long notificationId){

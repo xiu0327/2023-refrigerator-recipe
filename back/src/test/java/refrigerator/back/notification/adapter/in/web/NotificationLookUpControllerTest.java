@@ -48,6 +48,7 @@ class NotificationLookUpControllerTest {
         String memberId = testData.createMemberByEmail("email12344@gmail.com");
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 4000);
         createMemberNotificationUseCase.createMemberNotification(memberId);
+
         mockMvc.perform(get("/api/notifications?page=0")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
