@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseCase,
-        FindBookmarkPreviewUseCase, FindBookmarkListUseCase, FindRecipeIdByAddedBookmarkUseCase {
+public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseCase{
 
     private final BookmarkWritePort bookmarkWritePort;
     private final BookmarkReadPort bookmarkReadPort;
@@ -55,19 +54,6 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public InBookmarkListDTO findBookmarks(String memberId, int page, int size) {
-        return InBookmarkListDTO.builder()
-                .bookmarks(bookmarkReadPort.findBookmarkList(memberId, page, size)).build();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public InBookmarkPreviewListDTO findPreviews(String memberId, int size) {
-        return bookmarkReadPort.findBookmarkPreviewList(memberId, 0, size);
-    }
-
-    @Override
     @Transactional
     public void remove(Long bookmarkId) {
         MyBookmark myBookmark = bookmarkReadPort.findBookmarkById(bookmarkId)
@@ -76,8 +62,4 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
         updateRecipeBookmarkPort.removeBookmark(myBookmark.getRecipeId());
     }
 
-    @Override
-    public List<Long> findRecipeIdList(String memberId) {
-        return bookmarkReadPort.findRecipeIdByAddedBookmark(memberId);
-    }
 }

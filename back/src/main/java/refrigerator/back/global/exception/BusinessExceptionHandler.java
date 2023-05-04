@@ -7,6 +7,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.ConnectException;
+
 import static refrigerator.back.global.exception.BasicExceptionFormat.*;
 
 @Slf4j
@@ -21,6 +23,11 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(OAuth2AuthenticationException.class)
     public ResponseEntity<BasicExceptionFormat> oauth2AuthenticationException(OAuth2AuthenticationException e){
         return new ResponseEntity<>(new BasicExceptionFormat("FAIL_OAUTH2_LOGIN", "간편 로그인에 실패하였습니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConnectException.class)
+    public ResponseEntity<BasicExceptionFormat> notDatabaseConnected(ConnectException e){
+        return new ResponseEntity<>(new BasicExceptionFormat("NOT_CONNECTED_SERVER", "현재 서버의 연결이 원활하지 않습니다."), HttpStatus.NOT_FOUND);
     }
 
 }
