@@ -69,6 +69,24 @@ class MemberAccessControllerTest {
     }
 
     @Test
+    void 비밀번호_찾기_실패() throws Exception {
+        /* 빈 문자열 또는 null 이 입력값으로 들어올 때 -> 에러 발생 */
+        // given
+        String email = "email123@gmail.com";
+        String password = "password123!";
+        testData.createMemberByEmailAndPassword(email, password);
+        MemberFindPasswordRequestDTO request = MemberFindPasswordRequestDTO.builder()
+                .email("").build();
+        String requestJson = new ObjectMapper().writeValueAsString(request);
+        // when
+        mockMvc.perform(post("/api/members/password/find")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        ).andExpect(status().is4xxClientError()
+        ).andDo(print());
+    }
+
+    @Test
     void 비밀번호_수정() throws Exception {
         /* 비밀번호 찾기를 통해 발급한 토큰을 헤더에 포함 -> 토큰으로 회원을 조회하고 비밀번호 수정 */
         // given
@@ -88,6 +106,28 @@ class MemberAccessControllerTest {
         ).andDo(print());
         Member member = testData.findMemberByEmail(email);
         Assertions.assertThat(encryptPasswordPort.match(newPassword, member.getPassword())).isTrue();
+    }
+
+    @Test
+    void 비밀번호_수정_실패() throws Exception {
+        /* 비밀번호 형식이 옳지 않은 경우 -> 에러 발생 */
+        // given
+        String email = "email123@gmail.com";
+        String password = "password123!";
+        testData.createMemberByEmailAndPassword(email, password);
+        String authToken = createTokenPort.createTokenWithDuration(email, password, 1000 * 2);// 테스트를 위해 2초간 토큰 유지
+        // when
+        String newPassword = "!";
+        MemberUpdatePasswordRequestDTO request = new MemberUpdatePasswordRequestDTO(newPassword);
+        String requestJson = new ObjectMapper().writeValueAsString(request);
+        mockMvc.perform(put("/api/members/password")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken)
+        ).andExpect(status().is4xxClientError()
+        ).andDo(print());
+        Member member = testData.findMemberByEmail(email);
+        Assertions.assertThat(encryptPasswordPort.match(newPassword, member.getPassword())).isFalse();
     }
 
     @Test

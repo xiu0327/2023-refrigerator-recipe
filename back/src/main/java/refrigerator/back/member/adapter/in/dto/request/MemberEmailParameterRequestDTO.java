@@ -6,14 +6,12 @@ import lombok.NoArgsConstructor;
 import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.member.exception.MemberExceptionType;
 
+import javax.validation.constraints.Pattern;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberEmailParameterRequestDTO extends InputDataFormatCheck {
+public class MemberEmailParameterRequestDTO {
+    @Pattern(regexp = InputDataFormatCheck.EMAIL_REGEX)
     private String email;
-
-    @Override
-    public void check() {
-        inputCheck(EMAIL_REGEX, email, MemberExceptionType.INCORRECT_EMAIL_FORMAT);
-    }
 }

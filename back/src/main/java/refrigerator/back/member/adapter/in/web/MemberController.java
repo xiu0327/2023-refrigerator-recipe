@@ -2,20 +2,22 @@ package refrigerator.back.member.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.global.common.BasicListResponseDTO;
-import refrigerator.back.global.common.InputDataFormatCheck;
-import refrigerator.back.global.common.MemberInformation;
-import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
-import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
 import refrigerator.back.member.adapter.in.dto.response.MemberDTO;
 import refrigerator.back.member.adapter.in.dto.response.MemberProfileDTO;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.in.*;
+import refrigerator.back.member.exception.MemberExceptionType;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.exception.ValidationExceptionHandler.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,8 +33,8 @@ public class MemberController {
 
     @PutMapping("/api/members/nickname")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void setUpdateNicknameUseCase(@RequestBody MemberNicknameUpdateRequestDTO request){
-        request.check();
+    public void setUpdateNicknameUseCase(@RequestBody @Valid MemberNicknameUpdateRequestDTO request, BindingResult result){
+        check(result, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
         updateNicknameUseCase.updateNickname(getMemberEmail(), request.getNickname());
     }
 
@@ -43,8 +45,8 @@ public class MemberController {
     }
 
     @DeleteMapping("/api/members")
-    public void setWithdrawMemberUseCase(@RequestBody MemberWithdrawRequestDTO request){
-        request.check();
+    public void setWithdrawMemberUseCase(@RequestBody @Valid MemberWithdrawRequestDTO request, BindingResult result){
+        check(result, MemberExceptionType.NOT_EMPTY_INPUT_DATA);
         withdrawMemberUseCase.withdrawMember(getMemberEmail(), request.getPassword());
     }
 

@@ -4,14 +4,13 @@ import lombok.*;
 import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.member.exception.MemberExceptionType;
 
+import javax.validation.constraints.Pattern;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberUpdatePasswordRequestDTO extends InputDataFormatCheck {
+public class MemberUpdatePasswordRequestDTO {
+    @Pattern(regexp = InputDataFormatCheck.PASSWORD_REGEX)
     private String password;
 
-    @Override
-    public void check() {
-        inputCheck(PASSWORD_REGEX, password, MemberExceptionType.INCORRECT_PASSWORD_FORMAT);
-    }
 }

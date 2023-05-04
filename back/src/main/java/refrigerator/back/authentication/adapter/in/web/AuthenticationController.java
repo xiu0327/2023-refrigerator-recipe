@@ -13,6 +13,7 @@ import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +26,9 @@ public class AuthenticationController {
     @Value("${oauth.password}")
     private String oauthPassword;
 
+    @Value("${front.domain}")
+    private String frontDomain;
+
     @PostMapping("/api/auth/login")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO loginByBasic(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
@@ -33,8 +37,9 @@ public class AuthenticationController {
 
     @GetMapping("/api/auth/login/oauth")
     @ResponseStatus(HttpStatus.CREATED)
-    public TokenDTO loginByOAuth2(@RequestParam("email") String email, HttpServletResponse response){
-        return login(email, oauthPassword, response);
+    public void loginByOAuth2(@RequestParam("email") String email, HttpServletResponse response) throws IOException {
+        TokenDTO token = login(email, oauthPassword, response);
+        response.sendRedirect(frontDomain + "/membermanagement/success" + token.getAccessToken());
     }
 
     private TokenDTO login(String email, String password, HttpServletResponse response) {
