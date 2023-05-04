@@ -39,7 +39,7 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.CREATED)
     public void loginByOAuth2(@RequestParam("email") String email, HttpServletResponse response) throws IOException {
         TokenDTO token = login(email, oauthPassword, response);
-        response.sendRedirect(frontDomain + "/membermanagement/success" + token.getAccessToken());
+        response.sendRedirect(frontDomain + "/membermanagement/success/" + token.getAccessToken());
     }
 
     private TokenDTO login(String email, String password, HttpServletResponse response) {
