@@ -8,13 +8,9 @@
 <br>
 <br>
   
-[![Application](http://img.shields.io/badge/Application-F46A54?style=flat&logo=github&logoColor=white&link=)]()
-[![Storybook](http://img.shields.io/badge/Storybook-FF4785?style=flat&logo=Storybook&logoColor=white&link=h)]()
-[![API Docs](http://img.shields.io/badge/-API%20Docs-important?style=flat&logo=dev.to&logoColor=white&link=)]()
 [![WIKI](http://img.shields.io/badge/-GitHub%20WiKi-395FC1?style=flat&logo=GitHub&logoColor=white&link=https://github.com/xiu0327/2023-refrigerator-recipe/wiki/%F0%9F%9A%97-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B6%84%EC%84%9D)](https://github.com/xiu0327/2023-refrigerator-recipe/wiki/%F0%9F%9A%97-%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD-%EB%B6%84%EC%84%9D)
 <br>
-[![서비스_이용_가이드](http://img.shields.io/badge/-서비스_이용_가이드-81B441?style=flat&logo=Pinboard&logoColor=white&link=)]()
-[![체험_가이드](http://img.shields.io/badge/-체험_가이드-6F53F3?style=flat&logo=&logoColor=white&link=)]()
+[![기술_블로그](http://img.shields.io/badge/-기술_블로그-81B441?style=flat&logo=Pinboard&logoColor=white&link=)](https://adaptive-hen-d10.notion.site/d117b7797c40474786e91d21fa50c267)
 
 </div>
 
