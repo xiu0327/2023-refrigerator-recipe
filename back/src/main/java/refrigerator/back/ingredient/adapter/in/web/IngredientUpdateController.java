@@ -23,8 +23,8 @@ public class IngredientUpdateController {
     @PostMapping("/api/ingredients")
     @ResponseStatus(HttpStatus.CREATED)
     public IngredientRegisterResponseDTO registerIngredient(@RequestBody IngredientRegisterRequestDTO request) {
-        Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getCapacity(),
-                                                               request.getCapacityUnit(), request.getStorageMethod(), request.getImageId(), getMemberEmail());
+        Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getVolume(),
+                                                               request.getUnit(), request.getStorage(), request.getImageId(), getMemberEmail());
 
         return new IngredientRegisterResponseDTO(id);
     }
@@ -32,7 +32,7 @@ public class IngredientUpdateController {
     @PutMapping("/api/ingredients/{ingredientId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modifyIngredient(@PathVariable("ingredientId") Long id, @RequestBody IngredientUpdateRequestDTO request) {
-        modifyIngredientUseCase.modifyIngredient(id, request.getExpirationDate(), request.getCapacity(), request.getStorageMethod());
+        modifyIngredientUseCase.modifyIngredient(id, request.getExpirationDate(), request.getVolume(), request.getStorage());
     }
 
     @DeleteMapping("/api/ingredients/{ingredientId}")

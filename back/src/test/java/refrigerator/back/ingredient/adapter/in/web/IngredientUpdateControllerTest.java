@@ -63,9 +63,9 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("감자")
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .capacityUnit("g")
-                .storageMethod("실온")
+                .volume(30.0)
+                .unit("g")
+                .storage("실온")
                 .imageId(1)
                 .build();
 
@@ -88,9 +88,9 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("감자")
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .capacityUnit("g")
-                .storageMethod("방관")
+                .volume(30.0)
+                .unit("g")
+                .storage("방관")
                 .imageId(1)
                 .build();
 
@@ -112,8 +112,8 @@ class IngredientUpdateControllerTest {
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .storageMethod("냉동")
+                .volume(30.0)
+                .storage("냉동")
                 .build();
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
@@ -136,8 +136,8 @@ class IngredientUpdateControllerTest {
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .storageMethod("방관")
+                .volume(30.0)
+                .storage("방관")
                 .build();
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");

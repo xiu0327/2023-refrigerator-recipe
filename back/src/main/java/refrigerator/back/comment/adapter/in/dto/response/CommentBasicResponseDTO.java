@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CommentBasicResponseDTO {
-    private Long commentId;
+    private Long commentID;
 }

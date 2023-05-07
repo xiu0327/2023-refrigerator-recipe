@@ -51,12 +51,12 @@ class SearchWordControllerTest {
     @Test
     void 추천_검색어_조회() throws Exception {
         String memberId = testData.createMemberByEmail("email@gmail.com");
-        testData.createIngredientWithDate("도라지", memberId, LocalDate.of(2023, 5, 1));
-        testData.createIngredientWithDate("안심", memberId, LocalDate.of(2023, 5, 2));
-        testData.createIngredientWithDate("호박", memberId, LocalDate.of(2023, 5, 3));
-        testData.createIngredientWithDate("콩나물", memberId, LocalDate.of(2023, 5, 4));
-        testData.createIngredientWithDate("돼지고기", memberId, LocalDate.of(2023, 5, 5));
-        testData.createIngredientWithDate("부추", memberId, LocalDate.of(2023, 5, 6));
+        testData.createIngredientWithDate("도라지", memberId, LocalDate.of(2028, 5, 1));
+        testData.createIngredientWithDate("안심", memberId, LocalDate.of(2028, 5, 2));
+        testData.createIngredientWithDate("호박", memberId, LocalDate.of(2028, 5, 3));
+        testData.createIngredientWithDate("콩나물", memberId, LocalDate.of(2028, 5, 4));
+        testData.createIngredientWithDate("돼지고기", memberId, LocalDate.of(2028, 5, 5));
+        testData.createIngredientWithDate("부추", memberId, LocalDate.of(2028, 5, 6));
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 4000);
         mockMvc.perform(get("/api/search-word/recommend")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
