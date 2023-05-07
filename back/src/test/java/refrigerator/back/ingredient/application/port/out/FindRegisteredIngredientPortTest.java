@@ -29,12 +29,6 @@ class FindRegisteredIngredientPortTest {
     }
 
     @Test
-    void 현재_구현체_확인(){
-        Assertions.assertThat(findRegisteredIngredientPort.getClass()).isEqualTo(RegisteredIngredientAdapter.class);
-        Assertions.assertThat(findRegisteredIngredientNameListPort.getClass()).isEqualTo(RegisteredIngredientAdapter.class);
-    }
-
-    @Test
     @DisplayName("findIngredientNameList")
     void findIngredientNameList_디버깅() {
         List<String> result = findRegisteredIngredientNameListPort.findIngredientNameList();

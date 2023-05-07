@@ -37,7 +37,7 @@ public class CommentController {
     public CommentBasicResponseDTO edit(@RequestBody EditCommentRequestDTO request){
         Long commentId = editCommentUseCase.edit(
                 getMemberEmail(),
-                request.getCommentId(),
+                request.getCommentID(),
                 request.getContent());
         return new CommentBasicResponseDTO(commentId);
     }

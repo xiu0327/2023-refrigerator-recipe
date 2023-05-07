@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookmarkIdResponseDTO {
-    private Long bookmarkId;
+    private Long bookmarkID;
 }

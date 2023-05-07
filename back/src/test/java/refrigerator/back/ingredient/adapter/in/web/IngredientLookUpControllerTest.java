@@ -49,15 +49,8 @@ class IngredientLookUpControllerTest {
 
         testData.createIngredient("안심", email);
 
-//        IngredientLookUpRequestDTO request = IngredientLookUpRequestDTO.builder()
-//                .storage("냉장")
-//                .deadline(false).build();
-
-//        String content = new ObjectMapper().writeValueAsString(request);
-
         mockMvc.perform(get("/api/ingredients?storage=냉장&deadline=false&page=0")
                 .contentType(MediaType.APPLICATION_JSON)
-//                .content(content)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
@@ -71,15 +64,7 @@ class IngredientLookUpControllerTest {
 
         testData.createIngredient("안심", email);
 
-        IngredientLookUpRequestDTO request = IngredientLookUpRequestDTO.builder()
-                .storage("방관")
-                .deadline(false).build();
-
-        String content = new ObjectMapper().writeValueAsString(request);
-
-        mockMvc.perform(get("/api/ingredients?page=0")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content)
+        mockMvc.perform(get("/api/ingredients?page=0&&storage=방관")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());

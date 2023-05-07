@@ -114,7 +114,7 @@ class MyBookmarkServiceTest {
         assertThat(bookmarks.size()).isEqualTo(11);
         for (InBookmarkDTO bookmark : bookmarks) {
             log.info("bookmark = {}", bookmark);
-            assertNotNull(bookmark.getBookmarkId());
+            assertNotNull(bookmark.getBookmarkID());
             assertNotNull(bookmark.getRecipeId());
             assertNotNull(bookmark.getRecipeImage());
             assertNotNull(bookmark.getRecipeName());
@@ -139,7 +139,7 @@ class MyBookmarkServiceTest {
         assertThat(count >= 5).isTrue();
         for (InBookmarkPreviewDTO bookmark : bookmarks) {
             log.info("bookmark = {}", bookmark);
-            assertNotNull(bookmark.getBookmarkId());
+            assertNotNull(bookmark.getBookmarkID());
             assertNotNull(bookmark.getRecipeId());
             assertNotNull(bookmark.getRecipeImage());
             assertNotNull(bookmark.getRecipeName());
@@ -201,7 +201,7 @@ class MyBookmarkServiceTest {
 
     private List<Long> getBookmarkIdList(List<InBookmarkPreviewDTO> list) {
         return list.stream()
-                .map(InBookmarkPreviewDTO::getBookmarkId)
+                .map(InBookmarkPreviewDTO::getBookmarkID)
                 .collect(Collectors.toList());
     }
 
