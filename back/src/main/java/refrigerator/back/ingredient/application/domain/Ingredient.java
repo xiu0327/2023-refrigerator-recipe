@@ -44,8 +44,9 @@ public class Ingredient {
     @Column(name = "capacity_unit", nullable = false, length = 30)
     private String capacityUnit;
 
-    @Column(name = "storage_method", nullable = false, length = 30)
-    private String storageMethod;
+    @Column(name = "storage_method", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private IngredientStorageType storageMethod;
 
     @Column(name = "image", nullable = false)
     private Integer image;
@@ -68,7 +69,7 @@ public class Ingredient {
         return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
     }
 
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
+    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
@@ -79,41 +80,29 @@ public class Ingredient {
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, String storageMethod, Integer imageId, String email) {
-        if(checkMethod(storageMethod) == false){
-            throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
-        }
-
+    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
+        capacityCheck(capacity);
         Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
         ingredient.undelete();
         return ingredient;
     }
 
-    public void modify(LocalDate expirationDate, Double capacity, String storageMethod) {
-        if(checkMethod(storageMethod) == false){
-            throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
-        }
-
+    public void modify(LocalDate expirationDate, Double capacity, IngredientStorageType storageMethod) {
+        capacityCheck(capacity);
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.storageMethod = storageMethod;
     }
 
-    private static boolean checkMethod(String storageMethod) {
-        List<String> method = new ArrayList<>(Arrays.asList("냉장", "냉동", "실온", "조미료"));
-
-        boolean check = false;
-
-        for (String s : method) {
-            if(storageMethod.equals(s)){
-                check = true;
-            }
+    private static void capacityCheck(Double capacity) {
+        if(capacity > 9999.9) {
+            throw new BusinessException(IngredientExceptionType.EXCEEDED_CAPACITY_RANGE);
         }
-
-        return check;
     }
 
     public void deductionVolume(Double volume) {
+        capacityCheck(volume);
+
         if (capacity < volume){
             this.capacity = 0.0;
             return;

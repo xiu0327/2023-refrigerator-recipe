@@ -7,6 +7,7 @@ import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
@@ -111,8 +112,8 @@ public class TestData {
                 LocalDate.now(),
                 70.0,
                 "g",
-                "냉장",
-                0,
+                IngredientStorageType.FRIDGE,
+                1,
                 memberId
         );
         em.persist(entity);
@@ -132,8 +133,8 @@ public class TestData {
                 date,
                 70.0,
                 "g",
-                "냉동",
-                0,
+                IngredientStorageType.FREEZER,
+                1,
                 memberId
         ));
     }

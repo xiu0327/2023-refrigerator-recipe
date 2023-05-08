@@ -1,9 +1,11 @@
-package refrigerator.back.ingredient.adapter.in.dto;
+package refrigerator.back.ingredient.adapter.in.dto.request;
 
 
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
@@ -11,10 +13,10 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class IngredientProposeRequestDTO {
 
-    @NotEmpty
+    @NotBlank
     String name;
 
-    @NotEmpty
+    @NotBlank
     String capacityUnit;
 
 }

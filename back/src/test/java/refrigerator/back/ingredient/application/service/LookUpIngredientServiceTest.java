@@ -1,20 +1,22 @@
 package refrigerator.back.ingredient.application.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisteredResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientDetailResponseDTO;
-import refrigerator.back.ingredient.adapter.out.persistence.IngredientAdapter;
-import refrigerator.back.ingredient.adapter.out.repository.IngredientRepository;
-import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
+import refrigerator.back.ingredient.application.domain.IngredientImageType;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
+import refrigerator.back.ingredient.application.domain.IngredientStorageType;
+import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
+import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
+import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
+import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,14 +30,22 @@ import static org.assertj.core.api.Assertions.*;
 @Slf4j
 class LookUpIngredientServiceTest {
 
-    @Autowired IngredientUpdateService ingredientService;
-    @Autowired IngredientAdapter ingredientAdapter;
+    @Autowired RegisterIngredientUseCase registerIngredientUseCase;
+    @Autowired RemoveIngredientUseCase removeIngredientUseCase;
+    @Autowired ReadIngredientPort readIngredientPort;
     @Autowired IngredientLookUpService ingredientLookUpService;
-    @Autowired IngredientRepository ingredientRepository;
-    @Autowired EntityManager entityManager;
 
     @Test
-    void 식재료_목록_조회() {
+    @DisplayName("식재료_이름에_따른_용량단위_반환")
+    void getIngredientUnit() {
+        RegisteredIngredient ingredient = ingredientLookUpService.getIngredient("당근");
+        assertThat(ingredient.getUnit()).isEqualTo("g");
+        assertThat(ingredient.getImage()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("식재료 목록 조회")
+    void getIngredientList() {
 
         List<String> names = new ArrayList<>(Arrays.asList(
                 "당근", "고구마", "호박", "김치", "토란", "감자", "치즈", "미역",
@@ -47,7 +57,7 @@ class LookUpIngredientServiceTest {
         Integer days = -14;
 
         for (String name : names) {
-            ids.add(setIngredient(name, LocalDate.now().plusDays(days++), 100.0, "개", "냉장", 1, "asd123@naver.com"));
+            ids.add(setIngredient(name, LocalDate.now().plusDays(days++), 100.0, "개", IngredientStorageType.FRIDGE, 1, "asd123@naver.com"));
         }
 
         // deadline check (false)
@@ -56,11 +66,11 @@ class LookUpIngredientServiceTest {
 
         for (int i = 0; i < 6; i++) {
             List<IngredientResponseDTO> ingredientList = ingredientLookUpService.getIngredientList(
-                    new IngredientSearchCondition("냉장", false, "asd123@naver.com"), i, 5);
+                    new IngredientSearchCondition(IngredientStorageType.FRIDGE, false, "asd123@naver.com"), i, 5);
 
             count1 += ingredientList.size();
             for (IngredientResponseDTO dto : ingredientList) {
-                log.info(dto.toString());
+//                log.info(dto.toString());
                 assertThat(dto.getId()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
@@ -74,11 +84,11 @@ class LookUpIngredientServiceTest {
 
         for (int i = 0; i < 3; i++) {
             List<IngredientResponseDTO> ingredientList = ingredientLookUpService.getIngredientList(
-                    new IngredientSearchCondition("냉장", true, "asd123@naver.com"), i, 5);
+                    new IngredientSearchCondition(IngredientStorageType.FRIDGE, true, "asd123@naver.com"), i, 5);
 
             count2 += ingredientList.size();
             for (IngredientResponseDTO dto : ingredientList) {
-                log.info(dto.toString());
+//                log.info(dto.toString());
                 assertThat(dto.getId()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
@@ -95,14 +105,14 @@ class LookUpIngredientServiceTest {
         List<Long> idList = new ArrayList<>();
 
         for (String name : namesByCold) {
-            idList.add(setIngredient(name, LocalDate.now().plusDays(5), 30.0, "g", "냉동", 1, "asd123@naver.com"));
+            idList.add(setIngredient(name, LocalDate.now().plusDays(5), 30.0, "g", IngredientStorageType.FREEZER, 1, "asd123@naver.com"));
         }
 
         List<IngredientResponseDTO> list2 = ingredientLookUpService.getIngredientList(
-                new IngredientSearchCondition("냉동", false, "asd123@naver.com"), 0, 15);
+                new IngredientSearchCondition(IngredientStorageType.FREEZER, false, "asd123@naver.com"), 0, 15);
 
         for (IngredientResponseDTO dto : list2) {
-            //log.info(dto.toString());
+//            log.info(dto.toString());
             assertThat(dto.getId()).isNotNull();
             assertThat(dto.getName()).isNotNull();
             assertThat(dto.getImage()).isNotNull();
@@ -113,16 +123,17 @@ class LookUpIngredientServiceTest {
 
         // delete check
 
-        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(idList.get(1)).getId());
-        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(idList.get(2)).getId());
+        removeIngredientUseCase.removeIngredient(readIngredientPort.getIngredientById(idList.get(1)).getId());
+        removeIngredientUseCase.removeIngredient(readIngredientPort.getIngredientById(idList.get(2)).getId());
 
         assertThat(ingredientLookUpService.getIngredientList(
-                new IngredientSearchCondition("냉동", false, "asd123@naver.com"), 0, 15).size()).isEqualTo(2);
+                new IngredientSearchCondition(IngredientStorageType.FREEZER, false, "asd123@naver.com"), 0, 15).size()).isEqualTo(2);
 
     }
 
     @Test
-    void 식재료_검색() {
+    @DisplayName("식재료 검색")
+    void searchIngredient() {
 
         ArrayList<String> names = new ArrayList<>(Arrays.asList("당근", "고구마", "토란", "감자", "치즈", "쌀", "돼지고기"));
 
@@ -130,13 +141,13 @@ class LookUpIngredientServiceTest {
 
         // delete check
 
-        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(ids.get(1)).getId());
-        ingredientService.removeIngredient(ingredientAdapter.getIngredientById(ids.get(2)).getId());
+        removeIngredientUseCase.removeIngredient(readIngredientPort.getIngredientById(ids.get(1)).getId());
+        removeIngredientUseCase.removeIngredient(readIngredientPort.getIngredientById(ids.get(2)).getId());
 
         List<IngredientResponseDTO> ingredientNotDeleted = ingredientLookUpService.getIngredientListOfAll("asd123@naver.com");
 
         for (IngredientResponseDTO dto : ingredientNotDeleted) {
-            // log.info(dto.toString());
+            log.info(dto.toString());
             assertThat(dto.getId()).isNotNull();
             assertThat(dto.getName()).isNotNull();
             assertThat(dto.getImage()).isNotNull();
@@ -147,36 +158,38 @@ class LookUpIngredientServiceTest {
     }
 
     @Test
-    void 식재료_단건_조회() {
+    @DisplayName("식재료 단건 조회")
+    void getIngredient() {
 
         Long id = setIngredient("돼지고기", LocalDate.now().plusDays(5),
-                70.0, "g", "냉동", 1,"asd123@naver.com");
+                70.0, "g", IngredientStorageType.FREEZER, 1,"asd123@naver.com");
 
         IngredientDetailResponseDTO responseDTO = ingredientLookUpService.getIngredient(id);
 
-        log.info(responseDTO.toString());
+//        log.info(responseDTO.toString());
         assertThat(responseDTO.getId()).isEqualTo(id);
         assertThat(responseDTO.getName()).isEqualTo("돼지고기");
-        assertThat(responseDTO.getStorageMethod()).isEqualTo("냉동");
+        assertThat(responseDTO.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
         assertThat(responseDTO.getExpirationDate()).isEqualTo(LocalDate.now().plusDays(5));
         assertThat(responseDTO.getRemainDays()).isEqualTo(-5L);
         assertThat(responseDTO.getCapacity()).isEqualTo(70);
         assertThat(responseDTO.getCapacityUnit()).isEqualTo("g");
-        assertThat(responseDTO.getImage()).isEqualTo(1);
+        assertThat(responseDTO.getImage()).isEqualTo(IngredientImageType.CEREALS.getUrl());
 
-        ingredientAdapter.getIngredientById(id).delete();
+        readIngredientPort.getIngredientById(id).delete();
 
         // 삭제된 식재료 조회
         assertThatThrownBy(() -> ingredientLookUpService.getIngredient(id))
                 .isInstanceOf(BusinessException.class);
 
         // 없는 식재료 조회
-        assertThatThrownBy(() -> ingredientAdapter.getIngredientById(-1L))
+        assertThatThrownBy(() -> readIngredientPort.getIngredientById(-1L))
                 .isInstanceOf(BusinessException.class);;
     }
 
     @Test
-    void 임박_식재료_목록_조회() {
+    @DisplayName("임박 식재료 목록 조회")
+    void getIngredientListByDeadline() {
 
         ArrayList<String> arrayList1 = new ArrayList<>(Arrays.asList("당근", "고구마", "호박", "김치"));
         ArrayList<String> arrayList2 = new ArrayList<>(Arrays.asList("토란", "감자", "치즈"));
@@ -188,9 +201,9 @@ class LookUpIngredientServiceTest {
 
         List<List<IngredientResponseDTO>> ingredientListByDeadline = new ArrayList<>();
 
-        ingredientService.removeIngredient(ids1.get(1));
-        ingredientService.removeIngredient(ids2.get(1));
-        ingredientService.removeIngredient(ids3.get(1));
+        removeIngredientUseCase.removeIngredient(ids1.get(1));
+        removeIngredientUseCase.removeIngredient(ids2.get(1));
+        removeIngredientUseCase.removeIngredient(ids3.get(1));
 
         ingredientListByDeadline.add(ingredientLookUpService.getIngredientListByDeadline(1L, "asd123@naver.com"));
         ingredientListByDeadline.add(ingredientLookUpService.getIngredientListByDeadline(3L, "asd123@naver.com"));
@@ -198,7 +211,7 @@ class LookUpIngredientServiceTest {
 
         for (List<IngredientResponseDTO> ingredientResponseDTOS : ingredientListByDeadline) {
             for (IngredientResponseDTO dto : ingredientResponseDTOS) {
-                //log.info(dto.toString());
+//                log.info(dto.toString());
                 assertThat(dto.getId()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
@@ -211,10 +224,11 @@ class LookUpIngredientServiceTest {
         assertThat(ingredientListByDeadline.get(2).size()).isEqualTo(1);
     }
 
+
     List<Long> setIngredientList(List<String> names, LocalDate date, Double capacity, String unit, Integer image, String email) {
 
         List<Long> ids = new ArrayList<>();
-        List<String> method = new ArrayList<>(Arrays.asList("냉장", "냉동", "실온", "조미료"));
+        List<IngredientStorageType> method = new ArrayList<>(Arrays.asList(IngredientStorageType.FRIDGE, IngredientStorageType.FREEZER, IngredientStorageType.ROOM, IngredientStorageType.SEASON ));
         Random rand = new Random();
 
         for (String name : names) {
@@ -224,7 +238,7 @@ class LookUpIngredientServiceTest {
         return ids;
     }
 
-    Long setIngredient(String name, LocalDate date, Double capacity, String unit, String method, Integer image, String email) {
-        return ingredientService.registerIngredient(name, date, capacity, unit, method, image, email);
+    Long setIngredient(String name, LocalDate date, Double capacity, String unit, IngredientStorageType method, Integer image, String email) {
+        return registerIngredientUseCase.registerIngredient(name, date, capacity, unit, method, image, email);
     }
 }

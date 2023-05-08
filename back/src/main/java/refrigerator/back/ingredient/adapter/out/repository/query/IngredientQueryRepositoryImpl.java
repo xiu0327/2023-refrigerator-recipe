@@ -10,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.application.domain.Ingredient;
-import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
-import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
-import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
+import refrigerator.back.ingredient.application.domain.*;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.EntityManager;
@@ -65,7 +62,7 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
                 .selectFrom(ingredient)
                 .where(
                         storageCheck(condition.getStorage()),
-                        deadlineCheck(condition.isDeadline()),
+                        deadlineCheck(condition.getDeadline()),
                         emailCheck(condition.getEmail()),
                         ingredient.deleted.eq(false)
                 )
@@ -87,8 +84,8 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
     }
 
-    private BooleanExpression storageCheck(String storage) {
-        if(hasText(storage))
+    private BooleanExpression storageCheck(IngredientStorageType storage) {
+        if(storage != null)
             return ingredient.storageMethod.eq(storage);
         else
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
@@ -97,7 +94,5 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
     private BooleanExpression deadlineCheck(boolean deadline) {
 
         return deadline ? ingredient.expirationDate.lt(LocalDate.now()) : null;
-
-
     }
 }

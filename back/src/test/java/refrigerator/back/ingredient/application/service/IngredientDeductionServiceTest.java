@@ -7,16 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
-import refrigerator.back.ingredient.adapter.in.dto.RecipeIngredientVolumeDTO;
+import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.port.in.DeductionIngredientVolumeUseCase;
 import refrigerator.back.ingredient.application.port.out.FindPersistenceIngredientListPort;
-import refrigerator.back.member.application.domain.Member;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

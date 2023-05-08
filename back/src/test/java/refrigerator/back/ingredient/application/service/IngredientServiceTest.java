@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.ingredient.adapter.out.persistence.IngredientAdapter;
 import refrigerator.back.ingredient.adapter.out.repository.IngredientRepository;
 import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
+import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -24,18 +26,15 @@ import static refrigerator.back.ingredient.application.domain.QIngredient.ingred
 class IngredientServiceTest {
 
     @Autowired IngredientUpdateService ingredientService;
-    @Autowired IngredientAdapter ingredientAdapter;
+    @Autowired ReadIngredientPort readIngredientPort;
     @Autowired IngredientRepository ingredientRepository;
-
-    @Autowired JPAQueryFactory jpaQueryFactory;
-    @Autowired EntityManager em;
 
     @Test
     void 식재료_등록() {
 
-        Long id = setIngredient("당근", LocalDate.now(), 30.0, "개", "냉장", 1, "asd123@naver.com");
+        Long id = setIngredient("당근", LocalDate.now(), 30.0, "개", IngredientStorageType.FRIDGE, 1, "asd123@naver.com");
 
-        Ingredient findIngredient = ingredientAdapter.getIngredientById(id);
+        Ingredient findIngredient = readIngredientPort.getIngredientById(id);
 
         assertThat(findIngredient.getName()).isEqualTo("당근");
         assertThat(findIngredient.getCapacity()).isEqualTo(30);
@@ -44,26 +43,26 @@ class IngredientServiceTest {
     @Test
     void 식재료_수정() {
 
-        Long id = setIngredient("당근", LocalDate.now(), 30.0, "개", "냉장", 1,"asd123@naver.com");
+        Long id = setIngredient("당근", LocalDate.now(), 30.0, "개", IngredientStorageType.FRIDGE, 1,"asd123@naver.com");
 
         ingredientService.modifyIngredient(id, LocalDate.of(2023, 3,24),
-                40.0, "냉동");
+                40.0, IngredientStorageType.FREEZER);
 
-        Ingredient findIngredient = ingredientAdapter.getIngredientById(id);
+        Ingredient findIngredient = readIngredientPort.getIngredientById(id);
         assertThat(findIngredient.getName()).isEqualTo("당근");
         assertThat(findIngredient.getCapacity()).isEqualTo(40);
         assertThat(findIngredient.getExpirationDate()).isEqualTo(LocalDate.of(2023, 3,24));
-        assertThat(findIngredient.getStorageMethod()).isEqualTo("냉동");
+        assertThat(findIngredient.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
     }
 
     @Test
     void 식재료_삭제() {
 
-        Long id = setIngredient("당근", LocalDate.now(), 30.0, "개", "냉장", 1, "asd123@naver.com");
+        Long id = setIngredient("당근", LocalDate.now(), 30.0, "개", IngredientStorageType.FRIDGE, 1, "asd123@naver.com");
 
         ingredientService.removeIngredient(id);
 
-        assertThat(ingredientAdapter.getIngredientById(id).isDeleted()).isTrue();
+        assertThat(readIngredientPort.getIngredientById(id).isDeleted()).isTrue();
     }
 
     @Test
@@ -76,7 +75,7 @@ class IngredientServiceTest {
         ingredientService.removeAllIngredients(ids);
 
         for (Long id : ids) {
-            assertThat(ingredientAdapter.getIngredientById(id).isDeleted()).isTrue();
+            assertThat(readIngredientPort.getIngredientById(id).isDeleted()).isTrue();
         }
     }
 
@@ -108,7 +107,7 @@ class IngredientServiceTest {
     List<Long> setIngredientList(List<String> names, LocalDate date, Double capacity, String unit, Integer image, String email) {
 
         List<Long> ids = new ArrayList<>();
-        List<String> method = new ArrayList<>(Arrays.asList("냉장", "냉동", "실온", "조미료"));
+        List<IngredientStorageType> method = new ArrayList<>(Arrays.asList(IngredientStorageType.FRIDGE, IngredientStorageType.FREEZER, IngredientStorageType.ROOM, IngredientStorageType.SEASON ));
         Random rand = new Random();
 
         for (String name : names) {
@@ -118,7 +117,7 @@ class IngredientServiceTest {
         return ids;
     }
 
-    Long setIngredient(String name, LocalDate date, Double capacity, String unit, String method, Integer image, String email) {
+    Long setIngredient(String name, LocalDate date, Double capacity, String unit, IngredientStorageType method, Integer image, String email) {
         return ingredientService.registerIngredient(name, date, capacity, unit, method, image, email);
     }
 }
