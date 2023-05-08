@@ -17,6 +17,10 @@ public class IngredientImage {
     @Column(name = "ingredient_image_id")
     private Integer id;
 
-    @Column(name = "url", nullable = false, length = 400)
-    private String url;
+    @Column(name = "ingredient_image_type_name", nullable = false, length = 80)
+    private String typeName;
+
+    @Column(name = "ingredient_image_file_name", nullable = false)
+    private String imageFileName;
+
 }
