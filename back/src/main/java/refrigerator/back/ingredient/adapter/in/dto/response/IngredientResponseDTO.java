@@ -12,7 +12,7 @@ import lombok.*;
 public class IngredientResponseDTO {
 
     private Long ingredientID;
-    private String name;        // 식재료명
-    private Long remainDays;    // 남은일수
-    private String image;       // 이미지
+    private String name;
+    private Long remainDays;
+    private String image;
 }

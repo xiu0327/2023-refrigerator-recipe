@@ -18,12 +18,12 @@ public class IngredientUpdateRequestDTO {
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate expirationDate;                       // 유통기한
+    private LocalDate expirationDate;
 
     @NotNull
     @Positive
-    private Double volume;                                // 용량
+    private Double volume;
 
     @NotNull
-    private IngredientStorageType storage;           // 보관방법
+    private IngredientStorageType storage;
 }

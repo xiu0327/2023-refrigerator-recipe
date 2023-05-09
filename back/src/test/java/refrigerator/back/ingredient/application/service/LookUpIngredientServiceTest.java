@@ -40,7 +40,7 @@ class LookUpIngredientServiceTest {
     void getIngredientUnit() {
         RegisteredIngredient ingredient = ingredientLookUpService.getIngredient("당근");
         assertThat(ingredient.getUnit()).isEqualTo("g");
-        assertThat(ingredient.getImage()).isEqualTo(1);
+        assertThat(ingredient.getImage()).isEqualTo(9);
     }
 
     @Test
@@ -112,7 +112,7 @@ class LookUpIngredientServiceTest {
                 new IngredientSearchCondition(IngredientStorageType.FREEZER, false, "asd123@naver.com"), 0, 15);
 
         for (IngredientResponseDTO dto : list2) {
-//            log.info(dto.toString());
+            log.info(dto.toString());
             assertThat(dto.getIngredientID()).isNotNull();
             assertThat(dto.getName()).isNotNull();
             assertThat(dto.getImage()).isNotNull();
@@ -174,7 +174,7 @@ class LookUpIngredientServiceTest {
         assertThat(responseDTO.getRemainDays()).isEqualTo(-5L);
         assertThat(responseDTO.getVolume()).isEqualTo(70);
         assertThat(responseDTO.getUnit()).isEqualTo("g");
-        assertThat(responseDTO.getImage()).isEqualTo(IngredientImageType.CEREALS.getUrl());
+        assertThat(responseDTO.getImage()).isEqualTo("IMAGE_INGREDIENT_가공식품.png");
 
         readIngredientPort.getIngredientById(id).delete();
 

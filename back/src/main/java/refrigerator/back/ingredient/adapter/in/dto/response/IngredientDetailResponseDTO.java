@@ -14,19 +14,19 @@ public class IngredientDetailResponseDTO {
 
     private Long ingredientID;
 
-    private String name;                                // 식재료명
+    private String name;
 
-    private IngredientStorageType storage;        // 보관방식
+    private IngredientStorageType storage;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate expirationDate;                   // 소비기한
+    private LocalDate expirationDate;
 
-    private Long remainDays;                            // 남은일수
+    private Long remainDays;
 
-    private Double volume;                           // 용량
+    private Double volume;
 
-    private String unit;                        // 용량단위
+    private String unit;
 
-    private String image;                               // 이미지
+    private String image;
 
 }

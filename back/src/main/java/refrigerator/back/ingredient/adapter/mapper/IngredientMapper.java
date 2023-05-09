@@ -8,6 +8,8 @@ import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolum
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientUnitResponseDTO;
+import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDTO;
+import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
@@ -19,18 +21,15 @@ public interface IngredientMapper {
 
     IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
-    @Mappings({
-            @Mapping(source = "ingredient.id", target = "ingredientID"),
-            @Mapping(source = "ingredient.capacity", target = "volume"),
-            @Mapping(source = "ingredient.storageMethod", target = "storage"),
-            @Mapping(source = "ingredient.capacityUnit", target = "unit"),
-            @Mapping(source = "image", target = "image")
-    })
-    IngredientDetailResponseDTO toIngredientDetailDto(Ingredient ingredient, String image);
+    IngredientDetailResponseDTO toIngredientDetailDto(OutIngredientDetailDTO outIngredientDetailDTO);
 
-    @Mapping(source = "ingredient.id", target = "ingredientID")
     @Mapping(source = "image", target = "image")
-    IngredientResponseDTO toIngredientDto(Ingredient ingredient, String image);
+    IngredientDetailResponseDTO toIngredientDetailDto(IngredientDetailResponseDTO ingredientDetailResponseDTO, String image);
+
+    IngredientResponseDTO toIngredientDto(OutIngredientDTO outIngredientDTO);
+
+    @Mapping(source = "image", target = "image")
+    IngredientResponseDTO toIngredientDto(IngredientResponseDTO ingredientResponseDTO, String image);
 
     IngredientSearchCondition toIngredientSearchCondition(IngredientStorageType storage, Boolean deadline, String email);
 

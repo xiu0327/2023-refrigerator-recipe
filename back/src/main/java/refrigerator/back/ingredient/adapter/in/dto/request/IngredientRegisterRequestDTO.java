@@ -20,18 +20,16 @@ import java.time.LocalDate;
 public class IngredientRegisterRequestDTO {
 
     @NotBlank
-    private String name;                    // 식재료명
+    private String name;
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate expirationDate;       // 유통기한
+    private LocalDate expirationDate;
 
     @NotNull
     @Positive
-    private Double volume;                // 용량
+    private Double volume;
 
     @NotNull
-    private IngredientStorageType storage;           // 보관 방식
+    private IngredientStorageType storage;
 }
-
-
