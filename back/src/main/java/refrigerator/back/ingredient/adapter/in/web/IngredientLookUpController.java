@@ -1,7 +1,6 @@
 package refrigerator.back.ingredient.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientListResponseDTO;
@@ -13,11 +12,7 @@ import refrigerator.back.ingredient.application.port.in.FindIngredientListUseCas
 import refrigerator.back.ingredient.application.port.in.FindIngredientDetailUseCase;
 import refrigerator.back.ingredient.application.port.in.FindRegisteredIngredientUseCase;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
 import static refrigerator.back.global.common.MemberInformation.*;
-import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 
 @RestController
 @RequiredArgsConstructor

@@ -22,8 +22,8 @@ public class IngredientUpdateRequestDTO {
 
     @NotNull
     @Positive
-    private Double capacity;                                // 용량
+    private Double volume;                                // 용량
 
     @NotNull
-    private IngredientStorageType storageMethod;           // 보관방법
+    private IngredientStorageType storage;           // 보관방법
 }

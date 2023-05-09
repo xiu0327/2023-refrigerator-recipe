@@ -9,13 +9,11 @@ import refrigerator.back.ingredient.adapter.in.dto.request.IngredientProposeRequ
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientRegisterRequestDTO;
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientUpdateRequestDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientRegisterResponseDTO;
-import refrigerator.back.ingredient.adapter.mapper.IngredientMapper;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.in.FindRegisteredIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.ModifyIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
-import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.validation.Valid;
 
@@ -37,8 +35,8 @@ public class IngredientUpdateController {
         ingredientExceptionHandle(bindingResult);
         RegisteredIngredient ingredientUnit = findRegisteredIngredientUseCase.getIngredient(request.getName());
 
-        Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getCapacity(),
-                                                               ingredientUnit.getUnit(), request.getStorageMethod(), ingredientUnit.getImage(), getMemberEmail());
+        Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getVolume(),
+                                                               ingredientUnit.getUnit(), request.getStorage(), ingredientUnit.getImage(), getMemberEmail());
         return new IngredientRegisterResponseDTO(id);
     }
 
@@ -47,7 +45,7 @@ public class IngredientUpdateController {
     public void modifyIngredient(@PathVariable("ingredientId") Long id, @RequestBody @Valid IngredientUpdateRequestDTO request, BindingResult bindingResult) {
         ingredientExceptionHandle(bindingResult);
 
-        modifyIngredientUseCase.modifyIngredient(id, request.getExpirationDate(), request.getCapacity(), request.getStorageMethod());
+        modifyIngredientUseCase.modifyIngredient(id, request.getExpirationDate(), request.getVolume(), request.getStorage());
     }
 
     @DeleteMapping("/api/ingredients/{ingredientId}")
@@ -69,7 +67,7 @@ public class IngredientUpdateController {
     public void proposeIngredient(@RequestBody @Valid IngredientProposeRequestDTO request, BindingResult bindingResult) {
         ingredientExceptionHandle(bindingResult);
 
-        registerIngredientUseCase.proposeIngredient(request.getName(), request.getCapacityUnit(), getMemberEmail());
+        registerIngredientUseCase.proposeIngredient(request.getName(), request.getUnit(), getMemberEmail());
     }
 
 

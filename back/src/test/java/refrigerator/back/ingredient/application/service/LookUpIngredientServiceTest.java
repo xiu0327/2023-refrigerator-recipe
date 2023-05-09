@@ -70,8 +70,8 @@ class LookUpIngredientServiceTest {
 
             count1 += ingredientList.size();
             for (IngredientResponseDTO dto : ingredientList) {
-//                log.info(dto.toString());
-                assertThat(dto.getId()).isNotNull();
+                log.info(dto.toString());
+                assertThat(dto.getIngredientID()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
                 assertThat(dto.getRemainDays()).isNotNull();
@@ -88,8 +88,8 @@ class LookUpIngredientServiceTest {
 
             count2 += ingredientList.size();
             for (IngredientResponseDTO dto : ingredientList) {
-//                log.info(dto.toString());
-                assertThat(dto.getId()).isNotNull();
+                log.info(dto.toString());
+                assertThat(dto.getIngredientID()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
                 assertThat(dto.getRemainDays()).isNotNull();
@@ -113,7 +113,7 @@ class LookUpIngredientServiceTest {
 
         for (IngredientResponseDTO dto : list2) {
 //            log.info(dto.toString());
-            assertThat(dto.getId()).isNotNull();
+            assertThat(dto.getIngredientID()).isNotNull();
             assertThat(dto.getName()).isNotNull();
             assertThat(dto.getImage()).isNotNull();
             assertThat(dto.getRemainDays()).isNotNull();
@@ -148,7 +148,7 @@ class LookUpIngredientServiceTest {
 
         for (IngredientResponseDTO dto : ingredientNotDeleted) {
             log.info(dto.toString());
-            assertThat(dto.getId()).isNotNull();
+            assertThat(dto.getIngredientID()).isNotNull();
             assertThat(dto.getName()).isNotNull();
             assertThat(dto.getImage()).isNotNull();
             assertThat(dto.getRemainDays()).isNotNull();
@@ -166,14 +166,14 @@ class LookUpIngredientServiceTest {
 
         IngredientDetailResponseDTO responseDTO = ingredientLookUpService.getIngredient(id);
 
-//        log.info(responseDTO.toString());
-        assertThat(responseDTO.getId()).isEqualTo(id);
+        log.info(responseDTO.toString());
+        assertThat(responseDTO.getIngredientID()).isEqualTo(id);
         assertThat(responseDTO.getName()).isEqualTo("돼지고기");
-        assertThat(responseDTO.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
+        assertThat(responseDTO.getStorage()).isEqualTo(IngredientStorageType.FREEZER);
         assertThat(responseDTO.getExpirationDate()).isEqualTo(LocalDate.now().plusDays(5));
         assertThat(responseDTO.getRemainDays()).isEqualTo(-5L);
-        assertThat(responseDTO.getCapacity()).isEqualTo(70);
-        assertThat(responseDTO.getCapacityUnit()).isEqualTo("g");
+        assertThat(responseDTO.getVolume()).isEqualTo(70);
+        assertThat(responseDTO.getUnit()).isEqualTo("g");
         assertThat(responseDTO.getImage()).isEqualTo(IngredientImageType.CEREALS.getUrl());
 
         readIngredientPort.getIngredientById(id).delete();
@@ -211,8 +211,8 @@ class LookUpIngredientServiceTest {
 
         for (List<IngredientResponseDTO> ingredientResponseDTOS : ingredientListByDeadline) {
             for (IngredientResponseDTO dto : ingredientResponseDTOS) {
-//                log.info(dto.toString());
-                assertThat(dto.getId()).isNotNull();
+                log.info(dto.toString());
+                assertThat(dto.getIngredientID()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
                 assertThat(dto.getImage()).isNotNull();
                 assertThat(dto.getRemainDays()).isNotNull();

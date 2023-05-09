@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MyBookmarkServiceTest {
 
     @Autowired MyBookmarkService service;
+    @Autowired MyBookmarkLookUpService lookUpService;
     @Autowired TestData testData;
     @Autowired EntityManager em;
 
@@ -107,13 +108,13 @@ class MyBookmarkServiceTest {
             service.add(memberId, recipeID);
         }
         // when
-        List<InBookmarkDTO> bookmarks = service.findBookmarks(memberId, 0, 11).getBookmarks();
+        List<InBookmarkDTO> bookmarks = lookUpService.findBookmarks(memberId, 0, 11).getBookmarks();
         // then
         assertThat(bookmarks).isNotEmpty();
         assertThat(bookmarks.size()).isEqualTo(11);
         for (InBookmarkDTO bookmark : bookmarks) {
             log.info("bookmark = {}", bookmark);
-            assertNotNull(bookmark.getBookmarkId());
+            assertNotNull(bookmark.getBookmarkID());
             assertNotNull(bookmark.getRecipeId());
             assertNotNull(bookmark.getRecipeImage());
             assertNotNull(bookmark.getRecipeName());
@@ -130,7 +131,7 @@ class MyBookmarkServiceTest {
             service.add(memberId, recipeID);
         }
         // when
-        InBookmarkPreviewListDTO previews = service.findPreviews(memberId, 5);
+        InBookmarkPreviewListDTO previews = lookUpService.findPreviews(memberId, 5);
         // then
         List<InBookmarkPreviewDTO> bookmarks = previews.getBookmarks();
         Integer count = previews.getCount();
@@ -138,7 +139,7 @@ class MyBookmarkServiceTest {
         assertThat(count >= 5).isTrue();
         for (InBookmarkPreviewDTO bookmark : bookmarks) {
             log.info("bookmark = {}", bookmark);
-            assertNotNull(bookmark.getBookmarkId());
+            assertNotNull(bookmark.getBookmarkID());
             assertNotNull(bookmark.getRecipeId());
             assertNotNull(bookmark.getRecipeImage());
             assertNotNull(bookmark.getRecipeName());
@@ -158,7 +159,7 @@ class MyBookmarkServiceTest {
                 deletedId = bookmarkId;
             }
         }
-        List<InBookmarkPreviewDTO> before = service.findPreviews(memberId, 10).getBookmarks();
+        List<InBookmarkPreviewDTO> before = lookUpService.findPreviews(memberId, 10).getBookmarks();
         int beforeCount = em.find(RecipeBookmark.class, deletedRecipeId).getCount();
         // when
         service.remove(deletedId);
@@ -166,7 +167,7 @@ class MyBookmarkServiceTest {
         MyBookmark deletedBookmark = em.find(MyBookmark.class, deletedId);
         int afterCount = em.find(RecipeBookmark.class, deletedRecipeId).getCount();
         assertThat(deletedBookmark.isDeleted()).isTrue();
-        List<InBookmarkPreviewDTO> after = service.findPreviews(memberId, 10).getBookmarks();
+        List<InBookmarkPreviewDTO> after = lookUpService.findPreviews(memberId, 10).getBookmarks();
         assertThat(deletedBookmark.getBookmarkId()).isIn(getBookmarkIdList(before));
         assertThat(deletedBookmark.getBookmarkId()).isNotIn(getBookmarkIdList(after));
         /* 북마크를 삭제하면, 레시피의 북마크 개수가 1 감소 */
@@ -200,7 +201,7 @@ class MyBookmarkServiceTest {
 
     private List<Long> getBookmarkIdList(List<InBookmarkPreviewDTO> list) {
         return list.stream()
-                .map(InBookmarkPreviewDTO::getBookmarkId)
+                .map(InBookmarkPreviewDTO::getBookmarkID)
                 .collect(Collectors.toList());
     }
 

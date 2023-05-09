@@ -19,7 +19,6 @@ import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.global.TestData;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
-import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
 
 import static org.junit.jupiter.api.Assertions.*;

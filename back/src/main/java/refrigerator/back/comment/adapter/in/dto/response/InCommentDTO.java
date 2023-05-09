@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class InCommentDTO {
-    private Long commentId;
+    private Long commentID;
     private String nickname;
     private Integer heart;
     private String date;

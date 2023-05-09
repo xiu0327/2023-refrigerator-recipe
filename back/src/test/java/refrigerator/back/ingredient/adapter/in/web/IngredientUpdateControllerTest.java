@@ -3,6 +3,7 @@ package refrigerator.back.ingredient.adapter.in.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,8 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("감자")
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .storageMethod(IngredientStorageType.ROOM)
+                .volume(30.0)
+                .storage(IngredientStorageType.ROOM)
                 .build();
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
@@ -83,8 +84,8 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name(null)
                 .expirationDate(null)
-                .capacity(null)
-                .storageMethod(null)
+                .volume(null)
+                .storage(null)
                 .build();
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
@@ -105,7 +106,7 @@ class IngredientUpdateControllerTest {
 
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("감자")
-                .storageMethod(IngredientStorageType.FREEZER)
+                .storage(IngredientStorageType.FREEZER)
                 .build();
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
@@ -127,8 +128,8 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("파워에이드")
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .storageMethod(IngredientStorageType.ROOM)
+                .volume(30.0)
+                .storage(IngredientStorageType.ROOM)
                 .build();
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
@@ -150,8 +151,8 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("감자")
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(-1.0)
-                .storageMethod(IngredientStorageType.ROOM)
+                .volume(-1.0)
+                .storage(IngredientStorageType.ROOM)
                 .build();
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
@@ -173,8 +174,8 @@ class IngredientUpdateControllerTest {
         IngredientRegisterRequestDTO request = IngredientRegisterRequestDTO.builder()
                 .name("감자")
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(10000.0)
-                .storageMethod(IngredientStorageType.ROOM)
+                .volume(10000.0)
+                .storage(IngredientStorageType.ROOM)
                 .build();
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
@@ -193,7 +194,7 @@ class IngredientUpdateControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
-        String content = "{\"name\":\"감자\",\"expirationDate\":\"2023-05-23\",\"capacity\":30.0,\"storageMethod\":\"방관\"}";
+        String content = "{\"name\":\"감자\",\"expirationDate\":\"2023-05-23\",\"volume\":30.0,\"storage\":\"방관\"}";
 
         mockMvc.perform(post("/api/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -210,7 +211,7 @@ class IngredientUpdateControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
-        String content = "{\"name\":\"감자\",\"expirationDate\":\"2023/05/23\",\"capacity\":30.0,\"storageMethod\":\"냉장\"}";
+        String content = "{\"name\":\"감자\",\"expirationDate\":\"2023/05/23\",\"volume\":30.0,\"storage\":\"냉장\"}";
 
         mockMvc.perform(post("/api/ingredients")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -228,8 +229,8 @@ class IngredientUpdateControllerTest {
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(30.0)
-                .storageMethod(IngredientStorageType.FREEZER)
+                .volume(30.0)
+                .storage(IngredientStorageType.FREEZER)
                 .build();
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
@@ -252,8 +253,8 @@ class IngredientUpdateControllerTest {
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
                 .expirationDate(null)
-                .capacity(null)
-                .storageMethod(null)
+                .volume(null)
+                .storage(null)
                 .build();
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
@@ -298,8 +299,8 @@ class IngredientUpdateControllerTest {
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(-1.0)
-                .storageMethod(IngredientStorageType.FREEZER)
+                .volume(-1.0)
+                .storage(IngredientStorageType.FREEZER)
                 .build();
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
@@ -322,8 +323,8 @@ class IngredientUpdateControllerTest {
 
         IngredientUpdateRequestDTO request = IngredientUpdateRequestDTO.builder()
                 .expirationDate(LocalDate.now().plusDays(15))
-                .capacity(10000.0)
-                .storageMethod(IngredientStorageType.FREEZER)
+                .volume(10000.0)
+                .storage(IngredientStorageType.FREEZER)
                 .build();
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
@@ -345,7 +346,7 @@ class IngredientUpdateControllerTest {
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
 
-        String content = "{\"expirationDate\":\"2023-05-23\",\"capacity\":30.0,\"storageMethod\":\"방관\"}";
+        String content = "{\"expirationDate\":\"2023-05-23\",\"volume\":30.0,\"storage\":\"방관\"}";
 
         mockMvc.perform(put("/api/ingredients/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -364,7 +365,7 @@ class IngredientUpdateControllerTest {
 
         Long id = testData.createIngredient("안심", "email123@gmail.com");
 
-        String content = "{\"expirationDate\":\"2023/05/23\",\"capacity\":30.0,\"storageMethod\":\"냉동\"}";
+        String content = "{\"expirationDate\":\"2023/05/23\",\"volume\":30.0,\"storage\":\"냉동\"}";
 
         mockMvc.perform(put("/api/ingredients/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -483,7 +484,7 @@ class IngredientUpdateControllerTest {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
                 .name("파워에이드")
-                .capacityUnit("ml")
+                .unit("ml")
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(dto);
@@ -503,7 +504,7 @@ class IngredientUpdateControllerTest {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
                 .name(null)
-                .capacityUnit(null)
+                .unit(null)
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(dto);
@@ -523,7 +524,7 @@ class IngredientUpdateControllerTest {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
                 .name(" ")
-                .capacityUnit(" ")
+                .unit(" ")
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(dto);

@@ -67,7 +67,7 @@ class IngredientDeductionServiceTest {
     private RecipeIngredientVolumeDTO createRecipeIngredient(String name, double volume, String unit) {
         return RecipeIngredientVolumeDTO.builder()
                 .name(name)
-                .capacity(volume)
+                .volume(volume)
                 .unit(unit).build();
     }
 }

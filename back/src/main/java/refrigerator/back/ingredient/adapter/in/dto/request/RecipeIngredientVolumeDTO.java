@@ -18,7 +18,7 @@ public class RecipeIngredientVolumeDTO {
 
     @NotNull
     @Positive
-    private Double capacity;
+    private Double volume;
 
     @NotBlank
     private String unit;

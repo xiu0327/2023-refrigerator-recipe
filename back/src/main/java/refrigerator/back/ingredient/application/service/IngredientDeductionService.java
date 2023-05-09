@@ -51,7 +51,7 @@ public class IngredientDeductionService implements DeductionIngredientVolumeUseC
     private Map<String, Double> toIngredientsMap(List<RecipeIngredientVolumeDTO> ingredients){
         Map<String, Double> result = new HashMap<>();
         for (RecipeIngredientVolumeDTO ingredient : ingredients) {
-            result.put(ingredient.getName(), ingredient.getCapacity());
+            result.put(ingredient.getName(), ingredient.getVolume());
         }
         return result;
     }

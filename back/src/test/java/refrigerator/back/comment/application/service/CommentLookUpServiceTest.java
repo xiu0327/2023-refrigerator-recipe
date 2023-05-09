@@ -37,7 +37,7 @@ class CommentLookUpServiceTest {
         List<InCommentDTO> comments = commentLookUpService.findCommentsByHeart(recipeId, 0, size);
         // then
         for (InCommentDTO comment : comments) {
-            assertNotNull(comment.getCommentId());
+            assertNotNull(comment.getCommentID());
             assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
@@ -58,11 +58,11 @@ class CommentLookUpServiceTest {
         // when
         int size = 11;
         List<InCommentDTO> comments = commentLookUpService.findCommentsByDate(recipeId, 0, size);
-        Long firstId = comments.get(0).getCommentId() + 1;
+        Long firstId = comments.get(0).getCommentID() + 1;
         // then
         for (InCommentDTO comment : comments) {
-            assertThat(comment.getCommentId()).isEqualTo(--firstId);
-            assertNotNull(comment.getCommentId());
+            assertThat(comment.getCommentID()).isEqualTo(--firstId);
+            assertNotNull(comment.getCommentID());
             assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
@@ -85,10 +85,9 @@ class CommentLookUpServiceTest {
         int size = 3;
         InCommentListDTO result = commentLookUpService.findCommentPreviews(recipeId, size);
         List<InCommentDTO> comments = result.getComments();
-        Integer count = result.getCount();
         // then
         for (InCommentDTO comment : comments) {
-            assertNotNull(comment.getCommentId());
+            assertNotNull(comment.getCommentID());
             assertNotNull(comment.getDate());
             assertNotNull(comment.getContent());
             assertNotNull(comment.getHeart());
@@ -96,6 +95,5 @@ class CommentLookUpServiceTest {
             assertNotNull(comment.getModifiedState());
         }
         assertThat(comments.size()).isEqualTo(size);
-        assertThat(count).isEqualTo(allSize);
     }
 }

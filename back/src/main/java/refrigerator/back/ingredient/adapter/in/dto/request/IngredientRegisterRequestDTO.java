@@ -28,10 +28,10 @@ public class IngredientRegisterRequestDTO {
 
     @NotNull
     @Positive
-    private Double capacity;                // 용량
+    private Double volume;                // 용량
 
     @NotNull
-    private IngredientStorageType storageMethod;           // 보관 방식
+    private IngredientStorageType storage;           // 보관 방식
 }
 
 

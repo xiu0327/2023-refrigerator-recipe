@@ -2,6 +2,7 @@ package refrigerator.back.ingredient.adapter.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
@@ -18,15 +19,22 @@ public interface IngredientMapper {
 
     IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
-    @Mapping(source="image", target="image")
+    @Mappings({
+            @Mapping(source = "ingredient.id", target = "ingredientID"),
+            @Mapping(source = "ingredient.capacity", target = "volume"),
+            @Mapping(source = "ingredient.storageMethod", target = "storage"),
+            @Mapping(source = "ingredient.capacityUnit", target = "unit"),
+            @Mapping(source = "image", target = "image")
+    })
     IngredientDetailResponseDTO toIngredientDetailDto(Ingredient ingredient, String image);
 
-    @Mapping(source="image", target="image")
+    @Mapping(source = "ingredient.id", target = "ingredientID")
+    @Mapping(source = "image", target = "image")
     IngredientResponseDTO toIngredientDto(Ingredient ingredient, String image);
 
-    IngredientUnitResponseDTO toIngredientUnitResponseDTO(RegisteredIngredient ingredient);
-
     IngredientSearchCondition toIngredientSearchCondition(IngredientStorageType storage, Boolean deadline, String email);
+
+    IngredientUnitResponseDTO toIngredientUnitResponseDTO(RegisteredIngredient ingredient);
 
     RecipeIngredientVolumeDTO toIngredientVolumeByRecipe(OutRecipeIngredientVolumeDTO dto);
 }

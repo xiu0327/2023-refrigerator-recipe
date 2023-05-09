@@ -10,6 +10,8 @@ import refrigerator.back.notification.application.port.out.write.CreateMemberNot
 import refrigerator.back.notification.application.port.out.read.FindMemberNotificationSignPort;
 import refrigerator.back.notification.application.port.out.write.ModifyMemberNotificationPort;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberNotificationService implements
@@ -26,7 +28,12 @@ public class MemberNotificationService implements
 
     @Override
     public Boolean getSign(String memberId) {
-        return findMemberNotificationSignPort.getSign(memberId);
+        Boolean result = findMemberNotificationSignPort.getSign(memberId);
+        if (result == null){
+            createMemberNotification(memberId);
+            return false;
+        }
+        return result;
     }
 
     @Override

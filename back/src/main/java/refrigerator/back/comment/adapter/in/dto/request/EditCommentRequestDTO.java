@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EditCommentRequestDTO {
-    private Long commentId;
+    private Long commentID;
     private String content;
 }

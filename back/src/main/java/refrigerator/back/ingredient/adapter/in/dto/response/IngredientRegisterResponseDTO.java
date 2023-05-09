@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class IngredientRegisterResponseDTO {
 
-    private Long id;
+    private Long ingredientID;
 }

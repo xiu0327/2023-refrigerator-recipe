@@ -17,6 +17,6 @@ public class IngredientProposeRequestDTO {
     String name;
 
     @NotBlank
-    String capacityUnit;
+    String unit;
 
 }
