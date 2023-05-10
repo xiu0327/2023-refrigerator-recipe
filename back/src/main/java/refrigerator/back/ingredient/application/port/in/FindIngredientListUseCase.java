@@ -1,7 +1,6 @@
 package refrigerator.back.ingredient.application.port.in;
 
-import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisteredResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 
 import java.util.List;

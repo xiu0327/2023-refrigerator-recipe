@@ -11,7 +11,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -45,13 +44,82 @@ public class SecurityConfig {
         return new ProviderManager(Collections.singletonList(authenticationProvider));
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/api/");
-//    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        setOauth(http);
+        setAuth(http);
+        setComment(http);
+        setIdentification(http);
+        setMember(http);
+        setRecipe(http);
+        setWordCompletion(http);
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
+                .anyRequest().authenticated()
+                .and()
+                .csrf().disable()
+                .cors().disable()
+                .httpBasic().disable()
+                .formLogin().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jsonWebTokenProvider, tokenPassword), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
+    private void setWordCompletion(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/word-completion/recipe").permitAll()
+                .mvcMatchers("/api/word-completion/ingredient").permitAll();
+    }
+
+    private void setRecipe(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/recipe/{recipeID}/course").permitAll()
+                .mvcMatchers("/api/recipe").permitAll()
+                .mvcMatchers("/api/recipe/{recipeId}/ingredient/volume").permitAll()
+                .mvcMatchers("/api/recipe/search/condition/food-type").permitAll()
+                .mvcMatchers("/api/recipe/search/condition/category").permitAll()
+                .mvcMatchers("/api/recipe/search/condition/recipe-type").permitAll()
+                .mvcMatchers("/api/recipe/search/condition/difficulty").permitAll();
+    }
+
+    private void setMember(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/members/join").permitAll()
+                .mvcMatchers("/api/members/password/find").permitAll()
+                .mvcMatchers("/api/members/password").permitAll()
+                .mvcMatchers("/api/members/email/duplicate").permitAll()
+                .mvcMatchers("/api/members/profile/list").permitAll();
+    }
+
+    private void setIdentification(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/identification/**").permitAll();
+    }
+
+    private void setComment(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/comments/heart/list").authenticated()
+                .mvcMatchers("/api/comments/heart/**").permitAll()
+                .mvcMatchers("/api/comments/date/**").permitAll()
+                .mvcMatchers("/api/comments/preview/**").permitAll();
+    }
+
+    private void setAuth(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/auth/**").permitAll();
+    }
+
+    private void setOauth(HttpSecurity http) throws Exception {
         http
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
@@ -62,45 +130,5 @@ public class SecurityConfig {
                 .and()
                 .successHandler(oauth2SuccessHandler)
                 .failureHandler(oauth2FailureHandler);
-        http
-                .authorizeRequests()
-                .mvcMatchers("/api/recipe/recommend").authenticated()
-                .mvcMatchers("/api/recipe/search/condition/**").permitAll()
-                .mvcMatchers("/api/recipe/search/**").authenticated()
-                .and()
-                .httpBasic().disable()
-                .formLogin().disable();
-
-        http
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(principalOAuth2DetailsService);
-        http
-                .oauth2Login()
-                .successHandler(oauth2SuccessHandler)
-                .failureHandler(oauth2FailureHandler);
-
-        http
-                .authorizeRequests()
-                .mvcMatchers("/api/members/join").permitAll()
-                .mvcMatchers("/api/auth/**").permitAll()
-                .mvcMatchers("/api/identification/**").permitAll()
-                .mvcMatchers("/api/members/password/find").permitAll()
-                .mvcMatchers("/api/members/email/duplicate").permitAll()
-                .mvcMatchers("/api/members/profile/list").permitAll()
-                .mvcMatchers("/api/word-completion/**").permitAll()
-                .mvcMatchers("/oauth2/authorization/google").permitAll()
-                .mvcMatchers("/oauth2/authorization/naver").permitAll()
-                .mvcMatchers("/api/recipe/**").permitAll()
-                .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable()
-                .cors().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jsonWebTokenProvider, tokenPassword), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
     }
 }

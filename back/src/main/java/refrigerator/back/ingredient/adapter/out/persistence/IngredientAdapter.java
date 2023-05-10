@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientDetailResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisteredResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
 import refrigerator.back.ingredient.adapter.mapper.IngredientMapper;
+import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDTO;
+import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.adapter.out.repository.IngredientRepository;
+import refrigerator.back.ingredient.application.domain.IngredientImageType;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
@@ -51,6 +53,7 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
     }
 
     // 테스트용
+    @Override
     public Ingredient getIngredientById(Long id) {
         Ingredient ingredient = ingredientRepository
                 .findById(id)
@@ -76,8 +79,8 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
 
     @Override
     public IngredientDetailResponseDTO getIngredientDetail(Long id) {
-        Ingredient ingredient = ingredientRepository
-                .findByIdAndDeletedFalse(id)
+        OutIngredientDetailDTO ingredient = ingredientRepository
+                .findIngredient(id)
                 .orElse(null);
 
         if(ingredient == null)
@@ -96,7 +99,7 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
 
     @Override
     public List<IngredientResponseDTO> getIngredientListOfAll(String email) {
-        return ingredientRepository.findByEmailAndDeletedFalseOrderByNameAsc(email)
+        return ingredientRepository.findIngredientListOfAll(email)
                 .stream()
                 .map(mapper::toIngredientDto)
                 .collect(Collectors.toList());
@@ -104,7 +107,7 @@ public class IngredientAdapter implements WriteIngredientPort, ReadIngredientPor
 
     @Override
     public List<IngredientResponseDTO> getIngredientListByDeadline(LocalDate date, String email) {
-        return ingredientRepository.findByExpirationDateAndEmailAndDeletedFalse(date, email)
+        return ingredientRepository.findIngredientListByDeadline(date, email)
                 .stream()
                 .map(mapper::toIngredientDto)
                 .collect(Collectors.toList());

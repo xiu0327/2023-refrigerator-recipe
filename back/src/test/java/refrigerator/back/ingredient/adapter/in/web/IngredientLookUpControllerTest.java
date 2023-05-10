@@ -1,15 +1,12 @@
 package refrigerator.back.ingredient.adapter.in.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -17,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientLookUpRequestDTO;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -41,6 +37,34 @@ class IngredientLookUpControllerTest {
                 .build();
     }
 
+    // RequestParam and PathValuable validation 방법 강구
+
+    @Test
+    void 식재료_이름에_따른_용량단위_반환() throws Exception {
+        String email = testData.createMemberByEmail("email123@gmail.com");
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
+
+        String name = "콩나물";
+
+        mockMvc.perform(get("/api/ingredients/unit?name=" + name)
+                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+        ).andExpect(status().is2xxSuccessful()
+        ).andDo(print());
+    }
+
+    @Test
+    void 식재료_이름에_따른_용량단위_반환_실패_등록되지_않은_식재료() throws Exception {
+        String email = testData.createMemberByEmail("email123@gmail.com");
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
+
+        String name = "파워에이드";
+
+        mockMvc.perform(get("/api/ingredients/unit?name=" + name)
+                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+        ).andExpect(status().is4xxClientError()
+        ).andDo(print());
+    }
+
     @Test
     void 식재료_목록_조회() throws Exception {
 
@@ -49,22 +73,45 @@ class IngredientLookUpControllerTest {
 
         testData.createIngredient("안심", email);
 
-        mockMvc.perform(get("/api/ingredients?storage=냉장&deadline=false&page=0")
-                .contentType(MediaType.APPLICATION_JSON)
+        String storage = "냉장";
+        String deadline = "false";
+
+        mockMvc.perform(get("/api/ingredients?storage="+storage+"&deadline="+deadline+"&page=0")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
-    void 식재료_목록_조회_실패() throws Exception {
+    void 식재료_목록_조회_실패_존재하지_않는_보관타입() throws Exception {
 
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
         testData.createIngredient("안심", email);
 
-        mockMvc.perform(get("/api/ingredients?page=0&&storage=방관")
+        String storage = "방관";
+        String deadline = "false";
+
+        mockMvc.perform(get("/api/ingredients?storage="+storage+"&deadline="+deadline+"&page=0")
+                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+        ).andExpect(status().is4xxClientError()
+        ).andDo(print());
+    }
+
+    // 오류메시지가 없음 => RequestParam and PathValuable validation 방법 강구
+    @Test
+    void 식재료_목록_조회_실패_Boolean_타입_오류() throws Exception {
+
+        String email = testData.createMemberByEmail("email123@gmail.com");
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
+
+        testData.createIngredient("안심", email);
+
+        String storage = "냉동";
+        String deadline = "test";
+
+        mockMvc.perform(get("/api/ingredients?storage="+storage+"&deadline="+deadline+"&page=0")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
@@ -89,6 +136,7 @@ class IngredientLookUpControllerTest {
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
         Long id = testData.createIngredient("콩나물", email);
+
         mockMvc.perform(get("/api/ingredients/" + id)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()

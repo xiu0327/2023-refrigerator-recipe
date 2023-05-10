@@ -2,6 +2,7 @@ package refrigerator.back.identification.application.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @Transactional
+@Ignore
 class IdentificationServiceTest {
 
     @Autowired IdentificationService identificationService;

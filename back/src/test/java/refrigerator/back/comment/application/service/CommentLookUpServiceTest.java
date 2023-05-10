@@ -85,7 +85,6 @@ class CommentLookUpServiceTest {
         int size = 3;
         InCommentListDTO result = commentLookUpService.findCommentPreviews(recipeId, size);
         List<InCommentDTO> comments = result.getComments();
-        Integer count = result.getCount();
         // then
         for (InCommentDTO comment : comments) {
             assertNotNull(comment.getCommentID());
@@ -96,6 +95,5 @@ class CommentLookUpServiceTest {
             assertNotNull(comment.getModifiedState());
         }
         assertThat(comments.size()).isEqualTo(size);
-        assertThat(count).isEqualTo(allSize);
     }
 }

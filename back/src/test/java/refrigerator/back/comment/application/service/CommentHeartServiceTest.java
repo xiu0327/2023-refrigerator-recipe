@@ -36,7 +36,7 @@ class CommentHeartServiceTest {
     void 하트수_증가_성공() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1L;
+        Long recipeId = 20L;
         Long commentId = writeCommentUseCase.write(recipeId, memberId, "댓글");
         // when
         commentHeartService.addHeart(memberId, commentId);
@@ -93,7 +93,7 @@ class CommentHeartServiceTest {
     void 하트수_감소() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1L;
+        Long recipeId = 20L;
         Long commentId = writeCommentUseCase.write(recipeId, memberId, "댓글");
         // when
         commentHeartService.addHeart(memberId, commentId);
@@ -110,7 +110,7 @@ class CommentHeartServiceTest {
         /* 하트가 눌러진 댓글에 좋아요 감소 요청을 중복으로 보낼 때, 에러 발생 */
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 1L;
+        Long recipeId = 20L;
         Long commentId = writeCommentUseCase.write(recipeId, memberId, "댓글");
         // when & then
         assertThrows(BusinessException.class, () -> {

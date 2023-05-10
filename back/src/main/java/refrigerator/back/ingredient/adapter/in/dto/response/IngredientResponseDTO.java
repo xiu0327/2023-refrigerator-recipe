@@ -1,4 +1,5 @@
-package refrigerator.back.ingredient.adapter.in.dto;
+package refrigerator.back.ingredient.adapter.in.dto.response;
+
 
 import lombok.*;
 
@@ -7,10 +8,11 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientRegisteredResponseDTO {
+@ToString
+public class IngredientResponseDTO {
 
     private Long ingredientID;
     private String name;
-    private String unit;
+    private Long remainDays;
     private String image;
 }

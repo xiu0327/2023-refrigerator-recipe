@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.RecipeIngredientVolumeDTO;
+import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.port.in.DeductionIngredientVolumeUseCase;
 import refrigerator.back.ingredient.application.port.out.FindPersistenceIngredientListPort;
