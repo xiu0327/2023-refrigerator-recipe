@@ -142,6 +142,18 @@ class IngredientLookUpControllerTest {
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
+
+    @Test
+    void 식재료_단건_조회_실패() throws Exception {
+
+        String email = testData.createMemberByEmail("email123@gmail.com");
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
+
+        mockMvc.perform(get("/api/ingredients/51651656165")
+                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+        ).andExpect(status().is4xxClientError()
+        ).andDo(print());
+    }
     
     @Test
     void 임박_식재료_목록_조회() throws Exception {

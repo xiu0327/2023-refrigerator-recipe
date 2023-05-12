@@ -120,6 +120,20 @@ public class TestData {
         return entity.getId();
     }
 
+    public Long createIngredientDetail(String ingredientName, Integer days, String memberId) {
+        Ingredient entity = Ingredient.create(
+                ingredientName,
+                LocalDate.now().minusDays(days),
+                70.0,
+                "g",
+                IngredientStorageType.FRIDGE,
+                1,
+                memberId
+        );
+        em.persist(entity);
+        return entity.getId();
+    }
+
     public Comment createComment(String memberId){
         Comment comment = Comment.write(1L, memberId, "내용");
         em.persist(comment);

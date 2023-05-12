@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.port.in.DeductionIngredientVolumeUseCase;
@@ -14,6 +15,8 @@ import refrigerator.back.ingredient.application.port.out.FindPersistenceIngredie
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -40,7 +43,7 @@ class IngredientDeductionServiceTest {
         // then
         List<Ingredient> result = findPersistenceIngredientListPort.getIngredients(memberId);
         for (Ingredient ingredient : result) {
-            Assertions.assertThat(ingredient.getCapacity()).isEqualTo(originalVolume - volume);
+            assertThat(ingredient.getCapacity()).isEqualTo(originalVolume - volume);
         }
     }
 
@@ -60,8 +63,23 @@ class IngredientDeductionServiceTest {
         // then
         List<Ingredient> result = findPersistenceIngredientListPort.getIngredients(memberId);
         for (Ingredient ingredient : result) {
-            Assertions.assertThat(ingredient.getCapacity()).isEqualTo(0);
+            assertThat(ingredient.getCapacity()).isEqualTo(0);
         }
+    }
+
+    @Test
+    @DisplayName("식재료 차감 실패 -> 유통기한 지난 식재료")
+    void deduction_case3() {
+        String memberId = testData.createMemberByEmail("email@gmail.com");
+
+        List<RecipeIngredientVolumeDTO> ingredients = new ArrayList<>();
+
+        double volume = 60.0;
+        ingredients.add(createRecipeIngredient("안심", volume, "g"));
+        testData.createIngredientDetail("안심", 5,  memberId);
+
+        assertThatThrownBy(() -> deductionIngredientVolumeUseCase.deduction(memberId, ingredients))
+                .isInstanceOf(BusinessException.class);
     }
 
     private RecipeIngredientVolumeDTO createRecipeIngredient(String name, double volume, String unit) {
