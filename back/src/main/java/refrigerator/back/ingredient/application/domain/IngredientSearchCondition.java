@@ -14,27 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class IngredientSearchCondition {
 
-    String storage;
-    boolean deadline;
+    IngredientStorageType storage;
+    Boolean deadline;
     String email;
-
-    public static IngredientSearchCondition check(IngredientSearchCondition condition) {
-        List<String> method = new ArrayList<>(Arrays.asList("냉장", "냉동", "실온", "조미료"));
-
-        String storageMethod = condition.getStorage();
-
-        boolean check = false;
-
-        for (String s : method) {
-            if(storageMethod.equals(s)){
-                check = true;
-            }
-        }
-
-        if(check == false)
-            throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
-
-        return condition;
-
-    }
 }

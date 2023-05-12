@@ -3,15 +3,14 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.application.port.in.ModifyIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
 import refrigerator.back.ingredient.application.port.out.WriteIngredientPort;
-import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,7 +25,7 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
 
     @Override
     public Long registerIngredient(String name, LocalDate expirationDate, Double capacity,
-                                   String capacityUnit, String storageMethod, Integer image, String email) {
+                                   String capacityUnit, IngredientStorageType storageMethod, Integer image, String email) {
 
         return writeIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, capacity,
                                     capacityUnit, storageMethod, image, email));
@@ -44,7 +43,7 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     }
 
     @Override
-    public void modifyIngredient(Long id, LocalDate expirationDate, Double capacity, String storageMethod) {
+    public void modifyIngredient(Long id, LocalDate expirationDate, Double capacity, IngredientStorageType storageMethod) {
         Ingredient ingredient = readIngredientPort.getIngredient(id);
         ingredient.modify(expirationDate, capacity, storageMethod);
         writeIngredientPort.saveIngredient(ingredient);
