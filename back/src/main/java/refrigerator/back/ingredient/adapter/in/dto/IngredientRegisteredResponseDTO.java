@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class IngredientRegisteredResponseDTO {
 
-    private Long id;
+    private Long ingredientID;
     private String name;
     private String unit;
     private String image;

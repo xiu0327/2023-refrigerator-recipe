@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 public class IngredientResponseDTO {
 
-    private Long id;
+    private Long ingredientID;
     private String name;        // 식재료명
     private Long remainDays;    // 남은일수
     private Integer image;       // 이미지

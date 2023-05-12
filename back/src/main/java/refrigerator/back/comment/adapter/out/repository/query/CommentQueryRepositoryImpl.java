@@ -34,7 +34,8 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
                         commentHeart.count,
                         comment.createDate,
                         comment.modifiedState,
-                        comment.content))
+                        comment.content,
+                        member.email))
                 .from(comment)
                 .leftJoin(member).on(member.email.eq(comment.memberID))
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentID))
@@ -61,7 +62,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
     }
 
     @Override
-    public List<OutCommentDTO> findCommentList(Long recipeId, Pageable page, CommentSortCondition sortCondition) {
+    public List<OutCommentDTO> findCommentList(Long recipeId, String memberId, Pageable page, CommentSortCondition sortCondition) {
         return jpaQueryFactory
                 .select(new QOutCommentDTO(
                         comment.commentID,
@@ -69,14 +70,34 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
                         commentHeart.count,
                         comment.createDate,
                         comment.modifiedState,
-                        comment.content))
+                        comment.content,
+                        member.email))
                 .from(comment)
                 .leftJoin(member).on(member.email.eq(comment.memberID))
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentID))
                 .offset(page.getOffset())
                 .limit(page.getPageSize())
-                .where(recipeIdEq(recipeId), notDeleted())
+                .where(recipeIdEq(recipeId), notDeleted(), member.email.ne(memberId))
                 .orderBy(conditionEq(sortCondition))
+                .fetch();
+    }
+
+    @Override
+    public List<OutCommentDTO> findMyCommentList(String memberId) {
+        return jpaQueryFactory
+                .select(new QOutCommentDTO(
+                        comment.commentID,
+                        member.nickname,
+                        commentHeart.count,
+                        comment.createDate,
+                        comment.modifiedState,
+                        comment.content,
+                        member.email))
+                .from(comment)
+                .leftJoin(member).on(member.email.eq(comment.memberID))
+                .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentID))
+                .where(member.email.eq(memberId))
+                .orderBy(comment.createDate.desc())
                 .fetch();
     }
 

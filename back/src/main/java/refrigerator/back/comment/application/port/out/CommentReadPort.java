@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CommentReadPort {
     CommentListDto findCommentPreviewList(Long recipeId, int size);
-    List<CommentDto> findCommentListByHeart(Long recipeId, int page, int size);
-    List<CommentDto> findCommentListByDate(Long recipeId, int page, int size);
+    List<CommentDto> findCommentListByHeart(Long recipeId, String memberId, int page, int size);
+    List<CommentDto> findCommentListByDate(Long recipeId, String memberId, int page, int size);
 }

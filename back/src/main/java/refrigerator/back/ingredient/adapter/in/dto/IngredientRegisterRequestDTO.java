@@ -1,7 +1,5 @@
 package refrigerator.back.ingredient.adapter.in.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,13 +20,13 @@ public class IngredientRegisterRequestDTO {
     private LocalDate expirationDate;       // 유통기한
 
     @NotEmpty
-    private Double capacity;               // 용량
+    private Double volume;               // 용량
 
     @NotEmpty
-    private String capacityUnit;            // 용량 단위
+    private String unit;            // 용량 단위
 
     @NotEmpty
-    private String storageMethod;           // 보관 방식
+    private String storage;           // 보관 방식
 
     @NotEmpty
     private Integer imageId;                // 사진 (수정 가능성)

@@ -15,8 +15,8 @@ public class IngredientUpdateRequestDTO {
     private LocalDate expirationDate;       // 유통기한
 
     @NotEmpty
-    private Double capacity;                // 용량
+    private Double volume;                // 용량
 
     @NotEmpty
-    private String storageMethod;           // 보관방법
+    private String storage;           // 보관방법
 }

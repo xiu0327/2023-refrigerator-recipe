@@ -11,4 +11,5 @@ public class InRecipeIngredientDTO {
     private String name;
     private String type;
     private String volume;
+    private Boolean isOwn;
 }

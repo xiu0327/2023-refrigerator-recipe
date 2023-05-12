@@ -63,7 +63,7 @@ public class MemberAccessController {
                 request.getPassword());
     }
 
-    @GetMapping("/api/members/email/duplicate")
+    @PostMapping("/api/members/email/duplicate")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void duplicateCheckEmail(@RequestBody @Valid MemberEmailParameterRequestDTO request, BindingResult result){
         check(result, MemberExceptionType.INCORRECT_EMAIL_FORMAT);

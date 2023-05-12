@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class InBookmarkPreviewDTO {
-    private Long bookmarkId;
+    private Long bookmarkID;
     private Long recipeId;
     private String recipeImage;
     private String recipeName;

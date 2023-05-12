@@ -33,33 +33,17 @@ public class RecipeService implements FindRecipeListUseCase, FindRecipeDetailUse
 
     @Override
     @Transactional
-    public InRecipeDetailDTO getRecipe(Long recipeID, boolean isViewed) {
+    public Recipe getRecipe(Long recipeID, boolean isViewed) {
         try{
             Recipe recipe = recipeReadPort.getRecipeDetails(recipeID);
             if (!isViewed){
                 addRecipeViewsPort.addViews(recipeID);
             }
-            return transRecipeDto(recipe);
+            return recipe;
         }catch (RuntimeException e){
             log.info(e.getMessage());
             throw new BusinessException(RecipeExceptionType.NOT_FOUND_RECIPE);
         }
-    }
-
-    private InRecipeDetailDTO transRecipeDto(Recipe recipe) {
-        InRecipeDetailDTO dto = mapper.toInRecipeDetailsDto(
-                recipe,
-                recipe.getDetails(),
-                recipe.getDetails().getScore().calculateScore());
-        dto.setIngredients(recipe.getIngredients()
-                .stream().map(mapper::toInRecipeIngredientDto)
-                .collect(Collectors.toSet()));
-        dto.settingFormat(
-                recipeFormatService.changeServingsFormat(recipe.getServings()),
-                recipeFormatService.changeKcalFormat(recipe.getKcal()),
-                recipeFormatService.changeCookingTimeFormat(recipe.getCookingTime())
-        );
-        return dto;
     }
 
     @Override

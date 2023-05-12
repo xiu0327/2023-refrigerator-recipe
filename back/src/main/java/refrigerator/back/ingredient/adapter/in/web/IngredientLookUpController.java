@@ -23,8 +23,7 @@ public class IngredientLookUpController {
     private final IngredientMapper mapper;
 
     @GetMapping("/api/ingredients")
-    public IngredientListResponseDTO<IngredientResponseDTO> findIngredientList( //@RequestBody IngredientLookUpRequestDTO requestDTO,
-                                                                               @RequestParam(value = "storage", defaultValue = "냉장") String storage,
+    public IngredientListResponseDTO<IngredientResponseDTO> findIngredientList(@RequestParam(value = "storage", defaultValue = "냉장") String storage,
                                                                                @RequestParam(value = "deadline", defaultValue = "false") boolean deadline,
                                                                                @RequestParam(value = "page") int page,
                                                                                @RequestParam(value = "size", defaultValue = "12") int size) {

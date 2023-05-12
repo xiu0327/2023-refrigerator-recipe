@@ -2,11 +2,8 @@ package refrigerator.back.recipe.adapter.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientVolumeDTO;
+import refrigerator.back.recipe.adapter.out.dto.*;
 import refrigerator.back.recipe.adapter.in.dto.*;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeDTO;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeDetailDTO;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendDTO;
 import refrigerator.back.recipe.application.domain.entity.*;
 
 @Mapper(componentModel = "spring")
