@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
-import refrigerator.back.ingredient.application.domain.IngredientImageType;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;

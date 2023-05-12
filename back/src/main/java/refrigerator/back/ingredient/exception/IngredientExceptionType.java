@@ -15,7 +15,8 @@ public enum IngredientExceptionType implements BasicExceptionType {
     NOT_FOUND_REGISTERED_INGREDIENT("NOT_FOUND_REGISTERED_INGREDIENT", "등록되어 있지 않은 식재료입니다.", HttpStatus.NOT_FOUND),
     NOT_VALID_REQUEST_BODY("NOT_VALID_REQUEST_BODY", "요청하신 데이터가 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
     EXCEEDED_CAPACITY_RANGE("EXCEEDED_CAPACITY_RANGE", "용량 범위를 초과하였습니다.", HttpStatus.BAD_REQUEST),
-    TEST_ERROR("TEST_ERROR", "테스트 오류", HttpStatus.BAD_REQUEST);
+    TEST_ERROR("TEST_ERROR", "테스트 오류", HttpStatus.BAD_REQUEST),
+    EXCEEDED_EXPIRATION_DATE("EXCEEDED_EXPIRATION_DATE", "식재료의 유통기한이 초과되었습니다.", HttpStatus.BAD_REQUEST);
 
     private String errorCode;
     private String message;
