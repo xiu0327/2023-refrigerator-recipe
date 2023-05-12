@@ -1,5 +1,5 @@
 package refrigerator.back.comment.application.port.out;
 
-public interface CommentHeartDeletePort {
+public interface DeleteCommentHeartPort {
     void delete(Long commentId);
 }

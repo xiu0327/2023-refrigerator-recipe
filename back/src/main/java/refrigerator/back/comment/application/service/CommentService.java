@@ -8,9 +8,9 @@ import refrigerator.back.comment.application.domain.CommentHeart;
 import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCase;
 import refrigerator.back.comment.application.port.in.comment.EditCommentUseCase;
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
-import refrigerator.back.comment.application.port.out.CommentFindOnePort;
-import refrigerator.back.comment.application.port.out.CommentHeartCreatePort;
-import refrigerator.back.comment.application.port.out.CommentHeartDeletePort;
+import refrigerator.back.comment.application.port.out.FindOneCommentPort;
+import refrigerator.back.comment.application.port.out.CreateCommentHeartPort;
+import refrigerator.back.comment.application.port.out.DeleteCommentHeartPort;
 import refrigerator.back.comment.application.port.out.CommentWritePort;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.exception.BusinessException;
@@ -20,10 +20,10 @@ import refrigerator.back.global.exception.BusinessException;
 @Transactional
 public class CommentService implements WriteCommentUseCase, DeleteCommentUseCase, EditCommentUseCase {
 
-    private final CommentFindOnePort commentFindOnePort;
+    private final FindOneCommentPort commentFindOnePort;
     private final CommentWritePort commentWritePort;
-    private final CommentHeartCreatePort commentHeartCreatePort;
-    private final CommentHeartDeletePort commentHeartDeletePort;
+    private final CreateCommentHeartPort commentHeartCreatePort;
+    private final DeleteCommentHeartPort commentHeartDeletePort;
 
     @Override
     public Long write(Long recipeId, String memberId, String content) {

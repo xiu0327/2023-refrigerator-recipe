@@ -16,14 +16,16 @@ public class OutCommentDTO {
     private LocalDateTime createDate;
     private Boolean modifiedState;
     private String content;
+    private String memberId;
 
     @QueryProjection
-    public OutCommentDTO(Long commentId, String nickname, Integer heart, LocalDateTime createDate, Boolean modifiedState, String content) {
+    public OutCommentDTO(Long commentId, String nickname, Integer heart, LocalDateTime createDate, Boolean modifiedState, String content, String memberId) {
         this.commentId = commentId;
         this.nickname = nickname;
         this.heart = heart;
         this.createDate = createDate;
         this.modifiedState = modifiedState;
         this.content = content;
+        this.memberId = memberId;
     }
 }

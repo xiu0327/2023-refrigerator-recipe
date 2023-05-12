@@ -15,7 +15,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipeIngredie
 
 @Repository
 @RequiredArgsConstructor
-public class RecipeIngredientAdapter implements FindRecipeIngredientVolumePort {
+public class RecipeIngredientVolumeAdapter implements FindRecipeIngredientVolumePort {
 
     private final JPAQueryFactory jpaQueryFactory;
     private final RecipeDtoMapper mapper;

@@ -15,4 +15,5 @@ public class InCommentDTO {
     private String date;
     private Boolean modifiedState;
     private String content;
+    private Boolean isMyComment;
 }

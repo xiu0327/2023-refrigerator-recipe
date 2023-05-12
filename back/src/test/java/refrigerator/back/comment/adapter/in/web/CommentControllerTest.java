@@ -191,4 +191,5 @@ class CommentControllerTest {
         CommentHeart findHeart = em.find(CommentHeart.class, commentId);
         Assertions.assertThat(findHeart.getCount()).isEqualTo(0);
     }
+
 }

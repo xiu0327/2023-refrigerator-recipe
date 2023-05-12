@@ -14,4 +14,5 @@ public class CommentDto {
     private LocalDateTime createDate;
     private Boolean modifiedState;
     private String content;
+    private String memberId;
 }

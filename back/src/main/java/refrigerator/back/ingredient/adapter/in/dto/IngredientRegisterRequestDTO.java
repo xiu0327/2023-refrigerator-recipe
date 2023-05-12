@@ -1,7 +1,5 @@
 package refrigerator.back.ingredient.adapter.in.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

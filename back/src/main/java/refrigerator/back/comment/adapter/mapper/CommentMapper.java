@@ -15,6 +15,6 @@ public interface CommentMapper {
     CommentDto toCommentDto(OutCommentDTO dto);
 
     @Mapping(source = "dto.commentId", target = "commentID")
-    InCommentDTO toInCommentDto(CommentDto dto, String date);
+    InCommentDTO toInCommentDto(CommentDto dto, String date, Boolean isMyComment);
 
 }

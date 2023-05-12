@@ -5,7 +5,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.ingredient.adapter.in.dto.*;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
@@ -31,5 +30,4 @@ public interface IngredientMapper {
 
     IngredientSearchCondition toIngredientSearchCondition(String storage, boolean deadline, String email);
 
-    RecipeIngredientVolumeDTO toIngredientVolumeByRecipe(OutRecipeIngredientVolumeDTO dto);
 }
