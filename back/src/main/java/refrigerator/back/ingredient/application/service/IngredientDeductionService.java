@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.RecipeIngredientVolumeDTO;
+import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.port.in.DeductionIngredientVolumeUseCase;
 import refrigerator.back.ingredient.application.port.out.FindPersistenceIngredientListPort;
@@ -28,16 +28,30 @@ public class IngredientDeductionService implements DeductionIngredientVolumeUseC
     public void deduction(String memberId, List<RecipeIngredientVolumeDTO> ingredients) {
         List<Ingredient> ingredientList = isNotEmptyIngredients(memberId);
         Map<String, Double> ingredientsMap = toIngredientsMap(ingredients);
-        for (Ingredient ingredient : extractNotExpired(ingredientList)) {
-            ingredient.deductionVolume(ingredientsMap.get(ingredient.getName()));
+        for (Ingredient ingredient : extractNotExpired(ingredientList, ingredientsMap)) {
+            Double volume = ingredientsMap.get(ingredient.getName());
+            if(volume != null) {
+                ingredient.deductionVolume(volume);
+            }
         }
     }
 
-    private List<Ingredient> extractNotExpired(List<Ingredient> ingredientList) {
+    private List<Ingredient> extractNotExpired(List<Ingredient> ingredientList, Map<String, Double> ingredientsMap) {
         LocalDate now = LocalDate.now();
-        return ingredientList.stream()
-                        .filter(i -> calculationDDay(now, i.getExpirationDate()))
-                        .collect(Collectors.toList());
+
+        List<Ingredient> ingredients = ingredientList.stream()
+                .filter(i -> calculationDDay(now, i.getExpirationDate()))
+                .collect(Collectors.toList());
+
+        List<String> ingredientsName = ingredients.stream().map(Ingredient::getName)
+                .collect(Collectors.toList());
+
+        for (String key : ingredientsMap.keySet()) {
+            if(!ingredientsName.contains(key))
+                throw new BusinessException(IngredientExceptionType.EXCEEDED_EXPIRATION_DATE);
+        }
+
+        return ingredients;
     }
 
     private List<Ingredient> isNotEmptyIngredients(String memberId) {

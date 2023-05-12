@@ -1,10 +1,10 @@
 package refrigerator.back.ingredient.application.port.out;
 
-import refrigerator.back.ingredient.adapter.in.dto.IngredientDetailResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisteredResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.IngredientResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
+import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
+import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,4 +20,7 @@ public interface ReadIngredientPort {
     List<IngredientResponseDTO> getIngredientListOfAll(String email);
 
     List<IngredientResponseDTO> getIngredientListByDeadline(LocalDate date, String email);
+
+    // 테스트용
+    Ingredient getIngredientById(Long id);
 }

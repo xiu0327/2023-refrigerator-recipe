@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
+import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.port.in.MatchIngredientByRecipeUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredient;
@@ -37,7 +38,7 @@ class IngredientMatchingByRecipeServiceTest {
                 LocalDate.of(2023, 12, 31),
                 60.0,
                 "g",
-                "냉동",
+                IngredientStorageType.FREEZER,
                 2,
                 memberId);
         Optional<Long> result = Optional.ofNullable(matchIngredientByRecipeUseCase.getData(memberId, recipeId).get(0));

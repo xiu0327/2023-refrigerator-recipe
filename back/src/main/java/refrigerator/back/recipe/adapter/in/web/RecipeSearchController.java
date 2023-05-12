@@ -28,14 +28,27 @@ public class RecipeSearchController {
     private final RecipeDtoMapper mapper;
 
     @GetMapping("/api/recipe/search")
-    public InRecipeBasicListDTO<InRecipeDTO> search(@RequestBody InRecipeSearchRequestDTO condition,
-                                @RequestParam("page") int page,
-                                @RequestParam(value = "size", defaultValue = "11") int size){
-        if (condition.getSearchWord() != null && StringUtils.hasText(condition.getSearchWord())){
-            addSearchWordUseCase.addSearchWord(MemberInformation.getMemberEmail(), condition.getSearchWord());
+    public InRecipeBasicListDTO<InRecipeDTO> search(
+                    @RequestParam(value = "searchWord", defaultValue = "") String searchWord,
+                    @RequestParam(value = "recipeType", defaultValue = "") String recipeType,
+                    @RequestParam(value = "recipeFoodType", defaultValue = "") String recipeFoodType,
+                    @RequestParam(value = "category", defaultValue = "") String category,
+                    @RequestParam(value = "difficulty", defaultValue = "") String difficulty,
+                    @RequestParam(value = "score", defaultValue = "0.0") Double score,
+                    @RequestParam(value = "page", defaultValue = "0") int page,
+                    @RequestParam(value = "size", defaultValue = "11") int size){
+        if (StringUtils.hasText(searchWord)){
+            addSearchWordUseCase.addSearchWord(MemberInformation.getMemberEmail(), searchWord);
         }
         return searchRecipeUseCase.search(
-                mapper.toRecipeSearchCondition(condition),
+                mapper.toRecipeSearchCondition(InRecipeSearchRequestDTO.builder()
+                        .searchWord(searchWord)
+                        .recipeType(recipeType)
+                        .recipeFoodType(recipeFoodType)
+                        .category(category)
+                        .difficulty(difficulty)
+                        .score(score)
+                        .build()),
                 page, size);
     }
 

@@ -44,7 +44,7 @@ class RecipeServiceTest {
         Long recipeId = 1L;
         int before = em.find(RecipeViews.class, recipeId).getViews();
         // when
-        Recipe recipe = recipeService.getRecipe(recipeId, false);
+        Recipe recipe = recipeService.getRecipe(recipeId, true);
         // then
         int after = em.find(RecipeViews.class, recipeId).getViews();
         assertThat(recipe.getIngredients()).isNotEmpty();
