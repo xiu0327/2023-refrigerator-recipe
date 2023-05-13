@@ -8,7 +8,7 @@ import refrigerator.back.ingredient.application.port.in.MakeImageUrlUseCase;
 public class IngredientImageService implements MakeImageUrlUseCase {
     @Value("${s3.image.route}")
     private String route;
-    @Value("${s3.image.profile.path}")
+    @Value("${s3.image.ingredient.path}")
     private String path;
 
     @Override
