@@ -56,8 +56,8 @@ public class CommentLookUpAdapter implements CommentReadPort, FindOneCommentPort
 
 
     @Override
-    public List<CommentDto> findMyComments(String memberId) {
-        List<OutCommentDTO> result = repository.findMyCommentList(memberId);
+    public List<CommentDto> findMyComments(String memberId, Long recipeId) {
+        List<OutCommentDTO> result = repository.findMyCommentList(memberId, recipeId);
         return mapping(result);
     }
 

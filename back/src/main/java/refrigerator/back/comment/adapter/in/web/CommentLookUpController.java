@@ -2,6 +2,7 @@ package refrigerator.back.comment.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.comment.adapter.in.dto.response.InCommentListDTO;
@@ -47,10 +48,10 @@ public class CommentLookUpController {
         return findCommentPreviewListUseCase.findCommentPreviews(recipeId, getMemberEmail(), size);
     }
 
-    @GetMapping("/api/comments/my")
-    public InCommentListDTO findMyComments(){
+    @GetMapping("/api/comments/my/{recipeId}")
+    public InCommentListDTO findMyComments(@PathVariable("recipeId") Long recipeId){
         return InCommentListDTO.builder()
-                .comments(findMyCommentsUseCase.findMyComments(getMemberEmail()))
+                .comments(findMyCommentsUseCase.findMyComments(getMemberEmail(), recipeId))
                 .build();
     }
 }

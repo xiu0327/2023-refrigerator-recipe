@@ -83,7 +83,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
     }
 
     @Override
-    public List<OutCommentDTO> findMyCommentList(String memberId) {
+    public List<OutCommentDTO> findMyCommentList(String memberId, Long recipeId) {
         return jpaQueryFactory
                 .select(new QOutCommentDTO(
                         comment.commentID,
@@ -96,7 +96,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository{
                 .from(comment)
                 .leftJoin(member).on(member.email.eq(comment.memberID))
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentID))
-                .where(member.email.eq(memberId))
+                .where(member.email.eq(memberId), comment.recipeID.eq(recipeId))
                 .orderBy(comment.createDate.desc())
                 .fetch();
     }

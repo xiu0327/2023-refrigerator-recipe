@@ -54,7 +54,7 @@ class CommentLookUpAdapterTest {
         Long recipeId = 10L;
         commentUseCase.write(recipeId, memberId1, "memberId1 : 정말 맛있어요 ~");
         commentUseCase.write(recipeId, memberId2, "memberId2 : 정말 맛있어요 ~");
-        List<CommentDto> result = commentLookUpAdapter.findMyComments(memberId1);
+        List<CommentDto> result = commentLookUpAdapter.findMyComments(memberId1, recipeId);
         assertThat(result.stream().anyMatch(commentDto -> commentDto.getMemberId().equals(memberId2))).isFalse();
     }
 }

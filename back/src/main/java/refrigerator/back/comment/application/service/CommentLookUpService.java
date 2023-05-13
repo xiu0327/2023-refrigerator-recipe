@@ -65,8 +65,8 @@ public class CommentLookUpService implements FindCommentListUseCase, FindComment
     }
 
     @Override
-    public List<InCommentDTO> findMyComments(String memberId) {
-        List<CommentDto> comments = findMyCommentListPort.findMyComments(memberId);
+    public List<InCommentDTO> findMyComments(String memberId, Long recipeId) {
+        List<CommentDto> comments = findMyCommentListPort.findMyComments(memberId, recipeId);
         return comments.stream()
                 .map(commentDto -> mapping(commentDto, checkMyComment(commentDto.getMemberId(), memberId)))
                 .collect(Collectors.toList());
