@@ -1,6 +1,7 @@
 package refrigerator.back.mybookmark.application.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -192,6 +193,20 @@ class MyBookmarkServiceTest {
             }
         });
         // then
+        MyBookmark deletedBookmark = em.find(MyBookmark.class, bookmarkId);
+        int afterCount = em.find(RecipeBookmark.class, deletedBookmark.getRecipeId()).getCount();
+        assertThat(deletedBookmark.isDeleted()).isTrue();
+        /* 북마크를 삭제하면, 레시피의 북마크 개수가 1 감소 */
+        assertThat(afterCount).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("recipeId 와 memberId 로 북마크 삭제")
+    void removeByRecipeIdAndMemberId(){
+        String memberId = testData.createMemberByEmail("email123@gmail.com");
+        Long recipeId = 7L;
+        Long bookmarkId = service.add(memberId, recipeId);
+        service.removeByRecipeId(recipeId, memberId);
         MyBookmark deletedBookmark = em.find(MyBookmark.class, bookmarkId);
         int afterCount = em.find(RecipeBookmark.class, deletedBookmark.getRecipeId()).getCount();
         assertThat(deletedBookmark.isDeleted()).isTrue();
