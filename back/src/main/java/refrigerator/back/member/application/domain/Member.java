@@ -66,7 +66,7 @@ public class Member extends BaseTimeEntity {
     }
 
     public void withdraw(){
-        this.memberStatus = MemberStatus.LEAVE_STATUS;
+        memberStatus = MemberStatus.LEAVE_STATUS;
     }
 
     public void changeMemberStatus(MemberStatus status){

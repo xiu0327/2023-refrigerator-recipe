@@ -34,7 +34,6 @@ public class MemberAccessController {
     @Value("${jwt.type}")
     private String grantType;
 
-
     @PostMapping("/api/members/join")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberJoinResponseDTO joinMember(@RequestBody @Valid MemberJoinRequestDTO request, BindingResult result){
@@ -43,7 +42,7 @@ public class MemberAccessController {
         Long memberID = joinUseCase.join(
                 request.getEmail(),
                 request.getPassword(),
-                request.getNickname());
+                "");
         return new MemberJoinResponseDTO(memberID);
     }
 

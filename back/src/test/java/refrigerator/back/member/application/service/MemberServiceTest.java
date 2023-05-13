@@ -11,6 +11,8 @@ import refrigerator.back.global.TestData;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberStatus;
+import refrigerator.back.member.application.port.in.JoinUseCase;
+import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberServiceTest {
 
     @Autowired MemberService memberService;
+    @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired EncryptPasswordPort encryptPasswordPort;
     @Autowired TestData testData;
 
@@ -48,8 +51,24 @@ class MemberServiceTest {
     void withdrawMember() {
         String password = "password123!";
         String email = testData.createMemberByEmailAndPassword("email@gmail.com", encryptPasswordPort.encrypt(password));
-        memberService.withdrawMember(email, password);
+        withdrawMemberUseCase.withdrawMember(email);
         Assertions.assertThat(testData.findMemberByEmail(email).getMemberStatus()).isEqualTo(MemberStatus.LEAVE_STATUS);
     }
+
+    @Test
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인일 때")
+    void firstLoginMember(){
+        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
+    }
+
+    @Test
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인이 아닐 때")
+    void noFirstLoginMember(){
+        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        memberService.updateNickname(memberId, "임시닉네임임");
+        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isFalse();
+    }
+
 
 }
