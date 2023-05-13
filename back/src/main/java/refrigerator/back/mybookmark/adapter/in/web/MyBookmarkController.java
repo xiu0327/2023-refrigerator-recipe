@@ -24,9 +24,9 @@ public class MyBookmarkController {
     private final FindBookmarkListUseCase findBookmarkListUseCase;
     private final FindBookmarkPreviewUseCase findBookmarkPreviewUseCase;
 
-    @PostMapping("/api/my-bookmark/add")
+    @PostMapping("/api/my-bookmark/add/{recipeId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookmarkIdResponseDTO addBookmark(@RequestParam("recipeId") Long recipeId){
+    public BookmarkIdResponseDTO addBookmark(@PathVariable("recipeId") Long recipeId){
         Long bookmarkId = addBookmarkUseCase.add(getMemberEmail(), recipeId);
         return new BookmarkIdResponseDTO(bookmarkId);
     }

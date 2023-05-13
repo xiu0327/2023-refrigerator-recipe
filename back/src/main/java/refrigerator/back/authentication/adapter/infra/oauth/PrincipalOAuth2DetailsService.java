@@ -41,7 +41,7 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
                     .attributes(oAuth2User.getAttributes())
                     .authority(member.get().getMemberStatus().getStatusCode()).build();
         }
-        joinUseCase.join(email, oauthPassword, "임시닉네임");
+        joinUseCase.join(email, oauthPassword, "");
         return OauthUser.builder()
                 .username(email)
                 .password(oauthPassword)

@@ -96,7 +96,7 @@ class AuthenticationControllerTest {
         String password = "password123!";
         String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
         TokenDTO token = loginUseCase.login(email, password);
-        withdrawMemberUseCase.withdrawMember(email, password);
+        withdrawMemberUseCase.withdrawMember(email);
         em.flush();
         em.clear();
         // when

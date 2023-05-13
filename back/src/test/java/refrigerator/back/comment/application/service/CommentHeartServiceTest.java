@@ -36,7 +36,7 @@ class CommentHeartServiceTest {
     void 하트수_증가_성공() {
         // given
         String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 20L;
+        Long recipeId = 21L;
         Long commentId = writeCommentUseCase.write(recipeId, memberId, "댓글");
         // when
         commentHeartService.addHeart(memberId, commentId);
