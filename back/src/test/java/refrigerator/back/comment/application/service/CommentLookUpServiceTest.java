@@ -112,7 +112,7 @@ class CommentLookUpServiceTest {
         Long recipeId = 10L;
         writeCommentUseCase.write(recipeId, memberId1, "memberId1 : 정말 맛있습니다!");
         writeCommentUseCase.write(recipeId, memberId2, "memberId2 : 정말 맛있습니다!");
-        List<InCommentDTO> result = commentLookUpService.findMyComments(memberId1);
+        List<InCommentDTO> result = commentLookUpService.findMyComments(memberId1, recipeId);
         assertThat(result.stream().anyMatch(inCommentDTO -> inCommentDTO.getIsMyComment() == Boolean.FALSE)).isFalse();
     }
 }
