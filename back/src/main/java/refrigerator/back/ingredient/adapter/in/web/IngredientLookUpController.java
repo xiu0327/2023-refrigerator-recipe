@@ -42,42 +42,46 @@ public class IngredientLookUpController {
                                                                                 @RequestParam(value = "page") int page,
                                                                                 @RequestParam(value = "size", defaultValue = "12") int size) {
 
-        return new IngredientListResponseDTO<>(getIngredientResponseDTOS(
-                findIngredientListUseCase.getIngredientList(mapper.toIngredientSearchCondition(
-                        IngredientStorageType.from(storage), deadline, getMemberEmail()), page, size))
-        );
+        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientList(
+                mapper.toIngredientSearchCondition(IngredientStorageType.from(storage), deadline, getMemberEmail()), page, size);
+
+        getIngredientResponseDTO(ingredients);
+
+        return new IngredientListResponseDTO<>(ingredients);
     }
 
     @GetMapping("/api/ingredients/search")
     public IngredientListResponseDTO<IngredientResponseDTO> searchIngredientList() {
 
-        return new IngredientListResponseDTO<>(getIngredientResponseDTOS(
-                findIngredientListUseCase.getIngredientListOfAll(getMemberEmail()))
-        );
+        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientListOfAll(getMemberEmail());
+
+        getIngredientResponseDTO(ingredients);
+
+        return new IngredientListResponseDTO<>(ingredients);
     }
 
     @GetMapping("/api/ingredients/{ingredientId}")
     public IngredientDetailResponseDTO findIngredient(@PathVariable("ingredientId") Long id) {
 
         IngredientDetailResponseDTO ingredient = findIngredientDetailUseCase.getIngredient(id);
+        ingredient.setImage(makeImageUrlUseCase.createURL(ingredient.getImage()));
 
-        return mapper.toIngredientDetailDto(ingredient, makeImageUrlUseCase.createURL(ingredient.getImage()));
+        return ingredient;
     }
 
     @GetMapping("/api/ingredients/deadline/{days}")
     public IngredientListResponseDTO<IngredientResponseDTO> findIngredientListByDeadline(@PathVariable("days") Long days) {
 
-        return new IngredientListResponseDTO<>(getIngredientResponseDTOS(
-                findIngredientListUseCase.getIngredientListByDeadline(days, getMemberEmail()))
-        );
+        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientListByDeadline(days, getMemberEmail());
+
+        getIngredientResponseDTO(ingredients);
+
+        return new IngredientListResponseDTO<>(ingredients);
     }
 
-    private List<IngredientResponseDTO> getIngredientResponseDTOS(List<IngredientResponseDTO> ingredientList) {
-        List<IngredientResponseDTO> newIngredientList = new ArrayList<>();
-        for (IngredientResponseDTO ingredientResponseDTO : ingredientList) {
-            newIngredientList.add(mapper.toIngredientDto(ingredientResponseDTO, makeImageUrlUseCase.createURL(ingredientResponseDTO.getImage())));
+    private void getIngredientResponseDTO(List<IngredientResponseDTO> ingredients) {
+        for (IngredientResponseDTO ingredient : ingredients) {
+            ingredient.setImage(makeImageUrlUseCase.createURL(ingredient.getImage()));
         }
-        return newIngredientList;
     }
-
 }
