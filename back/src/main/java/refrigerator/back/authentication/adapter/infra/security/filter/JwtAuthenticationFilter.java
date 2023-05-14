@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = resolveToken((HttpServletRequest) request);
         try{
-            if (checkContainBlackListPort.checkContainBlackList(token)){
+            if (token != null && checkContainBlackListPort.checkContainBlackList(token)){
                 throw new BusinessException(AuthenticationExceptionType.ALREADY_LOGOUT_MEMBER);
             }
             if (token != null && checkToken(token)){
