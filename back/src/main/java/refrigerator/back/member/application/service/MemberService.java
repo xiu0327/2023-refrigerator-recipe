@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
+import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
@@ -13,6 +14,8 @@ import refrigerator.back.member.application.port.in.*;
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.port.out.UpdateMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
+
+import static refrigerator.back.global.common.InputDataFormatCheck.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class MemberService implements
     @Override
     @Transactional
     public void updateNickname(String email, String newNickname) {
+        inputCheck(NICKNAME_REGEX, newNickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
         updateMemberPort.updateNickname(email, newNickname);
     }
 
@@ -45,8 +49,13 @@ public class MemberService implements
     }
 
     @Override
+    public Member pureFindMemberByEmail(String email) {
+        return findMemberPort.findMember(email);
+    }
+
+    @Override
     public Boolean checkFirstLogin(String memberId) {
         Member member = findMemberPort.findMember(memberId);
-        return !StringUtils.hasText(member.getNickname());
+        return !StringUtils.hasText(member.getNickname()) || member.getProfile() == MemberProfileImage.PROFILE_NOT_SELECT;
     }
 }

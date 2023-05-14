@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.global.common.MemberInformation;
@@ -69,17 +68,11 @@ public class RecipeSearchController {
     }
 
     @GetMapping("/api/recipe/search/condition/recipe-type")
-    @Cacheable(value = RecipeCacheKey.RECIPE_TYPE,
-            key="'condition_recipe_type'",
-            cacheManager = "recipeTypeCacheManager")
     public InRecipeBasicListDTO<String> getConditionByRecipeType(){
         return new InRecipeBasicListDTO<>(findSearchConditionUseCase.findRecipeTypeCond());
     }
 
     @GetMapping("/api/recipe/search/condition/difficulty")
-    @Cacheable(value = RecipeCacheKey.RECIPE_TYPE,
-            key="'condition_difficulty'",
-            cacheManager = "recipeDifficultyCacheManager")
     public InRecipeBasicListDTO<String> getConditionByRecipeDifficulty(){
         return new InRecipeBasicListDTO<>(findSearchConditionUseCase.findRecipeDifficultyCond());
     }

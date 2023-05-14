@@ -21,7 +21,7 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
 
     private final CreateTokenPort createTokenPort;
     private final AuthenticatePort authenticatePort;
-    private final FindEmailByToken findEmailByToken;
+    private final FindEmailByTokenPort findEmailByToken;
     private final FindRefreshTokenByEmailPort findRefreshTokenByEmailPort;
     private final FindMemberPort findMemberPort;
     private final ValidateTokenPort validateTokenPort;

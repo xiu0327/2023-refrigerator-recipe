@@ -63,11 +63,20 @@ class MemberServiceTest {
     }
 
     @Test
-    @DisplayName("최초 로그인인지 확인 -> 최초 로그인이 아닐 때")
-    void noFirstLoginMember(){
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인이 아닐 때 (닉네임/프로필 모두 설정되어 있음)")
+    void notFirstLoginMember(){
         String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
-        memberService.updateNickname(memberId, "임시닉네임임");
+        memberService.updateNickname(memberId, "닉네임뿅");
+        memberService.updateProfile(memberId, "IMG_9705.JPG");
         Assertions.assertThat(memberService.checkFirstLogin(memberId)).isFalse();
+    }
+
+    @Test
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인일 때 (닉네임 or 프로필만 설정되어 있음)")
+    void notFirstLoginMember2(){
+        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        memberService.updateProfile(memberId, "IMG_9705.JPG");
+        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
     }
 
 

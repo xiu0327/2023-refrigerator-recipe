@@ -13,6 +13,7 @@ import refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey;
 import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
 import refrigerator.back.authentication.adapter.infra.security.token.EmailAuthenticationToken;
+import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.authentication.exception.JwtExceptionType;
 import refrigerator.back.global.exception.BusinessException;
@@ -31,12 +32,16 @@ import static refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey
 public class JwtAuthenticationFilter extends GenericFilter {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
+    private final CheckContainBlackListPort checkContainBlackListPort;
     private final String tokenPassword;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String token = resolveToken((HttpServletRequest) request);
         try{
+            if (checkContainBlackListPort.checkContainBlackList(token)){
+                throw new BusinessException(AuthenticationExceptionType.ALREADY_LOGOUT_MEMBER);
+            }
             if (token != null && checkToken(token)){
                 Claims claims = jsonWebTokenProvider.parseClaims(token);
                 if (claims.get(AUTHORITIES_KEY) == null || !hasText(claims.get(AUTHORITIES_KEY).toString())){

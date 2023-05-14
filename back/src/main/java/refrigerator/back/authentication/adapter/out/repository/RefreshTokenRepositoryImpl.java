@@ -12,7 +12,7 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository{
     private final RedisTemplate<String, String> stringRedisTemplate;
 
     public RefreshTokenRepositoryImpl(
-            @Qualifier("redisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+            @Qualifier("tokenRedisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
@@ -26,5 +26,10 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository{
     public void setData(String key, String value, long duration) {
         stringRedisTemplate.opsForValue()
                 .set(key, value, Duration.ofMillis(duration));
+    }
+
+    @Override
+    public void removeData(String key){
+        stringRedisTemplate.opsForValue().set(key, "", Duration.ofMillis(1));
     }
 }

@@ -19,7 +19,7 @@ public class CommentHeartPeopleAdapter implements FindCommentHeartPeoplePort, Wr
     private final RedisTemplate<String, String> stringRedisTemplate;
 
     public CommentHeartPeopleAdapter(CommentRepository commentRepository,
-                                     @Qualifier("redisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+                                     @Qualifier("commentHeartPeopleRedisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
         this.commentRepository = commentRepository;
         this.stringRedisTemplate = stringRedisTemplate;
     }

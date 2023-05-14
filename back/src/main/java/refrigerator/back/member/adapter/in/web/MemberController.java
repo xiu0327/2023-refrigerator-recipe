@@ -15,7 +15,6 @@ import refrigerator.back.member.application.port.in.*;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 import static refrigerator.back.global.exception.ValidationExceptionHandler.*;

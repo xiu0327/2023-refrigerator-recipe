@@ -16,7 +16,7 @@ public class IdentificationAdapter implements IdentificationRedisPort {
     private final RedisTemplate<String, String> redisTemplate;
 
     public IdentificationAdapter(
-            @Qualifier("redisTemplate") RedisTemplate<String, String> redisTemplate) {
+            @Qualifier("identificationRedisTemplate") RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
