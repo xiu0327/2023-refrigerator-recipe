@@ -3,31 +3,33 @@ package refrigerator.back.member.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
+import refrigerator.back.global.common.InputDataFormatCheck;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
-import refrigerator.back.member.application.port.in.FindMemberInfoUseCase;
-import refrigerator.back.member.application.port.in.UpdateNicknameUseCase;
-import refrigerator.back.member.application.port.in.UpdateProfileUseCase;
-import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
+import refrigerator.back.member.application.port.in.*;
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.port.out.UpdateMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
 
+import static refrigerator.back.global.common.InputDataFormatCheck.*;
+
 @Service
 @RequiredArgsConstructor
-public class MemberService implements UpdateNicknameUseCase, UpdateProfileUseCase,
-        WithdrawMemberUseCase, FindMemberInfoUseCase {
+public class MemberService implements
+        UpdateNicknameUseCase, UpdateProfileUseCase, FindMemberInfoUseCase,
+        CheckFirstLoginUseCase {
 
     private final UpdateMemberPort updateMemberPort;
     private final FindMemberPort findMemberPort;
-    private final EncryptPasswordPort encryptPasswordPort;
 
     @Override
     @Transactional
     public void updateNickname(String email, String newNickname) {
+        inputCheck(NICKNAME_REGEX, newNickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
         updateMemberPort.updateNickname(email, newNickname);
     }
 
@@ -38,22 +40,22 @@ public class MemberService implements UpdateNicknameUseCase, UpdateProfileUseCas
     }
 
     @Override
-    @Transactional
-    public void withdrawMember(String email, String password) {
-        Member member = findMemberPort.findMember(email);
-        if (!encryptPasswordPort.match(password, member.getPassword())){
-            throw new BusinessException(AuthenticationExceptionType.NOT_EQUAL_PASSWORD);
-        }
-        member.withdraw();
-        updateMemberPort.update(member);
-    }
-
-    @Override
     public Member findMember(String email) {
         Member member = findMemberPort.findMember(email);
         if (member == null){
             throw new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER);
         }
         return member;
+    }
+
+    @Override
+    public Member pureFindMemberByEmail(String email) {
+        return findMemberPort.findMember(email);
+    }
+
+    @Override
+    public Boolean checkFirstLogin(String memberId) {
+        Member member = findMemberPort.findMember(memberId);
+        return !StringUtils.hasText(member.getNickname()) || member.getProfile() == MemberProfileImage.PROFILE_NOT_SELECT;
     }
 }

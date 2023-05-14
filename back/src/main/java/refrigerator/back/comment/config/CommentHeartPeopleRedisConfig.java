@@ -1,34 +1,30 @@
-package refrigerator.back.global.config;
-
+package refrigerator.back.comment.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
-@EnableCaching
-public class SearchWordRedisConfig {
+public class CommentHeartPeopleRedisConfig {
 
-    @Value("${spring.redis.search.host}")
+    @Value("${spring.redis.comment.host}")
     private String host;
 
-    @Value("${spring.redis.search.port}")
+    @Value("${spring.redis.comment.port}")
     private int port;
 
     @Bean
-    public RedisTemplate<String, String> searchWordRedisTemplate(){
+    public RedisTemplate<String, String> commentHeartPeopleRedisTemplate(){
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(searchWordConnectionFactory());
+        redisTemplate.setConnectionFactory(commentHeartPeopleRedisFactory());
         return redisTemplate;
     }
 
     @Bean
-    public RedisConnectionFactory searchWordConnectionFactory(){
+    public RedisConnectionFactory commentHeartPeopleRedisFactory(){
         return new LettuceConnectionFactory(host, port);
     }
 

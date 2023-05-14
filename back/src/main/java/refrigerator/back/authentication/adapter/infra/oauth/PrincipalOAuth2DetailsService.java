@@ -9,9 +9,9 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
-import refrigerator.back.member.adapter.out.repository.MemberRepository;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberStatus;
+import refrigerator.back.member.application.port.in.FindMemberInfoUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
 
 import java.util.Map;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Slf4j
 public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
 
-    private final MemberRepository memberRepository;
+    private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final JoinUseCase joinUseCase;
 
     @Value("${oauth.password}")
@@ -33,7 +33,7 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String providerId = userRequest.getClientRegistration().getRegistrationId();
         String email = getEmail(providerId, oAuth2User);
-        Optional<Member> member = memberRepository.findByEmail(email);
+        Optional<Member> member = Optional.ofNullable(findMemberInfoUseCase.pureFindMemberByEmail(email));
         if (member.isPresent()){
             return OauthUser.builder()
                     .username(email)
@@ -41,7 +41,7 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
                     .attributes(oAuth2User.getAttributes())
                     .authority(member.get().getMemberStatus().getStatusCode()).build();
         }
-        joinUseCase.join(email, oauthPassword, "임시닉네임");
+        joinUseCase.join(email, oauthPassword, "");
         return OauthUser.builder()
                 .username(email)
                 .password(oauthPassword)

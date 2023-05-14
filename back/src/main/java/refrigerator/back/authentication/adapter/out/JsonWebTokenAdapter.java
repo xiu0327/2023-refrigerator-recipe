@@ -6,19 +6,18 @@ import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
 import refrigerator.back.authentication.application.domain.TokenInfoDTO;
-import refrigerator.back.authentication.application.port.out.FindEmailByToken;
-import refrigerator.back.authentication.application.port.out.FindRefreshTokenByEmailPort;
+import refrigerator.back.authentication.application.port.out.*;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
-import refrigerator.back.authentication.application.port.out.CreateTokenPort;
-import refrigerator.back.authentication.application.port.out.ValidateTokenPort;
+
+import java.util.Date;
 
 import static refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey.*;
 import static refrigerator.back.authentication.adapter.infra.jwt.TokenStatus.*;
 
 @Component
 @RequiredArgsConstructor
-public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByToken,
-        FindRefreshTokenByEmailPort, ValidateTokenPort {
+public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPort,
+        FindRefreshTokenByEmailPort, ValidateTokenPort, FindDurationByTokenPort {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -77,5 +76,10 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByToken,
     public boolean isExpired(String token) {
         TokenStatus tokenStatus = jsonWebTokenProvider.validateToken(token);
         return tokenStatus == EXPIRED;
+    }
+
+    @Override
+    public Date findDuration(String token) {
+        return jsonWebTokenProvider.parseClaims(token).getExpiration();
     }
 }

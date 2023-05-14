@@ -7,6 +7,7 @@ import refrigerator.back.global.exception.BusinessException;
 import static java.util.regex.Pattern.matches;
 
 public class InputDataFormatCheck {
+
     @JsonIgnore
     public static final String NICKNAME_REGEX = "^[가-힣]{3,10}|[a-zA-Z]+$";
 
@@ -16,7 +17,7 @@ public class InputDataFormatCheck {
     @JsonIgnore
     public static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{4,16}$";
 
-    protected void inputCheck(String nameRegex, String name, BasicExceptionType exceptionType) {
+    public static void inputCheck(String nameRegex, String name, BasicExceptionType exceptionType) {
         if(!matches(nameRegex, name))
             throw new BusinessException(exceptionType);
     }

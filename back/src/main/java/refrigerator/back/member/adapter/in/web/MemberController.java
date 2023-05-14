@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import refrigerator.back.global.common.BasicListResponseDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
+import refrigerator.back.member.adapter.in.dto.response.MemberBasicDTO;
 import refrigerator.back.member.adapter.in.dto.response.MemberDTO;
 import refrigerator.back.member.adapter.in.dto.response.MemberProfileDTO;
 import refrigerator.back.member.application.domain.Member;
@@ -14,7 +15,6 @@ import refrigerator.back.member.application.port.in.*;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 import static refrigerator.back.global.exception.ValidationExceptionHandler.*;
@@ -29,6 +29,7 @@ public class MemberController {
     private final MakeProfileUrlUseCase makeProfileUrlUseCase;
     private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final GetProfileListUseCase getProfileListUseCase;
+    private final CheckFirstLoginUseCase checkFirstLoginUseCase;
 
 
     @PutMapping("/api/members/nickname")
@@ -47,7 +48,7 @@ public class MemberController {
     @DeleteMapping("/api/members")
     public void setWithdrawMemberUseCase(@RequestBody @Valid MemberWithdrawRequestDTO request, BindingResult result){
         check(result, MemberExceptionType.NOT_EMPTY_INPUT_DATA);
-        withdrawMemberUseCase.withdrawMember(getMemberEmail(), request.getPassword());
+        withdrawMemberUseCase.withdrawMember(getMemberEmail());
     }
 
     @GetMapping("/api/members")
@@ -61,5 +62,10 @@ public class MemberController {
     @GetMapping("/api/members/profile/list")
     public BasicListResponseDTO<MemberProfileDTO> getProfileList(){
         return new BasicListResponseDTO<>(getProfileListUseCase.getProfileList());
+    }
+
+    @GetMapping("/api/members/check/first-login")
+    public MemberBasicDTO<Boolean> isFirstLoginMember(){
+        return new MemberBasicDTO<>(checkFirstLoginUseCase.checkFirstLogin(getMemberEmail()));
     }
 }

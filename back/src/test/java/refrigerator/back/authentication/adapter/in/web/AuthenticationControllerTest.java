@@ -2,7 +2,9 @@ package refrigerator.back.authentication.adapter.in.web;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.Matcher;
 import org.junit.Before;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +98,7 @@ class AuthenticationControllerTest {
         String password = "password123!";
         String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
         TokenDTO token = loginUseCase.login(email, password);
-        withdrawMemberUseCase.withdrawMember(email, password);
+        withdrawMemberUseCase.withdrawMember(email);
         em.flush();
         em.clear();
         // when
@@ -119,6 +121,22 @@ class AuthenticationControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
         ).andExpect(status().is2xxSuccessful()
+        ).andDo(print());
+    }
+
+    @Test
+    @DisplayName("정상적인 로그아웃")
+    void 로그아웃() throws Exception {
+        // given
+        String password = "password123!";
+        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
+        TokenDTO token = loginUseCase.login(email, password);
+        // when
+        mockMvc.perform(get("/api/auth/logout")
+                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
+        ).andExpect(status().is2xxSuccessful()
+        ).andExpect(cookie().maxAge("Refresh-Token", 0)
+        ).andExpect(header().string(HttpHeaders.AUTHORIZATION, "")
         ).andDo(print());
     }
 }

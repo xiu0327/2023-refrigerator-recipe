@@ -55,6 +55,20 @@ public class TestData {
     }
 
     @Transactional
+    public String createMemberByEmailAndNickname(String email, String nickname){
+        Member member = Member.builder()
+                .email(email)
+                .password(MEMBER_PASSWORD)
+                .nickname(nickname)
+                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
+                .memberStatus(MemberStatus.STEADY_STATUS).build();
+        em.persist(member);
+        em.flush();
+        em.clear();
+        return member.getEmail();
+    }
+
+    @Transactional
     public String createMemberByEmailAndPassword(String email, String password){
         Member member = Member.builder()
                 .email(email)

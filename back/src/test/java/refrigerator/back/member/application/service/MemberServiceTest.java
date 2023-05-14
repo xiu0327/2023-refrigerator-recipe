@@ -11,6 +11,8 @@ import refrigerator.back.global.TestData;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberStatus;
+import refrigerator.back.member.application.port.in.JoinUseCase;
+import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberServiceTest {
 
     @Autowired MemberService memberService;
+    @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired EncryptPasswordPort encryptPasswordPort;
     @Autowired TestData testData;
 
@@ -48,8 +51,33 @@ class MemberServiceTest {
     void withdrawMember() {
         String password = "password123!";
         String email = testData.createMemberByEmailAndPassword("email@gmail.com", encryptPasswordPort.encrypt(password));
-        memberService.withdrawMember(email, password);
+        withdrawMemberUseCase.withdrawMember(email);
         Assertions.assertThat(testData.findMemberByEmail(email).getMemberStatus()).isEqualTo(MemberStatus.LEAVE_STATUS);
     }
+
+    @Test
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인일 때")
+    void firstLoginMember(){
+        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
+    }
+
+    @Test
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인이 아닐 때 (닉네임/프로필 모두 설정되어 있음)")
+    void notFirstLoginMember(){
+        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        memberService.updateNickname(memberId, "닉네임뿅");
+        memberService.updateProfile(memberId, "IMG_9705.JPG");
+        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isFalse();
+    }
+
+    @Test
+    @DisplayName("최초 로그인인지 확인 -> 최초 로그인일 때 (닉네임 or 프로필만 설정되어 있음)")
+    void notFirstLoginMember2(){
+        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        memberService.updateProfile(memberId, "IMG_9705.JPG");
+        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
+    }
+
 
 }

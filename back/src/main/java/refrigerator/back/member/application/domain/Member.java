@@ -8,10 +8,8 @@ import lombok.NoArgsConstructor;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.persistence.*;
-import java.util.Random;
 
 @Entity
 @Table(name = "member")
@@ -50,43 +48,23 @@ public class Member extends BaseTimeEntity {
         this.memberStatus = MemberStatus.STEADY_STATUS;
     }
 
-    /* 나중에 회원 권한 구현 예정 */
     /* 비즈니스 로직 */
-
-    public void updateNickname(String newNickname){
-        this.nickname = newNickname;
-    }
-
-    public void updateProfile(String newProfileName){
-        this.profile = MemberProfileImage.findImageByName(newProfileName);
-    }
 
     public void updatePassword(String newPassword){
         this.password = newPassword;
     }
 
     public void withdraw(){
-        this.memberStatus = MemberStatus.LEAVE_STATUS;
+        memberStatus = MemberStatus.LEAVE_STATUS;
     }
 
-    public void changeMemberStatus(MemberStatus status){
-        this.memberStatus = status;
-    }
-
-    private void initializeProfile(int random){
-        this.profile = MemberProfileImage.pickUp(random);
-    }
-
-    public void isEqualPassword(String password){
-        if (!this.password.equals(password)){
-            throw new BusinessException(AuthenticationExceptionType.NOT_EQUAL_PASSWORD);
-        }
+    private void initializeProfile(){
+        this.profile = MemberProfileImage.PROFILE_NOT_SELECT;
     }
 
     public static Member join(String email, String password, String nickname){
         Member member = new Member(email, password, nickname);
-        int random = new Random().nextInt(MemberProfileImage.values().length);
-        member.initializeProfile(random);
+        member.initializeProfile();
         return member;
     }
 }
