@@ -23,7 +23,14 @@ public class OutIngredientDTO {
         this.image = image;
     }
 
-    public Long getRemainDays() {
-        return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
+
+    public String getRemainDays() {
+        long between = ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
+
+        if(between > 0) {
+            return "+" + Long.toString(between);
+        } else {
+            return Long.toString(between);
+        }
     }
 }

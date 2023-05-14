@@ -131,6 +131,7 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
+                        ingredient.registrationDate,
                         ingredient.capacity,
                         ingredient.capacityUnit,
                         ingredient.storageMethod,

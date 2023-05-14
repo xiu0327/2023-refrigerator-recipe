@@ -23,13 +23,7 @@ public interface IngredientMapper {
 
     IngredientDetailResponseDTO toIngredientDetailDto(OutIngredientDetailDTO outIngredientDetailDTO);
 
-    @Mapping(source = "image", target = "image")
-    IngredientDetailResponseDTO toIngredientDetailDto(IngredientDetailResponseDTO ingredientDetailResponseDTO, String image);
-
     IngredientResponseDTO toIngredientDto(OutIngredientDTO outIngredientDTO);
-
-    @Mapping(source = "image", target = "image")
-    IngredientResponseDTO toIngredientDto(IngredientResponseDTO ingredientResponseDTO, String image);
 
     IngredientSearchCondition toIngredientSearchCondition(IngredientStorageType storage, Boolean deadline, String email);
 

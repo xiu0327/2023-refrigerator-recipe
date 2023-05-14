@@ -39,7 +39,7 @@ class LookUpIngredientServiceTest {
     void getIngredientUnit() {
         RegisteredIngredient ingredient = ingredientLookUpService.getIngredient("당근");
         assertThat(ingredient.getUnit()).isEqualTo("g");
-        assertThat(ingredient.getImage()).isEqualTo(9);
+        assertThat(ingredient.getImage()).isEqualTo(10);
     }
 
     @Test
@@ -170,10 +170,11 @@ class LookUpIngredientServiceTest {
         assertThat(responseDTO.getName()).isEqualTo("돼지고기");
         assertThat(responseDTO.getStorage()).isEqualTo(IngredientStorageType.FREEZER);
         assertThat(responseDTO.getExpirationDate()).isEqualTo(LocalDate.now().plusDays(5));
-        assertThat(responseDTO.getRemainDays()).isEqualTo(-5L);
+        assertThat(responseDTO.getRegistrationDate()).isEqualTo(LocalDate.now());
+        assertThat(responseDTO.getRemainDays()).isEqualTo("-5");
         assertThat(responseDTO.getVolume()).isEqualTo(70);
         assertThat(responseDTO.getUnit()).isEqualTo("g");
-        assertThat(responseDTO.getImage()).isEqualTo("IMAGE_INGREDIENT_가공식품.png");
+        assertThat(responseDTO.getImage()).isEqualTo("IMAGE_INGREDIENT_PROCESSED.png");
 
         readIngredientPort.getIngredientById(id).delete();
 

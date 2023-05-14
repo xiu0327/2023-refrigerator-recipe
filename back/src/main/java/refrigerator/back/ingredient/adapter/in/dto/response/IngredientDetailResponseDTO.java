@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class IngredientDetailResponseDTO {
@@ -21,7 +22,10 @@ public class IngredientDetailResponseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate expirationDate;
 
-    private Long remainDays;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년 MM월 dd일", timezone = "Asia/Seoul")
+    private LocalDate registrationDate;
+
+    private String remainDays;
 
     private Double volume;
 
