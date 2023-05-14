@@ -3,7 +3,6 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
@@ -12,7 +11,6 @@ import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
 import refrigerator.back.ingredient.application.port.out.WriteIngredientPort;
-import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import java.time.LocalDate;
 import java.util.List;

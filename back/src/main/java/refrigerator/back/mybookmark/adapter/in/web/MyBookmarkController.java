@@ -37,6 +37,12 @@ public class MyBookmarkController {
         removeBookmarkUseCase.remove(bookmarkId);
     }
 
+    @DeleteMapping("/api/my-bookmark/remove/{recipeId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeBookmarkByRecipeId(@PathVariable("recipeId") Long recipeId){
+        removeBookmarkUseCase.removeByRecipeId(recipeId, getMemberEmail());
+    }
+
     @GetMapping("/api/my-bookmark/added")
     public BasicListResponseDTO<Long> findRecipeIdList(){
         List<Long> result = findRecipeIdByAddedBookmarkUseCase.findRecipeIdList(getMemberEmail());

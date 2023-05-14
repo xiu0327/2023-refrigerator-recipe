@@ -64,18 +64,12 @@ class RecipeSearchControllerTest {
     void search() throws Exception {
         String memberId = testData.createMemberByEmail("email@gmail.com");
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 3000);
-        String searchWord = "두부";
-        InRecipeSearchRequestDTO request = InRecipeSearchRequestDTO.builder()
-                .searchWord(searchWord).build();
-        String requestJson = new ObjectMapper().writeValueAsString(request);
-        mockMvc.perform(get("/api/recipe/search?page=0")
+        mockMvc.perform(get("/api/recipe/search?searchWord=두부&page=0")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson)
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
         List<String> searchWords = findLastSearchWordUseCase.getLastSearchWords(memberId);
-        Assertions.assertThat(searchWord).isIn(searchWords);
+        Assertions.assertThat("두부").isIn(searchWords);
     }
 
     @Test

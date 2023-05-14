@@ -10,19 +10,20 @@ import refrigerator.back.comment.adapter.out.repository.CommentRepository;
 import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentDto;
 import refrigerator.back.comment.application.domain.CommentListDto;
-import refrigerator.back.comment.application.port.out.CommentFindOnePort;
 import refrigerator.back.comment.application.port.out.CommentReadPort;
-import refrigerator.back.comment.application.port.out.CommentWritePort;
+import refrigerator.back.comment.application.port.out.FindMyCommentListPort;
+import refrigerator.back.comment.application.port.out.FindOneCommentPort;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static refrigerator.back.comment.adapter.out.persistence.CommentSortCondition.*;
+import static refrigerator.back.comment.adapter.out.persistence.CommentSortCondition.DATE;
+import static refrigerator.back.comment.adapter.out.persistence.CommentSortCondition.HEART;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentPersistenceAdapter implements CommentReadPort, CommentWritePort, CommentFindOnePort {
+public class CommentLookUpAdapter implements CommentReadPort, FindOneCommentPort, FindMyCommentListPort {
 
     private final CommentRepository repository;
     private final CommentMapper mapper;
@@ -31,25 +32,21 @@ public class CommentPersistenceAdapter implements CommentReadPort, CommentWriteP
     public CommentListDto findCommentPreviewList(Long recipeId, int size) {
         Page<OutCommentDTO> result = repository.findCommentPreviewList(recipeId, PageRequest.of(0, size));
         return CommentListDto.builder()
-                .comments(result.getContent()
-                        .stream().map(mapper::toCommentDto)
-                        .collect(Collectors.toList()))
+                .comments(mapping(result.getContent()))
                 .count(Long.valueOf(result.getTotalElements()).intValue())
                 .build();
     }
 
     @Override
-    public List<CommentDto> findCommentListByHeart(Long recipeId, int page, int size) {
-        return repository.findCommentList(recipeId, PageRequest.of(page, size), HEART)
-                .stream().map(mapper::toCommentDto)
-                .collect(Collectors.toList());
+    public List<CommentDto> findCommentListByHeart(Long recipeId, String memberId, int page, int size) {
+        List<OutCommentDTO> result = repository.findCommentList(recipeId, memberId, PageRequest.of(page, size), HEART);
+        return mapping(result);
     }
 
     @Override
-    public List<CommentDto> findCommentListByDate(Long recipeId, int page, int size) {
-        return repository.findCommentList(recipeId, PageRequest.of(page, size), DATE)
-                .stream().map(mapper::toCommentDto)
-                .collect(Collectors.toList());
+    public List<CommentDto> findCommentListByDate(Long recipeId, String memberId, int page, int size) {
+        List<OutCommentDTO> result = repository.findCommentList(recipeId, memberId, PageRequest.of(page, size), DATE);
+        return mapping(result);
     }
 
     @Override
@@ -57,14 +54,17 @@ public class CommentPersistenceAdapter implements CommentReadPort, CommentWriteP
         return repository.findByCommentID(commentId);
     }
 
-    @Override
-    public Optional<Comment> findCommentByRecipeId(Long recipeId) {
-        return repository.findByRecipeID(recipeId);
-    }
 
     @Override
-    public Long persist(Comment comment) {
-        repository.save(comment);
-        return comment.getCommentID();
+    public List<CommentDto> findMyComments(String memberId, Long recipeId) {
+        List<OutCommentDTO> result = repository.findMyCommentList(memberId, recipeId);
+        return mapping(result);
     }
+
+    private List<CommentDto> mapping(List<OutCommentDTO> result) {
+        return result.stream()
+                .map(mapper::toCommentDto)
+                .collect(Collectors.toList());
+    }
+
 }

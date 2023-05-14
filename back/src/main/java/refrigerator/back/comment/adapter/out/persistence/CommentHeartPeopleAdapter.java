@@ -1,27 +1,25 @@
 package refrigerator.back.comment.adapter.out.persistence;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.adapter.out.repository.CommentRepository;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
-import refrigerator.back.comment.application.port.out.CommentHeartPeopleReadPort;
-import refrigerator.back.comment.application.port.out.CommentHeartPeopleWritePort;
+import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
+import refrigerator.back.comment.application.port.out.WriteCommentHeartPeoplePort;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.exception.BusinessException;
 
 import java.util.List;
 
 @Repository
-public class CommentHeartPeoplePersistenceAdapter implements CommentHeartPeopleReadPort, CommentHeartPeopleWritePort {
+public class CommentHeartPeopleAdapter implements FindCommentHeartPeoplePort, WriteCommentHeartPeoplePort {
 
     private final CommentRepository commentRepository;
     private final RedisTemplate<String, String> stringRedisTemplate;
 
-    public CommentHeartPeoplePersistenceAdapter(CommentRepository commentRepository,
-                                                @Qualifier("redisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
+    public CommentHeartPeopleAdapter(CommentRepository commentRepository,
+                                     @Qualifier("redisTemplate") RedisTemplate<String, String> stringRedisTemplate) {
         this.commentRepository = commentRepository;
         this.stringRedisTemplate = stringRedisTemplate;
     }

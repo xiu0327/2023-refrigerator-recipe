@@ -5,20 +5,18 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.adapter.out.repository.CommentRepository;
 import refrigerator.back.comment.application.domain.CommentHeart;
-import refrigerator.back.comment.application.port.out.CommentHeartCreatePort;
-import refrigerator.back.comment.application.port.out.CommentHeartDeletePort;
-import refrigerator.back.comment.application.port.out.CommentHeartUpdatePort;
+import refrigerator.back.comment.application.port.out.CreateCommentHeartPort;
+import refrigerator.back.comment.application.port.out.DeleteCommentHeartPort;
+import refrigerator.back.comment.application.port.out.UpdateCommentHeartPort;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.exception.BusinessException;
 
-import java.util.Optional;
-
 @Repository
 @RequiredArgsConstructor
-public class CommentHeartPersistenceAdapter implements
-        CommentHeartUpdatePort,
-        CommentHeartCreatePort,
-        CommentHeartDeletePort {
+public class CommentHeartAdapter implements
+        UpdateCommentHeartPort,
+        CreateCommentHeartPort,
+        DeleteCommentHeartPort {
 
     private final CommentRepository repository;
 

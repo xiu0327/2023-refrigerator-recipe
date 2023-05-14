@@ -12,6 +12,7 @@ import refrigerator.back.mybookmark.application.domain.MyBookmark;
 import refrigerator.back.mybookmark.application.port.in.*;
 import refrigerator.back.mybookmark.application.port.out.BookmarkReadPort;
 import refrigerator.back.mybookmark.application.port.out.BookmarkWritePort;
+import refrigerator.back.mybookmark.application.port.out.RemoveBookmarkByRecipeIdPort;
 import refrigerator.back.mybookmark.exception.MyBookmarkExceptionType;
 import refrigerator.back.recipe.application.port.out.UpdateRecipeBookmarkPort;
 
@@ -26,6 +27,7 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
     private final BookmarkWritePort bookmarkWritePort;
     private final BookmarkReadPort bookmarkReadPort;
     private final UpdateRecipeBookmarkPort updateRecipeBookmarkPort;
+    private final RemoveBookmarkByRecipeIdPort removeBookmarkByRecipeIdPort;
 
     @Override
     @Transactional
@@ -48,9 +50,10 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
         if (!myBookmark.isDeleted()){
             throw new BusinessException(MyBookmarkExceptionType.ALREADY_ADD_BOOKMARK);
         }
+        Long bookmarkId = myBookmark.getBookmarkId();
         myBookmark.undeleted();
         updateRecipeBookmarkPort.addBookmark(recipeId);
-        return myBookmark.getRecipeId();
+        return bookmarkId;
     }
 
     @Override
@@ -60,6 +63,18 @@ public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseC
                 .orElseThrow(() -> new BusinessException(MyBookmarkExceptionType.ALREADY_DELETE_BOOKMARK));
         myBookmark.delete();
         updateRecipeBookmarkPort.removeBookmark(myBookmark.getRecipeId());
+    }
+
+    @Override
+    @Transactional
+    public void removeByRecipeId(Long recipeId, String memberId) {
+        MyBookmark myBookmark = bookmarkReadPort.findBookmarkByMemberIdAndRecipeId(memberId, recipeId)
+                .orElseThrow(() -> new BusinessException(MyBookmarkExceptionType.NOT_FOUND_BOOKMARK));
+        if (myBookmark.isDeleted()){
+            throw new BusinessException(MyBookmarkExceptionType.ALREADY_DELETE_BOOKMARK);
+        }
+        myBookmark.delete();
+        updateRecipeBookmarkPort.removeBookmark(recipeId);
     }
 
 }

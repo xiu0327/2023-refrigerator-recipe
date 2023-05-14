@@ -3,17 +3,13 @@ package refrigerator.back.comment.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.people.FindLikedPeopleListUseCase;
-import refrigerator.back.comment.application.port.out.CommentFindOnePort;
-import refrigerator.back.comment.application.port.out.CommentHeartPeopleReadPort;
-import refrigerator.back.comment.application.port.out.CommentHeartPeopleWritePort;
-import refrigerator.back.comment.application.port.out.CommentHeartUpdatePort;
-import refrigerator.back.comment.exception.CommentExceptionType;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
+import refrigerator.back.comment.application.port.out.WriteCommentHeartPeoplePort;
+import refrigerator.back.comment.application.port.out.UpdateCommentHeartPort;
 
 import java.util.List;
 
@@ -21,9 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentHeartService implements AddCommentHeartUseCase, ReduceCommentHeartUseCase, FindLikedPeopleListUseCase {
 
-    private final CommentHeartUpdatePort commentHeartUpdatePort;
-    private final CommentHeartPeopleReadPort commentHeartPeopleReadPort;
-    private final CommentHeartPeopleWritePort commentHeartPeopleWritePort;
+    private final UpdateCommentHeartPort commentHeartUpdatePort;
+    private final FindCommentHeartPeoplePort commentHeartPeopleReadPort;
+    private final WriteCommentHeartPeoplePort commentHeartPeopleWritePort;
 
 
     @Override

@@ -135,7 +135,7 @@ class MemberAccessControllerTest {
         String email = "email123@gmail.com";
         MemberEmailParameterRequestDTO request = new MemberEmailParameterRequestDTO(email);
         String requestJson = new ObjectMapper().writeValueAsString(request);
-        mockMvc.perform(get("/api/members/email/duplicate")
+        mockMvc.perform(post("/api/members/email/duplicate")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
         ).andExpect(status().is2xxSuccessful()

@@ -5,13 +5,14 @@ import refrigerator.back.comment.application.service.CommentTimeService;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 
 import java.time.*;
+import java.util.Date;
 
 @Component
 public class TimeService implements CommentTimeService, NotificationTimeService {
 
     @Override
     public String replace(LocalDateTime date){
-        ZonedDateTime now = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul"));
+        LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(date, now);
         Period period = Period.between(date.toLocalDate(), now.toLocalDate());
 

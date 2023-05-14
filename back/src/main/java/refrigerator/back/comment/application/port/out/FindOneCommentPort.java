@@ -4,8 +4,6 @@ import refrigerator.back.comment.application.domain.Comment;
 
 import java.util.Optional;
 
-public interface CommentFindOnePort {
+public interface FindOneCommentPort {
     Optional<Comment> findCommentById(Long commentId);
-
-    Optional<Comment> findCommentByRecipeId(Long recipeId);
 }

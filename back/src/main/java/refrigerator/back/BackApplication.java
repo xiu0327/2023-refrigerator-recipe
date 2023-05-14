@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -18,7 +20,8 @@ public class BackApplication {
 	@PostConstruct
 	public void started(){
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-		log.info("현재시각: {}", new Date());
+		log.info("LocalDate 현재시각 : {}", LocalDateTime.now());
+		log.info("Date 현재시각: {}", new Date());
 	}
 
 	public static void main(String[] args) {

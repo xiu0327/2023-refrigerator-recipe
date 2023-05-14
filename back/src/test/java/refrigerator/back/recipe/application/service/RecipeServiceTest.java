@@ -29,11 +29,10 @@ class RecipeServiceTest {
         Long recipeId = 1L;
         int before = em.find(RecipeViews.class, recipeId).getViews();
         // when
-        InRecipeDetailDTO recipe = recipeService.getRecipe(recipeId, false);
+        Recipe recipe = recipeService.getRecipe(recipeId, false);
         // then
         /* 모든 필드 not null */
         int after = em.find(RecipeViews.class, recipeId).getViews();
-        notNullTest(recipe);
         assertThat(recipe.getIngredients()).isNotEmpty();
         /* 최초 조회이기 때문에 조회수 증가 */
         assertThat(after).isEqualTo(before + 1);
@@ -45,11 +44,9 @@ class RecipeServiceTest {
         Long recipeId = 1L;
         int before = em.find(RecipeViews.class, recipeId).getViews();
         // when
-        InRecipeDetailDTO recipe = recipeService.getRecipe(recipeId, true);
+        Recipe recipe = recipeService.getRecipe(recipeId, true);
         // then
-        /* 모든 필드 not null */
         int after = em.find(RecipeViews.class, recipeId).getViews();
-        notNullTest(recipe);
         assertThat(recipe.getIngredients()).isNotEmpty();
         /* 재조회이기 때문에 조회수 증가 X */
         assertThat(after).isEqualTo(before);
