@@ -20,6 +20,7 @@ import refrigerator.back.authentication.adapter.infra.oauth.Oauth2FailureHandler
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2SuccessHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.PrincipalOAuth2DetailsService;
 import refrigerator.back.authentication.adapter.infra.security.filter.JwtAuthenticationFilter;
+import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
 
 import java.util.Collections;
 
@@ -32,6 +33,7 @@ public class SecurityConfig {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final AuthenticationProvider authenticationProvider;
+    private final CheckContainBlackListPort checkContainBlackListPort;
     private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final Oauth2FailureHandler oauth2FailureHandler;
@@ -65,7 +67,9 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jsonWebTokenProvider, tokenPassword), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(
+                        new JwtAuthenticationFilter(jsonWebTokenProvider, checkContainBlackListPort, tokenPassword),
+                        UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -116,6 +120,7 @@ public class SecurityConfig {
     private void setAuth(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .mvcMatchers("/api/auth/logout").authenticated()
                 .mvcMatchers("/api/auth/**").permitAll();
     }
 

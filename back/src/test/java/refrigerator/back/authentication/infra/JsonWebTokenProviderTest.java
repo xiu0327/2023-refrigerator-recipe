@@ -47,4 +47,19 @@ class  JsonWebTokenProviderTest {
                 jsonWebTokenProvider.validateToken(token)).isEqualTo(TokenStatus.EXPIRED);
     }
 
+    @Test
+    void 토큰_유효시간_확인(){
+        // given
+        String username = "email123@gmail.com";
+        // when
+        String token = jsonWebTokenProvider.createToken(
+                username,
+                MemberStatus.STEADY_STATUS.toString(),
+                2); // 토큰 유효 시간 5초
+        // then
+        /* 토큰 파싱했을 때, username 이 일치하는지 */
+        Claims claims = jsonWebTokenProvider.parseClaims(token);
+        log.info("date = {}", claims.getExpiration().toString());
+    }
+
 }

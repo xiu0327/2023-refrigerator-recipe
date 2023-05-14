@@ -36,6 +36,7 @@ public class CommentHeartPeople {
     }
 
     public static String makeSubPeopleId(String memberId, Long commentId){
-        return memberId + "_" + commentId;
+        int commentHash = 7;
+        return String.valueOf(31 * commentHash * commentId * memberId.hashCode());
     }
 }

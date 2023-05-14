@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class IngredientByRecipeAdapter implements FindPersistenceIngredientListPort {
+
     private final IngredientRepository ingredientRepository;
 
     @Override

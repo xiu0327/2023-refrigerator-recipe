@@ -16,13 +16,13 @@ import java.util.UUID;
 public class IdentificationService implements SendNumberUseCase, CheckNumberUseCase {
 
     private final IdentificationMethod identificationMethod;
-    private final IdentificationRedisPort redisUtilPort;
+    private final IdentificationRedisPort identificationRedisPort;
 
     @Override
     public String sendAuthenticationNumber(String email, Long duration) {
         String code = createCode();
         identificationMethod.sendAuthenticationCode(email, code);
-        redisUtilPort.setData(email, code, duration);
+        identificationRedisPort.setData(email, code, duration);
         return code;
     }
 
@@ -33,14 +33,14 @@ public class IdentificationService implements SendNumberUseCase, CheckNumberUseC
 
     @Override
     public Boolean checkAuthenticationNumber(String inputCode, String email) {
-        String code = redisUtilPort.getData(email);
+        String code = identificationRedisPort.getData(email);
         if(code == null){
             throw new BusinessException(IdentificationExceptionType.TIME_OUT_CODE);
         }
         if (!code.equals(inputCode)){
             throw new BusinessException(IdentificationExceptionType.NOT_EQUAL_CODE);
         }
-        redisUtilPort.deleteData(email);
+        identificationRedisPort.deleteData(email);
         return true;
     }
 }
