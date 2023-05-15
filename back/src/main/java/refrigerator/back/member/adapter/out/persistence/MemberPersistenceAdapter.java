@@ -43,4 +43,9 @@ public class MemberPersistenceAdapter implements FindMemberPort, CreateMemberPor
     public void updateProfile(String email, MemberProfileImage profile) {
         memberRepository.updateProfile(email, profile);
     }
+
+    @Override
+    public void initNicknameAndProfile(String email, String nickname, MemberProfileImage profile) {
+        memberRepository.initNicknameAndProfile(email, nickname, profile);
+    }
 }
