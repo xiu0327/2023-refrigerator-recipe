@@ -7,4 +7,5 @@ public interface UpdateMemberPort {
     void update(Member member);
     void updateNickname(String email, String nickname);
     void updateProfile(String email, MemberProfileImage profile);
+    void initNicknameAndProfile(String email, String nickname, MemberProfileImage profile);
 }

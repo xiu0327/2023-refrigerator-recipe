@@ -37,7 +37,7 @@ public class MemberAccessController {
     @PostMapping("/api/members/join")
     @ResponseStatus(HttpStatus.CREATED)
     public MemberJoinResponseDTO joinMember(@RequestBody @Valid MemberJoinRequestDTO request, BindingResult result){
-        check(result, MemberExceptionType.NOT_EMPTY_INPUT_DATA);
+        check(result, MemberExceptionType.EMPTY_INPUT_DATA);
         request.check();
         Long memberID = joinUseCase.join(
                 request.getEmail(),
@@ -48,7 +48,7 @@ public class MemberAccessController {
 
     @PostMapping("/api/members/password/find")
     public MemberFindPasswordResponseDTO findPassword(@RequestBody @Valid MemberFindPasswordRequestDTO request, BindingResult result){
-        check(result, MemberExceptionType.NOT_EMPTY_INPUT_DATA);
+        check(result, MemberExceptionType.EMPTY_INPUT_DATA);
         String authToken = findPasswordUseCase.findPassword(request.getEmail());
         return new MemberFindPasswordResponseDTO(grantType, authToken);
     }

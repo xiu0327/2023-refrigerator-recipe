@@ -19,9 +19,10 @@ import static refrigerator.back.global.common.InputDataFormatCheck.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService implements
         UpdateNicknameUseCase, UpdateProfileUseCase, FindMemberInfoUseCase,
-        CheckFirstLoginUseCase {
+        CheckFirstLoginUseCase, InitNicknameAndProfileUseCase {
 
     private final UpdateMemberPort updateMemberPort;
     private final FindMemberPort findMemberPort;
@@ -57,5 +58,12 @@ public class MemberService implements
     public Boolean checkFirstLogin(String memberId) {
         Member member = findMemberPort.findMember(memberId);
         return !StringUtils.hasText(member.getNickname()) || member.getProfile() == MemberProfileImage.PROFILE_NOT_SELECT;
+    }
+
+    @Override
+    @Transactional
+    public void initNicknameAndProfile(String email, String nickname, String imageFileName) {
+        InputDataFormatCheck.inputCheck(NICKNAME_REGEX, nickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
+        updateMemberPort.initNicknameAndProfile(email, nickname, MemberProfileImage.findImageByName(imageFileName));
     }
 }

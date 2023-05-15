@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.global.common.BasicListResponseDTO;
+import refrigerator.back.global.exception.ValidationExceptionHandler;
+import refrigerator.back.member.adapter.in.dto.request.MemberInitNicknameAndProfileRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
 import refrigerator.back.member.adapter.in.dto.response.MemberBasicDTO;
@@ -30,6 +32,7 @@ public class MemberController {
     private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final GetProfileListUseCase getProfileListUseCase;
     private final CheckFirstLoginUseCase checkFirstLoginUseCase;
+    private final InitNicknameAndProfileUseCase initNicknameAndProfileUseCase;
 
 
     @PutMapping("/api/members/nickname")
@@ -47,7 +50,7 @@ public class MemberController {
 
     @DeleteMapping("/api/members")
     public void setWithdrawMemberUseCase(@RequestBody @Valid MemberWithdrawRequestDTO request, BindingResult result){
-        check(result, MemberExceptionType.NOT_EMPTY_INPUT_DATA);
+        check(result, MemberExceptionType.EMPTY_INPUT_DATA);
         withdrawMemberUseCase.withdrawMember(getMemberEmail());
     }
 
@@ -67,5 +70,12 @@ public class MemberController {
     @GetMapping("/api/members/check/first-login")
     public MemberBasicDTO<Boolean> isFirstLoginMember(){
         return new MemberBasicDTO<>(checkFirstLoginUseCase.checkFirstLogin(getMemberEmail()));
+    }
+
+    @PutMapping("/api/members/init")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void initNicknameAndProfile(@RequestBody @Valid MemberInitNicknameAndProfileRequestDTO request, BindingResult result){
+        ValidationExceptionHandler.check(result, MemberExceptionType.EMPTY_INPUT_DATA);
+        initNicknameAndProfileUseCase.initNicknameAndProfile(getMemberEmail(), request.getNickname(), request.getImageName());
     }
 }

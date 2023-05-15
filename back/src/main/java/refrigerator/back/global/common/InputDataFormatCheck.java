@@ -9,7 +9,7 @@ import static java.util.regex.Pattern.matches;
 public class InputDataFormatCheck {
 
     @JsonIgnore
-    public static final String NICKNAME_REGEX = "^[가-힣]{3,10}|[a-zA-Z]+$";
+    public static final String NICKNAME_REGEX = "^[가-힣 ]{3,10}|[a-zA-Z]+$";
 
     @JsonIgnore
     public static final String EMAIL_REGEX = "^[a-zA-Z0-9_]+@[a-zA-Z]+\\.[a-zA-Z]+$";

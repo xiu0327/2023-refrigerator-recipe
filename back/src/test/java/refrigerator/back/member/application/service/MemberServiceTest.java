@@ -79,5 +79,27 @@ class MemberServiceTest {
         Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
     }
 
+    @Test
+    @DisplayName("닉네임/프로필 초기화 설정")
+    void initMemberNicknameAndProfile(){
+        String email = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        memberService.initNicknameAndProfile(email, "수정닉네임", "IMG_9709.JPG");
+        Assertions.assertThat(memberService.checkFirstLogin(email)).isFalse();
+    }
+
+    @Test
+    @DisplayName("닉네임/프로필 초기화 설정 실패 -> 닉네임 형식 오류")
+    void initMemberNicknameAndProfileFail(){
+        String email = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
+        assertThrows(BusinessException.class, () -> {
+            try{
+                memberService.initNicknameAndProfile(email, "", "IMG_9709.JPG");
+            }catch (BusinessException e){
+                Assertions.assertThat(e.getBasicExceptionType()).isEqualTo(MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
+                throw e;
+            }
+        });
+        Assertions.assertThat(memberService.checkFirstLogin(email)).isTrue();
+    }
 
 }
