@@ -179,6 +179,7 @@ class AuthenticationControllerTest {
         String requestJson = new ObjectMapper().writeValueAsString(dto);
         mockMvc.perform(put("/api/members/init")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
+                .header("init-member-info", "true")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
         ).andExpect(status().is2xxSuccessful()
