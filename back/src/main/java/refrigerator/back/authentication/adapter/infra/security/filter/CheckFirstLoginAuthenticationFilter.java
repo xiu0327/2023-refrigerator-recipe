@@ -29,7 +29,8 @@ public class CheckFirstLoginAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
-            if (!request.getPathInfo().equals("/api/members/init")){
+            String initStatus = request.getHeader("init-member-info");
+            if (initStatus == null){
                 String header = request.getHeader(HttpHeaders.AUTHORIZATION);
                 if (header != null){
                     String accessToken = header.split(" ")[1];
