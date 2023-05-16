@@ -6,6 +6,7 @@ import lombok.*;
 
 @Getter
 @Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -13,6 +14,6 @@ public class IngredientResponseDTO {
 
     private Long ingredientID;
     private String name;
-    private Long remainDays;
+    private String remainDays;
     private String image;
 }
