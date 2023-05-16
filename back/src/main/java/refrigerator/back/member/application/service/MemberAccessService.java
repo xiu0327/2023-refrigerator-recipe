@@ -12,7 +12,7 @@ import refrigerator.back.member.application.port.in.JoinUseCase;
 import refrigerator.back.member.application.port.out.CreateMemberPort;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.member.application.port.out.FindMemberPort;
-import refrigerator.back.member.application.port.out.UpdateMemberPort;
+import refrigerator.back.member.application.port.out.PersistMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 @Service
@@ -21,7 +21,7 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
 
     private final CreateMemberPort createMemberPort;
     private final FindMemberPort findMemberPort;
-    private final UpdateMemberPort updateMemberPort;
+    private final PersistMemberPort updateMemberPort;
     private final EncryptPasswordPort encryptPasswordPort;
     private final CreateTokenPort createTokenPort;
 
@@ -39,7 +39,7 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
 
     @Override
     public void duplicateCheck(String email) {
-        if (findMemberPort.findMember(email) != null){
+        if (findMemberPort.findMemberNotUseCache(email) != null){
             throw new BusinessException(MemberExceptionType.DUPLICATE_EMAIL);
         }
     }
@@ -60,11 +60,11 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
     @Override
     @Transactional
     public void updatePassword(String email, String newPassword) {
-        Member member = findMemberPort.findMember(email);
+        Member member = findMemberPort.findMemberNotUseCache(email);
         if (member == null){
             throw new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER);
         }
         member.updatePassword(encryptPasswordPort.encrypt(newPassword));
-        updateMemberPort.update(member);
+        updateMemberPort.persist(member);
     }
 }

@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface FindMemberPort {
     Member findMember(String email);
+    Member findMemberNotUseCache(String email);
 }

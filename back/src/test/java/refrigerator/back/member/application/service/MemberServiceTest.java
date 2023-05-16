@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.global.TestData;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberStatus;
-import refrigerator.back.member.application.port.in.JoinUseCase;
+import refrigerator.back.member.application.port.in.CheckFirstLoginUseCase;
+import refrigerator.back.member.application.port.in.FindMemberInfoUseCase;
+import refrigerator.back.member.application.port.in.InitNicknameAndProfileUseCase;
 import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
 import refrigerator.back.member.exception.MemberExceptionType;
 
@@ -21,30 +22,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class MemberServiceTest {
 
-    @Autowired MemberService memberService;
     @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired EncryptPasswordPort encryptPasswordPort;
     @Autowired TestData testData;
-
-    @Test
-    @DisplayName("닉네임 수정")
-    void updateNickname() {
-        String email = testData.createMemberByEmail("email@gmail.com");
-        String nickname = "수정닉네임";
-        memberService.updateNickname(email, nickname);
-        String findNickname = testData.findMemberByEmail(email).getNickname();
-        Assertions.assertThat(findNickname).isEqualTo(nickname);
-    }
-
-    @Test
-    @DisplayName("프로필 수정")
-    void updateProfile() {
-        String email = testData.createMemberByEmail("email@gmail.com");
-        String profileImage = "IMG_9709.JPG";
-        memberService.updateProfile(email, profileImage);
-        String findProfile = testData.findMemberByEmail(email).getProfile().getName();
-        Assertions.assertThat(findProfile).isEqualTo(profileImage);
-    }
 
     @Test
     @DisplayName("회원 탈퇴")
@@ -53,53 +33,6 @@ class MemberServiceTest {
         String email = testData.createMemberByEmailAndPassword("email@gmail.com", encryptPasswordPort.encrypt(password));
         withdrawMemberUseCase.withdrawMember(email);
         Assertions.assertThat(testData.findMemberByEmail(email).getMemberStatus()).isEqualTo(MemberStatus.LEAVE_STATUS);
-    }
-
-    @Test
-    @DisplayName("최초 로그인인지 확인 -> 최초 로그인일 때")
-    void firstLoginMember(){
-        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
-        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
-    }
-
-    @Test
-    @DisplayName("최초 로그인인지 확인 -> 최초 로그인이 아닐 때 (닉네임/프로필 모두 설정되어 있음)")
-    void notFirstLoginMember(){
-        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
-        memberService.updateNickname(memberId, "닉네임뿅");
-        memberService.updateProfile(memberId, "IMG_9705.JPG");
-        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isFalse();
-    }
-
-    @Test
-    @DisplayName("최초 로그인인지 확인 -> 최초 로그인일 때 (닉네임 or 프로필만 설정되어 있음)")
-    void notFirstLoginMember2(){
-        String memberId = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
-        memberService.updateProfile(memberId, "IMG_9705.JPG");
-        Assertions.assertThat(memberService.checkFirstLogin(memberId)).isTrue();
-    }
-
-    @Test
-    @DisplayName("닉네임/프로필 초기화 설정")
-    void initMemberNicknameAndProfile(){
-        String email = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
-        memberService.initNicknameAndProfile(email, "수정닉네임", "IMG_9709.JPG");
-        Assertions.assertThat(memberService.checkFirstLogin(email)).isFalse();
-    }
-
-    @Test
-    @DisplayName("닉네임/프로필 초기화 설정 실패 -> 닉네임 형식 오류")
-    void initMemberNicknameAndProfileFail(){
-        String email = testData.createMemberByEmailAndNickname("email123@gmail.com", "");
-        assertThrows(BusinessException.class, () -> {
-            try{
-                memberService.initNicknameAndProfile(email, "", "IMG_9709.JPG");
-            }catch (BusinessException e){
-                Assertions.assertThat(e.getBasicExceptionType()).isEqualTo(MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
-                throw e;
-            }
-        });
-        Assertions.assertThat(memberService.checkFirstLogin(email)).isTrue();
     }
 
 }

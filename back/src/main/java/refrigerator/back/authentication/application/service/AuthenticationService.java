@@ -20,10 +20,9 @@ import static refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey
 public class AuthenticationService implements LoginUseCase, TokenReissueUseCase {
 
     private final CreateTokenPort createTokenPort;
-    private final AuthenticatePort authenticatePort;
+    private final CreateAuthenticationPort authenticatePort;
     private final FindEmailByTokenPort findEmailByToken;
     private final FindRefreshTokenByEmailPort findRefreshTokenByEmailPort;
-    private final FindMemberPort findMemberPort;
     private final ValidateTokenPort validateTokenPort;
 
     @Override

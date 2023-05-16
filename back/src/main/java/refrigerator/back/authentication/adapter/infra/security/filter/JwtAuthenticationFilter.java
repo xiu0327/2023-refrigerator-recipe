@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey;
 import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.adapter.infra.security.handler.MakeResponseMessageHandler;
 import refrigerator.back.authentication.adapter.infra.security.token.EmailAuthenticationToken;
 import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
@@ -55,17 +56,8 @@ public class JwtAuthenticationFilter extends GenericFilter {
             }
             chain.doFilter(request, response);
         }catch (BusinessException e){
-            makeResponseMessage((HttpServletResponse) response, e);
+            MakeResponseMessageHandler.makeResponseMessage((HttpServletResponse) response, e);
         }
-    }
-
-    private void makeResponseMessage(HttpServletResponse response, BusinessException e) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().print(
-                "{\"error\": \""+ e.getBasicExceptionType().getErrorCode()+"\", \"message\" : \""+
-                        e.getBasicExceptionType().getMessage()+"\"}");
     }
 
     private boolean checkToken(String token){

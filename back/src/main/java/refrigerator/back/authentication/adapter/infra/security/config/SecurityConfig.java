@@ -1,4 +1,4 @@
-package refrigerator.back.global.config;
+package refrigerator.back.authentication.adapter.infra.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +11,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -19,8 +20,11 @@ import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenP
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2FailureHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2SuccessHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.PrincipalOAuth2DetailsService;
+import refrigerator.back.authentication.adapter.infra.security.filter.CheckFirstLoginAuthenticationFilter;
 import refrigerator.back.authentication.adapter.infra.security.filter.JwtAuthenticationFilter;
+import refrigerator.back.authentication.adapter.infra.security.handler.CheckFirstLoginFailHandler;
 import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
+import refrigerator.back.member.application.port.in.CheckFirstLoginUseCase;
 
 import java.util.Collections;
 
@@ -34,10 +38,11 @@ public class SecurityConfig {
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final AuthenticationProvider authenticationProvider;
     private final CheckContainBlackListPort checkContainBlackListPort;
+    private final CheckFirstLoginUseCase checkFirstLoginUseCase;
     private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final Oauth2FailureHandler oauth2FailureHandler;
-
+    
     @Value("${jwt.tokenPassword}")
     private String tokenPassword;
 
@@ -55,7 +60,21 @@ public class SecurityConfig {
         setMember(http);
         setRecipe(http);
         setWordCompletion(http);
+        setDefault(http);
+        setJwtFilter(http);
+        setCheckFirstLoginFilter(http);
+        return http.build();
+    }
+
+    private void setCheckFirstLoginFilter(HttpSecurity http) {
         http
+                .addFilterAfter(new CheckFirstLoginAuthenticationFilter(
+                        checkFirstLoginUseCase, jsonWebTokenProvider, "http://localhost:3000", new CheckFirstLoginFailHandler()),
+                        UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private SessionManagementConfigurer<HttpSecurity> setDefault(HttpSecurity http) throws Exception {
+        return http
                 .authorizeRequests()
                 .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
                 .anyRequest().authenticated()
@@ -65,12 +84,14 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .formLogin().disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    private void setJwtFilter(HttpSecurity http) {
+        http
                 .addFilterBefore(
                         new JwtAuthenticationFilter(jsonWebTokenProvider, checkContainBlackListPort, tokenPassword),
                         UsernamePasswordAuthenticationFilter.class);
-        return http.build();
     }
 
     private void setWordCompletion(HttpSecurity http) throws Exception {

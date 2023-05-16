@@ -6,20 +6,20 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
 import refrigerator.back.member.application.port.out.FindMemberPort;
-import refrigerator.back.member.application.port.out.UpdateMemberPort;
+import refrigerator.back.member.application.port.out.PersistMemberPort;
 
 @Service
 @RequiredArgsConstructor
 public class MemberWithdrawService implements WithdrawMemberUseCase {
 
-    private final UpdateMemberPort updateMemberPort;
+    private final PersistMemberPort updateMemberPort;
     private final FindMemberPort findMemberPort;
 
     @Override
     @Transactional
     public void withdrawMember(String email) {
-        Member member = findMemberPort.findMember(email);
+        Member member = findMemberPort.findMemberNotUseCache(email);
         member.withdraw();
-        updateMemberPort.update(member);
+        updateMemberPort.persist(member);
     }
 }

@@ -12,4 +12,8 @@ public class TokenDTO {
     private String grantType;
     private String accessToken;
     private String refreshToken;
+
+    public void removeRefreshToken(){
+        this.refreshToken = null;
+    }
 }

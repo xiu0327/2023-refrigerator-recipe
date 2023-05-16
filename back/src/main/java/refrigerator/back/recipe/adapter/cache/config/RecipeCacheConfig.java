@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.cache.config;
+package refrigerator.back.recipe.adapter.cache.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

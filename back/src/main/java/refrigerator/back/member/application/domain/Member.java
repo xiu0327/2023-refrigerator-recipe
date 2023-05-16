@@ -1,10 +1,7 @@
 package refrigerator.back.member.application.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
@@ -17,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -60,6 +58,10 @@ public class Member extends BaseTimeEntity {
 
     private void initializeProfile(){
         this.profile = MemberProfileImage.PROFILE_NOT_SELECT;
+    }
+    public void initProfileAndNickname(String imageName, String nickname){
+        this.profile = MemberProfileImage.findImageByName(imageName);
+        this.nickname = nickname;
     }
 
     public static Member join(String email, String password, String nickname){

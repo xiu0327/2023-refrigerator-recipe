@@ -12,6 +12,8 @@ import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.LogoutUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
+import refrigerator.back.authentication.exception.AuthenticationExceptionType;
+import refrigerator.back.global.exception.BusinessException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -61,13 +63,20 @@ public class AuthenticationController {
         Cookie cookie = new Cookie("Refresh-Token", token.getRefreshToken());
         cookie.setHttpOnly(true);
         response.addCookie(cookie);
+        token.removeRefreshToken();
         return token;
     }
 
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)
-    public TokenDTO reissue(@RequestBody ReissueTokenRequestDTO request){
-        return tokenReissueUseCase.reissue(request.getRefreshToken());
+    public TokenDTO reissue(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("Refresh-Token")){
+                return tokenReissueUseCase.reissue(cookie.getValue());
+            }
+        }
+        throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_TOKEN);
     }
 
 }

@@ -31,7 +31,6 @@ public class MemberController {
     private final MakeProfileUrlUseCase makeProfileUrlUseCase;
     private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final GetProfileListUseCase getProfileListUseCase;
-    private final CheckFirstLoginUseCase checkFirstLoginUseCase;
     private final InitNicknameAndProfileUseCase initNicknameAndProfileUseCase;
 
 
@@ -49,8 +48,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/api/members")
-    public void setWithdrawMemberUseCase(@RequestBody @Valid MemberWithdrawRequestDTO request, BindingResult result){
-        check(result, MemberExceptionType.EMPTY_INPUT_DATA);
+    public void setWithdrawMemberUseCase(){
         withdrawMemberUseCase.withdrawMember(getMemberEmail());
     }
 
@@ -65,11 +63,6 @@ public class MemberController {
     @GetMapping("/api/members/profile/list")
     public BasicListResponseDTO<MemberProfileDTO> getProfileList(){
         return new BasicListResponseDTO<>(getProfileListUseCase.getProfileList());
-    }
-
-    @GetMapping("/api/members/check/first-login")
-    public MemberBasicDTO<Boolean> isFirstLoginMember(){
-        return new MemberBasicDTO<>(checkFirstLoginUseCase.checkFirstLogin(getMemberEmail()));
     }
 
     @PutMapping("/api/members/init")

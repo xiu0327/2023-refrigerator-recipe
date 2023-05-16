@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.adapter.infra.security.token.EmailAuthenticationToken;
-import refrigerator.back.authentication.application.port.out.AuthenticatePort;
+import refrigerator.back.authentication.application.port.out.CreateAuthenticationPort;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.exception.BusinessException;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class AuthenticationAdapter implements EncryptPasswordPort, AuthenticatePort {
+public class AuthenticationAdapter implements EncryptPasswordPort, CreateAuthenticationPort {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationProvider authenticationProvider;

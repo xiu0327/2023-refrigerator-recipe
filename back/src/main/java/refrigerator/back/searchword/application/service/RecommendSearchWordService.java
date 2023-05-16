@@ -1,9 +1,7 @@
 package refrigerator.back.searchword.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import refrigerator.back.recipe.adapter.in.cache.config.RecipeCacheKey;
 import refrigerator.back.searchword.application.domain.Ingredient;
 import refrigerator.back.searchword.application.port.in.FindRecommendSearchWordUseCase;
 import refrigerator.back.searchword.application.port.out.FindIngredientsByMemberPort;

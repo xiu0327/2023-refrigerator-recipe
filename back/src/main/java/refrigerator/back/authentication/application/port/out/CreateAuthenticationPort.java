@@ -1,5 +1,5 @@
 package refrigerator.back.authentication.application.port.out;
 
-public interface AuthenticatePort {
+public interface CreateAuthenticationPort {
     String authenticate(String username, String password);
 }

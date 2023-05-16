@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.cache.config;
+package refrigerator.back.recipe.adapter.cache.config;
 
 public class RecipeCacheKey {
     public static final String FOOD_TYPE = "FOOD_TYPE";

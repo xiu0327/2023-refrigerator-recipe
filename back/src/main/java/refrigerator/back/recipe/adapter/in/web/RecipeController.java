@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.recipe.adapter.in.cache.config.RecipeCacheKey;
+import refrigerator.back.recipe.adapter.cache.config.RecipeCacheKey;
 import refrigerator.back.recipe.adapter.in.dto.*;
 import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
 import refrigerator.back.recipe.application.domain.entity.Recipe;

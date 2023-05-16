@@ -28,15 +28,13 @@ public class EmailAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-
         UserDetails user = userDetailsService.loadUserByUsername(username);
         user.isEnabled();
         if (passwordEncoder.matches(password, user.getPassword()) || password.equals(tokenPassword)){
             return new EmailAuthenticationToken(
                     user.getUsername(),
                     user.getPassword(),
-                    user.getAuthorities()
-                    );
+                    user.getAuthorities());
         }
         throw new BusinessException(AuthenticationExceptionType.NOT_EQUAL_PASSWORD);
     }
