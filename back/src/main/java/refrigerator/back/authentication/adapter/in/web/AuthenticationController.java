@@ -40,7 +40,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/api/auth/logout")
-//    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public void logout(HttpServletRequest request, HttpServletResponse response){
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
         logoutUseCase.logout(accessToken);
@@ -49,6 +49,11 @@ public class AuthenticationController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
+        try{
+            response.sendRedirect(frontDomain + "/");
+        } catch (IOException e){
+            throw new BusinessException(AuthenticationExceptionType.FAIL_REDIRECT);
+        }
     }
 
     @GetMapping("/api/auth/login/oauth")

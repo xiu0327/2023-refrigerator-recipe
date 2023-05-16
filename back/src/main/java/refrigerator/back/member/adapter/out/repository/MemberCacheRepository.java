@@ -40,7 +40,6 @@ public class MemberCacheRepository {
         Optional<Member> member = repository.findByEmail(email);
         if (member.isPresent()){
             MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member.get(), member.get().getCreateDate());
-            log.info("dto = {}", dto);
             cache.put(email, dto);
             return dto;
         }
