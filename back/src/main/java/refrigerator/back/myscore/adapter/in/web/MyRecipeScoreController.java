@@ -36,9 +36,9 @@ public class MyRecipeScoreController {
         return new ResponseEntity<>(cooking, HttpStatus.OK);
     }
 
-    @GetMapping("/api/my-score")
+    @GetMapping("/api/my-score/list")
     public InMyScoreListDTO<InMyScoreDTO> findMyScore(@RequestParam("page") int page,
-                                            @RequestParam("size") int size){
+                                            @RequestParam(value = "size", defaultValue = "11") int size){
         return findMyScoreListUseCase.findMyScoreList(getMemberEmail(), page, size);
     }
 
