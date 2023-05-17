@@ -1,10 +1,13 @@
 package refrigerator.back.member.adapter.out.repository;
 
+import io.lettuce.core.RedisBusyException;
+import io.lettuce.core.RedisException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,6 +47,15 @@ public class MemberCacheRepository {
             return dto;
         }
         return null;
+    }
+
+    public void updateCacheDate(Member member){
+        Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
+        if (cache != null){
+            MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member, member.getCreateDate());
+            cache.put(member.getEmail(), dto);
+        }
+        throw new RedisException("회원 캐시 서버를 찾을 수 없습니다.");
     }
 
 }
