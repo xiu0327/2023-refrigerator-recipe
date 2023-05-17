@@ -29,7 +29,7 @@ public class CheckFirstLoginAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try{
-            String initStatus = request.getHeader("init-member-info");
+            String initStatus = request.getHeader("Init-Status");
             if (initStatus == null){
                 String header = request.getHeader(HttpHeaders.AUTHORIZATION);
                 if (header != null){
@@ -37,7 +37,7 @@ public class CheckFirstLoginAuthenticationFilter extends OncePerRequestFilter {
                     String email = jsonWebTokenProvider.parseClaims(accessToken).getSubject();
                     if (checkFirstLoginUseCase.checkFirstLogin(email)){
                         response.setStatus(HttpStatus.TEMPORARY_REDIRECT.value());
-                        response.sendRedirect(frontDomain + "/membermanagement/profile");
+                        response.sendRedirect(frontDomain + "/member/profile");
                         return;
                     }
                 }
