@@ -38,7 +38,6 @@ public class AuthenticationController {
     public TokenDTO loginByBasic(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         return login(request.getEmail(), request.getPassword(), response);
     }
-
     @GetMapping("/api/auth/logout")
     @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public void logout(HttpServletRequest request, HttpServletResponse response){
@@ -59,7 +58,7 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.CREATED)
     public void loginByOAuth2(@RequestParam("email") String email, HttpServletResponse response) throws IOException {
         TokenDTO token = login(email, oauthPassword, response);
-        response.sendRedirect(frontDomain + "/membermanagement/success?token=" + token.getAccessToken());
+        response.sendRedirect(frontDomain + "/member/success?token=" + token.getAccessToken());
     }
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)

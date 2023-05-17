@@ -11,6 +11,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -46,6 +47,10 @@ public class SecurityConfig {
     @Value("${jwt.tokenPassword}")
     private String tokenPassword;
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/redirect_test");
+    }
     @Bean
     public AuthenticationManager authenticationManager(){
         return new ProviderManager(Collections.singletonList(authenticationProvider));

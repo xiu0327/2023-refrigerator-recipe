@@ -197,7 +197,7 @@ class AuthenticationControllerTest {
         mockMvc.perform(get("/api/comments/my/1")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
         ).andExpect(status().is3xxRedirection()
-        ).andExpect(redirectedUrl("http://localhost:3000/membermanagement/profile")
+        ).andExpect(redirectedUrl("http://localhost:3000/member/profile")
         ).andDo(print());
         // 경우 2. 댓글 생성
         WriteCommentRequestDTO request = WriteCommentRequestDTO.builder()
@@ -211,7 +211,7 @@ class AuthenticationControllerTest {
                 .content(requestJson)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
         ).andExpect(status().is3xxRedirection()
-        ).andExpect(redirectedUrl("http://localhost:3000/membermanagement/profile")
+        ).andExpect(redirectedUrl("http://localhost:3000/member/profile")
         ).andDo(print());
     }
 
