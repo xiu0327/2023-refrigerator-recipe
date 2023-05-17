@@ -55,12 +55,26 @@ public class AuthenticationController {
             throw new BusinessException(AuthenticationExceptionType.FAIL_REDIRECT);
         }
     }
-
     @GetMapping("/api/auth/login/oauth")
     @ResponseStatus(HttpStatus.CREATED)
     public void loginByOAuth2(@RequestParam("email") String email, HttpServletResponse response) throws IOException {
         TokenDTO token = login(email, oauthPassword, response);
         response.sendRedirect(frontDomain + "/membermanagement/success?token=" + token.getAccessToken());
+    }
+    @PostMapping("/api/auth/reissue")
+    @ResponseStatus(HttpStatus.CREATED)
+    public TokenDTO reissue(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        try{
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Refresh-Token")){
+                    return tokenReissueUseCase.reissue(cookie.getValue());
+                }
+            }
+        }catch (NullPointerException e){
+            throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_COOKIE);
+        }
+        throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_TOKEN);
     }
 
     private TokenDTO login(String email, String password, HttpServletResponse response) {
@@ -71,17 +85,4 @@ public class AuthenticationController {
         token.removeRefreshToken();
         return token;
     }
-
-    @PostMapping("/api/auth/reissue")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TokenDTO reissue(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("Refresh-Token")){
-                return tokenReissueUseCase.reissue(cookie.getValue());
-            }
-        }
-        throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_TOKEN);
-    }
-
 }
