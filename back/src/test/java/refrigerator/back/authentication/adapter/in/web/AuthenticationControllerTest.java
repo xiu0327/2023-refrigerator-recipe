@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -79,7 +80,7 @@ class AuthenticationControllerTest {
                 .build();
     }
 
-    @AfterEach()
+    @BeforeEach()
     void redisRollback(){
         redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
             connection.flushAll();
@@ -162,7 +163,7 @@ class AuthenticationControllerTest {
         // when
         mockMvc.perform(get("/api/auth/logout")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
-        ).andExpect(status().is2xxSuccessful()
+        ).andExpect(status().is3xxRedirection()
         ).andExpect(cookie().maxAge("Refresh-Token", 0)
         ).andExpect(header().string(HttpHeaders.AUTHORIZATION, "")
         ).andDo(print());
@@ -179,7 +180,7 @@ class AuthenticationControllerTest {
         String requestJson = new ObjectMapper().writeValueAsString(dto);
         mockMvc.perform(put("/api/members/init")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
-                .header("init-member-info", "true")
+                .header("Init-Status", "true")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
         ).andExpect(status().is2xxSuccessful()

@@ -1,5 +1,6 @@
 package refrigerator.back.global.exception;
 
+import io.lettuce.core.RedisException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,11 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(ConnectException.class)
     public ResponseEntity<BasicExceptionFormat> notDatabaseConnected(ConnectException e){
         return new ResponseEntity<>(new BasicExceptionFormat("NOT_CONNECTED_SERVER", "현재 서버의 연결이 원활하지 않습니다."), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RedisException.class)
+    public ResponseEntity<BasicExceptionFormat> notFoundCache(RedisException e){
+        return new ResponseEntity<>(new BasicExceptionFormat("NOT_FOUND_CACHE", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
 }

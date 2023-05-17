@@ -37,7 +37,7 @@ public class MemberCacheRepository {
     public MemberCacheDTO getCacheData(String email){
         Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
         MemberCacheDTO cacheData = cache.get(email, MemberCacheDTO.class);
-        if (cacheData != null){
+        if (cacheData != null && !cacheData.getEmail().equals("deleted")){
             return cacheData;
         }
         Optional<Member> member = repository.findByEmail(email);
@@ -49,13 +49,21 @@ public class MemberCacheRepository {
         return null;
     }
 
+    public void deleteCacheDate(String email){
+        Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
+        if (cache != null){
+            cache.put(email, new MemberCacheDTO("deleted"));
+        }
+    }
+
     public void updateCacheDate(Member member){
         Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
         if (cache != null){
             MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member, member.getCreateDate());
             cache.put(member.getEmail(), dto);
+            return ;
         }
-        throw new RedisException("회원 캐시 서버를 찾을 수 없습니다.");
+        throw new RedisException("캐시를 저장하는 도중 오류가 발생했습니다.");
     }
 
 }

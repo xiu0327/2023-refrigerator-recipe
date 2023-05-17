@@ -20,4 +20,8 @@ public class MemberCacheDTO implements Serializable {
     private MemberStatus memberStatus;
     private MemberProfileImage profile;
     private LocalDateTime createDate;
+
+    public MemberCacheDTO(String email) {
+        this.email = email;
+    }
 }

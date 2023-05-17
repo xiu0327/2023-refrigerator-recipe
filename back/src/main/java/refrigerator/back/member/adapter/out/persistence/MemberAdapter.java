@@ -14,7 +14,7 @@ import refrigerator.back.member.application.port.out.PersistMemberPort;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberPersistenceAdapter implements FindMemberPort, CreateMemberPort, PersistMemberPort {
+public class MemberAdapter implements FindMemberPort, CreateMemberPort, PersistMemberPort {
 
     private final MemberRepository memberRepository;
     private final MemberCacheRepository memberCacheRepository;
@@ -43,6 +43,7 @@ public class MemberPersistenceAdapter implements FindMemberPort, CreateMemberPor
     @Override
     public void persist(Member member) {
         memberRepository.save(member);
+        memberCacheRepository.updateCacheDate(member);
     }
 
 }

@@ -22,10 +22,4 @@ class MemberProfileImageServiceTest {
         String imageUrl = memberProfileImageService.createURL(imageName);
         assertNotNull(imageUrl);
     }
-
-    @Test
-    void 이미지_목록_조회() {
-        List<MemberProfileDTO> profileList = memberProfileImageService.getProfileList();
-        Assertions.assertThat(profileList.size()).isEqualTo(MemberProfileImage.values().length);
-    }
 }

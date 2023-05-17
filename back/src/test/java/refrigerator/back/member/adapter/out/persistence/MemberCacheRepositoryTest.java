@@ -3,6 +3,7 @@ package refrigerator.back.member.adapter.out.persistence;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
 import refrigerator.back.member.adapter.mapper.MemberDtoMapper;
 import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
+import refrigerator.back.member.adapter.out.repository.MemberCacheRepository;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.in.InitNicknameAndProfileUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
@@ -30,6 +32,7 @@ public class MemberCacheRepositoryTest {
     @Autowired JoinUseCase joinUseCase;
     @Autowired InitNicknameAndProfileUseCase initNicknameAndProfileUseCase;
     @Autowired MemberDtoMapper memberDtoMapper;
+    @Autowired MemberCacheRepository memberCacheRepository;
     @Autowired TestData testData;
 
     private final RedisTemplate<String, MemberCacheDTO> redisTemplate;
@@ -39,7 +42,7 @@ public class MemberCacheRepositoryTest {
         this.redisTemplate = redisTemplate;
     }
 
-    @AfterEach()
+    @BeforeEach()
     void redisRollback(){
         redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
             connection.flushAll();
@@ -86,4 +89,21 @@ public class MemberCacheRepositoryTest {
         assertThat(cacheDTO.getMemberStatus()).isEqualTo(getMemberData.getMemberStatus());
         assertThat(cacheDTO.getProfile()).isEqualTo(getMemberData.getProfile());
     }
+
+    @Test
+    @DisplayName("캐시가 제대로 삭제되는지 확인")
+    void checkCacheDelete(){
+        String email = "email@gmail.com";
+        joinUseCase.join(email, "password123!", "");
+        // 1. 회원 조회 -> 캐시 생성 (select 1)
+        findMemberPort.findMember(email);
+        assertThat(memberCacheRepository.getCacheData(email)).isNotNull();
+        // 2. 회원 정보 변경 -> 캐시 삭제 (select 2)
+        initNicknameAndProfileUseCase.initNicknameAndProfile(email, "임시 닉네임", "IMG_9709.JPG");
+        memberCacheRepository.deleteCacheDate(email);
+        // 3. 캐시가 삭제 -> 업데이트 된 내용이 조회 됨 (select 3)
+        MemberCacheDTO cacheData = memberCacheRepository.getCacheData(email);
+        assertThat(cacheData.getNickname()).isEqualTo("임시 닉네임");
+    }
+
 }

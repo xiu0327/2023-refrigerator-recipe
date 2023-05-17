@@ -80,7 +80,7 @@ class MyRecipeScoreControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         cookingUseCase.cooking(email, 1L,  1.5);
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
-        mockMvc.perform(get("/api/my-score?page=0&size=11")
+        mockMvc.perform(get("/api/my-score/list?page=0&size=11")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(jsonPath("$.scores").isNotEmpty()
         ).andExpect(status().is2xxSuccessful()

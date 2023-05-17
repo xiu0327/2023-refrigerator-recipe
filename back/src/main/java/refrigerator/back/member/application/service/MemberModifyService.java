@@ -11,6 +11,7 @@ import refrigerator.back.member.application.port.in.UpdateProfileUseCase;
 import refrigerator.back.member.application.port.out.InitMemberProfileAndNicknamePort;
 import refrigerator.back.member.application.port.out.ModifyMemberNicknamePort;
 import refrigerator.back.member.application.port.out.ModifyMemberProfilePort;
+import refrigerator.back.member.application.port.out.RenewMemberCachePort;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import static refrigerator.back.global.common.InputDataFormatCheck.NICKNAME_REGEX;

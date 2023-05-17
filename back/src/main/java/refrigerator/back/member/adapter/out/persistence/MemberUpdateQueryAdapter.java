@@ -3,6 +3,7 @@ package refrigerator.back.member.adapter.out.persistence;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.member.adapter.out.repository.MemberCacheRepository;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.port.out.InitMemberProfileAndNicknamePort;
 import refrigerator.back.member.application.port.out.ModifyMemberNicknamePort;
@@ -18,6 +19,7 @@ import static refrigerator.back.member.application.domain.QMember.member;
 public class MemberUpdateQueryAdapter implements InitMemberProfileAndNicknamePort, ModifyMemberNicknamePort, ModifyMemberProfilePort {
 
     private final JPAQueryFactory jpaQueryFactory;
+    private final MemberCacheRepository memberCacheRepository;
     private final EntityManager em;
 
     @Override
@@ -27,7 +29,7 @@ public class MemberUpdateQueryAdapter implements InitMemberProfileAndNicknamePor
                 .set(member.profile, profile)
                 .where(member.email.eq(email))
                 .execute();
-        clearEntityManager();
+        clearCache(email);
     }
     @Override
     public void modifyNickname(String email, String nickname) {
@@ -35,7 +37,7 @@ public class MemberUpdateQueryAdapter implements InitMemberProfileAndNicknamePor
                 .set(member.nickname, nickname)
                 .where(member.email.eq(email))
                 .execute();
-        clearEntityManager();
+        clearCache(email);
     }
 
     @Override
@@ -44,12 +46,13 @@ public class MemberUpdateQueryAdapter implements InitMemberProfileAndNicknamePor
                 .set(member.profile, profile)
                 .where(member.email.eq(email))
                 .execute();
-        clearEntityManager();
+        clearCache(email);
     }
 
-    private void clearEntityManager() {
+    private void clearCache(String email) {
         em.flush();
         em.clear();
+        memberCacheRepository.deleteCacheDate(email);
     }
 
 }
