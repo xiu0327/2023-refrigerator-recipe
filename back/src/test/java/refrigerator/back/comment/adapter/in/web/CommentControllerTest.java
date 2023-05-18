@@ -3,11 +3,15 @@ package refrigerator.back.comment.adapter.in.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,6 +29,7 @@ import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCas
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
 import refrigerator.back.global.TestData;
+import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 
 import javax.persistence.EntityManager;
 
@@ -55,11 +60,26 @@ class CommentControllerTest {
                 .build();
     }
 
+    private final RedisTemplate<String, MemberCacheDTO> redisTemplate;
+
+    public CommentControllerTest(
+            @Qualifier("memberCacheRedisTemplate") RedisTemplate<String, MemberCacheDTO> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @BeforeEach()
+    void redisRollback(){
+        redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
+            connection.flushAll();
+            return null;
+        });
+    }
+
     @Test
     void 댓글_작성() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         WriteCommentRequestDTO request = WriteCommentRequestDTO.builder()
                 .recipeId(1L)
@@ -79,7 +99,7 @@ class CommentControllerTest {
     void 댓글_수정() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         EditCommentRequestDTO request = new EditCommentRequestDTO(commentId, "개맛있음");
@@ -97,7 +117,7 @@ class CommentControllerTest {
     void 삭제된_댓글_수정() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         deleteCommentUseCase.delete(email, commentId);
@@ -116,7 +136,7 @@ class CommentControllerTest {
     void 댓글_삭제() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         // when
@@ -130,7 +150,7 @@ class CommentControllerTest {
     void 댓글_생성_후_하트_누르기() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         // when
@@ -146,7 +166,7 @@ class CommentControllerTest {
     void 삭제된_댓글_하트_누르기() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         deleteCommentUseCase.delete(email, commentId);
@@ -163,7 +183,7 @@ class CommentControllerTest {
     void 중복된_댓글_하트_누르기() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         addCommentHeartUseCase.addHeart(email, commentId);
@@ -180,7 +200,7 @@ class CommentControllerTest {
     void 중복된_댓글_하트_취소() throws Exception {
         // given
         String rawPassword = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encrypt(rawPassword));
+        String email = testData.createMemberByEmailAndPassword("comment123@gmail.com", passwordEncoder.encrypt(rawPassword));
         TokenDTO token = loginUseCase.login(email, rawPassword);
         Long commentId = writeCommentUseCase.write(1L, email, "맛있음");
         // when

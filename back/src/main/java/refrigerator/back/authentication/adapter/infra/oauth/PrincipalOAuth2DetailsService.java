@@ -24,7 +24,6 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
 
     private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final JoinUseCase joinUseCase;
-
     @Value("${oauth.password}")
     private String oauthPassword;
 
@@ -33,6 +32,7 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String providerId = userRequest.getClientRegistration().getRegistrationId();
         String email = getEmail(providerId, oAuth2User);
+        String nickname = getNickname(providerId, oAuth2User);
         Optional<Member> member = Optional.ofNullable(findMemberInfoUseCase.pureFindMemberByEmail(email));
         if (member.isPresent()){
             return OauthUser.builder()
@@ -41,12 +41,25 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
                     .attributes(oAuth2User.getAttributes())
                     .authority(member.get().getMemberStatus().getStatusCode()).build();
         }
-        joinUseCase.join(email, oauthPassword, "");
+        joinUseCase.join(email, oauthPassword, nickname);
         return OauthUser.builder()
                 .username(email)
                 .password(oauthPassword)
                 .attributes(oAuth2User.getAttributes())
                 .authority(MemberStatus.STEADY_STATUS.getStatusCode()).build();
+    }
+
+    private String getNickname(String providerId, OAuth2User oAuth2User){
+        if (providerId.equals("google")){
+            return oAuth2User.getAttribute("name");
+        }
+        if (providerId.equals("naver")){
+            Map<String, String> result = oAuth2User.getAttribute("response");
+            return result.get("nickname");
+        }
+        throw new OAuth2AuthenticationException(
+                new OAuth2Error("NOT_FOUND_OAUTH2_NICKNAME", "회원의 정보를 가져오지 못했습니다", "")
+        );
     }
 
     private String getEmail(String providerId, OAuth2User oAuth2User) {
@@ -58,7 +71,7 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
             return result.get("email");
         }
         throw new OAuth2AuthenticationException(
-                new OAuth2Error("BAD_REQUEST_NAVER_LOGIN", "네이버 로그인에 실패했습니다.", "")
+                new OAuth2Error("NOT_FOUND_OAUTH2_EMAIL", "회원의 정보를 가져오지 못했습니다", "")
         );
     }
 }

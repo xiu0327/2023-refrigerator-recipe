@@ -48,11 +48,6 @@ public class AuthenticationController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
-        try{
-            response.sendRedirect(frontDomain + "/");
-        } catch (IOException e){
-            throw new BusinessException(AuthenticationExceptionType.FAIL_REDIRECT);
-        }
     }
     @GetMapping("/api/auth/login/oauth")
     @ResponseStatus(HttpStatus.CREATED)

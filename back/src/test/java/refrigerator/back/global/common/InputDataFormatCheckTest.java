@@ -9,12 +9,12 @@ class InputDataFormatCheckTest {
     void 이메일_입력_형식_테스트(){
         String email = "email123@gmail.com";
         String password = "password123!";
-
+        String nickname = "닉네임";
         MemberJoinRequestDTO result = MemberJoinRequestDTO.builder()
                 .email(email)
                 .password(password)
+                .nickname(nickname)
                 .build();
-
         result.check();
 
     }

@@ -42,7 +42,7 @@ public class MemberAccessController {
         Long memberID = joinUseCase.join(
                 request.getEmail(),
                 request.getPassword(),
-                "");
+                request.getNickname());
         return new MemberJoinResponseDTO(memberID);
     }
 

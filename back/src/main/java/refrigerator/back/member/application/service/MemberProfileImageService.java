@@ -27,7 +27,6 @@ public class MemberProfileImageService implements MakeProfileUrlUseCase, GetProf
     @Override
     public List<MemberProfileDTO> getProfileList() {
         return Arrays.stream(MemberProfileImage.values())
-                .filter(image -> image != MemberProfileImage.PROFILE_NOT_SELECT)
                 .map(image -> new MemberProfileDTO(image.getName(), createURL(image.getName())))
                 .collect(Collectors.toList());
     }

@@ -21,11 +21,8 @@ import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenP
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2FailureHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.Oauth2SuccessHandler;
 import refrigerator.back.authentication.adapter.infra.oauth.PrincipalOAuth2DetailsService;
-import refrigerator.back.authentication.adapter.infra.security.filter.CheckFirstLoginAuthenticationFilter;
 import refrigerator.back.authentication.adapter.infra.security.filter.JwtAuthenticationFilter;
-import refrigerator.back.authentication.adapter.infra.security.handler.CheckFirstLoginFailHandler;
 import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
-import refrigerator.back.member.application.port.in.CheckFirstLoginUseCase;
 
 import java.util.Collections;
 
@@ -39,7 +36,6 @@ public class SecurityConfig {
     private final JsonWebTokenProvider jsonWebTokenProvider;
     private final AuthenticationProvider authenticationProvider;
     private final CheckContainBlackListPort checkContainBlackListPort;
-    private final CheckFirstLoginUseCase checkFirstLoginUseCase;
     private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final Oauth2FailureHandler oauth2FailureHandler;
@@ -67,17 +63,8 @@ public class SecurityConfig {
         setWordCompletion(http);
         setDefault(http);
         setJwtFilter(http);
-        setCheckFirstLoginFilter(http);
         return http.build();
     }
-
-    private void setCheckFirstLoginFilter(HttpSecurity http) {
-        http
-                .addFilterAfter(new CheckFirstLoginAuthenticationFilter(
-                        checkFirstLoginUseCase, jsonWebTokenProvider, "http://localhost:3000", new CheckFirstLoginFailHandler()),
-                        UsernamePasswordAuthenticationFilter.class);
-    }
-
     private SessionManagementConfigurer<HttpSecurity> setDefault(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()

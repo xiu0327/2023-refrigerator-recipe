@@ -15,7 +15,7 @@ import refrigerator.back.member.exception.MemberExceptionType;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService implements FindMemberInfoUseCase, CheckFirstLoginUseCase {
+public class MemberService implements FindMemberInfoUseCase {
 
     private final FindMemberPort findMemberPort;
 
@@ -35,11 +35,5 @@ public class MemberService implements FindMemberInfoUseCase, CheckFirstLoginUseC
         return findMemberPort.findMemberNotUseCache(email);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Boolean checkFirstLogin(String memberId) {
-        Member member = findMemberPort.findMember(memberId);
-        return !StringUtils.hasText(member.getNickname()) || member.getProfile() == MemberProfileImage.PROFILE_NOT_SELECT;
-    }
 
 }

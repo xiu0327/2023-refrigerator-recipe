@@ -19,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member member = findMemberPort.findMemberNotUseCache(username);
+        Member member = findMemberPort.findMember(username);
         if (member == null){
             throw new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER);
         }

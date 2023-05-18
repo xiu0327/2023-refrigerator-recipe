@@ -7,6 +7,7 @@ import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
 
 import javax.persistence.*;
+import java.util.Random;
 
 @Entity
 @Table(name = "member")
@@ -57,7 +58,7 @@ public class Member extends BaseTimeEntity {
     }
 
     private void initializeProfile(){
-        this.profile = MemberProfileImage.PROFILE_NOT_SELECT;
+        this.profile = MemberProfileImage.pickUp();
     }
     public void initProfileAndNickname(String imageName, String nickname){
         this.profile = MemberProfileImage.findImageByName(imageName);

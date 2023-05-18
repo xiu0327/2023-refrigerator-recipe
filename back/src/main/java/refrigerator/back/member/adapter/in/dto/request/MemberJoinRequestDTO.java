@@ -18,9 +18,12 @@ public class MemberJoinRequestDTO extends InputDataFormatCheck {
     private String email;
     @NotEmpty
     private String password;
+    @NotEmpty
+    private String nickname;
 
     public void check() {
         inputCheck(EMAIL_REGEX, email, MemberExceptionType.INCORRECT_EMAIL_FORMAT);
         inputCheck(PASSWORD_REGEX, password, MemberExceptionType.INCORRECT_PASSWORD_FORMAT);
+        inputCheck(NICKNAME_REGEX, nickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
     }
 }

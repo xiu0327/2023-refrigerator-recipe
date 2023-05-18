@@ -7,6 +7,7 @@ import refrigerator.back.member.exception.MemberExceptionType;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Getter
@@ -16,13 +17,13 @@ public enum MemberProfileImage {
     PROFILE_IMAGE_TWO("IMG_9706.JPG"),
     PROFILE_IMAGE_THREE("IMG_9707.JPG"),
     PROFILE_IMAGE_FOUR("IMG_9708.JPG"),
-    PROFILE_IMAGE_FIVE("IMG_9705.JPG"),
-    PROFILE_NOT_SELECT("")
+    PROFILE_IMAGE_FIVE("IMG_9705.JPG")
     ;
 
     private String name;
 
-    protected static MemberProfileImage pickUp(int random){
+    protected static MemberProfileImage pickUp(){
+        int random = new Random().nextInt(5);
         MemberProfileImage[] result = MemberProfileImage.values();
         return result[random];
     }

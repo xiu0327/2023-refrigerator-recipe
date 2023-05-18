@@ -61,18 +61,6 @@ public class MemberCacheRepositoryTest {
     }
 
     @Test
-    @DisplayName("회원가입 -> 캐시 저장 X -> 닉네임, 프로필 초기값 설정 -> 캐시 저장 O -> 회원 조회")
-    void initMemberInfo(){
-        String email = "email@gmail.com";
-        joinUseCase.join(email, "password123!", ""); // select 1
-        initNicknameAndProfileUseCase.initNicknameAndProfile(email, "임시 닉네임", "IMG_9709.JPG"); // select 2
-        Member member = findMemberPort.findMember(email);
-        assertThat(member).isNotNull(); // select X
-        assertThat(member.getNickname()).isEqualTo("임시 닉네임");
-        assertThat(member.getProfile().getName()).isEqualTo("IMG_9709.JPG");
-    }
-
-    @Test
     @DisplayName("member 와 memberCacheDTO 사이에 매핑이 제대로 이루어지는지 확인")
     void mappingTest(){
         String email = testData.createMemberByEmail("email@gmail.com");

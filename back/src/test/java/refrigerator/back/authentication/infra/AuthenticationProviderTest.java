@@ -13,6 +13,7 @@ import refrigerator.back.authentication.adapter.infra.security.token.EmailAuthen
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.domain.MemberStatus;
+import refrigerator.back.member.application.port.in.JoinUseCase;
 
 import javax.persistence.EntityManager;
 import java.util.Set;
@@ -22,29 +23,23 @@ import java.util.Set;
 public class AuthenticationProviderTest {
 
     @Autowired AuthenticationProvider provider;
-    @Autowired EntityManager entityManager;
-    @Autowired PasswordEncoder passwordEncoder;
+    @Autowired JoinUseCase joinUseCase;
 
     @Test
     void 이메일_인증_공급자_테스트(){
         // given
-        String rawPassword = "password1233!";
-        Member member = Member.builder()
-                .email("email123@gmail.com")
-                .password(passwordEncoder.encode(rawPassword))
-                .nickname("닉네임 뿅")
-                .profile(MemberProfileImage.PROFILE_IMAGE_FIVE)
-                .memberStatus(MemberStatus.STEADY_STATUS).build();
-        entityManager.persist(member);
+        String email = "provider12@gmail.com";
+        String password = "password1233!";
+        joinUseCase.join(email, password, "닉네임");
         // when
         /* 사용자가 클라이언트를 통해 email, password 입력 -> 인증 객체 변환 */
         Authentication authenticate = provider.authenticate(
                 new EmailAuthenticationToken(
-                        member.getEmail(),
-                        rawPassword,
+                        email,
+                        password,
                         Set.of(new SimpleGrantedAuthority(MemberStatus.STEADY_STATUS.getStatusCode()))
                 ));
         // then
-        Assertions.assertThat(authenticate.getName()).isEqualTo(member.getEmail());
+        Assertions.assertThat(authenticate.getName()).isEqualTo(email);
     }
 }

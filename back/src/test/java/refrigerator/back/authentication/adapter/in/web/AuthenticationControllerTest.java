@@ -169,6 +169,7 @@ class AuthenticationControllerTest {
         ).andDo(print());
     }
 
+<<<<<<< HEAD
     @Test
     @DisplayName("프로필/닉네임 초기화 요청 빼고는 모두 최초 로그인 확인 필터를 거쳐야 함")
     void checkFirstLoginFilter() throws Exception {
@@ -235,4 +236,6 @@ class AuthenticationControllerTest {
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
+=======
+>>>>>>> back-nh-v3
 }

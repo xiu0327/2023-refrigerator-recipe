@@ -3,11 +3,15 @@ package refrigerator.back.member.adapter.in.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,6 +24,7 @@ import refrigerator.back.authentication.application.port.out.EncryptPasswordPort
 import refrigerator.back.global.TestData;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
+import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,6 +51,21 @@ class MemberControllerTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
+    }
+
+    private final RedisTemplate<String, MemberCacheDTO> redisTemplate;
+
+    public MemberControllerTest(
+            @Qualifier("memberCacheRedisTemplate") RedisTemplate<String, MemberCacheDTO> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @BeforeEach()
+    void redisRollback(){
+        redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
+            connection.flushAll();
+            return null;
+        });
     }
 
     @Test
