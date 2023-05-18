@@ -53,13 +53,14 @@
 <br>
 
 ## 💡 Issues
-  - [`CSS 마진 겹칩 문제 해결 방안`](https://adaptive-hen-d10.notion.site/CSS-69907310f2514ad1a2261b11ada4d5ed)
-  - [`MapStruct 사용기`](https://adaptive-hen-d10.notion.site/MapStruct-1b73a85d98ad482c93656210553c3bed)
-  - [`프론트엔드의 CORS 문제와 해결`](https://adaptive-hen-d10.notion.site/CORS-12371bc3965a4a9db63ebe9bf7a9f582)
-  - [`알림 서비스 확장`](https://adaptive-hen-d10.notion.site/d0a6ae820c26452e9f059b888e5a07b7)
+
 
 ## 📝 Posting
   - [`레시피 검색어 자동완성 기능 구현`](https://adaptive-hen-d10.notion.site/65362f6e73634a749f11403db26e333f)
   - [`예외처리와 @ExceptionHandler`](https://adaptive-hen-d10.notion.site/ExceptionHandler-afb5de76a1f64f20a3be92be19c8f9bb)
   - [`타입스크립트 기초 문법`](https://adaptive-hen-d10.notion.site/0003bc722dfa4f03b3ffa93d09563381)
   - [`React Hooks`](https://adaptive-hen-d10.notion.site/React-Hooks-60254364843a4a969fabd8290aa7b777)
+  - [`CSS 마진 겹칩 문제 해결 방안`](https://adaptive-hen-d10.notion.site/CSS-69907310f2514ad1a2261b11ada4d5ed)
+  - [`MapStruct 사용기`](https://adaptive-hen-d10.notion.site/MapStruct-1b73a85d98ad482c93656210553c3bed)
+  - [`프론트엔드의 CORS 문제와 해결`](https://adaptive-hen-d10.notion.site/CORS-12371bc3965a4a9db63ebe9bf7a9f582)
+  - [`알림 서비스 확장`](https://adaptive-hen-d10.notion.site/d0a6ae820c26452e9f059b888e5a07b7)
