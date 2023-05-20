@@ -1,59 +1,28 @@
+import instance from "@/api/interceptors";
 import styles from "./ScrollContent.module.scss";
+import { useEffect, useState } from "react";
 
-export default function ScrollContent(props: { content: string }) {
-	const starContent = [
-		{
-			title: "s사진1",
-		},
-		{
-			title: "s사진2",
-		},
-		{
-			title: "s사진3",
-		},
-		{
-			title: "s사진4",
-		},
-		{
-			title: "s사진5",
-		},
-		{
-			title: "더보기(링크)",
-		},
-	];
-	const bookmark = [
-		{
-			title: "b사진1",
-		},
-		{
-			title: "b사진2",
-		},
-		{
-			title: "b사진3",
-		},
-		{
-			title: "b사진4",
-		},
-		{
-			title: "b사진5",
-		},
-		{
-			title: "더보기(링크)",
-		},
-	];
+export default function ScrollContent(props: any) {
+	const onClickHandler = () => {};
 	return props.content === "star" ? (
 		<div className={styles.scroll}>
-			{starContent.map((items) => (
-				<div className={styles.content} key={items.title}>
-					{items.title}
+			{props.scorePreview.map((i) => (
+				<div className={styles.content} key={i.scoreId}>
+					<button className={styles.recipeBtn} onClick={onClickHandler}>
+						<img className={styles.recipeImage} src={i.image} />
+					</button>
+					<div className={styles.recipeName}>{i.scoreName}</div>
 				</div>
 			))}
 		</div>
 	) : (
 		<div className={styles.scroll}>
-			{bookmark.map((items) => (
-				<div className={styles.content} key={items.title}>
-					{items.title}
+			{props.bookmarkPreview.map((i) => (
+				<div className={styles.content} key={i.recipeId}>
+					<button className={styles.recipeBtn} onClick={onClickHandler}>
+						<img className={styles.recipeImage} src={i.image} />
+					</button>
+					<div className={styles.recipeName}>{i.recipeName}</div>
 				</div>
 			))}
 		</div>
