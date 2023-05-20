@@ -48,7 +48,6 @@ public class AuthenticationController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
-        System.out.println("AuthenticationController.logout");
     }
     @GetMapping("/api/auth/login/oauth")
     @ResponseStatus(HttpStatus.CREATED)
