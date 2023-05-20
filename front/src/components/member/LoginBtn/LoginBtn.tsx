@@ -1,18 +1,29 @@
 import Link from "next/link";
 import { Button } from "react-bootstrap";
-import { EmojiSmile, Github, Google } from "react-bootstrap-icons";
+import { EmojiSmile, HouseFill, Google } from "react-bootstrap-icons";
 import styles from "./LoginBtn.module.scss";
+import { useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 
 export default function LoginBtn() {
 	const LoginBtns = [
 		{
 			icon: <EmojiSmile />,
 			title: "이메일로 로그인하기",
-			link: "../login/loginEmail",
+			link: "../member/email",
 		},
-		{ icon: <Google />, title: "구글로 로그인하기", link: "#" },
-		{ icon: <Github />, title: "깃허브로 로그인하기", link: "#" },
+		{
+			icon: <Google />,
+			title: "구글로 로그인하기",
+			link: "http://localhost:8080/oauth2/authorization/google",
+		},
+		{
+			icon: <HouseFill />,
+			title: "네이버로 로그인하기",
+			link: "http://localhost:8080/oauth2/authorization/naver",
+		},
 	];
+
 	return (
 		<div className={`d-grid gap-2`}>
 			{LoginBtns.map((items) => (
