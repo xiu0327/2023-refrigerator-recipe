@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import styles from "./ConfirmCancelModal.module.scss";
+import { logout } from "@/api/logout";
 
 export default function ConfirmCancelModal(props: {
 	title: string;
@@ -24,9 +25,9 @@ export default function ConfirmCancelModal(props: {
 				</Modal.Header>
 				<Modal.Body>{props.ment}</Modal.Body>
 				<Modal.Footer>
-					<Link legacyBehavior href="/">
-						<Button>확인</Button>
-					</Link>
+					{/* <Link legacyBehavior href="/"> */}
+					<Button onClick={logout}>확인</Button>
+					{/* </Link> */}
 					<Button variant="secondary" onClick={handleClose}>
 						취소
 					</Button>
