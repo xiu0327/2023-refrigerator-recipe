@@ -27,6 +27,10 @@
 <br>
 
 ## ✏ 기획 & 설계
+- 도메인 모델링
+![도메인 모델링](https://github.com/xiu0327/2023-refrigerator-recipe/assets/78461009/bc31d72b-0fcd-4249-b2a0-99604bca79d5)
+
+
 
 <br>
 
