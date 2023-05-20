@@ -1,5 +1,6 @@
 package refrigerator.back.searchword.application.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@Slf4j
 class LastSearchWordServiceTest {
 
     @Autowired LastSearchWordService lastSearchWordService;
@@ -26,7 +28,8 @@ class LastSearchWordServiceTest {
         String memberId = testData.createMemberByEmail("email@gmail.com");
         String searchWord = "검색어";
         lastSearchWordService.addSearchWord(memberId, searchWord);
-        String findSearchWord = lastSearchWordService.getLastSearchWords(memberId).get(0);
+        List<String> result = lastSearchWordService.getLastSearchWords(memberId);
+        String findSearchWord = result.get(0);
         Assertions.assertThat(findSearchWord).isEqualTo(searchWord);
         lastSearchWordService.delete(memberId, searchWord);
     }

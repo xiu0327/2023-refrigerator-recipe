@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
+import refrigerator.back.global.common.MakeRedisKey;
 import refrigerator.back.identification.application.port.out.IdentificationRedisPort;
 
 import java.time.Duration;
@@ -14,10 +15,14 @@ import java.time.Duration;
 public class IdentificationAdapter implements IdentificationRedisPort {
 
     private final RedisTemplate<String, String> redisTemplate;
+    private final MakeRedisKey makeKey;
+    private final String IDENTIFICATION_REDIS_KEY = "IDENTIFICATION";
 
     public IdentificationAdapter(
-            @Qualifier("identificationRedisTemplate") RedisTemplate<String, String> redisTemplate) {
+            @Qualifier("identificationRedisTemplate") RedisTemplate<String, String> redisTemplate,
+            MakeRedisKey makeKey) {
         this.redisTemplate = redisTemplate;
+        this.makeKey = makeKey;
     }
 
     @Override
@@ -30,11 +35,14 @@ public class IdentificationAdapter implements IdentificationRedisPort {
     public void setData(String key, String value, long duration){
         ValueOperations<String, String> result = redisTemplate.opsForValue();
         Duration expireDuration = Duration.ofMillis(duration);
-        result.set(key, value, expireDuration);
+        result.set(
+                makeKey.makeKey(IDENTIFICATION_REDIS_KEY, key),
+                value,
+                expireDuration);
     }
-
     @Override
     public void deleteData(String key){
         redisTemplate.delete(key);
     }
+
 }

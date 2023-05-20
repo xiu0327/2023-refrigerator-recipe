@@ -6,10 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.global.common.BasicListResponseDTO;
 import refrigerator.back.global.exception.ValidationExceptionHandler;
-import refrigerator.back.member.adapter.in.dto.request.MemberInitNicknameAndProfileRequestDTO;
-import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
-import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
-import refrigerator.back.member.adapter.in.dto.response.MemberBasicDTO;
+import refrigerator.back.member.adapter.in.dto.request.*;
 import refrigerator.back.member.adapter.in.dto.response.MemberDTO;
 import refrigerator.back.member.adapter.in.dto.response.MemberProfileDTO;
 import refrigerator.back.member.application.domain.Member;
@@ -31,6 +28,7 @@ public class MemberController {
     private final MakeProfileUrlUseCase makeProfileUrlUseCase;
     private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final GetProfileListUseCase getProfileListUseCase;
+    private final UpdatePasswordUseCase updatePasswordUseCase;
     private final InitNicknameAndProfileUseCase initNicknameAndProfileUseCase;
 
 
@@ -43,8 +41,9 @@ public class MemberController {
 
     @PutMapping("/api/members/profile")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void setUpdateProfileUseCase(@RequestParam("imageName") String imageName){
-        updateProfileUseCase.updateProfile(getMemberEmail(), imageName);
+    public void setUpdateProfileUseCase(@RequestBody @Valid MemberProfileUpdateRequestDTO request, BindingResult result){
+        ValidationExceptionHandler.check(result, MemberExceptionType.EMPTY_INPUT_DATA);
+        updateProfileUseCase.updateProfile(getMemberEmail(), request.getImageName());
     }
 
     @DeleteMapping("/api/members")
@@ -58,6 +57,15 @@ public class MemberController {
         return new MemberDTO(
                 makeProfileUrlUseCase.createURL(member.getProfile().getName()),
                 member.getNickname());
+    }
+
+    @PutMapping("/api/members/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePassword(@RequestBody @Valid MemberUpdatePasswordRequestDTO request, BindingResult result){
+        check(result, MemberExceptionType.INCORRECT_PASSWORD_FORMAT);
+        updatePasswordUseCase.updatePassword(
+                getMemberEmail(),
+                request.getPassword());
     }
 
     @GetMapping("/api/members/profile/list")

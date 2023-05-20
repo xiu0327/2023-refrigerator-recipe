@@ -23,6 +23,7 @@ import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.global.TestData;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
+import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
 import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 
@@ -104,7 +105,11 @@ class MemberControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         String imageName = "IMG_9709.JPG";
-        mockMvc.perform(put("/api/members/profile?imageName=" + imageName)
+        MemberProfileUpdateRequestDTO request = new MemberProfileUpdateRequestDTO(imageName);
+        String requestJson = new ObjectMapper().writeValueAsString(request);
+        mockMvc.perform(put("/api/members/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
@@ -116,7 +121,11 @@ class MemberControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         String imageName = "imageimage.JPG";
-        mockMvc.perform(put("/api/members/profile?imageName=" + imageName)
+        MemberProfileUpdateRequestDTO request = new MemberProfileUpdateRequestDTO(imageName);
+        String requestJson = new ObjectMapper().writeValueAsString(request);
+        mockMvc.perform(put("/api/members/profile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());

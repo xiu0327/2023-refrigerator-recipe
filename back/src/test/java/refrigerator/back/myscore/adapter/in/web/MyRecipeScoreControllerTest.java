@@ -91,7 +91,7 @@ class MyRecipeScoreControllerTest {
     void 별점_미리보기() throws Exception {
         String email = testData.createMemberByEmail("email123@gmail.com");
         cookingUseCase.cooking(email, 1L,  1.5);
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 5000);
         mockMvc.perform(get("/api/my-score/preview?size=5")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(jsonPath("$.scores").isNotEmpty()

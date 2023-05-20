@@ -21,7 +21,6 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
 
     private final CreateMemberPort createMemberPort;
     private final FindMemberPort findMemberPort;
-    private final PersistMemberPort updateMemberPort;
     private final EncryptPasswordPort encryptPasswordPort;
     private final CreateTokenPort createTokenPort;
 
@@ -57,14 +56,4 @@ public class MemberAccessService implements JoinUseCase, FindPasswordUseCase, Du
                 1000 * 60 * 10);
     }
 
-    @Override
-    @Transactional
-    public void updatePassword(String email, String newPassword) {
-        Member member = findMemberPort.findMemberNotUseCache(email);
-        if (member == null){
-            throw new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER);
-        }
-        member.updatePassword(encryptPasswordPort.encrypt(newPassword));
-        updateMemberPort.persist(member);
-    }
 }

@@ -53,15 +53,6 @@ public class MemberAccessController {
         return new MemberFindPasswordResponseDTO(grantType, authToken);
     }
 
-    @PutMapping("/api/members/password")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePassword(@RequestBody @Valid MemberUpdatePasswordRequestDTO request, BindingResult result){
-        check(result, MemberExceptionType.INCORRECT_PASSWORD_FORMAT);
-        findPasswordUseCase.updatePassword(
-                getMemberEmail(),
-                request.getPassword());
-    }
-
     @PostMapping("/api/members/email/duplicate")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void duplicateCheckEmail(@RequestBody @Valid MemberEmailParameterRequestDTO request, BindingResult result){

@@ -53,17 +53,6 @@ class MemberAccessServiceTest {
     }
 
     @Test
-    void 비밀번호_수정(){
-        String email = "email123@gmail.com";
-        String password = "password123!";
-        testData.createMemberByEmailAndPassword(email, password);
-        String newPassword = "password12334!";
-        memberAccessService.updatePassword(email, newPassword);
-        Member findMember = testData.findMemberByEmail(email);
-        assertThat(encryptPasswordPort.match(newPassword, findMember.getPassword())).isTrue();
-    }
-
-    @Test
     void 회원_중복(){
         testData.createMember();
         assertThrows(BusinessException.class, () -> {

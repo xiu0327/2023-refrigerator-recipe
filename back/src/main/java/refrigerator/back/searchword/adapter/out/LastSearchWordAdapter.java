@@ -1,10 +1,12 @@
 package refrigerator.back.searchword.adapter.out;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.global.common.MakeRedisKey;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 import refrigerator.back.searchword.application.port.out.*;
@@ -12,14 +14,14 @@ import refrigerator.back.searchword.application.port.out.*;
 import java.util.*;
 
 @Repository
+@Slf4j
 public class LastSearchWordAdapter implements
         AddSearchWordPort, DeleteOldSearchWordPort, DeleteSearchWordPort,
         FindSearchWordPort, GetSearchWordListSizePort {
 
     private final RedisTemplate<String, String> searchWordRedisTemplate;
 
-    public LastSearchWordAdapter(
-            @Qualifier("searchWordRedisTemplate") RedisTemplate<String, String> searchWordRedisTemplate) {
+    public LastSearchWordAdapter(@Qualifier("searchWordRedisTemplate") RedisTemplate<String, String> searchWordRedisTemplate){
         this.searchWordRedisTemplate = searchWordRedisTemplate;
     }
 

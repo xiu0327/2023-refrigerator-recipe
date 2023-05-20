@@ -161,7 +161,7 @@ class IngredientLookUpControllerTest {
         String days = "1";
 
         String email = testData.createMemberByEmail("email123@gmail.com");
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 4000);
 
         mockMvc.perform(get("/api/ingredients/deadline/" + days)
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
