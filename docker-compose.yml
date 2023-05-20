@@ -21,11 +21,38 @@ services:
       - 6377:6377
     volumes:
       - ./redis/notification/redis.conf:/usr/local/etc/redis/redis.conf
+  comment:
+    container_name: redis-comment
+    image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6376:6376
+    volumes:
+      - ./redis/comment/redis.conf:/usr/local/etc/redis/redis.conf
+  identification:
+    container_name: redis-identification
+    image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6374:6374
+    volumes:
+      - ./redis/identification/redis.conf:/usr/local/etc/redis/redis.conf
+  token:
+    container_name: redis-token
+    image: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - 6375:6375
+    volumes:
+      - ./redis/token/redis.conf:/usr/local/etc/redis/redis.conf
   app:
     depends_on:
       - cache
       - search
       - notification
+      - comment
+      - identification
+      - token
     image: xiu0327/refrigerator
     ports:
       - 8080:8080
