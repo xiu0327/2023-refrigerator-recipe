@@ -2,8 +2,6 @@ import Link from "next/link";
 import { Button } from "react-bootstrap";
 import { EmojiSmile, HouseFill, Google } from "react-bootstrap-icons";
 import styles from "./LoginBtn.module.scss";
-import { useEffect, useRef } from "react";
-import { useRouter } from "next/router";
 
 export default function LoginBtn() {
 	const LoginBtns = [

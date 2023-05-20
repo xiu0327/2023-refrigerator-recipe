@@ -1,0 +1,24 @@
+@import "@/scss/variables";
+
+$result-font-size: 18px;
+$result-keyword-font-color: $grey-500;
+$result-description-font-color: $grey-400;
+
+.noResultContainer {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 3rem;
+	justify-content: center;
+	gap: 0.25rem;
+
+	font-size: $result-font-size;
+	color: $result-description-font-color;
+}
+
+.noResultKeyword {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: $result-keyword-font-color;
+	font-weight: 600;
+}

@@ -1,5 +1,5 @@
-import styles from "./styles.module.scss";
 import { useState } from "react";
+import styles from "./styles.module.scss";
 
 import InputBtn from "@/components/member/InputBtn/InputBtn";
 import InputContent from "@/components/member/InputContent/InputContent";
@@ -17,7 +17,6 @@ export default function Register() {
 	const [nickname, setNickname] = useState("");
 	const [checkPw, setCheckPw] = useState("");
 	const [checkEmail, setCheckEmail] = useState("");
-	const [checkedEmail, setCheckedEmail] = useState(undefined);
 	const [clickBtn, setClickBtn] = useState(false);
 	const [code, setCode] = useState("");
 
@@ -35,7 +34,7 @@ export default function Register() {
 
 	const onNicknameHandler = (e: any) => {
 		setNickname(e.target.value);
-	};
+	}; // 닉네임 작성
 
 	const onCheckEmailHandler = (e: any) => {
 		setCheckEmail(e.target.value);
@@ -47,16 +46,15 @@ export default function Register() {
 
 	const onDuplicateCheckClick = () => {
 		duplicate(email);
-	};
+	}; // 이메일 중복 확인 클릭
+
+	const onCheckEmailClick = () => {
+		checkEmail !== "" && (getCheckEmail(checkEmail), setClickBtn(true));
+	}; // 인증번호 전송 버튼 클릭 시 실행
 
 	const onAuthenticateClick = () => {
 		authenticate(checkEmail, code);
 	}; // 인증번호 확인 클릭
-
-	const onCheckEmailClick = () => {
-		getCheckEmail(checkEmail);
-		setClickBtn(true);
-	}; // 인증번호 전송 버튼 클릭 시 실행
 
 	return (
 		<form className={styles.registerContainer}>
@@ -116,6 +114,11 @@ export default function Register() {
 			</div>
 			<div>
 				<InputContent title="닉네임" type="text" onChange={onNicknameHandler} />
+				<div>
+					<span className={styles.regularPw}>
+						<span>영어, 한글, 띄어쓰기 포함 3자리 이상 10자리 이하 문자열</span>
+					</span>
+				</div>
 			</div>
 			<div>
 				<InputBtn

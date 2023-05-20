@@ -8,15 +8,10 @@ import { getCheckEmail } from "@/api/getCheckEmail";
 
 export default function change() {
 	const [clickBtn, setClickBtn] = useState(false);
-	const [password, setPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [checkPw, setCheckPw] = useState("");
 	const [checkEmail, setCheckEmail] = useState("");
 	const [code, setCode] = useState("");
-
-	const onPasswordHandler = (e: any) => {
-		setPassword(e.target.value);
-	};
 
 	const onNewPasswordHandler = (e: any) => {
 		setNewPassword(e.target.value);
@@ -46,11 +41,6 @@ export default function change() {
 	return (
 		<div className={styles.passwordContainer}>
 			<span className={styles.passwordTitle}>비밀번호 변경</span>
-			<InputContent
-				title={"기존 비밀번호"}
-				type="password"
-				onChange={onPasswordHandler}
-			/>
 			<div>
 				<InputContent
 					title="새 비밀번호"

@@ -1,37 +1,36 @@
-import InputContent from "@/components/member/InputContent/InputContent";
-
-import instance from "@/api/interceptors";
 import styles from "./ProfileModal.module.scss";
 import { useEffect, useState } from "react";
-import { getProfileList } from "@/api/getProfileList";
-import { login } from "@/api/login";
-import ModalOnBtn3 from "@/components/member/ModalOnBtn/ModalOnBtn3";
 import { Button, Modal } from "react-bootstrap";
-import { putProfile } from "@/api/putProfile";
+import { image, imageList } from "@/api/profile";
+import Mypage from "@/pages/mypage";
 
-export default function ProfileModal({ on }) {
-	const [image, setImage] = useState("");
-	const [show, setShow] = useState(on);
-	const [imageList, setImageList] = useState([]);
+export default function ProfileModal(props: any) {
+	const [img, setImg] = useState(props.img);
+	const [show, setShow] = useState(props.on);
+	const [imgList, setImgList] = useState([]);
 
 	const handleClose = () => setShow(false);
 	//const handleShow = () => setShow(true);
 
-	const onProfileClick = (event) => {
-		let src = event.target.src;
-		let imageName = src.substring(src.lastIndexOf("/") + 1);
-		console.log(imageName);
-		setImage(imageName);
-		console.log(image);
-		putProfile(image);
+	const handleImageChange = async (event) => {
+		try {
+			let src = event.target.src;
+			let imageName = src.substring(src.lastIndexOf("/") + 1);
+			image(imageName);
+			console.log("프로필 변경 완료");
+			props.onImgChange(imageName); // 이미지 변경 후 새로운 이미지를 Mypage 컴포넌트로 전달
+			handleClose();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	useEffect(() => {
 		const fetchImage = async () => {
 			try {
-				const images = await getProfileList();
+				const images = await imageList();
 				if (images) {
-					setImageList(images);
+					setImgList(images);
 				}
 			} catch (error) {
 				console.log("프로필 이미지 접근 에러:", error);
@@ -48,9 +47,13 @@ export default function ProfileModal({ on }) {
 				</Modal.Header>
 				<Modal.Body className={styles.profileImages}>
 					{" "}
-					{imageList.map((url, index) => (
-						<button key={index} onClick={onProfileClick}>
-							<img src={url} alt={`Image ${index}`} />
+					{imgList.map((url, index) => (
+						<button key={index}>
+							<img
+								src={url}
+								alt={`Image ${index}`}
+								onClick={handleImageChange}
+							/>
 						</button>
 					))}
 				</Modal.Body>
@@ -64,18 +67,5 @@ export default function ProfileModal({ on }) {
 				</Modal.Footer> */}
 			</Modal>
 		</>
-		// <form className={styles.profileContainer}>
-		// 	<span className={styles.profileTitle}>프로필 설정</span>
-		// 	<div className={styles.profileImages}>
-		// {imageList.map((url, index) => (
-		// 	<button key={index} onClick={onProfileClick}>
-		// 		<img src={url} alt={`Image ${index}`} />
-		// 	</button>
-		// ))}
-		// 	</div>
-		// 	<div className={`d-grid gap-2`}>
-		// 		<ModalOnBtn3 title="설정하기" ment="설정" image={image} />
-		// 	</div>
-		// </form>
 	);
 }

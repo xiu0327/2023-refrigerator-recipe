@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import styles from "./ModalOnBtn.module.scss";
-import { putPassword } from "@/api/putPassword";
+import { changePassword } from "@/api";
 
 export default function ModalOnBtn2({ title, ment, password }) {
 	const [modalShow, setModalShow] = useState(false);
@@ -13,7 +13,7 @@ export default function ModalOnBtn2({ title, ment, password }) {
 				variant="primary"
 				size="lg"
 				onClick={() => {
-					putPassword(password);
+					changePassword(password);
 					setModalShow(true);
 				}}
 			>

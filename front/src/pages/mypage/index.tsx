@@ -1,23 +1,19 @@
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { PencilFill } from "react-bootstrap-icons";
 import ConfirmCancelModal from "@/components/member/ConfirmCancelModal/ConfirmCancelModal";
 import LinkBtn from "@/components/member/LinkBtn/LinkBtn";
 import ScrollContent from "@/components/member/ScrollContent/ScrollContent";
-import Link from "next/link";
-import { Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import instance from "@/api/interceptors";
 import ProfileModal from "@/components/member/ProfileModal/ProfileModal";
-import { getProfile } from "@/api/getProfile";
-import { login } from "@/api/login";
+import { logout } from "@/api/logout";
+import { unregister } from "@/api/unregister";
+import { profile, nickname, bookmarkPreview, scorePreview } from "@/api";
 
-export default function Mypage(props: any) {
-	//login("member@naver.com", "member123!");
-	const [nick, setNick] = useState("닉네임");
-	const [image, setImage] = useState("");
-	const [bookmarkPreview, setBookmarkPreview] = useState<Array<object>>([]);
-	const [scorePreview, setScorePreview] = useState<Array<object>>([]);
-	const [recipe, setRecipe] = useState<Array<object>>([]);
+export default function Mypage() {
+	const [nick, setNick] = useState("");
+	const [img, setImg] = useState("");
+	const [bookPreview, setBookPreview] = useState<Array<object>>([]);
+	const [starPreview, setStarPreview] = useState<Array<object>>([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const openModal = () => {
@@ -28,97 +24,66 @@ export default function Mypage(props: any) {
 		setIsModalOpen(false);
 	};
 
+	const fetchProfile = async () => {
+		try {
+			const response = await profile();
+			const existingNick = response !== undefined ? response.data.nickname : "";
+			setNick(existingNick);
+			const existingImage =
+				response !== undefined ? response.data.profileImage : "";
+			setImg(existingImage);
+		} catch (error) {}
+	}; // 회원 정보 가져오기
+
+	const fetchBookmarkPreview = async () => {
+		try {
+			const response = await bookmarkPreview();
+			setBookPreview(response);
+			//console.log(bookPreview);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const fetchScorePreview = async () => {
+		try {
+			const response = await scorePreview();
+			setStarPreview(response);
+			//console.log(starPreview);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleImgChange = (newImg: string) => {
+		setImg(newImg);
+	};
+
 	useEffect(() => {
-		const fetchNick = async () => {
-			try {
-				const response = await getProfile();
-				const existingNick =
-					response !== undefined ? response.data.nickname : "";
-				setNick(existingNick);
-				const existingImage =
-					response !== undefined ? response.data.profileImage : "";
-				setImage(existingImage);
-			} catch (error) {}
-		}; // 닉네임 가져오기
+		fetchProfile();
+	}, [img]); // 개인 정보 조회 받아오기
 
-		// const fetchBookmark = async () => {
-		// 	try {
-		// 		const response = await getBookmark();
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	}
-		// };
+	useEffect(() => {
+		fetchBookmarkPreview();
+		fetchScorePreview();
+	}, []);
 
-		// const fetchStarPreview = async () => {
-		// 	try {
-		// 		const response = await getScorePreview();
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	}
-		// };
-
-		const getScorePreview = () => {
-			const url = `/api/my-score/preview?size=5`;
-			instance
-				.get(url)
-				.then((response) => {
-					setScorePreview(response.data.data);
-					console.log(typeof scorePreview);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}; // 별점 미리보기
-
-		const getRecipeList = () => {
-			const url = `/api/recipe?page=0`;
-			instance
-				.get(url)
-				.then((response) => {
-					setRecipe(response.data.data);
-					//console.log(recipe);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}; // 레시피
-
-		const getBookmarkPreview = () => {
-			const url = `/api/my-bookmark/preview?size=5`;
-			instance
-				.get(url)
-				.then((response) => {
-					console.log(response);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		}; // 북마크 미리보기
-
-		fetchNick();
-		//getRecipeList();
-		//getBookmarkPreview();
-	}, []); // 개인 정보 조회 받아오기
 	const onChangeHandler = (e: any) => {
 		setNick(e.target.value);
 	};
 	const onClickHandler = () => {
-		postNickname(nick);
+		nickname(nick);
 	};
-	const postNickname = (nick: any) => {
-		instance.put("/api/members/nickname", {
-			nickname: nick,
-		});
-	}; // 닉네임 변경
+
 	return (
 		<div className={styles.mypageContainer}>
 			<span className={styles.mypageTitle}>마이페이지</span>
 			<div className={styles.mypageMe}>
-				<img className={styles.mypageImg} src={image} onClick={openModal} />
+				<img className={styles.mypageImg} src={img} onClick={openModal} />
 				{isModalOpen && (
 					<div onClick={closeModal}>
 						<div>
-							<ProfileModal on={true} />
+							<ProfileModal on={true} img={img} onImgChange={handleImgChange} />
 						</div>
 					</div>
 				)}
@@ -138,28 +103,32 @@ export default function Mypage(props: any) {
 			</div>
 			<div className={styles.mypageStar}>
 				<span className={styles.mypageStarTitle}>
-					내가 남긴 별점 ({scorePreview.length})
+					내가 남긴 별점 ({starPreview?.length})
 				</span>
-				<ScrollContent content="star" scorePreview={scorePreview} />
+				<ScrollContent content="star" starPreview={starPreview} />
 			</div>
 			<div className={styles.mypageBookmark}>
 				<span className={styles.mypageBookmarkTitle}>
-					북마크 ({bookmarkPreview.length})
+					북마크 ({bookPreview?.length})
 				</span>
-				<ScrollContent content="bookmark" bookmarkPreview={bookmarkPreview} />
+				<ScrollContent content="bookmark" bookPreview={bookPreview} />
 			</div>
 			<div className={`d-grid gap-2`}>
 				<LinkBtn title={"공지사항"} link={"../announcement"} />
 				<LinkBtn title={"비밀번호 변경"} link={"../member/password/change"} />
 			</div>
 			<div className={styles.mypageLink}>
-				<ConfirmCancelModal title="로그아웃" ment="로그아웃 하시겠습니까?" />
+				<ConfirmCancelModal
+					title="로그아웃"
+					ment="로그아웃 하시겠습니까?"
+					api={logout}
+				/>
 				<span>|</span>
-				<Link legacyBehavior href="../member/unregister">
-					<Button className={styles.mypageUnregister} variant="primary">
-						회원탈퇴
-					</Button>
-				</Link>
+				<ConfirmCancelModal
+					title="회원탈퇴"
+					ment="정말 탈퇴하시겠습니까?"
+					api={unregister}
+				/>
 			</div>
 		</div>
 	);

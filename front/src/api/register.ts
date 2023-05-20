@@ -1,6 +1,5 @@
 import axios from "axios";
-import ConfirmModal from "@/components/member/ConfirmModal/ConfirmModal";
-import { useState } from "react";
+import router from "next/router";
 
 export const register = (email: string, password: string, nickname: string) => {
 	let data = JSON.stringify({
@@ -23,7 +22,7 @@ export const register = (email: string, password: string, nickname: string) => {
 		.request(config)
 		.then((response) => {
 			console.log(`회원가입 완.`);
-			return true;
+			router.push("/");
 		})
 		.catch((error) => {
 			if (error.response.data.code === "NOT_EMPTY_INPUT_DATA") {

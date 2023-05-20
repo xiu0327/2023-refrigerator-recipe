@@ -1,0 +1,56 @@
+@import "@/scss/variables";
+
+$comment-nickname-font-size: 17px;
+$comment-nickname-font-color: $grey-900;
+
+$comment-content-font-size: 16px;
+$comment-content-font-color: $grey-700;
+
+$comment-info-font-size: 14px;
+$comment-info-font-color: $grey-400;
+
+.commentContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.45rem;
+
+	.commentHeader {
+		display: flex;
+
+		.commentNickname {
+			flex: 1;
+			color: $grey-900;
+			font-size: $comment-nickname-font-size;
+			font-weight: bold;
+			padding-bottom: 0.1rem;
+		}
+
+		.commentMenu {
+			display: flex;
+			gap: 0.5rem;
+			color: $comment-info-font-color;
+			font-size: $comment-info-font-size;
+		}
+	}
+
+	.commentContent {
+		color: $comment-content-font-color;
+		font-size: $comment-content-font-size;
+		color: $grey-700;
+		line-height: 1.6rem;
+	}
+
+	.commentInfo {
+		display: flex;
+		gap: 0.25rem;
+		align-items: center;
+
+		font-size: $comment-info-font-size;
+		line-height: $comment-info-font-size;
+		color: $comment-info-font-color;
+
+		.commentIcon {
+			padding: 1px;
+		}
+	}
+}
