@@ -1,0 +1,31 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+  gap: 15px;
+}
+
+.profileTitle {
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.profileImages img {
+  width: 120px;
+  height: 120px;
+}
+
+.nicknameRule {
+  margin-top: -10px;
+}
+
+.regularNick {
+  color: #6fb2d2;
+}
+.regularNick span {
+  display: flex;
+  font-size: 14px;
+  justify-content: left;
+}/*# sourceMappingURL=ProfileModal.module.css.map */

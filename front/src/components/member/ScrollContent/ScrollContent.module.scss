@@ -1,0 +1,36 @@
+.scroll {
+	overflow-x: auto;
+	white-space: nowrap;
+	font-size: 0;
+	height: 150px;
+}
+
+/* .mypageStarScroll::-webkit-scrollbar,
+.mypageBookmarkScroll::-webkit-scrollbar {
+	display: none;
+} */
+
+.content {
+	display: inline-block;
+	width: 120px;
+	height: 120px;
+	border: 2px solid #222;
+	background: #fff;
+}
+
+.recipeBtn {
+	border: none;
+	background: none;
+}
+
+.recipeImage {
+	width: 116px;
+	height: 116px;
+	margin-bottom: 10px;
+}
+
+.recipeName {
+	color: black;
+	font-size: 13px;
+	text-align: center;
+}
