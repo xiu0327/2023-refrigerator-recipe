@@ -39,7 +39,7 @@ public class AuthenticationController {
         return login(request.getEmail(), request.getPassword(), response);
     }
     @GetMapping("/api/auth/logout")
-    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(HttpServletRequest request, HttpServletResponse response){
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
         logoutUseCase.logout(accessToken);

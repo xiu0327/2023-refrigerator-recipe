@@ -138,7 +138,6 @@ public class TestDataCommit {
         notificationUseCase.createCommentHeartNotification(jkEmail, msCommentId);
     }
 
-
     private String getEmail(int i) {
         return "testemail" + i + "@gmail.com";
     }
