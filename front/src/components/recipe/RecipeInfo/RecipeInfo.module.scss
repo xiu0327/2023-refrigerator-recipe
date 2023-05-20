@@ -1,0 +1,188 @@
+@import "@/scss/variables";
+
+$info-font-size: 17px;
+$info-key-font-color: $grey-500;
+$info-value-font-color: $grey-800;
+
+$recipe-info-emphasis-font-size: 18px;
+$recipe-info-emphasis-font-color: $grey-900;
+
+$header-title-font-size: 20px;
+$header-sub-font-size: 14px;
+$header-sub-font-color: $grey-500;
+
+$ingredient-type-width: 80px;
+$ingredient-font-size: 18px;
+$ingredient-font-color: $grey-500;
+
+$step-number-width: 40px;
+$step-font-size: 16px;
+$step-font-color: $grey-600;
+
+$divider: 1px solid $grey-300;
+
+@mixin recipe-info-container {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	gap: 1.5rem;
+	background-color: white;
+}
+.recipeInfoTopContainer {
+	@include recipe-info-container();
+	padding-top: 2.5rem;
+	border-radius: 1rem 1rem 0rem 0rem;
+}
+.recipeInfoContainer {
+	@include recipe-info-container();
+}
+
+@mixin recipe-info-emphasis {
+	color: $recipe-info-emphasis-font-color;
+	font-size: $recipe-info-emphasis-font-size;
+	font-weight: 600;
+	padding: 0.5rem 0rem;
+}
+
+.recipeNameInbun {
+	display: flex;
+	gap: 0.7rem;
+	align-items: flex-end;
+
+	.recipeName {
+		font-size: 28px;
+		line-height: 28px;
+		font-weight: bold;
+	}
+	.recipeInbun {
+		font-size: 16px;
+		line-height: 16px;
+		color: $grey-400;
+	}
+}
+.recipeDescription {
+	font-size: 16px;
+	line-height: 180%;
+	color: $grey-500;
+}
+.recipeExtraInfo {
+	display: flex;
+	flex-wrap: wrap;
+
+	> div {
+		display: flex;
+		gap: 0.5rem;
+		font-size: $info-font-size;
+		font-weight: 600;
+	}
+	.recipeInfoKey {
+		color: $info-key-font-color;
+	}
+	.recipeInfoValue {
+		margin-bottom: 0.3rem;
+		margin-right: 1.25rem;
+		color: $info-value-font-color;
+	}
+}
+
+.recipeInfoHeader {
+	display: flex;
+	gap: 0.75rem;
+
+	div {
+		font-size: $header-title-font-size;
+		font-weight: bold;
+	}
+	span {
+		flex: 1;
+		align-self: center;
+		font-size: 18px;
+		color: $grey-400;
+		font-weight: 400;
+	}
+	button {
+		padding: 0rem 01rem;
+		border: 1.5px solid $header-sub-font-color;
+		border-radius: 3rem;
+		background-color: white;
+		color: $header-sub-font-color;
+		font-size: $header-sub-font-size;
+		font-weight: 600;
+
+		&:disabled {
+			background-color: $grey-200;
+			border: none;
+		}
+	}
+}
+
+.recipeIngredientTable {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		display: flex;
+		border-top: $divider;
+
+		> div {
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			margin-top: -1px;
+
+			> div {
+				display: flex;
+				gap: 0.5rem;
+				align-items: center;
+				border-top: $divider;
+			}
+		}
+	}
+	.recipeIngredientType {
+		width: $ingredient-type-width;
+		@include recipe-info-emphasis();
+	}
+	.recipeIngredientInfo {
+		padding: 0.5rem 0rem;
+		color: $ingredient-font-color;
+		font-size: $ingredient-font-size;
+
+		.recipeIngredientVolume {
+			flex: 1;
+			text-align: end;
+		}
+	}
+	.recipeIngredientIcon {
+		color: $primary-color-recipe;
+	}
+}
+
+.recipeStepTable {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		display: flex;
+		border-top: $divider;
+	}
+	.recipeStepNumber {
+		min-width: $step-number-width;
+		@include recipe-info-emphasis();
+	}
+	.recipeStep {
+		padding: 0.5rem 0rem;
+		color: $step-font-color;
+		font-size: $step-font-size;
+		line-height: 160%;
+	}
+}
+
+.recipeCommentList {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		border-top: $divider;
+		padding: 1rem 0rem;
+	}
+}
