@@ -1,29 +1,57 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Search } from "react-bootstrap-icons";
 
-import SearchBar from "@/components/global/SearchBar";
+import { getAllIngredients } from "@/api";
+import { toPhoneme } from "@/utils";
+import { useFetchData } from "@/hooks";
+
 import BackLayout from "@/components/layout/BackLayout";
-import IngredientGrid from "@/components/refrigerator/IngredientGrid";
+import SearchBar from "@/components/global/SearchBar/SearchBar";
+import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientGrid";
+import NoResult from "@/components/global/NoResult/NoResult";
+
+import styles from "@/scss/pages.module.scss";
 
 export default function SearchIngredientPage() {
-	// 화면 넘어오자마자 searchbar에 focus 됐으면
+	const [keyword, setKeyword] = useState<string>("");
+	const ingredientData = useFetchData(getAllIngredients, [], []);
+	const [myIngredients, setMyIngredients] = useState([]);
 
-	const [keyword, setKeyword] = useState<String>("");
-	const [ingredientData, setIngredientData] = useState([]); // ingredientType은 따로 빼서 써야될 듯
-	// 키워드 바뀔 때마다 자동완성 식재료 목록 반환하는 api로 값 받음
-	// IngredientGrid에 위 값 넘겨서 재렌더링
+	useEffect(() => {
+		if (ingredientData) {
+			const myIngredientsWithPhoneme = ingredientData.map((ingredient) => ({
+				...ingredient,
+				phoneme: toPhoneme(ingredient.name),
+			}));
+			setMyIngredients(myIngredientsWithPhoneme);
+		}
+	}, [ingredientData]);
 
-	// useEffect(() => {
-	// 	// 키워드에 따른 자동완성 식재료 목록 반환하는 API나 util 호출
-	// }, [keyword]);
+	const filteredIngredients = useMemo(() => {
+		const keywordPhoneme = toPhoneme(keyword);
+		return myIngredients.filter((ingredient) =>
+			ingredient.phoneme.includes(keywordPhoneme),
+		);
+	}, [myIngredients, keyword]);
 
 	return (
 		<BackLayout>
-			<div className="p-2">
+			<div className={styles.fixed}>
 				<SearchBar
-					placeholder="궁금한 식재료를 입력해주세요"
+					keyword={keyword}
 					setKeyword={setKeyword}
+					placeholder="궁금한 식재료를 검색해보세요!"
+					focus={false}
 				/>
-				<IngredientGrid ingredientData={ingredientData} />
+			</div>
+
+			<div style={{ marginTop: "70px" }}>
+				{keyword &&
+					(filteredIngredients.length > 0 ? (
+						<IngredientGrid ingredientData={filteredIngredients} />
+					) : (
+						<NoResult keyword={keyword} />
+					))}
 			</div>
 		</BackLayout>
 	);

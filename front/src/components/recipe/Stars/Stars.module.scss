@@ -1,0 +1,19 @@
+@import "@/scss/variables";
+
+.starsContainer {
+	display: flex;
+	align-items: center;
+
+	.starIcon {
+		display: inline-flex;
+		margin-right: 1px;
+	}
+}
+
+.scoreInfo {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	font-size: 15px;
+	color: $grey-400;
+}

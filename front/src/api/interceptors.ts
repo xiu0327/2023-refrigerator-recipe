@@ -10,7 +10,7 @@ instance.interceptors.response.use(
 		const { response: errorResponse } = error;
 		const originalRequest = error.config;
 
-		if (errorResponse?.data?.error === "INVALID_ACCESS_TOKEN") {
+		if (errorResponse?.data?.error === "ACCESS_TOKEN_EXPIRED") {
 			// TODO: accessToken 재발행 후 실패한 요청(originalRequest) 재시도
 			return reissueAccessToken();
 		}

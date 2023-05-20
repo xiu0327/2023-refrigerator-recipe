@@ -1,0 +1,36 @@
+@import "@/scss/variables";
+
+$pd-minus-basic: -$pd-basic;
+
+$filter-font-size: 15px;
+$filter-bg-color: white;
+$filter-text-color: $grey-400;
+
+.filterbarContainer {
+	display: flex;
+	overflow: scroll;
+	white-space: nowrap;
+	padding: 0.7rem $pd-basic 0.25rem $pd-basic;
+	margin: 0 $pd-minus-basic;
+	gap: 0.35rem;
+}
+.filterbarContainer::-webkit-scrollbar {
+	display: none;
+}
+
+.filterBtn {
+	padding: 0.15rem 0.8rem;
+	border: 1px solid $grey-300;
+	font-size: $filter-font-size;
+	background-color: $filter-bg-color;
+	color: $filter-text-color;
+	border-radius: 3rem;
+}
+
+.sortbarContainer {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0.5rem 1rem;
+	border-top: 1px solid $grey-300;
+	margin-bottom: -1rem;
+}

@@ -1,40 +1,91 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import router from "next/router";
-import { Button } from "react-bootstrap";
+import { Search } from "react-bootstrap-icons";
 
-import RefrigeratorLayout from "@/components/layout/RefrigeratorLayout";
-import TabMenu from "@/components/refrigerator/StorageTab";
-import Switch from "@/components/global/Switch";
-import IngredientGrid from "@/components/refrigerator/IngredientGrid";
+import { getIngredients } from "@/api";
+import { IngredientBrief } from "@/types";
+
+import AppNavLayout from "@/components/layout/AppNavLayout";
+import StorageTab from "@/components/refrigerator/StorageTab/StorageTab";
+import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientGrid";
+import Switch from "@/components/global/Switch/Switch";
+
+import styles from "@/scss/pages.module.scss";
 
 export default function RefrigeratorPage() {
-	const [ingredientData, setIngredientData] = useState([
-		// 임의값, 원래는 식재료 목록 조회 api 호출
-		{ name: "딸기", remainDays: 5 },
-		{ name: "사과", remainDays: 10 },
-		{ name: "우유", remainDays: 11 },
-		{ name: "치즈", remainDays: 12 },
-		{ name: "청경채", remainDays: 13 },
-	]);
-	const [storage, setStorage] = useState<number>(0);
+	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
+	const [page, setPage] = useState(0);
+	const [isScrollEnd, setIsScrollEnd] = useState(false);
+
+	const [storage, setStorage] = useState<string>("냉장");
+	const [isExpired, setIsExpired] = useState<boolean>(false);
+
+	// TODO: 스크롤에 따른 페이지 데이터 순서대로 안 받아짐 (1->0->1)
+
+	useEffect(() => {
+		setIngredientData([]);
+		setPage(0);
+		// setIsScrollEnd(false);
+		console.log("change the value of storage or isExpired");
+	}, [storage, isExpired]);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const data = await getIngredients(page, storage, isExpired);
+				data.length !== 0
+					? setIngredientData((prev) => [...prev, ...data])
+					: setIsScrollEnd(true);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		fetchData();
+	}, [page]);
+
+	// useEffect(() => {
+	// 	const handleIntersection = (entries: { isIntersecting: any }[]) => {
+	// 		if (!isScrollEnd && entries[0].isIntersecting) {
+	// 			setPage((prev: number) => prev + 1);
+	// 			console.log("i find the end of list");
+	// 		}
+	// 	};
+	// 	const options = { threshold: 1 };
+
+	// 	const observer = new IntersectionObserver(handleIntersection, options);
+	// 	const target = document.querySelector("#end-of-list");
+	// 	target && observer.observe(target);
+
+	// 	return () => {
+	// 		target && observer.unobserve(target);
+	// 	};
+	// }, []);
+
+	// useIntersectionObserver(page, setPage);
+
+	const onSearchBtnClick = () => {
+		router.push("/refrigerator/search");
+		// console.log("now page :", page);
+	};
 
 	return (
-		<RefrigeratorLayout>
-			<div className="p-2">
-				<div className="d-flex gap-1" style={{ height: 42 }}>
-					<TabMenu setStorage={setStorage} />
-					<Button onClick={() => router.push("/refrigerator/search")}>🔍</Button>
+		<AppNavLayout title="냉장고">
+			<div className={styles.fixed}>
+				<div className="d-flex align-items-center gap-3">
+					<StorageTab storage={storage} setStorage={setStorage} size="sm" />
+					<Search className={styles.icon} onClick={onSearchBtnClick} />
 				</div>
-
-				{/* 위로 스크롤하면 사라졌다가 아래로 스크롤하면 나오게 구현하고싶음
-						안되면 그냥 IngredientGrid 묶어서 Scroll에 넣기 */}
-				<Switch label="소비기한 지난 식재료만 보기" />
-
-				{/* 스크롤 부분 구현 해야됨 */}
-				<div>
-					<IngredientGrid ingredientData={ingredientData} />
-				</div>
+				<Switch
+					label="소비기한 지난 식재료만 보기"
+					isOn={isExpired}
+					setIsOn={setIsExpired}
+				/>
 			</div>
-		</RefrigeratorLayout>
+
+			<div style={{ marginTop: "90px" }}>
+				<IngredientGrid ingredientData={ingredientData} />
+				<div id="end-of-list"></div>
+			</div>
+		</AppNavLayout>
 	);
 }
