@@ -10,6 +10,7 @@ import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 
 import styles from "@/scss/pages.module.scss";
 import { login } from "@/api/login";
+import RecipeGrid from "@/components/recipe/RecipeGrid/RecipeGrid";
 
 export default function RecipeListPage() {
 	// TEMP: 로그인 화면과 연결하면 삭제
@@ -44,18 +45,9 @@ export default function RecipeListPage() {
 	}, []);
 
 	return (
-		<AppNavLayout title="레시피">
-			<div className={styles.fixed}>
-				<SearchBar
-					placeholder="궁금한 레시피를 검색해보세요!"
-					handleClick={() => router.push("/recipe/search")}
-					disabled
-				/>
-				<FilterBar setFilterMenuList={setFilterMenuList} />
-			</div>
-
-			<div style={{ marginTop: "90px", padding: "1rem" }}>
-				<RecipeList recipeData={recipeData} />
+		<AppNavLayout title="북마크">
+			<div style={{ padding: "1rem" }}>
+				<RecipeGrid recipeData={recipeData} />
 			</div>
 			<div id="end-of-list"></div>
 		</AppNavLayout>

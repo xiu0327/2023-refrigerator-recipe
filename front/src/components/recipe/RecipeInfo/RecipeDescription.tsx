@@ -8,12 +8,12 @@ type RecipeDescriptionProps = {
 };
 
 export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
-	const recipeExtraInfo = {
-		난이도: recipe.difficulty,
-		조리시간: recipe.cookingTime,
-		칼로리: recipe.kcal !== "0kcal" && recipe.kcal,
-		별점: recipe.scoreAvg,
-	};
+	const recipeExtraInfo = [
+		["난이도", recipe.difficulty],
+		["조리시간", recipe.cookingTime],
+		recipe.kcal !== "0kcal" && ["칼로리", recipe.kcal],
+		recipe.scoreAvg && ["별점", recipe.scoreAvg],
+	];
 
 	// TODO: 별점 세로 가운데 정렬
 	// HACK: 별점 NaN 에러 - Error: <rect> attribute width: Expected length, "NaN".
@@ -28,19 +28,17 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 			<div className={styles.recipeDescription}>{recipe.description}</div>
 
 			<div className={styles.recipeExtraInfo}>
-				{Object.entries(recipeExtraInfo).map(([key, value]) => {
-					if (value) {
-						return (
-							<div key={key} className="d-flex">
-								<div className={styles.recipeInfoKey}>{key}</div>
-								{key === "별점" && <Stars score={Number(value)} />}
-								<div className={styles.recipeInfoValue}>
-									{key === "별점" && value ? Number(value).toFixed(1) : value}
-								</div>
+				{recipeExtraInfo
+					.filter((info) => info)
+					.map(([key, value]) => (
+						<div key={key}>
+							<div className={styles.recipeInfoKey}>{key}</div>
+							{key === "별점" && <Stars score={Number(value)} />}
+							<div className={styles.recipeInfoValue}>
+								{key === "별점" && value ? Number(value).toFixed(1) : value}
 							</div>
-						);
-					}
-				})}
+						</div>
+					))}
 			</div>
 		</div>
 	);

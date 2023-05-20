@@ -15,6 +15,7 @@ import { RecipeComment } from "@/types/types";
 import { login } from "@/api/login";
 import { Heart, HeartFill, Link, ThreeDots } from "react-bootstrap-icons";
 import router from "next/router";
+import Comment from "../Comment/Comment";
 
 export default function RecipeComments({
 	recipeID,
@@ -69,52 +70,12 @@ export default function RecipeComments({
 	// TODO: 내가 작성한 댓글만 수정, 삭제 적용
 	return (
 		<div className="d-flex flex-column">
-			{commentData &&
-				commentData.map((comment) => (
-					<div key={comment.commentID} className={styles.recipeComments}>
-						<div className={styles.commentNickname}>
-							<div className="flex-grow-1">{comment.nickname}</div>
-							{/* <ThreeDots
-								className={styles.commentIcon}
-								onClick={onCommentMenuBtnClick}
-							/> */}
-							{comment.isMyComment && (
-								<div>
-									<button
-										className={styles.commentDeleteBtn}
-										onClick={() => onModifyTextClick(comment)}
-									>
-										수정
-									</button>
-									<button
-										className={styles.commentModifyBtn}
-										onClick={() => onDeleteTextClick(comment.commentID)}
-									>
-										삭제
-									</button>
-								</div>
-							)}
-						</div>
-						<div className={styles.commentContent}>{comment.content}</div>
-						<div className={styles.commentExtraInfo}>
-							<div>{comment.date}</div>
-							{comment.modifiedState && <div>(수정됨)</div>}
-							<div> </div>
-							{heartCommentIds.includes(comment.commentID) ? (
-								<HeartFill
-									className={styles.commentIcon}
-									onClick={() => onUnlikeCommentBtnClick(comment.commentID)}
-								/>
-							) : (
-								<Heart
-									className={styles.commentIcon}
-									onClick={() => onLikeCommentBtnClick(comment.commentID)}
-								/>
-							)}
-							<div>{comment.heart}</div>
-						</div>
-					</div>
-				))}
+			{commentData?.map((comment) => (
+				<Comment
+					comment={comment}
+					isLiked={heartCommentIds.includes(comment.commentID)}
+				/>
+			))}
 		</div>
 	);
 }

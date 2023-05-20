@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { CheckLg } from "react-bootstrap-icons";
 import { RecipeIngredient } from "@/types";
 import styles from "./RecipeInfo.module.scss";
@@ -15,46 +14,44 @@ export default function RecipeIngredients({
 	ownedIngredientIDs,
 }: RecipeIngredientsProps) {
 	const TYPE = ["주재료", "부재료", "양념"];
-	const ingredientsByType = TYPE.reduce((acc, type) => {
-		acc[type] = ingredients.filter((ingredient) => ingredient.type === type);
+
+	const typedIngredients = TYPE.reduce((acc, type) => {
+		const typeIngredients = ingredients.filter(
+			(ingredient) => ingredient.type === type,
+		);
+		if (typeIngredients.length !== 0) {
+			acc.set(type, typeIngredients);
+		}
 		return acc;
-	}, []);
+	}, new Map());
 
 	return (
 		<div className={styles.recipeInfoContainer}>
-			<div className="d-flex">
-				<div className={styles.recipeInfoTitle}>레시피 재료</div>
-				<button className={styles.recipeInfoBtn} disabled>
-					{servings}
-				</button>
+			<div className={styles.recipeInfoHeader}>
+				<div>레시피 재료</div>
+				<span />
+				<button disabled>{servings}</button>
 			</div>
 
-			<div className="d-flex flex-column">
-				{TYPE.map((type) => {
-					if (ingredientsByType[type].length !== 0) {
-						return (
-							<div key={type} className={styles.recipeTypeIngredients}>
-								<div className={styles.recipeIngredientType}>{type}</div>
-								<div className="d-flex flex-grow-1 flex-column">
-									{ingredientsByType[type].map((ingredient) => (
-										<div
-											key={ingredient.ingredientID}
-											className={styles.recipeIngredientInfo}
-										>
-											<div>{ingredient.name}</div>
-											{ownedIngredientIDs.includes(ingredient.ingredientID) && (
-												<CheckLg className={styles.recipeIngredientCheckIcon} />
-											)}
-											<div className={styles.recipeIngredientVolume}>
-												{ingredient.volume}
-											</div>
-										</div>
-									))}
+			<div className={styles.recipeIngredientTable}>
+				{Array.from(typedIngredients).map(([type, typeIngredients]) => (
+					<div key={type}>
+						<span className={styles.recipeIngredientType}>{type}</span>
+						<div>
+							{typeIngredients.map((ingredient: RecipeIngredient) => (
+								<div className={styles.recipeIngredientInfo}>
+									<span>{ingredient.name}</span>
+									{ownedIngredientIDs.includes(ingredient.ingredientID) && (
+										<CheckLg className={styles.recipeIngredientIcon} />
+									)}
+									<span className={styles.recipeIngredientVolume}>
+										{ingredient.volume}
+									</span>
 								</div>
-							</div>
-						);
-					}
-				})}
+							))}
+						</div>
+					</div>
+				))}
 			</div>
 		</div>
 	);

@@ -1,25 +1,23 @@
-import BackLayout from "@/components/layout/BackLayout";
-import SearchPanel from "@/components/recipe/SearchPanel/SearchPanel";
-import Input from "@/components/refrigerator/IngredientInputForm/Input";
-import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import styles from "@/scss/pages.module.scss";
-import { Search } from "react-bootstrap-icons";
-import { getRecipeList, searchRecipe } from "@/api";
-import { RecipePreview } from "@/types/types";
-import { login } from "@/api/login";
+import { useRouter } from "next/router";
+
+import { searchRecipe } from "@/api";
+import { RecipeBrief } from "@/types";
+
+import BackLayout from "@/components/layout/BackLayout";
+import SearchBar from "@/components/global/SearchBar/SearchBar";
+import SearchPanel from "@/components/recipe/SearchPanel/SearchPanel";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
-import instance from "@/api/interceptors";
+import NoResult from "@/components/global/NoResult/NoResult";
+
+import styles from "@/scss/pages.module.scss";
 
 export default function RecipeSearchPage() {
 	const [keyword, setKeyword] = useState<string>("");
 
 	const router = useRouter();
-	const { query } = router.query;
-	const searchData = { searchWord: query };
-	const [recipeResultData, setRecipeResultData] = useState<RecipePreview[]>([]);
-
-	// login();
+	const query = router.query.query;
+	const [recipeResultData, setRecipeResultData] = useState<RecipeBrief[]>([]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -35,25 +33,25 @@ export default function RecipeSearchPage() {
 
 	return (
 		<BackLayout>
-			<div className={styles.refrigeratorBar}>
-				<Input
+			<div className={styles.fixed}>
+				<SearchBar
+					keyword={keyword}
+					setKeyword={setKeyword}
+					handleSearchBtnClick={onSearchBtnClick}
 					placeholder="궁금한 레시피를 검색해보세요!"
-					data={keyword}
-					setData={setKeyword}
 					focus
 				/>
-				<Search
-					height="20"
-					width="20"
-					color="#616161"
-					onClick={onSearchBtnClick}
-				/>
 			</div>
-			{query && recipeResultData.length !== 0 ? (
-				<RecipeList recipeData={recipeResultData} />
-			) : (
-				<SearchPanel />
-			)}
+
+			<div style={{ marginTop: "50px", padding: "1rem" }}>
+				{!query ? (
+					<SearchPanel />
+				) : recipeResultData.length !== 0 ? (
+					<RecipeList recipeData={recipeResultData} />
+				) : (
+					<NoResult keyword={keyword} />
+				)}
+			</div>
 		</BackLayout>
 	);
 }

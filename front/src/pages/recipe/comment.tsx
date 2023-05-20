@@ -8,45 +8,41 @@ import { useRouter } from "next/router";
 import {
 	likeComment,
 	getCommentsByLike,
-	getHeartCommentIds,
 	getCommentsByDate,
 	getMyComments,
+	getHeartCommentIDs,
 } from "@/api";
 import BackLayout from "@/components/layout/BackLayout";
+import SortBar from "@/components/recipe/FilterBar/SortBar";
 
 export default function RecipeCommentPage() {
 	const router = useRouter();
-	const { recipeID } = router.query;
+	const recipeID = Number(router.query.recipeID);
 
 	const [sortType, setSortType] = useState("좋아요순");
 	const [commentData, setCommentData] = useState([]);
 	const [myCommentData, setMyCommentData] = useState([]);
 
-	const [heartCommentIds, setHeartCommentIds] = useState([]);
+	const [heartCommentIDs, setHeartCommentIDs] = useState([]);
 	const [comment, setComment] = useState("");
 	const [modifyMode, setModifyMode] = useState(false);
 
 	const [commentID, setCommentID] = useState(0);
 
-	// login();
-
 	useEffect(() => {
 		// TODO: sortType, heartData 분리하기
-		const fetchData = async () => {
+		(async () => {
 			const data =
 				sortType === "좋아요순"
-					? await getCommentsByLike(recipeID, 0, 10)
-					: await getCommentsByDate(recipeID, 0, 10);
-			setCommentData(data);
-			console.log(data);
-
+					? await getCommentsByLike(recipeID, 0)
+					: await getCommentsByDate(recipeID, 0);
 			const myData = await getMyComments(recipeID);
+			setCommentData(data);
 			setMyCommentData(myData);
 
-			const heartData = await getHeartCommentIds();
-			setHeartCommentIds(heartData);
-		};
-		fetchData();
+			const heartData = await getHeartCommentIDs();
+			setHeartCommentIDs(heartData);
+		})();
 	}, [sortType]);
 
 	return (
@@ -57,13 +53,13 @@ export default function RecipeCommentPage() {
 				commentData={[...myCommentData, ...commentData]}
 				setCommentData={setMyCommentData}
 				recipeID={recipeID}
-				heartCommentIds={heartCommentIds}
-				setHeartCommentIds={setHeartCommentIds}
+				heartCommentIds={heartCommentIDs}
+				setHeartCommentIds={setHeartCommentIDs}
 				setComment={setComment}
 				setModifyMode={setModifyMode}
 				setCommentID={setCommentID}
 			/>
-			<CommentBox
+			{/* <CommentBox
 				recipeID={recipeID}
 				setCommentData={setMyCommentData}
 				comment={comment}
@@ -71,7 +67,7 @@ export default function RecipeCommentPage() {
 				modifyMode={modifyMode}
 				setModifyMode={setModifyMode}
 				commentID={commentID}
-			/>
+			/> */}
 		</BackLayout>
 	);
 }

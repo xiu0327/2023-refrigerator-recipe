@@ -5,7 +5,8 @@ import styles from "@/scss/pages.module.scss";
 type SearchInputProps = {
 	keyword?: string;
 	setKeyword?: Function;
-	onClick?: Function;
+	handleClick?: Function;
+	handleSearchBtnClick?: Function;
 	placeholder?: string;
 	disabled?: boolean;
 	focus?: boolean;
@@ -14,13 +15,18 @@ type SearchInputProps = {
 export default function SearchBar({
 	keyword,
 	setKeyword,
-	onClick,
+	handleClick,
+	handleSearchBtnClick,
 	placeholder,
 	disabled,
 	focus,
 }: SearchInputProps) {
 	const onSearchBarClick = () => {
-		onClick && onClick();
+		handleClick && handleClick();
+	};
+
+	const onSearchBtnClick = () => {
+		handleSearchBtnClick && handleSearchBtnClick();
 	};
 
 	return (
@@ -33,7 +39,7 @@ export default function SearchBar({
 				focus={focus}
 				disabled={disabled}
 			/>
-			<Search className={styles.icon} />
+			<Search className={styles.icon} onClick={onSearchBtnClick} />
 		</div>
 	);
 }
