@@ -163,7 +163,7 @@ class AuthenticationControllerTest {
         // when
         mockMvc.perform(get("/api/auth/logout")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token.getAccessToken()))
-        ).andExpect(status().is3xxRedirection()
+        ).andExpect(status().is2xxSuccessful()
         ).andExpect(cookie().maxAge("Refresh-Token", 0)
         ).andExpect(header().string(HttpHeaders.AUTHORIZATION, "")
         ).andDo(print());
