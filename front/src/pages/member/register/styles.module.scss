@@ -40,9 +40,19 @@
 }
 
 .clickTrue {
+	color: #6fb2d2;
 	span {
 		display: flex;
 		font-size: 12px;
+		justify-content: left;
+	}
+}
+
+.regularPw {
+	color: #6fb2d2;
+	span {
+		display: flex;
+		font-size: 14px;
 		justify-content: left;
 	}
 }
