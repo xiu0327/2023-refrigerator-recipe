@@ -2,7 +2,7 @@ name: build application docker
 
 on:
     push:
-        branches: [back-main-v1]
+        branches: [back-nh-v3]
 
 env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
@@ -39,9 +39,16 @@ jobs:
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
               
-          - name: Build with Gradle
+          - name: Application Build
             run: |
                 cd back
-                ./gradlew jib
+                ./gradlew build
+          
+          - name: Docker Image Build
+            run: docker build -t xiu0327/refrigerator-applicaion .
+          
+          - name: Docker Image push
+            run: docker push xiu0327/refrigerator-applicaion
+            
 
 
