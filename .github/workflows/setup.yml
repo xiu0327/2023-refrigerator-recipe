@@ -14,6 +14,7 @@ jobs:
     setup-build-publish-deploy:
         name: Setup Build Publish deploy
         runs-on: ubuntu-latest
+        container: 'centos:latest'
         
         steps:
           - name: Checkout Repository
@@ -47,10 +48,10 @@ jobs:
           - name: Docker Image Build
             run: |
                 cd back
-                docker build -t xiu0327/refrigerator-applicaion .
+                docker build -t xiu0327/refrigerator-applicaion:centos .
           
           - name: Docker Image push
-            run: docker push xiu0327/refrigerator-applicaion
+            run: docker push xiu0327/refrigerator-applicaion:centos
 
 
 
