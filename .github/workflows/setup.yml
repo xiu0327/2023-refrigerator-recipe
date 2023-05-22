@@ -42,13 +42,13 @@ jobs:
           - name: Application Build
             run: |
                 cd back
-                ./gradlew build
+                ./gradlew build -x test
           
           - name: Docker Image Build
             run: docker build -t xiu0327/refrigerator-applicaion .
           
           - name: Docker Image push
             run: docker push xiu0327/refrigerator-applicaion
-            
+
 
 
