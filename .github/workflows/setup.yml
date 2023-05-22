@@ -45,7 +45,9 @@ jobs:
                 ./gradlew build -x test
           
           - name: Docker Image Build
-            run: docker build -t xiu0327/refrigerator-applicaion .
+            run: |
+                cd back
+                docker build -t xiu0327/refrigerator-applicaion .
           
           - name: Docker Image push
             run: docker push xiu0327/refrigerator-applicaion
