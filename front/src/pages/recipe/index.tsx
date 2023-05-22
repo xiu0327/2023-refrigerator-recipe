@@ -12,11 +12,6 @@ import styles from "@/scss/pages.module.scss";
 import { login } from "@/api/login";
 
 export default function RecipeListPage() {
-	// TEMP: 로그인 화면과 연결하면 삭제
-	useEffect(() => {
-		login();
-	}, []);
-
 	const [page, setPage] = useState(0);
 	const [recipeData, setRecipeData] = useState<RecipePreview[]>([]);
 
