@@ -12,6 +12,7 @@ import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
 import refrigerator.back.mybookmark.application.port.in.AddBookmarkUseCase;
+import refrigerator.back.myscore.application.port.in.CreateMyScoreUseCase;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
 
 import javax.persistence.EntityManager;
@@ -31,6 +32,7 @@ public class TestDataCommit {
     @Autowired AddBookmarkUseCase addBookmarkUseCase;
     @Autowired AddCommentHeartUseCase addCommentHeartUseCase;
     @Autowired CreateCommentHeartNotificationUseCase notificationUseCase;
+    @Autowired CreateMyScoreUseCase createMyScoreUseCase;
     @Autowired EntityManager em;
 
     String jkEmail = "jktest101@gmail.com";
@@ -80,38 +82,60 @@ public class TestDataCommit {
 
     /*
     * 특정 회원의 식재료 등록
-    * 특정 회원은 10개씩 식재료를 등록
-    * 식재료의 유통기한은 시작일부터 1일씩 늘어남
-    * 저장 방식은 랜덤
+    * 특정 회원은 저장방식 별 30개씩 식재료 등록
+    * 식재료의 유통기한은 12월 랜덤 일자
     * */
     void initIngredientData(){
         List<RegisteredIngredient> data = em.createQuery("select i from RegisteredIngredient i", RegisteredIngredient.class)
                 .getResultList();
-        IngredientStorageType[] typeValues = IngredientStorageType.values();
         Random random = new Random();
-        for (int i = 0 ; i < 10 ; i++){
-            int typeRandom = random.nextInt(typeValues.length);
-            int imageRandom = random.nextInt(17);
-            registerIngredientUseCase.registerIngredient(
-                    data.get(i).getName(),
-                    LocalDate.of(2023, 11, 1 + i),
-                    45.0,
-                    data.get(i).getUnit(),
-                    typeValues[typeRandom],
-                    imageRandom,
-                    jkEmail
+        for (IngredientStorageType value : IngredientStorageType.values()) {
+            for (int i = 0 ; i < 30 ; i++){
+                int imageRandom = random.nextInt(17);
+                registerIngredientUseCase.registerIngredient(
+                        data.get(i).getName(),
+                        LocalDate.of(2023, 12, random.nextInt(29) + 1),
+                        45.0,
+                        data.get(i).getUnit(),
+                        value,
+                        imageRandom,
+                        jkEmail
+                );
+                registerIngredientUseCase.registerIngredient(
+                        data.get(i).getName(),
+                        LocalDate.of(2023, 12, random.nextInt(29) + 1),
+                        45.0,
+                        data.get(i).getUnit(),
+                        value,
+                        imageRandom,
+                        msEmail
+                );
+            }
+        }
+    }
+
+    /*
+    * 특정 회원이 레시피 30개에 대하여 별점을 남김
+    * 별점 범위는 1 ~ 5 사이의 랜덤 숫자
+    * */
+    void initMyScoreData(){
+        List<Long> ids = em.createQuery("select r.recipeID from Recipe r", Long.class)
+                .getResultList();
+        Random random = new Random();
+        for (int i = 30 ; i < 60 ; i++){
+            createMyScoreUseCase.cooking(
+                    jkEmail,
+                    ids.get(i),
+                    Integer.valueOf(random.nextInt(4) + 1).doubleValue()
             );
-            registerIngredientUseCase.registerIngredient(
-                    data.get(i).getName(),
-                    LocalDate.of(2023, 11, 1 + i),
-                    45.0,
-                    data.get(i).getUnit(),
-                    typeValues[typeRandom],
-                    imageRandom,
-                    msEmail
+            createMyScoreUseCase.cooking(
+                    msEmail,
+                    ids.get(i),
+                    Integer.valueOf(random.nextInt(4) + 1).doubleValue()
             );
         }
     }
+
 
     /*
     * 특정 회원이 레시피 20개(1~10)를 북마크

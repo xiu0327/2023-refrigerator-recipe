@@ -15,28 +15,22 @@ import java.time.Duration;
 public class IdentificationAdapter implements IdentificationRedisPort {
 
     private final RedisTemplate<String, String> redisTemplate;
-    private final MakeRedisKey makeKey;
-    private final String IDENTIFICATION_REDIS_KEY = "IDENTIFICATION";
 
     public IdentificationAdapter(
-            @Qualifier("identificationRedisTemplate") RedisTemplate<String, String> redisTemplate,
-            MakeRedisKey makeKey) {
+            @Qualifier("identificationRedisTemplate") RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.makeKey = makeKey;
     }
 
     @Override
     public String getData(String key){
-        ValueOperations<String, String> result = redisTemplate.opsForValue();
-        return result.get(key);
+        return redisTemplate.opsForValue().get(key);
     }
 
     @Override
     public void setData(String key, String value, long duration){
-        ValueOperations<String, String> result = redisTemplate.opsForValue();
         Duration expireDuration = Duration.ofMillis(duration);
-        result.set(
-                makeKey.makeKey(IDENTIFICATION_REDIS_KEY, key),
+        redisTemplate.opsForValue().set(
+                key,
                 value,
                 expireDuration);
     }

@@ -22,7 +22,7 @@ public class IdentificationService implements SendNumberUseCase, CheckNumberUseC
     public String sendAuthenticationNumber(String email, Long duration) {
         String code = createCode();
         identificationMethod.sendAuthenticationCode(email, code);
-        identificationRedisPort.setData(email, code, duration);
+        identificationRedisPort.setData(code, email, duration);
         return code;
     }
 
@@ -33,14 +33,14 @@ public class IdentificationService implements SendNumberUseCase, CheckNumberUseC
 
     @Override
     public Boolean checkAuthenticationNumber(String inputCode, String email) {
-        String code = identificationRedisPort.getData(email);
-        if(code == null){
+        String findEmail = identificationRedisPort.getData(inputCode);
+        if(findEmail == null){
             throw new BusinessException(IdentificationExceptionType.TIME_OUT_CODE);
         }
-        if (!code.equals(inputCode)){
-            throw new BusinessException(IdentificationExceptionType.NOT_EQUAL_CODE);
+        if (findEmail.equals(email)){
+            identificationRedisPort.deleteData(inputCode);
+            return true;
         }
-        identificationRedisPort.deleteData(email);
-        return true;
+        throw new BusinessException(IdentificationExceptionType.INCORRECT_CODE);
     }
 }

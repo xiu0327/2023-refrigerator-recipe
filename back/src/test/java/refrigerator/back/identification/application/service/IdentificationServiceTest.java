@@ -23,7 +23,6 @@ class IdentificationServiceTest {
     private Long testDuration = 30L;
 
     @Test
-    @Disabled
     void 인증_번호_통합테스트() throws InterruptedException {
         String email = "codinging0326@gmail.com";
         String code = identificationService.sendAuthenticationNumber(email, 1000L);
@@ -33,7 +32,6 @@ class IdentificationServiceTest {
     }
 
     @Test
-    @Disabled
     void 인증_번호_유효시간_만료() throws InterruptedException {
         String email = "codinging0326@gmail.com";
         String code = identificationService.sendAuthenticationNumber(email, testDuration);

@@ -3,6 +3,7 @@ package refrigerator.back.member.adapter.in.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +19,19 @@ import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.global.TestData;
+import refrigerator.back.identification.adapter.dto.CheckNumberRequestDTO;
+import refrigerator.back.identification.application.port.in.SendNumberUseCase;
 import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberFindPasswordRequestDTO;
+import refrigerator.back.member.adapter.in.dto.request.MemberJoinRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberUpdatePasswordRequestDTO;
 import refrigerator.back.member.application.domain.Member;
 
+import javax.servlet.http.Cookie;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @Transactional
@@ -141,4 +146,5 @@ class MemberAccessControllerTest {
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
+
 }

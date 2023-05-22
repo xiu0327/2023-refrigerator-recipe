@@ -14,9 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
-import refrigerator.back.myscore.application.port.in.CookingUseCase;
+import refrigerator.back.myscore.application.port.in.CreateMyScoreUseCase;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,7 +29,8 @@ class MyRecipeScoreControllerTest {
 
     @Autowired TestData testData;
     @Autowired CreateTokenPort createTokenPort;
-    @Autowired CookingUseCase cookingUseCase;
+    @Autowired
+    CreateMyScoreUseCase cookingUseCase;
     @Autowired MockMvc mockMvc;
     @Autowired WebApplicationContext context;
 

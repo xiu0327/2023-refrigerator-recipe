@@ -19,7 +19,12 @@ import refrigerator.back.member.application.port.in.FindPasswordUseCase;
 import refrigerator.back.member.application.port.in.JoinUseCase;
 import refrigerator.back.member.exception.MemberExceptionType;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import java.util.Arrays;
 
 import static refrigerator.back.global.common.MemberInformation.*;
 import static refrigerator.back.global.exception.ValidationExceptionHandler.*;
@@ -36,14 +41,35 @@ public class MemberAccessController {
 
     @PostMapping("/api/members/join")
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberJoinResponseDTO joinMember(@RequestBody @Valid MemberJoinRequestDTO request, BindingResult result){
+    public MemberJoinResponseDTO joinMember(
+            @RequestBody @Valid MemberJoinRequestDTO requestDTO,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response){
+        verifyUser(request, response);
         check(result, MemberExceptionType.EMPTY_INPUT_DATA);
-        request.check();
+        requestDTO.check();
         Long memberID = joinUseCase.join(
-                request.getEmail(),
-                request.getPassword(),
-                request.getNickname());
+                requestDTO.getEmail(),
+                requestDTO.getPassword(),
+                requestDTO.getNickname());
         return new MemberJoinResponseDTO(memberID);
+    }
+
+    private void verifyUser(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        String cookieName = "Verified-User";
+        if (cookies != null){
+            boolean result = Arrays.stream(cookies)
+                    .anyMatch(cookie -> cookie.getName().equals(cookieName) && cookie.getValue().equals("true"));
+            if (result){
+                Cookie cookie = new Cookie(cookieName, "");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+                return;
+            }
+        }
+        throw new BusinessException(MemberExceptionType.NOT_COMPLETED_IDENTIFICATION);
     }
 
     @PostMapping("/api/members/password/find")

@@ -7,7 +7,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
-import refrigerator.back.authentication.adapter.in.dto.ReissueTokenRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.LogoutUseCase;
@@ -75,6 +74,7 @@ public class AuthenticationController {
         TokenDTO token = loginUseCase.login(email, password);
         Cookie cookie = new Cookie("Refresh-Token", token.getRefreshToken());
         cookie.setHttpOnly(true);
+        cookie.setPath("/api/auth/reissue");
         response.addCookie(cookie);
         token.removeRefreshToken();
         return token;

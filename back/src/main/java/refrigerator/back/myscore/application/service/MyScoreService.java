@@ -15,14 +15,12 @@ import refrigerator.back.myscore.application.port.out.MyScoreWritePort;
 import refrigerator.back.myscore.exception.MyRecipeScoreExceptionType;
 import refrigerator.back.recipe.application.port.out.AddRecipeScorePort;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePreviewUseCase,
-        CookingUseCase, ModifyMyScoreUseCase {
+        CreateMyScoreUseCase, ModifyMyScoreUseCase {
 
     private final MyScoreReadPort myScoreReadPort;
     private final MyScoreWritePort myScoreWritePort;

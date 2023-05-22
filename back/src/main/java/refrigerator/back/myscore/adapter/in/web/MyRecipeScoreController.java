@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.global.common.MemberInformation;
 import refrigerator.back.myscore.adapter.in.dto.response.InCookingResponseDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreListDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScorePreviewDTO;
-import refrigerator.back.myscore.application.port.in.CookingUseCase;
+import refrigerator.back.myscore.application.port.in.CreateMyScoreUseCase;
 import refrigerator.back.myscore.application.port.in.FindMyScoreListUseCase;
 import refrigerator.back.myscore.application.port.in.FindMyScorePreviewUseCase;
 import refrigerator.back.myscore.application.port.in.ModifyMyScoreUseCase;
@@ -23,7 +22,7 @@ public class MyRecipeScoreController {
     private final FindMyScoreListUseCase findMyScoreListUseCase;
     private final ModifyMyScoreUseCase modifyMyScoreUseCase;
     private final FindMyScorePreviewUseCase findMyScorePreviewUseCase;
-    private final CookingUseCase cookingUseCase;
+    private final CreateMyScoreUseCase cookingUseCase;
 
 
     @PostMapping("/api/my-score/cooking")
