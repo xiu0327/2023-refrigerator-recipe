@@ -85,3 +85,13 @@ $icon-size: 24px;
 	width: 100%;
 	z-index: -1;
 }
+
+.commentListContainer {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		padding: 1rem 1.5rem;
+		border-top: $divider;
+	}
+}

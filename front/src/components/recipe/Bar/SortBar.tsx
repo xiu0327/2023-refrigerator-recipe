@@ -1,6 +1,11 @@
-import styles from "./FilterGroup.module.scss";
+import styles from "./Bar.module.scss";
 
-export default function SortBar({ sortType, setSortType }) {
+type SortBarProps = {
+	sortType: "좋아요순" | "최신순";
+	setSortType: Function;
+};
+
+export default function SortBar({ sortType, setSortType }: SortBarProps) {
 	const onSortBtnClick = () => {
 		setSortType(sortType === "좋아요순" ? "최신순" : "좋아요순");
 	};

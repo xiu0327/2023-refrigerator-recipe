@@ -1,73 +1,91 @@
-import { login } from "@/api/login";
-// import RecipeCommentLayout from "@/components/layout/RecipeCommentLayout";
-import RecipeComments from "@/components/recipe/RecipeInfo/RecipeComments";
-// import SortBar from "@/components/recipe/FilterBar/SortBar";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import CommentBox from "@/components/recipe/CommentBox/CommentBox";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+
 import {
-	likeComment,
 	getCommentsByLike,
 	getCommentsByDate,
 	getMyComments,
 	getHeartCommentIDs,
 } from "@/api";
-import BackLayout from "@/components/layout/BackLayout";
-import SortBar from "@/components/recipe/FilterBar/SortBar";
+
+import RecipeCommentLayout from "@/components/layout/RecipeCommentLayout";
+import SortBar from "@/components/recipe/Bar/SortBar";
+import Comment from "@/components/recipe/Comment/Comment";
+import CommentInputForm from "@/components/recipe/Comment/CommentInputForm";
+
+import styles from "@/scss/pages.module.scss";
 
 export default function RecipeCommentPage() {
 	const router = useRouter();
 	const recipeID = Number(router.query.recipeID);
+	const recipeName = router.query.recipeName;
 
-	const [sortType, setSortType] = useState("좋아요순");
-	const [commentData, setCommentData] = useState([]);
+	const [sortType, setSortType] = useState<"좋아요순" | "최신순">("좋아요순");
 	const [myCommentData, setMyCommentData] = useState([]);
+	const [otherCommentData, setOtherCommentData] = useState([]);
 
-	const [heartCommentIDs, setHeartCommentIDs] = useState([]);
-	const [comment, setComment] = useState("");
 	const [modifyMode, setModifyMode] = useState(false);
+	const [heartCommentIDs, setHeartCommentIDs] = useState([]);
 
+	const [comment, setComment] = useState("");
 	const [commentID, setCommentID] = useState(0);
+	const commentInputRef = useRef(null);
 
 	useEffect(() => {
-		// TODO: sortType, heartData 분리하기
 		(async () => {
-			const data =
+			const myData = await getMyComments(recipeID);
+			setMyCommentData(myData);
+
+			// NOTE: localstorage에 저장할지 고민 중
+			const heartData = await getHeartCommentIDs();
+			setHeartCommentIDs(heartData);
+		})();
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			const otherData =
 				sortType === "좋아요순"
 					? await getCommentsByLike(recipeID, 0)
 					: await getCommentsByDate(recipeID, 0);
-			const myData = await getMyComments(recipeID);
-			setCommentData(data);
-			setMyCommentData(myData);
-
-			const heartData = await getHeartCommentIDs();
-			setHeartCommentIDs(heartData);
+			setOtherCommentData(otherData);
 		})();
 	}, [sortType]);
 
 	return (
-		<BackLayout title="댓글">
-			{/* <SortBar sortType={sortType} setSortType={setSortType} /> */}
-			<RecipeComments
-				sortType={sortType}
-				commentData={[...myCommentData, ...commentData]}
-				setCommentData={setMyCommentData}
+		<RecipeCommentLayout title={recipeName}>
+			<div className={styles.fixed}>
+				<SortBar sortType={sortType} setSortType={setSortType} />
+			</div>
+			<div
+				className={styles.commentListContainer}
+				style={{ marginTop: "46px" }}
+			>
+				{[...myCommentData, ...otherCommentData]?.map((comment) => (
+					<div key={comment.commentID}>
+						<Comment
+							comment={comment}
+							isLiked={heartCommentIDs.includes(comment.commentID)}
+							setComment={setComment}
+							setCommentID={setCommentID}
+							setModifyMode={setModifyMode}
+							setMyCommentData={setMyCommentData}
+							setOtherCommentData={setOtherCommentData}
+							setHeartCommentIDs={setHeartCommentIDs}
+						/>
+					</div>
+				))}
+			</div>
+			<CommentInputForm
 				recipeID={recipeID}
-				heartCommentIds={heartCommentIDs}
-				setHeartCommentIds={setHeartCommentIDs}
-				setComment={setComment}
-				setModifyMode={setModifyMode}
-				setCommentID={setCommentID}
-			/>
-			{/* <CommentBox
-				recipeID={recipeID}
-				setCommentData={setMyCommentData}
+				setMyCommentData={setMyCommentData}
 				comment={comment}
 				setComment={setComment}
 				modifyMode={modifyMode}
 				setModifyMode={setModifyMode}
 				commentID={commentID}
-			/> */}
-		</BackLayout>
+				commentInputRef={commentInputRef}
+			/>
+		</RecipeCommentLayout>
 	);
 }

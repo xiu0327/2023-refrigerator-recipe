@@ -8,7 +8,7 @@ import router from "next/router";
 import Comment from "../Comment/Comment";
 import { getCommentsPreview } from "@/api";
 
-export default function RecipeCommentsPreview({ recipeID }) {
+export default function RecipeCommentsPreview({ recipeID, recipeName }) {
 	const [commentData, setCommentData] = useState([]);
 	const [commentNum, setCommentNum] = useState(0);
 
@@ -21,7 +21,9 @@ export default function RecipeCommentsPreview({ recipeID }) {
 	}, []);
 
 	const onMoreCommentsBtnClick = () => {
-		router.push(`/recipe/comment?recipeID=${recipeID}`);
+		router.push(
+			`/recipe/comment?recipeID=${recipeID}&recipeName=${recipeName}`,
+		);
 	};
 
 	return (

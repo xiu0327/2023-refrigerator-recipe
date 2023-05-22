@@ -1,7 +1,11 @@
-import styles from "./FilterBar.module.scss";
 import { FILTERS } from "./filters";
+import styles from "./Bar.module.scss";
 
-export default function FilterBar({ setFilterMenuList }) {
+type FilterBarProps = {
+	setFilterMenuList: Function;
+};
+
+export default function FilterBar({ setFilterMenuList }: FilterBarProps) {
 	const onFilterBtnClick = async (fetchFilterMenuList) => {
 		const data = await fetchFilterMenuList();
 		setFilterMenuList(["전체", ...data]);
