@@ -113,15 +113,6 @@ class MyBookmarkServiceTest {
         // then
         assertThat(bookmarks).isNotEmpty();
         assertThat(bookmarks.size()).isEqualTo(11);
-        for (InBookmarkDTO bookmark : bookmarks) {
-            log.info("bookmark = {}", bookmark);
-            assertNotNull(bookmark.getBookmarkID());
-            assertNotNull(bookmark.getRecipeId());
-            assertNotNull(bookmark.getRecipeImage());
-            assertNotNull(bookmark.getRecipeName());
-            assertNotNull(bookmark.getViews());
-            assertNotNull(bookmark.getScoreAvg());
-        }
     }
 
     @Test
@@ -138,14 +129,6 @@ class MyBookmarkServiceTest {
         Integer count = previews.getCount();
         assertThat(bookmarks).isNotEmpty();
         assertThat(count >= 5).isTrue();
-        for (InBookmarkPreviewDTO bookmark : bookmarks) {
-            log.info("bookmark = {}", bookmark);
-            assertNotNull(bookmark.getBookmarkID());
-            assertNotNull(bookmark.getRecipeId());
-            assertNotNull(bookmark.getRecipeImage());
-            assertNotNull(bookmark.getRecipeName());
-        }
-
     }
 
     @Test

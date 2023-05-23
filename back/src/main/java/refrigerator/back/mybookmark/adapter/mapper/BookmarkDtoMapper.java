@@ -2,6 +2,7 @@ package refrigerator.back.mybookmark.adapter.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewDTO;
@@ -16,6 +17,10 @@ public interface BookmarkDtoMapper {
     @Mapping(source = "dto.bookmarkId", target = "bookmarkID")
     InBookmarkPreviewDTO toBookmarkPreviewDTO(OutBookmarkPreviewDTO dto);
 
-    @Mapping(source = "dto.bookmarkId", target = "bookmarkID")
+    @Mappings({
+            @Mapping(source = "dto.bookmarkId", target = "bookmarkID"),
+            @Mapping(source = "dto.recipeId", target = "recipeID"),
+            @Mapping(source = "dto.recipeImage", target = "image")
+    })
     InBookmarkDTO toBookmarkDTO(OutBookmarkDTO dto, Double scoreAvg);
 }
