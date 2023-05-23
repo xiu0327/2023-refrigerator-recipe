@@ -19,8 +19,6 @@ $step-number-width: 40px;
 $step-font-size: 16px;
 $step-font-color: $grey-600;
 
-$divider: 1px solid $grey-300;
-
 @mixin recipe-info-container {
 	display: flex;
 	flex-direction: column;

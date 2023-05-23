@@ -23,6 +23,10 @@
 	@include layout-content();
 	padding: $appbar-height 0 $bottom-btn-height 0;
 }
+.layoutContentWithAppCommentForm {
+	@include layout-content();
+	padding: $appbar-height 0 $comment-form-height 0;
+}
 
 .appbarBtnGroup {
 	display: flex;

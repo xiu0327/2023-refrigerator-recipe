@@ -21,10 +21,13 @@ $color-disabled: $grey-500;
 $primary-color: #6fb2d2;
 $active-color: $primary-color;
 
+$placeholder-color: $grey-400;
+
 // height
 $appbar-height: 50px;
 $navbar-height: 65px;
 $bottom-btn-height: 75px;
+$comment-form-height: 90px;
 
 $ingredient-info-height: 48px;
 $refrigerator-bar-height: 44px;
@@ -42,3 +45,5 @@ $pd-sm: 0.5rem;
 $gap-lg: 1.5rem;
 $gap-basic: 1rem;
 $gap-sm: 0.5rem;
+
+$divider: 1px solid $grey-300;

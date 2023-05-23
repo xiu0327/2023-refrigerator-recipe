@@ -5,7 +5,7 @@ import { RecipePreview } from "@/types/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
-import FilterBar from "@/components/recipe/FilterBar/FilterBar";
+import FilterBar from "@/components/recipe/Bar/FilterBar";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 
 import styles from "@/scss/pages.module.scss";

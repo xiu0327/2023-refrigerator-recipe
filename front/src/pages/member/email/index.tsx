@@ -25,7 +25,7 @@ export default function LoginEmail() {
 			/>
 			<LinkBtn2
 				title={"로그인"}
-				link={"/mypage"}
+				link={"/refrigerator"}
 				email={email}
 				password={password}
 			/>
