@@ -7,7 +7,9 @@ export const reissueAccessToken = async () => {
 		instance.defaults.headers.common[
 			"Authorization"
 		] = `Bearer ${response.data.accessToken}`;
+		return true;
 	} catch (error) {
 		console.error(error);
+		return false;
 	}
 };

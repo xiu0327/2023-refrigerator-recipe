@@ -12,8 +12,9 @@ instance.interceptors.response.use(
 			error.response?.data?.error === "ACCESS_TOKEN_EXPIRED" ||
 			error.response?.statusText === "Unauthorized"
 		) {
-			await reissueAccessToken();
-			return await retryRequest(error.response.config);
+			if (await reissueAccessToken()) {
+				return retryRequest(error.response.config);
+			}
 		}
 		return Promise.reject(error);
 	},
