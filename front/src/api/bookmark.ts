@@ -1,10 +1,10 @@
 import instance from "./interceptors";
 
-export const getBookmarks = async (page: number, size: number) => {
-	const url = `/api/my-bookmark/list?page=${page}&size=${size}`;
+export const getBookmarks = async (page: number) => {
+	const url = `/api/my-bookmark/list?page=${page}`;
 	try {
 		const response = await instance.get(url);
-		return response.data.data;
+		return response.data.bookmarks;
 	} catch (error) {
 		console.error(error);
 	}

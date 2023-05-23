@@ -49,7 +49,7 @@ export default function RecipeListPage() {
 				<FilterBar setFilterMenuList={setFilterMenuList} />
 			</div>
 
-			<div style={{ marginTop: "90px", padding: "1rem" }}>
+			<div style={{ marginTop: "90px" }}>
 				<RecipeList recipeData={recipeData} />
 			</div>
 			<div id="end-of-list"></div>
