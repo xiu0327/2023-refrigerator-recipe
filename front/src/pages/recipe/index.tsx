@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import router from "next/router";
-import { getRecipeList } from "@/api";
-import { RecipePreview } from "@/types/types";
+
+import { getRecipes } from "@/api";
+import { RecipeBrief } from "@/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
@@ -9,34 +10,30 @@ import FilterBar from "@/components/recipe/Bar/FilterBar";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 
 import styles from "@/scss/pages.module.scss";
-import { login } from "@/api/login";
+import { useIntersectionObserver } from "@/hooks";
 
 export default function RecipeListPage() {
+	const [recipeData, setRecipeData] = useState<RecipeBrief[]>([]);
 	const [page, setPage] = useState(0);
-	const [recipeData, setRecipeData] = useState<RecipePreview[]>([]);
+	const [isDataLoaded, setIsDataLoaded] = useState(false);
+	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
 	const [show, setShow] = useState(false);
 	const [filterMenuList, setFilterMenuList] = useState([]);
 
 	useEffect(() => {
-		const fetchRecipeData = async () => {
-			const data = await getRecipeList(page);
-			setRecipeData((prev) => [...prev, ...data]);
-		};
-		fetchRecipeData();
+		(async () => {
+			if (!isScrollEnd) {
+				const data = await getRecipes(page);
+				data.length !== 0
+					? setRecipeData((prev) => [...prev, ...data])
+					: setIsScrollEnd(true);
+				setIsDataLoaded(true);
+			}
+		})();
 	}, [page]);
 
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				const firstEntry = entries[0];
-				firstEntry.isIntersecting && setPage((prev) => prev + 1);
-			},
-			{ threshold: 1 },
-		);
-		observer.observe(document.querySelector("#end-of-list"));
-		return () => observer.disconnect();
-	}, []);
+	useIntersectionObserver(setPage, isDataLoaded);
 
 	return (
 		<AppNavLayout title="레시피">
@@ -51,8 +48,8 @@ export default function RecipeListPage() {
 
 			<div style={{ marginTop: "90px" }}>
 				<RecipeList recipeData={recipeData} />
+				{isDataLoaded && <div id="end-of-list"></div>}
 			</div>
-			<div id="end-of-list"></div>
 		</AppNavLayout>
 	);
 }

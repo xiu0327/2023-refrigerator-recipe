@@ -1,6 +1,6 @@
 import instance from "./interceptors";
 
-export const getRecipeList = async (page: number) => {
+export const getRecipes = async (page: number) => {
 	const url = `/api/recipe?page=${page}`;
 	try {
 		const response = await instance.get(url);
