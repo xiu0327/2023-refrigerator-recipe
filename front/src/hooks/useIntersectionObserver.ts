@@ -10,7 +10,7 @@ export const useIntersectionObserver = (
 				setPage((prev: number) => prev + 1);
 			}
 		};
-		const options = { threshold: 1 };
+		const options = { threshold: 0.1 };
 
 		const observer = new IntersectionObserver(handleIntersection, options);
 		const target = document.querySelector("#end-of-list");
