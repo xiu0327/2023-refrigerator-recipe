@@ -7,6 +7,7 @@ import {
 	getMyComments,
 	getHeartCommentIDs,
 } from "@/api";
+import { CommentSortType, RecipeComment } from "@/types";
 
 import RecipeCommentLayout from "@/components/layout/RecipeCommentLayout";
 import SortBar from "@/components/recipe/Bar/SortBar";
@@ -14,15 +15,25 @@ import Comment from "@/components/recipe/Comment/Comment";
 import CommentInputForm from "@/components/recipe/Comment/CommentInputForm";
 
 import styles from "@/scss/pages.module.scss";
+import { useIntersectionObserver } from "@/hooks";
 
 export default function RecipeCommentPage() {
 	const router = useRouter();
 	const recipeID = Number(router.query.recipeID);
 	const recipeName = router.query.recipeName;
 
-	const [sortType, setSortType] = useState<"좋아요순" | "최신순">("좋아요순");
-	const [myCommentData, setMyCommentData] = useState([]);
-	const [otherCommentData, setOtherCommentData] = useState([]);
+	const [myCommentData, setMyCommentData] = useState<RecipeComment[]>([]);
+	const [otherCommentData, setOtherCommentData] = useState<RecipeComment[]>([]);
+
+	const [sortType, setSortType] = useState<CommentSortType>("좋아요순");
+	const getCommentsBySortType = {
+		좋아요순: getCommentsByLike,
+		최신순: getCommentsByDate,
+	};
+
+	const [page, setPage] = useState(0);
+	const [isDataLoaded, setIsDataLoaded] = useState(false);
+	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
 	const [modifyMode, setModifyMode] = useState(false);
 	const [heartCommentIDs, setHeartCommentIDs] = useState([]);
@@ -44,13 +55,26 @@ export default function RecipeCommentPage() {
 
 	useEffect(() => {
 		(async () => {
-			const otherData =
-				sortType === "좋아요순"
-					? await getCommentsByLike(recipeID, 0)
-					: await getCommentsByDate(recipeID, 0);
+			setPage(0);
+			const otherData = await getCommentsBySortType[sortType](recipeID, 0);
 			setOtherCommentData(otherData);
+			setIsScrollEnd(false);
+			setIsDataLoaded(true);
 		})();
 	}, [sortType]);
+
+	useEffect(() => {
+		(async () => {
+			if (page != 0 && !isScrollEnd) {
+				const otherData = await getCommentsBySortType[sortType](recipeID, page);
+				otherData.length !== 0
+					? setOtherCommentData((prev) => [...prev, ...otherData])
+					: setIsScrollEnd(true);
+			}
+		})();
+	}, [page]);
+
+	useIntersectionObserver(setPage, isDataLoaded);
 
 	return (
 		<RecipeCommentLayout title={recipeName}>
@@ -75,6 +99,7 @@ export default function RecipeCommentPage() {
 						/>
 					</div>
 				))}
+				{isDataLoaded && <div id="end-of-list" />}
 			</div>
 			<CommentInputForm
 				recipeID={recipeID}
