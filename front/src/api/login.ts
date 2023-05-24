@@ -16,6 +16,7 @@ export const login = (email: string, password: string) => {
 			localStorage.setItem("refreshToken", refreshToken);
 			console.log("토큰 초기 설정 완료!");
 			console.log(accessToken);
+			router.push("/mypage");
 		})
 		.catch(function (error) {
 			alert(error.response.data.message);
