@@ -21,7 +21,6 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
     private final CreateTokenPort createTokenPort;
     private final CreateAuthenticationPort authenticatePort;
     private final FindEmailByTokenPort findEmailByToken;
-    private final FindRefreshTokenByEmailPort findRefreshTokenByEmailPort;
     private final ValidateTokenPort validateTokenPort;
 
     @Override
@@ -44,10 +43,6 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
         TokenInfoDTO tokenInfo = findEmailByToken.findEmailByToken(refreshToken);
         String email = tokenInfo.getEmail();
         String authority = tokenInfo.getRole();
-        String findRefreshToken = findRefreshTokenByEmailPort.findRefreshToken(email);
-        if (!refreshToken.equals(findRefreshToken)){
-            throw new BusinessException(JwtExceptionType.INVALID_REFRESH_TOKEN);
-        }
         return TokenDTO.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(createTokenPort.createAccessToken(email, authority))

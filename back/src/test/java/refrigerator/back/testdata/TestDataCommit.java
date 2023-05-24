@@ -91,7 +91,7 @@ public class TestDataCommit {
         Random random = new Random();
         for (IngredientStorageType value : IngredientStorageType.values()) {
             for (int i = 0 ; i < 30 ; i++){
-                int imageRandom = random.nextInt(17);
+                int imageRandom = random.nextInt(16) + 1;
                 registerIngredientUseCase.registerIngredient(
                         data.get(i).getName(),
                         LocalDate.of(2023, 12, random.nextInt(29) + 1),
