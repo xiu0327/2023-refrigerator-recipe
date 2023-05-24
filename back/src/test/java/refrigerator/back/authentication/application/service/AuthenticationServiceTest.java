@@ -1,15 +1,14 @@
 package refrigerator.back.authentication.application.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
-import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
-import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.infra.jwt.TokenStatus;
+import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
 import refrigerator.back.authentication.exception.JwtExceptionType;
 import refrigerator.back.global.TestData;

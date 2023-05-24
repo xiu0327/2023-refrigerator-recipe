@@ -6,8 +6,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
-import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
+import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.infra.jwt.TokenStatus;
 import refrigerator.back.member.application.domain.MemberStatus;
 
 @SpringBootTest

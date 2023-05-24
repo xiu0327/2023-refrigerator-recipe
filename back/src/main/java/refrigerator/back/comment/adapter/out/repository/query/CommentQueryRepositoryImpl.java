@@ -11,7 +11,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.adapter.out.dto.OutCommentDTO;
 import refrigerator.back.comment.adapter.out.dto.QOutCommentDTO;
-import refrigerator.back.comment.adapter.out.persistence.CommentSortCondition;
+import refrigerator.back.comment.adapter.out.CommentSortCondition;
 
 import java.util.List;
 

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.comment.adapter.out.CommentLookUpAdapter;
 import refrigerator.back.comment.application.domain.CommentDto;
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 import refrigerator.back.global.TestData;
@@ -18,7 +19,8 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class CommentLookUpAdapterTest {
 
-    @Autowired CommentLookUpAdapter commentLookUpAdapter;
+    @Autowired
+    CommentLookUpAdapter commentLookUpAdapter;
     @Autowired TestData testData;
     @Autowired WriteCommentUseCase commentUseCase;
 

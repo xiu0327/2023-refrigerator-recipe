@@ -7,15 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.authentication.adapter.infra.security.token.EmailAuthenticationToken;
-import refrigerator.back.member.application.domain.Member;
-import refrigerator.back.member.application.domain.MemberProfileImage;
+import refrigerator.back.authentication.infra.security.token.EmailAuthenticationToken;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.member.application.port.in.JoinUseCase;
 
-import javax.persistence.EntityManager;
 import java.util.Set;
 
 @SpringBootTest

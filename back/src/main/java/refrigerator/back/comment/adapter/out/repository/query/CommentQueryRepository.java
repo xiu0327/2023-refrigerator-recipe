@@ -3,9 +3,7 @@ package refrigerator.back.comment.adapter.out.repository.query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import refrigerator.back.comment.adapter.out.dto.OutCommentDTO;
-import refrigerator.back.comment.adapter.out.persistence.CommentSortCondition;
-import refrigerator.back.comment.application.domain.CommentHeart;
-import refrigerator.back.comment.application.domain.CommentHeartPeople;
+import refrigerator.back.comment.adapter.out.CommentSortCondition;
 
 import java.util.List;
 

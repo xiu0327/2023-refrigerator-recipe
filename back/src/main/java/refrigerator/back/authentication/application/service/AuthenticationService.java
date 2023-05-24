@@ -10,9 +10,8 @@ import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 import refrigerator.back.authentication.application.port.out.*;
 import refrigerator.back.authentication.exception.JwtExceptionType;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.application.port.out.FindMemberPort;
 
-import static refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey.*;
+import static refrigerator.back.authentication.infra.jwt.JsonWebTokenKey.*;
 
 @Service
 @RequiredArgsConstructor

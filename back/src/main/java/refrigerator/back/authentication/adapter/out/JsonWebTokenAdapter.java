@@ -3,16 +3,19 @@ package refrigerator.back.authentication.adapter.out;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
+import refrigerator.back.authentication.adapter.out.dto.TokenRedisDTO;
+import refrigerator.back.authentication.exception.AuthenticationExceptionType;
+import refrigerator.back.authentication.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
 import refrigerator.back.authentication.application.domain.TokenInfoDTO;
 import refrigerator.back.authentication.application.port.out.*;
-import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.global.exception.BusinessException;
 
 import java.util.Date;
 
-import static refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey.*;
-import static refrigerator.back.authentication.adapter.infra.jwt.TokenStatus.*;
+import static refrigerator.back.authentication.infra.jwt.JsonWebTokenKey.*;
+import static refrigerator.back.authentication.infra.jwt.TokenStatus.*;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +23,7 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPor
         FindRefreshTokenByEmailPort, ValidateTokenPort, FindDurationByTokenPort {
 
     private final JsonWebTokenProvider jsonWebTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenRepository repository;
 
     @Override
     public String createAccessToken(String username, String authority) {
@@ -36,7 +39,7 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPor
                 username,
                 authority,
                 REFRESH_TOKEN_EXPIRE_TIME);
-        refreshTokenRepository.setData(username, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
+        repository.setData(username, refreshToken, REFRESH_TOKEN_EXPIRE_TIME);
         return refreshToken;
     }
 
@@ -57,7 +60,7 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPor
 
     @Override
     public String findRefreshToken(String email) {
-        return refreshTokenRepository.getData(email);
+        return repository.getData(email);
     }
 
     @Override

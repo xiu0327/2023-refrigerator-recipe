@@ -2,15 +2,14 @@ package refrigerator.back.authentication.infra;
 
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import refrigerator.back.authentication.adapter.infra.jwt.TokenStatus;
-import refrigerator.back.authentication.adapter.infra.jwt.provider.JsonWebTokenProvider;
-import refrigerator.back.authentication.adapter.infra.security.token.EmailAuthenticationToken;
+import refrigerator.back.authentication.infra.jwt.TokenStatus;
+import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
+import refrigerator.back.authentication.infra.security.token.EmailAuthenticationToken;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.exception.BusinessException;
 
@@ -18,7 +17,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.util.StringUtils.hasText;
-import static refrigerator.back.authentication.adapter.infra.jwt.JsonWebTokenKey.AUTHORITIES_KEY;
+import static refrigerator.back.authentication.infra.jwt.JsonWebTokenKey.AUTHORITIES_KEY;
 
 @SpringBootTest
 @Slf4j
