@@ -5,7 +5,7 @@ import { List, PlusCircle, ChevronLeft, Bell } from "react-bootstrap-icons";
 // TODO: 프로젝트 합친 후 router 설정
 
 export const MyPageIcon = () => (
-	<List className={styles.appbarIcon} onClick={() => router.push("/mypage")} />
+	<List className={styles.appbarIcon} /*onClick={router.push("/mypage")}*/ />
 );
 
 export const NotificationIcon = () => (

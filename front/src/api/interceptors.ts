@@ -1,4 +1,5 @@
 import axios from "axios";
+import { reissueAccessToken } from "./reissueAccessToken";
 
 const instance = axios.create();
 
@@ -7,37 +8,35 @@ instance.interceptors.response.use(
 		return response;
 	},
 	async function (error) {
-		const { response: errorResponse } = error;
-		const originalRequest = error.config;
-
-		if (errorResponse?.data?.error === "ACCESS_TOKEN_EXPIRED") {
-			// TODO: accessToken 재발행 후 실패한 요청(originalRequest) 재시도
-			return reissueAccessToken();
+		if (
+			error.response?.data?.error === "ACCESS_TOKEN_EXPIRED" ||
+			error.response?.statusText === "Unauthorized"
+		) {
+			if (await reissueAccessToken()) {
+				return retryRequest(error.response.config);
+			}
 		}
-
 		return Promise.reject(error);
 	},
 );
 
-const reissueAccessToken = () => {
-	const accessToken = localStorage.getItem("accessToken");
-	const refreshToken = localStorage.getItem("refreshToken");
-	axios
-		.post("/api/auth/reissue", {
-			accessToken: accessToken,
-			refreshToken: refreshToken,
-		})
-		.then(function (response) {
-			const accessToken = response.data.accessToken;
-			instance.defaults.headers.common[
-				"Authorization"
-			] = `Bearer ${accessToken}`;
-			localStorage.setItem("accessToken", accessToken);
-			console.log("토큰 재발행!");
-		})
-		.catch(function (error) {
-			console.log(error);
+const retryRequest = async (request) => {
+	let subscribers = [];
+	try {
+		const retryOriginalRequest = new Promise((resolve, reject) => {
+			subscribers.push(async () => {
+				try {
+					resolve(instance(request));
+				} catch (error) {
+					reject(error);
+				}
+			});
 		});
+		subscribers.forEach((callback) => callback());
+		return retryOriginalRequest;
+	} catch (error) {
+		return Promise.reject(error);
+	}
 };
 
 export default instance;

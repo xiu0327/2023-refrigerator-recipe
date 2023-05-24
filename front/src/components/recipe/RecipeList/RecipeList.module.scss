@@ -5,6 +5,7 @@ $img-size: 64px;
 .recipelistContainer {
 	display: flex;
 	flex-direction: column;
+	padding: 1rem;
 
 	.recipeContainer {
 		display: flex;
@@ -28,6 +29,7 @@ $img-size: 64px;
 			.recipeName {
 				font-size: 19px;
 				font-weight: bold;
+				letter-spacing: 0.5px;
 			}
 
 			.recipeInfo {

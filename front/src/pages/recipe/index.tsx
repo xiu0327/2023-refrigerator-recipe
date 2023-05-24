@@ -5,18 +5,13 @@ import { RecipePreview } from "@/types/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
-import FilterBar from "@/components/recipe/FilterBar/FilterBar";
+import FilterBar from "@/components/recipe/Bar/FilterBar";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 
 import styles from "@/scss/pages.module.scss";
 import { login } from "@/api/login";
 
 export default function RecipeListPage() {
-	// TEMP: 로그인 화면과 연결하면 삭제
-	// useEffect(() => {
-	// 	login();
-	// }, []);
-
 	const [page, setPage] = useState(0);
 	const [recipeData, setRecipeData] = useState<RecipePreview[]>([]);
 
@@ -54,7 +49,7 @@ export default function RecipeListPage() {
 				<FilterBar setFilterMenuList={setFilterMenuList} />
 			</div>
 
-			<div style={{ marginTop: "90px", padding: "1rem" }}>
+			<div style={{ marginTop: "90px" }}>
 				<RecipeList recipeData={recipeData} />
 			</div>
 			<div id="end-of-list"></div>

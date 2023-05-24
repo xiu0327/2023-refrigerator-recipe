@@ -1,0 +1,60 @@
+@import "@/scss/variables";
+
+$recipe-height: 180px;
+$recipe-box-shadow: 0px 0px 10px rgba($grey-500, 0.5);
+
+$recipe-info-bg-color: rgba($grey-100, 0.8);
+$recipe-name-font-color: $grey-900;
+$recipe-name-font-size: 19px;
+$recipe-info-font-color: $grey-700;
+
+.recipeGalleryContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	padding: 1.5rem;
+}
+
+.recipeContainer {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: $recipe-height;
+	overflow: hidden;
+	border-radius: 1.5rem;
+	box-shadow: $recipe-box-shadow;
+
+	> img {
+		height: 100%;
+		object-fit: cover;
+	}
+
+	> div {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		display: flex;
+		padding: 0.65rem 1rem;
+		background-color: $recipe-info-bg-color;
+
+		> span {
+			flex: 1;
+			color: $recipe-name-font-color;
+			font-size: $recipe-name-font-size;
+			font-weight: bold;
+			letter-spacing: 0.5px;
+		}
+
+		> div {
+			display: flex;
+			gap: 1rem;
+			color: $recipe-info-font-color;
+
+			> div {
+				display: flex;
+				gap: 0.25rem;
+				align-items: center;
+			}
+		}
+	}
+}

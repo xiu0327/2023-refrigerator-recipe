@@ -47,7 +47,10 @@ export default function RecipeInfoPage() {
 							ownedIngredientIDs={ownedIngredientIDs}
 						/>
 						<RecipeSteps recipeID={recipeID} />
-						<RecipeCommentsPreview recipeID={recipeID} />
+						<RecipeCommentsPreview
+							recipeID={recipeID}
+							recipeName={recipe.recipeName}
+						/>
 					</div>
 				</RecipeInfoLayout>
 			)}

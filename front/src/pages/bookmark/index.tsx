@@ -1,35 +1,20 @@
 import { useEffect, useState } from "react";
-import router from "next/router";
-import { getRecipeList } from "@/api";
-import { RecipePreview } from "@/types/types";
+import { getBookmarks } from "@/api";
+
+import { Bookmark } from "@/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
-import SearchBar from "@/components/global/SearchBar/SearchBar";
-import FilterBar from "@/components/recipe/FilterBar/FilterBar";
-import RecipeList from "@/components/recipe/RecipeList/RecipeList";
+import RecipeGallery from "@/components/recipe/RecipeGallery/RecipeGallery";
 
-import styles from "@/scss/pages.module.scss";
-import { login } from "@/api/login";
-import RecipeGrid from "@/components/recipe/RecipeGrid/RecipeGrid";
-
-export default function RecipeListPage() {
-	// TEMP: 로그인 화면과 연결하면 삭제
-	// useEffect(() => {
-	// 	login();
-	// }, []);
-
+export default function BookmarkPage() {
 	const [page, setPage] = useState(0);
-	const [recipeData, setRecipeData] = useState<RecipePreview[]>([]);
-
-	const [show, setShow] = useState(false);
-	const [filterMenuList, setFilterMenuList] = useState([]);
+	const [bookmarkData, setBookmarkData] = useState<Bookmark[]>([]);
 
 	useEffect(() => {
-		const fetchRecipeData = async () => {
-			const data = await getRecipeList(page);
-			setRecipeData((prev) => [...prev, ...data]);
-		};
-		fetchRecipeData();
+		(async () => {
+			const data = await getBookmarks(page);
+			setBookmarkData((prev) => [...prev, ...data]);
+		})();
 	}, [page]);
 
 	useEffect(() => {
@@ -46,9 +31,7 @@ export default function RecipeListPage() {
 
 	return (
 		<AppNavLayout title="북마크">
-			<div style={{ padding: "1rem" }}>
-				<RecipeGrid recipeData={recipeData} />
-			</div>
+			<RecipeGallery recipeData={bookmarkData} />
 			<div id="end-of-list"></div>
 		</AppNavLayout>
 	);
