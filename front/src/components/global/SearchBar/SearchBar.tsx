@@ -5,6 +5,7 @@ import styles from "@/scss/pages.module.scss";
 type SearchInputProps = {
 	keyword?: string;
 	setKeyword?: Function;
+	handleSubmit?: Function;
 	handleClick?: Function;
 	handleSearchBtnClick?: Function;
 	placeholder?: string;
@@ -15,6 +16,7 @@ type SearchInputProps = {
 export default function SearchBar({
 	keyword,
 	setKeyword,
+	handleSubmit,
 	handleClick,
 	handleSearchBtnClick,
 	placeholder,
@@ -29,8 +31,17 @@ export default function SearchBar({
 		handleSearchBtnClick && handleSearchBtnClick();
 	};
 
+	const onSearchSubmit = (e) => {
+		e.preventDefault();
+		handleSubmit && handleSubmit();
+	};
+
 	return (
-		<div className="d-flex align-items-center gap-3" onClick={onSearchBarClick}>
+		<form
+			className="d-flex align-items-center gap-3"
+			onClick={onSearchBarClick}
+			onSubmit={(e) => onSearchSubmit(e)}
+		>
 			<Input
 				value={keyword}
 				setValue={setKeyword}
@@ -40,6 +51,6 @@ export default function SearchBar({
 				disabled={disabled}
 			/>
 			<Search className={styles.icon} onClick={onSearchBtnClick} />
-		</div>
+		</form>
 	);
 }

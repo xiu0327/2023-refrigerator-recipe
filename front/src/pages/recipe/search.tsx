@@ -37,6 +37,7 @@ export default function RecipeSearchPage() {
 				<SearchBar
 					keyword={keyword}
 					setKeyword={setKeyword}
+					handleSubmit={onSearchBtnClick}
 					handleSearchBtnClick={onSearchBtnClick}
 					placeholder="궁금한 레시피를 검색해보세요!"
 					focus
