@@ -40,3 +40,7 @@ export interface RecipeComment {
 	modifiedState: boolean;
 	isMyComment: boolean;
 }
+
+export interface Bookmark extends RecipeBrief {
+	bookmarkID: number;
+}
