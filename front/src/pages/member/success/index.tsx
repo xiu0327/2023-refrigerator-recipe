@@ -10,6 +10,6 @@ export default function Success() {
 		console.log(paramValue); //TODO: 지워야됨 ...
 
 		instance.defaults.headers.common["Authorization"] = `Bearer ${paramValue}`;
-		router.push("/member/profile"); // 냉장고 화면으로 가게 바꿔야됨
+		router.push("/refrigerator");
 	}, []);
 }
