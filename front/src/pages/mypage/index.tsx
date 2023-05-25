@@ -105,16 +105,15 @@ export default function Mypage() {
 				<span className={styles.mypageStarTitle}>
 					내가 남긴 별점 ({starPreview?.length})
 				</span>
-				<ScrollContent content="star" starPreview={starPreview} />
+				<ScrollContent content="ratings" starPreview={starPreview} />
 			</div>
 			<div className={styles.mypageBookmark}>
 				<span className={styles.mypageBookmarkTitle}>
 					북마크 ({bookPreview?.length})
 				</span>
-				<ScrollContent content="bookmark" bookPreview={bookPreview} />
+				<ScrollContent content="bookmarks" bookPreview={bookPreview} />
 			</div>
 			<div className={`d-grid gap-2`}>
-				<LinkBtn title={"공지사항"} link={"../announcement"} />
 				<LinkBtn title={"비밀번호 변경"} link={"../member/password/change"} />
 			</div>
 			<div className={styles.mypageLink}>
