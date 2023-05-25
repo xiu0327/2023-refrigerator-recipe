@@ -4,7 +4,7 @@ import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import styles from "./ModalOnBtn.module.scss";
 import { changePassword } from "@/api";
 
-export default function ModalOnBtn2({ title, ment, password }) {
+export default function ModalOnBtn2({ title, ment, password, disabled }) {
 	const [modalShow, setModalShow] = useState(false);
 
 	const handleButtonClick = async () => {
@@ -13,6 +13,7 @@ export default function ModalOnBtn2({ title, ment, password }) {
 			setModalShow(true);
 		} catch (error) {
 			alert(error.response.data.message);
+			setModalShow(false);
 		}
 	};
 	return (
@@ -21,11 +22,8 @@ export default function ModalOnBtn2({ title, ment, password }) {
 				className={styles.modalOnBtn}
 				variant="primary"
 				size="lg"
-				onClick={() => {
-					const result = changePassword(password);
-					console.log(result);
-					setModalShow(true);
-				}}
+				onClick={handleButtonClick}
+				disabled={disabled}
 			>
 				{title}
 			</Button>

@@ -9,7 +9,6 @@ import { getCheckEmail } from "@/api/getCheckEmail";
 export default function change() {
 	const [newPassword, setNewPassword] = useState("");
 	const [checkPw, setCheckPw] = useState("");
-	const [toggle, setToggle] = useState(false);
 
 	const onNewPasswordHandler = (e: any) => {
 		setNewPassword(e.target.value);
@@ -17,7 +16,6 @@ export default function change() {
 
 	const onNewCheckedPwHandler = (e: any) => {
 		setCheckPw(e.target.value);
-		setToggle(e.target.value === newPassword);
 	};
 
 	return (
@@ -56,7 +54,12 @@ export default function change() {
 					)}
 				</div>
 			</div>
-			<ModalOnBtn2 title="변경하기" ment="변경" password={newPassword} />
+			<ModalOnBtn2
+				title="변경하기"
+				ment="변경"
+				password={newPassword}
+				disabled={newPassword !== checkPw}
+			/>
 		</div>
 	);
 }
