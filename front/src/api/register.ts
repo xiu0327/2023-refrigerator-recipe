@@ -25,8 +25,6 @@ export const register = (email: string, password: string, nickname: string) => {
 			router.push("/");
 		})
 		.catch((error) => {
-			if (error.response.data.code === "NOT_EMPTY_INPUT_DATA") {
-				alert(error.response.data.message);
-			}
+			alert(error.response.data.message);
 		});
 };
