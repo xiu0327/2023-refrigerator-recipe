@@ -72,7 +72,7 @@ class MemberControllerTest {
     @Test
     void 닉네임_수정() throws Exception {
         String email = testData.createMemberByEmail("email123@gmail.com");
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 5000);
         String nickname = "수정닉네임";
         MemberNicknameUpdateRequestDTO request = new MemberNicknameUpdateRequestDTO(nickname);
         String requestJson = new ObjectMapper().writeValueAsString(request);

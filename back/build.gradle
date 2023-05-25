@@ -45,9 +45,13 @@ repositories {
 	mavenCentral()
 }
 
+test {
+	useJUnitPlatform()
+}
+
 dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
@@ -59,8 +63,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-    implementation 'junit:junit:4.13.1'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	implementation 'junit:junit:4.13.1'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -70,13 +74,12 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
 
 def querydslDir = "$buildDir/generated/querydsl"
 

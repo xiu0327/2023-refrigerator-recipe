@@ -7,11 +7,11 @@ import java.nio.charset.StandardCharsets;
 
 public class NotificationPrefixedKeySerializer implements RedisSerializer<String> {
 
-    private final String NOTIFICATION_PREDIX = "NOTIFICATION::";
+    private final String NOTIFICATION_PREFIX = "NOTIFICATION::";
 
     @Override
     public byte[] serialize(String key) throws SerializationException {
-        String prefixedKey = NOTIFICATION_PREDIX + key;
+        String prefixedKey = NOTIFICATION_PREFIX + key;
         return prefixedKey.getBytes(StandardCharsets.UTF_8);
     }
 
@@ -21,8 +21,8 @@ public class NotificationPrefixedKeySerializer implements RedisSerializer<String
             return null;
         }
         String key = new String(bytes, StandardCharsets.UTF_8);
-        if (key.startsWith(NOTIFICATION_PREDIX)){
-            return key.substring(NOTIFICATION_PREDIX.length());
+        if (key.startsWith(NOTIFICATION_PREFIX)){
+            return key.substring(NOTIFICATION_PREFIX.length());
         }
         return key;
     }

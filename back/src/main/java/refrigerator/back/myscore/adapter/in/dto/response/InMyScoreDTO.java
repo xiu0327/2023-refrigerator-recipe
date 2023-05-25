@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class InMyScoreDTO {
-    private Long scoreId;
-    private Long recipeId;
-    private String recipeImage;
+    private Long scoreID;
+    private Long recipeID;
+    private String image;
     private String recipeName;
     private Double scoreAvg;
     private Integer views;

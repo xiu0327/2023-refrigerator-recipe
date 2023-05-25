@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.ReissueTokenRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
@@ -53,25 +54,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@RedisFlushAll(beanName = "memberCacheRedisTemplate")
 class AuthenticationControllerTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired WebApplicationContext context;
     @Autowired TestData testData;
-    @Autowired PasswordEncoder passwordEncoder;
-    @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired JoinUseCase joinUseCase;
+    @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired LoginUseCase loginUseCase;
-    @Autowired InitNicknameAndProfileUseCase initNicknameAndProfileUseCase;
-    @Autowired FindMemberPort findMemberPort;
-    @Autowired EntityManager em;
-
-    private final RedisTemplate<String, MemberCacheDTO> redisTemplate;
-
-    public AuthenticationControllerTest(
-            @Qualifier("memberCacheRedisTemplate") RedisTemplate<String, MemberCacheDTO> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
 
     @Before
     public void setting(){
@@ -80,25 +71,18 @@ class AuthenticationControllerTest {
                 .build();
     }
 
-    @BeforeEach()
-    void redisRollback(){
-        redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
-            connection.flushAll();
-            return null;
-        });
-    }
-
     @Test
-    void 토큰_발행() throws Exception {
+    @DisplayName("토큰 발행 테스트")
+    void createToken() throws Exception {
         // given
+        String email = "email123@gmail.com";
         String password = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
+        joinUseCase.join(email, password, "닉네임");
         LoginRequestDTO request = LoginRequestDTO.builder()
                 .email(email)
                 .password(password)
                 .build();
         // when
-        request.check();
         String requestJson = new ObjectMapper().writeValueAsString(request);
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -112,10 +96,12 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void 토큰_발행_후_레시피_목록_조회() throws Exception {
+    @DisplayName("토큰 발행 후 레시피 목록 조회 성공")
+    void afterLoginSuccess() throws Exception {
         // given
+        String email = "email123@gmail.com";
         String password = "password123!";
-        String email = testData.createMemberByEmailAndPassword("recipefind123@gmail.com", passwordEncoder.encode(password));
+        joinUseCase.join(email, password, "닉네임");
         TokenDTO token = loginUseCase.login(email, password);
         // when
         mockMvc.perform(get("/api/recipe?page=0")
@@ -126,15 +112,15 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void 토큰_발행_후_레시피_목록_조회_실패() throws Exception {
+    @DisplayName("토큰 발행 후 레시피 목록 조회 실패")
+    void afterLoginFail() throws Exception {
         /* 탈퇴한 회원이 레시피 목록을 조회하려 시도하는 경우 */
         // given
+        String email = "email123@gmail.com";
         String password = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
+        joinUseCase.join(email, password, "닉네임");
         TokenDTO token = loginUseCase.login(email, password);
         withdrawMemberUseCase.withdrawMember(email);
-        em.flush();
-        em.clear();
         // when
         mockMvc.perform(get("/api/recipe?page=0")
                 .header(HttpHeaders.AUTHORIZATION, token.getGrantType() + " " + token.getAccessToken())
@@ -143,9 +129,11 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    void 토큰_재발행() throws Exception {
+    @DisplayName("토큰 재발행 성공")
+    void reissueToken() throws Exception {
+        String email = "email123@gmail.com";
         String password = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
+        joinUseCase.join(email, password, "닉네임");
         TokenDTO token = loginUseCase.login(email, password);
         mockMvc.perform(post("/api/auth/reissue")
                 .cookie(new Cookie("Refresh-Token", token.getRefreshToken()))
@@ -155,10 +143,11 @@ class AuthenticationControllerTest {
 
     @Test
     @DisplayName("정상적인 로그아웃")
-    void 로그아웃() throws Exception {
+    void logoutSuccess() throws Exception {
         // given
+        String email = "email123@gmail.com";
         String password = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", passwordEncoder.encode(password));
+        joinUseCase.join(email, password, "닉네임");
         TokenDTO token = loginUseCase.login(email, password);
         // when
         mockMvc.perform(get("/api/auth/logout")

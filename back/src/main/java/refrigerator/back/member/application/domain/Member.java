@@ -7,6 +7,7 @@ import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Random;
 
 @Entity
@@ -40,11 +41,24 @@ public class Member extends BaseTimeEntity {
     @Column(name = "profile", nullable = false, length = 100)
     private MemberProfileImage profile;
 
-    public Member(String email, String password, String nickname) {
+    private Member(String email, String password, String nickname) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.memberStatus = MemberStatus.STEADY_STATUS;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Member member = (Member) o;
+        return Objects.equals(id, member.id) && Objects.equals(email, member.email) && Objects.equals(password, member.password) && Objects.equals(nickname, member.nickname) && memberStatus == member.memberStatus && profile == member.profile;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, password, nickname, memberStatus, profile);
     }
 
     /* 비즈니스 로직 */
