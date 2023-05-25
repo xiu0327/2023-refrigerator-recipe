@@ -7,11 +7,9 @@ import { authenticate } from "@/api/athenticate";
 import { getCheckEmail } from "@/api/getCheckEmail";
 
 export default function change() {
-	const [clickBtn, setClickBtn] = useState(false);
 	const [newPassword, setNewPassword] = useState("");
 	const [checkPw, setCheckPw] = useState("");
-	const [checkEmail, setCheckEmail] = useState("");
-	const [code, setCode] = useState("");
+	const [toggle, setToggle] = useState(false);
 
 	const onNewPasswordHandler = (e: any) => {
 		setNewPassword(e.target.value);
@@ -19,24 +17,8 @@ export default function change() {
 
 	const onNewCheckedPwHandler = (e: any) => {
 		setCheckPw(e.target.value);
+		setToggle(e.target.value === newPassword);
 	};
-
-	const onCheckEmailHandler = (e: any) => {
-		setCheckEmail(e.target.value);
-	}; // 이메일 인증 작성
-
-	const onAuthenticateHandler = (e: any) => {
-		setCode(e.target.value);
-	}; // 인증번호 입력 작성
-
-	const onAuthenticateClick = () => {
-		authenticate(checkEmail, code);
-	}; // 인증번호 확인 클릭
-
-	const onCheckEmailClick = () => {
-		getCheckEmail(checkEmail);
-		setClickBtn(true);
-	}; // 인증번호 전송 버튼 클릭 시 실행
 
 	return (
 		<div className={styles.passwordContainer}>
@@ -74,7 +56,6 @@ export default function change() {
 					)}
 				</div>
 			</div>
-
 			<ModalOnBtn2 title="변경하기" ment="변경" password={newPassword} />
 		</div>
 	);

@@ -1,16 +1,22 @@
+import router from "next/router";
 import instance from "./interceptors";
+import { AxiosError } from "axios";
 
 export const changePassword = (password: string) => {
-	instance
-		.put("/api/members/password", {
-			password: password,
-		})
-		.then(function (response) {
-			//console.log(response);
-		})
-		.catch(function (error) {
-			console.log(error.response);
-		});
+	return new Promise((resolve, reject) => {
+		instance
+			.put("/api/members/password", {
+				password: password,
+			})
+			.then(function (response) {
+				// API 호출 성공
+				resolve(response); // 반환할 데이터를 resolve로 전달
+			})
+			.catch(function (error) {
+				// API 호출 실패
+				reject(error); // 에러를 reject로 전달
+			});
+	});
 };
 
 export const findPassword = async (email: string) => {
