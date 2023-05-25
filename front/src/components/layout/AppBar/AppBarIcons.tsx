@@ -1,6 +1,7 @@
 import router from "next/router";
 import styles from "./AppBar.module.scss";
 import { List, PlusCircle, ChevronLeft, Bell } from "react-bootstrap-icons";
+import Link from "next/link";
 
 export const MyPageIcon = () => (
 	<List className={styles.appbarIcon} onClick={() => router.push("/mypage")} />
@@ -14,10 +15,9 @@ export const NotificationIcon = () => (
 );
 
 export const AddIngredientIcon = () => (
-	<PlusCircle
-		className={styles.appbarIcon}
-		onClick={() => router.push("/refrigerator/add")}
-	/>
+	<Link href={`/refrigerator/add`}>
+		<PlusCircle className={styles.appbarIcon} />
+	</Link>
 );
 
 export const BackIcon = () => (

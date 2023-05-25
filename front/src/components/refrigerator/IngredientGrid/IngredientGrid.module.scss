@@ -3,8 +3,14 @@
 $pd-element-x: 1.25rem;
 $pd-element-y: 0.9rem;
 $gap-element: 0.75rem;
-$name-font-size: 18px;
+
+$name-font-size: 17px;
+$name-font-color: $grey-800;
+$name-font-weight: 400; //bold;
+
 $days-font-size: 14px;
+$days-font-color: $grey-500;
+$days-font-weight: 400; //500;
 
 .ingredientGridContainer {
 	display: flex;
@@ -21,15 +27,23 @@ $days-font-size: 14px;
 	text-align: center;
 }
 
-.ingredientName {
-	font-size: $name-font-size;
-	font-weight: bold;
-}
+.ingredientInfo {
+	display: flex;
+	flex-direction: column;
+	margin-top: 0.5rem;
 
-.ingredientDays {
-	font-size: $days-font-size;
-	font-weight: 500;
-	color: $grey-500;
+	.ingredientName {
+		font-size: $name-font-size;
+		font-weight: $name-font-weight;
+		color: $name-font-color;
+		letter-spacing: 0.5px;
+	}
+
+	.ingredientDays {
+		font-size: $days-font-size;
+		font-weight: $days-font-weight;
+		color: $days-font-color;
+	}
 }
 
 @mixin ingredient-icon {

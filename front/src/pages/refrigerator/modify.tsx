@@ -35,8 +35,8 @@ export default function ModifyIngredientPage() {
 		setNewIngredient((prev) => ({ ...prev, [key]: value }));
 	};
 
-	const onModifyIngredientClick = () => {
-		modifyIngredient(ingredientID, newIngredient);
+	const onModifyIngredientClick = async () => {
+		await modifyIngredient(ingredientID, newIngredient);
 		router.back();
 	};
 

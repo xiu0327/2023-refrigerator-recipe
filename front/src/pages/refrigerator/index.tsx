@@ -12,6 +12,7 @@ import Switch from "@/components/global/Switch/Switch";
 
 import styles from "@/scss/pages.module.scss";
 import { useIntersectionObserver } from "@/hooks";
+import Link from "next/link";
 
 export default function RefrigeratorPage() {
 	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
@@ -45,16 +46,14 @@ export default function RefrigeratorPage() {
 
 	useIntersectionObserver(setPage, isDataLoaded);
 
-	const onSearchBtnClick = () => {
-		router.push("/refrigerator/search");
-	};
-
 	return (
 		<AppNavLayout title="냉장고">
 			<div className={styles.fixed}>
 				<div className="d-flex align-items-center gap-3">
 					<StorageTab storage={storage} setStorage={setStorage} size="sm" />
-					<Search className={styles.icon} onClick={onSearchBtnClick} />
+					<Link href={`/refrigerator/search`}>
+						<Search className={styles.icon} />
+					</Link>
 				</div>
 				<Switch
 					label="소비기한 지난 식재료만 보기"

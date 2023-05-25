@@ -31,8 +31,8 @@ export default function AddIngredientInfoPage() {
 		setIngredient((prev) => ({ ...prev, [key]: value }));
 	};
 
-	const onAddIngredientBtnClick = () => {
-		addIngredient(ingredient);
+	const onAddIngredientBtnClick = async () => {
+		await addIngredient(ingredient);
 		// TODO: 식재료 추가 완료 토스트메시지
 		router.back();
 	};

@@ -13,6 +13,7 @@ import VolumeInputForm from "@/components/refrigerator/IngredientInputForm/Volum
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
+import Link from "next/link";
 
 export default function IngredientInfoPage() {
 	const router = useRouter();
@@ -23,18 +24,9 @@ export default function IngredientInfoPage() {
 		[],
 	);
 
-	const onEditBtnClick = () => {
-		const { remainDays, image, ...params } = ingredient;
-
-		router.push({
-			pathname: `/refrigerator/modify`,
-			query: params,
-		});
-	};
-
-	const onDeleteIngredientClick = () => {
+	const onDeleteIngredientClick = async () => {
 		// TODO: 삭제 확인 모달 띄우기
-		deleteIngredient(ingredientID);
+		await deleteIngredient(ingredientID);
 		router.back();
 	};
 
@@ -49,7 +41,11 @@ export default function IngredientInfoPage() {
 								{ingredient.registrationDate} 등록
 							</div>
 						</div>
-						<PencilSquare className={styles.icon} onClick={onEditBtnClick} />
+						<Link
+							href={`/refrigerator/modify?ingredientID=${ingredient.ingredientID}&name=${ingredient.name}&storage=${ingredient.storage}&expirationDate=${ingredient.expirationDate}&registrationDate=${ingredient.registrationDate}&volume=${ingredient.volume}&unit=${ingredient.unit}`}
+						>
+							<PencilSquare className={styles.icon} />
+						</Link>
 					</div>
 
 					<div className={styles.ingredientInfoContainer}>
