@@ -24,7 +24,7 @@ export const getRecipeLastSearches = async () => {
 	const url = `/api/search-word/last`;
 	try {
 		const response = await instance.get(url);
-		return [...new Set(response.data.data)];
+		return response.data.data;
 	} catch (error) {
 		console.error(error);
 	}
@@ -34,20 +34,17 @@ export const getRecipeRecommendationSearches = async () => {
 	const url = `/api/search-word/recommend`;
 	try {
 		const response = await instance.get(url);
-		return [...new Set(response.data.data)];
+		return response.data.data;
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-export const deleteLateSearch = (word: string) => {
+export const deleteLateSearch = async (word: string) => {
 	const url = `/api/search-word?word=${word}`;
-	instance
-		.delete(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		await instance.delete(url);
+	} catch (error) {
+		console.error(error);
+	}
 };

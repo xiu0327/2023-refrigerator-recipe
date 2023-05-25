@@ -1,4 +1,4 @@
-import SearchTagGroup from "./SearchTagGroup";
+import SearchTags from "./SearchTags";
 import styles from "./SearchPanel.module.scss";
 import { getRecipeLastSearches, getRecipeRecommendationSearches } from "@/api";
 import { useEffect, useState } from "react";
@@ -22,7 +22,11 @@ export default function SearchPanel() {
 			{lastSearches && lastSearches.length !== 0 && (
 				<div className={styles.partContainer}>
 					<div className={styles.title}>최근 검색어</div>
-					<SearchTagGroup data={lastSearches} closeBtn />
+					<SearchTags
+						tagData={lastSearches}
+						setTagData={setLastSearches}
+						deleteBtn
+					/>
 				</div>
 			)}
 
@@ -34,7 +38,7 @@ export default function SearchPanel() {
 							소비기한이 얼마남지 않은 식재료에요!
 						</div>
 					</div>
-					<SearchTagGroup data={recommendationSearches} />
+					<SearchTags tagData={recommendationSearches} />
 				</div>
 			)}
 		</div>
