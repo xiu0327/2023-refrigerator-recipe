@@ -1,20 +1,20 @@
 import SearchTagGroup from "./SearchTagGroup";
 import styles from "./SearchPanel.module.scss";
-import { getLastSearches, getRecommendationSearches } from "@/api";
+import { getRecipeLastSearches, getRecipeRecommendationSearches } from "@/api";
 import { useEffect, useState } from "react";
-import { login } from "@/api/login";
 
 export default function SearchPanel() {
-	// NOTE: 변수에 저장하면 오류가 나서 useState를 쓰는데 이유를 모르겠음
 	const [lastSearches, setLastSearches] = useState([]);
 	const [recommendationSearches, setRecommendationSearches] = useState([]);
 
-	// TEMP: html 오류 반환 오류 뜨면 login 실행 후 다시 호출
-	// login();
-
 	useEffect(() => {
-		getLastSearches(setLastSearches);
-		getRecommendationSearches(setRecommendationSearches);
+		(async () => {
+			const lateSearchesData = await getRecipeLastSearches();
+			setLastSearches(lateSearchesData);
+			const recommendationSearchesData =
+				await getRecipeRecommendationSearches();
+			setRecommendationSearches(recommendationSearchesData);
+		})();
 	}, []);
 
 	return (

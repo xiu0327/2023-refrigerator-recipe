@@ -20,29 +20,6 @@ export const getRecipe = async (recipeID: string) => {
 	}
 };
 
-export const searchRecipe = async (page: number, query: string) => {
-	const url = `/api/recipe/search?page=${page}&searchWord=${query}`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-export const getBookmarkIDs = async () => {
-	const url = `/api/my-bookmark/added`;
-	return instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data.data);
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
 export const getRecipeSteps = async (recipeID: number) => {
 	const url = `/api/recipe/${recipeID}/course`;
 	try {
@@ -69,18 +46,6 @@ export const rateRecipe = (recipeId, score) => {
 	const url = `/api/my-score/cooking?recipeId=${recipeId}&score=${score}`;
 	instance
 		.post(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const 레시피자동완성 = (keyword) => {
-	const url = `/api/word-completion/recipe?keyword=${keyword}`;
-	instance
-		.get(url)
 		.then((response) => {
 			console.log(response.data);
 		})
@@ -143,43 +108,6 @@ export const getRecipeDifficulty = () => {
 		.get(url)
 		.then((response) => {
 			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const getRecommendationSearches = (setData) => {
-	const url = `/api/search-word/recommend`;
-	instance
-		.get(url)
-		.then((response) => {
-			setData(response.data.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const getLastSearches = (setData) => {
-	const url = `/api/search-word/last`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-			setData([...new Set(response.data.data)]);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const removeLateSearch = (word: string) => {
-	const url = `/api/search-word?word=${word}`;
-	instance
-		.delete(url)
-		.then((response) => {
-			console.log(response.data);
 		})
 		.catch((error) => {
 			console.log(error);
