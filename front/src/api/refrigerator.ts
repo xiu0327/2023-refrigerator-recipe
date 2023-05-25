@@ -9,12 +9,6 @@ export const getIngredients = async (
 	const url = `/api/ingredients?page=${page}&storage=${storage}&deadline=${isExpired}`;
 	try {
 		const response = await instance.get(url);
-		console.log(
-			"[api] page :",
-			page,
-			" arraylength :",
-			response.data.data.length,
-		);
 		return response.data.data;
 	} catch (error) {
 		console.log(error);
@@ -62,6 +56,16 @@ export const getIngredientUnit = async (name: string) => {
 		return response.data.unit;
 	} catch (error) {
 		console.log(error);
+		throw error;
+	}
+};
+
+export const getExpiringIngredients = async (day: number) => {
+	const url = `/api/ingredients/deadline/${day}`;
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
 		throw error;
 	}
 };
