@@ -2,15 +2,23 @@ import router from "next/router";
 import styles from "./ScrollContent.module.scss";
 
 export default function ScrollContent(props: any) {
-	const onClickHandler = () => {};
-	const onClickPlusHandler = (content: string) => {
+	const onContentClick = (recipeId: number) => {
+		router.push(`/recipe/info?recipeID=${recipeId}`);
+	};
+	// const onScoreClick = (recipeId: number) => {
+	// 	router.push(`/recipe/info?recipeID=${recipeId}`);
+	// };
+	const onContentPlusClick = (content: string) => {
 		router.push(`/${content}`);
 	};
-	return props.content === "star" ? (
+	return props.content === "ratings" ? (
 		<div className={styles.scroll}>
 			{props.starPreview?.map((i) => (
 				<div className={styles.content} key={i.scoreId}>
-					<button className={styles.recipeBtn} onClick={onClickHandler}>
+					<button
+						className={styles.recipeBtn}
+						onClick={() => onContentClick(i.recipeId)}
+					>
 						<img className={styles.recipeImage} src={i.recipeImage} />
 					</button>
 					<div className={styles.recipeNameWrapper}>
@@ -22,7 +30,7 @@ export default function ScrollContent(props: any) {
 				<button
 					className={styles.recipeBtn__plus}
 					onClick={() => {
-						onClickPlusHandler("star");
+						onContentPlusClick("ratings");
 					}}
 				>
 					<span>
@@ -36,8 +44,15 @@ export default function ScrollContent(props: any) {
 		<div className={styles.scroll}>
 			{props.bookPreview?.map((i) => (
 				<div className={styles.content} key={i.recipeId}>
-					<button className={styles.recipeBtn} onClick={onClickHandler}>
-						<img className={styles.recipeImage} src={i.recipeImage} />
+					<button
+						className={styles.recipeBtn}
+						onClick={() => onContentClick(i.recipeId)}
+					>
+						<img
+							className={styles.recipeImage}
+							src={i.recipeImage}
+							alt={i.recipeName}
+						/>
 					</button>
 					<div className={styles.recipeNameWrapper}>
 						<div className={styles.recipeName}>{i.recipeName}</div>
@@ -48,7 +63,7 @@ export default function ScrollContent(props: any) {
 				<button
 					className={styles.recipeBtn__plus}
 					onClick={() => {
-						onClickPlusHandler("bookmark");
+						onContentPlusClick("bookmarks");
 					}}
 				>
 					<span>
