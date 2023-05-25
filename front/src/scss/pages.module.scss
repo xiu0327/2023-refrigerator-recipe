@@ -63,8 +63,8 @@ $icon-size: 24px;
 }
 
 .icon {
-	height: $icon-size;
-	width: $icon-size;
+	min-height: $icon-size;
+	min-width: $icon-size;
 	color: $grey-500;
 }
 
