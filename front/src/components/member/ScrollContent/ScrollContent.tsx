@@ -9,7 +9,7 @@ export default function ScrollContent(props: any) {
 	// 	router.push(`/recipe/info?recipeID=${recipeId}`);
 	// };
 	const onContentPlusClick = (content: string) => {
-		router.push(`/${content}`);
+		router.push(`/recipe/${content}`);
 	};
 	return props.content === "ratings" ? (
 		<div className={styles.scroll}>
