@@ -27,15 +27,8 @@ export default function SearchTags({
 		<div className={styles.tagsContainer}>
 			{tagData.map((tag) => (
 				<button key={tag} className={styles.tag}>
-					<div onClick={() => onSearchTagClick(tag)}>{tag}</div>
-					{deleteBtn && (
-						<div
-							className={styles.deleteBtn}
-							onClick={() => onDeleteTagBtnClick(tag)}
-						>
-							×
-						</div>
-					)}
+					<span onClick={() => onSearchTagClick(tag)}>{tag}</span>
+					{deleteBtn && <div onClick={() => onDeleteTagBtnClick(tag)}>×</div>}
 				</button>
 			))}
 		</div>

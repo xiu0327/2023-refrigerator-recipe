@@ -24,7 +24,7 @@ export const getRecipeLastSearches = async () => {
 	const url = `/api/search-word/last`;
 	try {
 		const response = await instance.get(url);
-		return response.data.data;
+		return response.data.data.slice(0, 5);
 	} catch (error) {
 		console.error(error);
 	}
