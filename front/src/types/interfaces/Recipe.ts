@@ -41,6 +41,10 @@ export interface RecipeComment {
 	isMyComment: boolean;
 }
 
-export interface Bookmark extends RecipeBrief {
+export interface BookmarkedRecipe extends RecipeBrief {
 	bookmarkID: number;
+}
+
+export interface RatedRecipe extends RecipeBrief {
+	scoreID: number;
 }
