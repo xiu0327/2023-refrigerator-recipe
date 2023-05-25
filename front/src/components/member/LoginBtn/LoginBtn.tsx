@@ -13,12 +13,12 @@ export default function LoginBtn() {
 		{
 			icon: <Google />,
 			title: "구글로 로그인하기",
-			link: "http://localhost:8080/oauth2/authorization/google",
+			link: "",
 		},
 		{
 			icon: <HouseFill />,
 			title: "네이버로 로그인하기",
-			link: "http://localhost:8080/oauth2/authorization/naver",
+			link: "http://115.85.181.24:8080/oauth2/authorization/naver",
 		},
 	];
 
