@@ -42,11 +42,7 @@ export const getMyComments = async (recipeID: number) => {
 
 export const addComment = async (recipeID: number, content: string) => {
 	const url = `/api/comments/`;
-<<<<<<< HEAD
-	const body = { recipeID: recipeID, content: content };
-=======
 	const body = { recipeId: recipeID, content: content };
->>>>>>> 2da8ef00b9dd470005ecf159d8ada87ad1c08788
 	try {
 		const response = await instance.post(url, body);
 		console.log(response.data);
