@@ -1,7 +1,7 @@
 import instance from "./interceptors";
 
 export const searchRecipe = async (page: number, query: string) => {
-	const url = `/api/recipe/search?page=${page}&searchWord=${query}`;
+	const url = `/api/recipe/search?page=${page}${query}`;
 	try {
 		const response = await instance.get(url);
 		return response.data.data;

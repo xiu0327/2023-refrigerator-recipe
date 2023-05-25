@@ -66,52 +66,44 @@ export const recommendRecipe = () => {
 		});
 };
 
-export const getRecipeFoodType = () => {
+export const getRecipeFoodType = async () => {
 	const url = `/api/recipe/search/condition/food-type`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeIngredientCategory = () => {
+export const getRecipeIngredientCategory = async () => {
 	const url = `/api/recipe/search/condition/category`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeRecipeType = () => {
+export const getRecipeRecipeType = async () => {
 	const url = `/api/recipe/search/condition/recipe-type`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeDifficulty = () => {
+export const getRecipeDifficulty = async () => {
 	const url = `/api/recipe/search/condition/difficulty`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const calculateIngredient = (ingredients) => {

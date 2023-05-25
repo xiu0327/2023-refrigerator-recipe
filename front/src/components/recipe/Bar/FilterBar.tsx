@@ -1,26 +1,37 @@
-import { FILTERS } from "./filters";
+import { RecipeFilter } from "@/types";
 import styles from "./Bar.module.scss";
 
 type FilterBarProps = {
-	setFilterMenuList: Function;
+	filters: RecipeFilter[];
+	setActiveFilter: Function;
+	setIsFilterMenuBottomSheetShow: Function;
 };
 
-export default function FilterBar({ setFilterMenuList }: FilterBarProps) {
-	const onFilterBtnClick = async (fetchFilterMenuList) => {
-		const data = await fetchFilterMenuList();
-		setFilterMenuList(["전체", ...data]);
+export default function FilterBar({
+	filters,
+	setActiveFilter,
+	setIsFilterMenuBottomSheetShow,
+}: FilterBarProps) {
+	const onFilterBtnClick = async (filter: RecipeFilter) => {
+		const data = await filter.fetchFilterMenu();
+		setActiveFilter({
+			name: filter.name,
+			activeItem: filter.activeItem,
+			menu: ["전체", ...data],
+		});
+		setIsFilterMenuBottomSheetShow(true);
 	};
 
 	return (
 		<div className={styles.filterbarContainer}>
-			{FILTERS.map((filter) => (
-				<button
-					key={filter.name}
-					className={styles.filterBtn}
-					onClick={() => onFilterBtnClick(filter.fetchFilterMenuList)}
-				>
-					{filter.name}
-				</button>
+			{filters.map((filter) => (
+				<div key={filter.key} onClick={() => onFilterBtnClick(filter)}>
+					{filter.activeItem === "전체" ? (
+						<button>{filter.name}</button>
+					) : (
+						<button className={styles.selected}>{filter.activeItem}</button>
+					)}
+				</div>
 			))}
 		</div>
 	);
