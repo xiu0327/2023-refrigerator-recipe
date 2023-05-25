@@ -1,3 +1,5 @@
+import { Storage } from "@/types";
+
 export interface IngredientBrief {
 	ingredientID: number;
 	name: string;
@@ -7,7 +9,7 @@ export interface IngredientBrief {
 }
 
 export interface IngredientDetail extends IngredientBrief {
-	storage: "냉장" | "냉동" | "실온" | "조미료";
+	storage: Storage;
 	expirationDate: string;
 	registrationDate: string;
 	volume: number;

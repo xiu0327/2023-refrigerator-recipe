@@ -38,8 +38,8 @@ export default function CommentInputForm({
 		setModifyMode(false);
 	};
 
-	const onCommentSubmit = (event) => {
-		event.preventDefault();
+	const onCommentSubmit = (e) => {
+		e.preventDefault();
 		onCommentRegisterBtnClick();
 	};
 
@@ -62,7 +62,10 @@ export default function CommentInputForm({
 				</div>
 			)}
 			<div className={styles.commentInputContainer}>
-				<form className="d-flex flex-grow-1" onSubmit={onCommentSubmit}>
+				<form
+					className="d-flex flex-grow-1"
+					onSubmit={(e) => onCommentSubmit(e)}
+				>
 					<input
 						className={styles.commentBox}
 						placeholder="레시피에 댓글을 남겨보세요"

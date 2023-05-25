@@ -1,6 +1,6 @@
 import instance from "./interceptors";
 
-export const getRecipeList = async (page: number) => {
+export const getRecipes = async (page: number) => {
 	const url = `/api/recipe?page=${page}`;
 	try {
 		const response = await instance.get(url);
@@ -17,6 +17,16 @@ export const getRecipe = async (recipeID: string) => {
 		return response.data;
 	} catch (error) {
 		console.error(error);
+	}
+};
+
+export const searchRecipe = async (page: number, query: string) => {
+	const url = `/api/recipe/search?page=${page}&searchWord=${query}`;
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.log(error);
 	}
 };
 
@@ -85,20 +95,6 @@ export const recommendRecipe = () => {
 		.get(url)
 		.then((response) => {
 			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const searchRecipe = async (page, searchWord) => {
-	const url = `/api/recipe/search?page=${page}&searchWord=${searchWord}`;
-	return instance
-		.get(url)
-		.then((response) => {
-			console.log("연결은된것이냐...");
-			console.log(response.data.data);
-			return response.data.data;
 		})
 		.catch((error) => {
 			console.log(error);

@@ -3,7 +3,7 @@ import router from "next/router";
 import { Search } from "react-bootstrap-icons";
 
 import { getIngredients } from "@/api";
-import { IngredientBrief } from "@/types";
+import { IngredientBrief, Storage } from "@/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
 import StorageTab from "@/components/refrigerator/StorageTab/StorageTab";
@@ -11,61 +11,42 @@ import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientG
 import Switch from "@/components/global/Switch/Switch";
 
 import styles from "@/scss/pages.module.scss";
+import { useIntersectionObserver } from "@/hooks";
 
 export default function RefrigeratorPage() {
 	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
+	const [storage, setStorage] = useState<Storage>("냉장");
+	const [isExpired, setIsExpired] = useState(false);
+
 	const [page, setPage] = useState(0);
+	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
-	const [storage, setStorage] = useState<string>("냉장");
-	const [isExpired, setIsExpired] = useState<boolean>(false);
-
-	// TODO: 스크롤에 따른 페이지 데이터 순서대로 안 받아짐 (1->0->1)
-
 	useEffect(() => {
-		setIngredientData([]);
-		setPage(0);
-		// setIsScrollEnd(false);
-		console.log("change the value of storage or isExpired");
+		(async () => {
+			setPage(0);
+			const data = await getIngredients(0, storage, isExpired);
+			setIngredientData(data);
+			setIsScrollEnd(false);
+			setIsDataLoaded(true);
+		})();
 	}, [storage, isExpired]);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
+		(async () => {
+			if (page != 0 && !isScrollEnd) {
 				const data = await getIngredients(page, storage, isExpired);
 				data.length !== 0
 					? setIngredientData((prev) => [...prev, ...data])
 					: setIsScrollEnd(true);
-			} catch (error) {
-				console.log(error);
 			}
-		};
-		fetchData();
+		})();
 	}, [page]);
 
-	// useEffect(() => {
-	// 	const handleIntersection = (entries: { isIntersecting: any }[]) => {
-	// 		if (!isScrollEnd && entries[0].isIntersecting) {
-	// 			setPage((prev: number) => prev + 1);
-	// 			console.log("i find the end of list");
-	// 		}
-	// 	};
-	// 	const options = { threshold: 1 };
-
-	// 	const observer = new IntersectionObserver(handleIntersection, options);
-	// 	const target = document.querySelector("#end-of-list");
-	// 	target && observer.observe(target);
-
-	// 	return () => {
-	// 		target && observer.unobserve(target);
-	// 	};
-	// }, []);
-
-	// useIntersectionObserver(page, setPage);
+	useIntersectionObserver(setPage, isDataLoaded);
 
 	const onSearchBtnClick = () => {
 		router.push("/refrigerator/search");
-		// console.log("now page :", page);
 	};
 
 	return (
@@ -84,7 +65,7 @@ export default function RefrigeratorPage() {
 
 			<div style={{ marginTop: "90px" }}>
 				<IngredientGrid ingredientData={ingredientData} />
-				<div id="end-of-list"></div>
+				{isDataLoaded && <div id="end-of-list" />}
 			</div>
 		</AppNavLayout>
 	);

@@ -1,17 +1,16 @@
 import { useEffect } from "react";
 
-export const useIntersectionObserver = (page, setPage: Function) => {
-	console.log("[intersectionObserver] active");
-
+export const useIntersectionObserver = (
+	setPage: Function,
+	isDataLoaded: boolean,
+) => {
 	useEffect(() => {
-		const handleIntersection = (entries: { isIntersecting: any }[]) => {
+		const handleIntersection = (entries: IntersectionObserverEntry[]) => {
 			if (entries[0].isIntersecting) {
 				setPage((prev: number) => prev + 1);
-				console.log("[intersectionObserver] I observe end of list");
-				console.log("[intersectionObserver] page + 1 :", page);
 			}
 		};
-		const options = { threshold: 1 };
+		const options = { threshold: 0.1 };
 
 		const observer = new IntersectionObserver(handleIntersection, options);
 		const target = document.querySelector("#end-of-list");
@@ -20,5 +19,5 @@ export const useIntersectionObserver = (page, setPage: Function) => {
 		return () => {
 			target && observer.unobserve(target);
 		};
-	}, []);
+	}, [isDataLoaded]);
 };
