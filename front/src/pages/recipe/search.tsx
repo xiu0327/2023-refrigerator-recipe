@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { searchRecipe } from "@/api";
+import { useIntersectionObserver } from "@/hooks";
 import { RecipeBrief } from "@/types";
 
 import BackLayout from "@/components/layout/BackLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
 import SearchPanel from "@/components/recipe/SearchPanel/SearchPanel";
+import SearchSuggestions from "@/components/recipe/SearchSuggestions/SearchSuggestions";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 import NoResult from "@/components/global/NoResult/NoResult";
 
 import styles from "@/scss/pages.module.scss";
-import { useIntersectionObserver } from "@/hooks";
 
 export default function RecipeSearchPage() {
 	const router = useRouter();
@@ -66,15 +67,18 @@ export default function RecipeSearchPage() {
 			</div>
 
 			<div style={{ marginTop: "50px" }}>
-				{!query ? (
-					<SearchPanel />
-				) : recipeResultData.length !== 0 ? (
+				{!keyword && !query && <SearchPanel />}
+				{keyword && keyword !== query && (
+					<SearchSuggestions keyword={keyword} />
+				)}
+				{keyword && keyword === query && recipeResultData.length !== 0 && (
 					<>
 						<RecipeList recipeData={recipeResultData} />
 						{isDataLoaded && <div id="end-of-list" />}
 					</>
-				) : (
-					<NoResult keyword={keyword} />
+				)}
+				{keyword && keyword === query && recipeResultData.length === 0 && (
+					<NoResult keyword={query} />
 				)}
 			</div>
 		</BackLayout>
