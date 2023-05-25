@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import router from "next/router";
+import Link from "next/link";
 
 import { getRecipes } from "@/api";
+import { useIntersectionObserver } from "@/hooks";
 import { RecipeBrief } from "@/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
@@ -10,7 +11,6 @@ import FilterBar from "@/components/recipe/Bar/FilterBar";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 
 import styles from "@/scss/pages.module.scss";
-import { useIntersectionObserver } from "@/hooks";
 
 export default function RecipeListPage() {
 	const [recipeData, setRecipeData] = useState<RecipeBrief[]>([]);
@@ -38,11 +38,9 @@ export default function RecipeListPage() {
 	return (
 		<AppNavLayout title="레시피">
 			<div className={styles.fixed}>
-				<SearchBar
-					placeholder="궁금한 레시피를 검색해보세요!"
-					handleClick={() => router.push("/recipe/search")}
-					disabled
-				/>
+				<Link href={`/recipe/search`} style={{ textDecoration: "none" }}>
+					<SearchBar placeholder="궁금한 레시피를 검색해보세요!" disabled />
+				</Link>
 				<FilterBar setFilterMenuList={setFilterMenuList} />
 			</div>
 

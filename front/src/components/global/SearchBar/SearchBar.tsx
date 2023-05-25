@@ -6,7 +6,6 @@ type SearchInputProps = {
 	keyword?: string;
 	setKeyword?: Function;
 	handleSubmit?: Function;
-	handleClick?: Function;
 	handleSearchBtnClick?: Function;
 	placeholder?: string;
 	disabled?: boolean;
@@ -17,16 +16,11 @@ export default function SearchBar({
 	keyword,
 	setKeyword,
 	handleSubmit,
-	handleClick,
 	handleSearchBtnClick,
 	placeholder,
 	disabled,
 	focus,
 }: SearchInputProps) {
-	const onSearchBarClick = () => {
-		handleClick && handleClick();
-	};
-
 	const onSearchBtnClick = () => {
 		handleSearchBtnClick && handleSearchBtnClick();
 	};
@@ -39,7 +33,6 @@ export default function SearchBar({
 	return (
 		<form
 			className="d-flex align-items-center gap-3"
-			onClick={onSearchBarClick}
 			onSubmit={(e) => onSearchSubmit(e)}
 		>
 			<Input
