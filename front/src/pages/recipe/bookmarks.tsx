@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { getBookmarks } from "@/api";
 
 import { useIntersectionObserver } from "@/hooks";
-import { Bookmark } from "@/types";
+import { BookmarkedRecipe } from "@/types";
 
 import AppNavLayout from "@/components/layout/AppNavLayout";
 import RecipeGallery from "@/components/recipe/RecipeGallery/RecipeGallery";
 
-export default function BookmarkPage() {
-	const [bookmarkData, setBookmarkData] = useState<Bookmark[]>([]);
+export default function BookmarkedRecipeListPage() {
+	const [bookmarkData, setBookmarkData] = useState<BookmarkedRecipe[]>([]);
 	const [page, setPage] = useState(0);
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [isScrollEnd, setIsScrollEnd] = useState(false);

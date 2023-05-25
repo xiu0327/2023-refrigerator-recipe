@@ -15,6 +15,6 @@ export const NAV_ITEMS = [
 	{
 		label: "북마크",
 		icon: <BookmarkStarFill className={styles.navIcon} />,
-		route: "/bookmark",
+		route: "/recipe/bookmarks",
 	},
 ];
