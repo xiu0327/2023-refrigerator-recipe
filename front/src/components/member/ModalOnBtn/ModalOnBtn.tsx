@@ -5,7 +5,14 @@ import styles from "./ModalOnBtn.module.scss";
 import axios from "axios";
 import { register } from "@/api/register";
 
-export default function ModalOnBtn({ title, ment, email, password, nickname }) {
+export default function ModalOnBtn({
+	title,
+	ment,
+	email,
+	password,
+	nickname,
+	disabled,
+}) {
 	const [showModal, setShowModal] = useState(false);
 
 	return (
@@ -17,6 +24,7 @@ export default function ModalOnBtn({ title, ment, email, password, nickname }) {
 				onClick={() => {
 					register(email, password, nickname);
 				}}
+				disabled={disabled}
 			>
 				{title}
 			</Button>

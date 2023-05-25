@@ -153,6 +153,7 @@ export default function Register() {
 					email={email}
 					password={password}
 					nickname={nickname}
+					disabled={password !== checkPw}
 				/>
 			</div>
 		</form>
