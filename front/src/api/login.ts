@@ -9,6 +9,8 @@ export const login = async (email: string, password: string) => {
 		instance.defaults.headers.common[
 			"Authorization"
 		] = `Bearer ${response.data.accessToken}`;
+		console.log(response.data.accessToken);
+		router.push("/mypage");
 	} catch (error) {
 		alert(error.response.data.message);
 		router.reload();
