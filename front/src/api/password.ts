@@ -9,12 +9,10 @@ export const changePassword = (password: string) => {
 				password: password,
 			})
 			.then(function (response) {
-				// API 호출 성공
-				resolve(response); // 반환할 데이터를 resolve로 전달
+				resolve(response);
 			})
 			.catch(function (error) {
-				// API 호출 실패
-				reject(error); // 에러를 reject로 전달
+				reject(error);
 			});
 	});
 };
