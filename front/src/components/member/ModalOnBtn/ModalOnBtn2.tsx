@@ -6,6 +6,15 @@ import { changePassword } from "@/api";
 
 export default function ModalOnBtn2({ title, ment, password }) {
 	const [modalShow, setModalShow] = useState(false);
+
+	const handleButtonClick = async () => {
+		try {
+			await changePassword(password);
+			setModalShow(true);
+		} catch (error) {
+			alert(error.response.data.message);
+		}
+	};
 	return (
 		<div className={`d-grid gap-2`}>
 			<Button
@@ -13,7 +22,8 @@ export default function ModalOnBtn2({ title, ment, password }) {
 				variant="primary"
 				size="lg"
 				onClick={() => {
-					changePassword(password);
+					const result = changePassword(password);
+					console.log(result);
 					setModalShow(true);
 				}}
 			>
