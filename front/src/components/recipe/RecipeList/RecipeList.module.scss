@@ -2,6 +2,14 @@
 
 $img-size: 64px;
 
+$name-font-size: 19px;
+$name-font-color: $grey-800;
+$name-font-weight: 400; //bold;
+
+$info-font-size: 15px;
+$info-font-color: $grey-400;
+$info-font-weight: 300; //500;
+
 .recipelistContainer {
 	display: flex;
 	flex-direction: column;
@@ -27,17 +35,19 @@ $img-size: 64px;
 			justify-content: center;
 
 			.recipeName {
-				font-size: 19px;
-				font-weight: bold;
+				font-size: $name-font-size;
+				font-weight: $name-font-weight;
+				color: $name-font-color;
 				letter-spacing: 0.5px;
 			}
 
 			.recipeInfo {
 				display: flex;
 				align-items: center;
-				gap: 3px;
-				font-size: 15px;
-				color: $grey-400;
+				gap: 5px;
+				font-size: $info-font-size;
+				color: $info-font-color;
+				font-weight: $info-font-weight;
 			}
 		}
 	}
