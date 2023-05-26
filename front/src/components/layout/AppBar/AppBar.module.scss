@@ -12,6 +12,7 @@ $appbar-font-weight: 600;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	z-index: 1;
 }
 .appbarContainer {
 	@include appbar-container();
