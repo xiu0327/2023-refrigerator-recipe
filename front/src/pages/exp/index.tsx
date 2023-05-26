@@ -13,11 +13,12 @@ export default function ExpiringIngredientListPage() {
 	const [expiringIngredientData, setExpiringIngredientData] = useState([]);
 
 	useEffect(() => {
-		(async () => {
-			const data = await getExpiringIngredients(day);
-			setExpiringIngredientData(data);
-		})();
-	}, []);
+		!isNaN(day) &&
+			(async () => {
+				const data = await getExpiringIngredients(day);
+				setExpiringIngredientData(data);
+			})();
+	}, [day]);
 
 	return (
 		<BackLayout title={`소비기한 ${day}일 남은 식재료`}>
