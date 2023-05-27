@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.out.persistence;
+package refrigerator.back.recipe.adapter.out;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,7 @@ public class RecipeIngredientVolumeAdapter implements FindRecipeIngredientVolume
     @Override
     public List<InRecipeIngredientVolumeDTO> getRecipeIngredientVolumes(Long recipeId) {
         return jpaQueryFactory.select(new QOutRecipeIngredientVolumeDTO(
+                recipeIngredient.ingredientID,
                 recipeIngredient.name,
                 recipeIngredient.transVolume,
                 recipeIngredient.transUnit, recipeIngredient.type))

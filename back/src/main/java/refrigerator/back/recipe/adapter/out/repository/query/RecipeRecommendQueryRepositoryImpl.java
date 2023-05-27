@@ -3,10 +3,10 @@ package refrigerator.back.recipe.adapter.out.repository.query;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientNameDTO;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendDTO;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendIngredientDTO;
 import refrigerator.back.recipe.adapter.out.dto.QOutRecipeRecommendDTO;
-import refrigerator.back.recipe.adapter.out.dto.QOutRecipeRecommendIngredientDTO;
+import refrigerator.back.recipe.adapter.out.dto.QOutRecipeIngredientNameDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,7 +23,7 @@ public class RecipeRecommendQueryRepositoryImpl implements RecipeRecommendQueryR
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<String> findIngredientNameByMember(String memberId) {
+    public List<String> findIngredientName(String memberId) {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = LocalDate.of(2200, 1, 1);
         return jpaQueryFactory.select(ingredient.name)
@@ -34,7 +34,7 @@ public class RecipeRecommendQueryRepositoryImpl implements RecipeRecommendQueryR
     }
 
     @Override
-    public List<OutRecipeRecommendDTO> findRecommendRecipeListById(List<Long> recipeIds) {
+    public List<OutRecipeRecommendDTO> findRecommendRecipes(List<Long> recipeIds) {
         return jpaQueryFactory.select(new QOutRecipeRecommendDTO(
                         recipe.recipeID,
                         recipe.recipeName,
@@ -47,9 +47,9 @@ public class RecipeRecommendQueryRepositoryImpl implements RecipeRecommendQueryR
     }
 
     @Override
-    public List<OutRecipeRecommendIngredientDTO> findRecipeNameAndIngredientList() {
+    public List<OutRecipeIngredientNameDTO> findRecipeIngredientNames() {
         return jpaQueryFactory.select(
-                        new QOutRecipeRecommendIngredientDTO(
+                        new QOutRecipeIngredientNameDTO(
                                 recipeIngredient.recipeID,
                                 recipeIngredient.name))
                 .from(recipeIngredient)

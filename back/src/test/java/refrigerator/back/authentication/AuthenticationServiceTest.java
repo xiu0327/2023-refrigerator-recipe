@@ -1,12 +1,14 @@
-package refrigerator.back.authentication.application.service;
+package refrigerator.back.authentication;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
+import refrigerator.back.authentication.application.service.AuthenticationService;
 import refrigerator.back.authentication.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
@@ -24,17 +26,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class AuthenticationServiceTest {
 
     @Autowired AuthenticationService authenticationService;
-    @Autowired TestData testData;
-    @Autowired PasswordEncoder passwordEncoder;
     @Autowired JsonWebTokenProvider jsonWebTokenProvider;
     @Autowired RefreshTokenRepository refreshTokenRepository;
 
+    private final String email = "nhtest@gmail.com";
+    private final String password = "password123!";
     @Test
     void 로그인(){
-        // given
-        String email = "email123@gmail.com";
-        String password = "password123";
-        testData.createMemberByEmailAndPassword(email, passwordEncoder.encode(password));
         // when
         TokenDTO token = authenticationService.login(email, password);
         // then
@@ -46,17 +44,11 @@ class AuthenticationServiceTest {
 
     @Test
     void 토큰_재발행() throws InterruptedException {
-        // given
-        String email = "email123@gmail.com";
-        String password = "password123";
-        String authority = MemberStatus.STEADY_STATUS.getStatusCode();
-        testData.createMemberByEmailAndPassword(email, passwordEncoder.encode(password));
         // when
-        String refreshToken = jsonWebTokenProvider.createToken(email, authority, 1000 * 60);
-        refreshTokenRepository.setData(email, refreshToken, 1000 * 60);
+        TokenDTO token = authenticationService.login(email, password);
         // then
         /* accessToken 재발급 */
-        TokenDTO newAccessToken = authenticationService.reissue(refreshToken);
+        TokenDTO newAccessToken = authenticationService.reissue(token.getRefreshToken());
         assertNotNull(newAccessToken.getAccessToken());
         assertThat(jsonWebTokenProvider.validateToken(newAccessToken.getAccessToken())).isEqualTo(TokenStatus.PASS);
     }
@@ -64,13 +56,8 @@ class AuthenticationServiceTest {
     @Test
     void 토큰_재발행_실패_토큰_만료() throws InterruptedException {
         /* refreshToken 만료 -> 에러 발생 */
-        // given
-        String email = "email123@gmail.com";
-        String password = "password123";
-        String authority = MemberStatus.STEADY_STATUS.getStatusCode();
-        testData.createMemberByEmailAndPassword(email, passwordEncoder.encode(password));
         // when
-        String refreshToken = jsonWebTokenProvider.createToken(email, authority, 400);
+        String refreshToken = jsonWebTokenProvider.createToken(email, "STEADY_STATUS", 400);
         refreshTokenRepository.setData(email, refreshToken, 400);
         // then
         Thread.sleep(450);

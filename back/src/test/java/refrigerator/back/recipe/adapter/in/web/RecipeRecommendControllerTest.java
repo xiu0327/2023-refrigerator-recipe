@@ -48,10 +48,8 @@ class RecipeRecommendControllerTest {
     @Test
     @DisplayName("레시피 추천")
     void recommend() throws Exception {
-        String email = testData.createMemberByEmail("email123@gmail.com");
-        String ingredientName = "콩나물";
-        testData.createIngredient(ingredientName, email);
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 2000);
+        String email = "mstest102@gmail.com";
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 7000);
         mockMvc.perform(get("/api/recipe/recommend")
                 .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()

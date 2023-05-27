@@ -19,16 +19,11 @@ public class RecommendSearchWordService implements FindRecommendSearchWordUseCas
 
     @Override
     public List<String> getRecommendSearchWords(String memberId) {
-        List<Ingredient> ingredients = findIngredientsByMemberPort.getIngredients(memberId);
-        if (ingredients.size() <= 0){
+        List<String> recommendWords = findIngredientsByMemberPort.getIngredients(memberId);
+        if (recommendWords.size() <= 0){
             return new ArrayList<>();
         }
-        return ingredients.stream()
-                .filter(Ingredient::isExpired)
-                .sorted(Comparator.comparingInt(Ingredient::calculationDDay))
-                .map(Ingredient::getName)
-                .limit(5)
-                .collect(Collectors.toList());
+        return recommendWords;
     }
 
 }

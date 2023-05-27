@@ -1,11 +1,10 @@
-package refrigerator.back.recipe.adapter.out.persistence;
+package refrigerator.back.recipe.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
 import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendIngredientDTO;
 import refrigerator.back.recipe.application.domain.entity.Recipe;
 import refrigerator.back.recipe.application.domain.entity.RecipeCategory;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourse;
@@ -13,7 +12,6 @@ import refrigerator.back.recipe.application.domain.entity.RecipeFoodType;
 import refrigerator.back.recipe.adapter.out.repository.query.RecipeQueryRepository;
 import refrigerator.back.recipe.adapter.out.repository.query.RecipeSearchQueryRepository;
 import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
-import refrigerator.back.recipe.application.port.out.FindIngredientNameListByMemberPort;
 import refrigerator.back.recipe.application.port.out.ReadRecipePort;
 import refrigerator.back.recipe.application.port.out.SearchRecipePort;
 

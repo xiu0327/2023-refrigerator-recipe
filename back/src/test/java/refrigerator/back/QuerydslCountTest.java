@@ -1,5 +1,7 @@
 package refrigerator.back;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -43,4 +45,5 @@ public class QuerydslCountTest {
         log.info("total elements = {}", result.getTotalElements());
         log.info("total elements = {}", result.getNumberOfElements());
     }
+
 }

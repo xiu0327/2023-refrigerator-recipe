@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InRecipeIngredientVolumeDTO {
+    private Long recipeIngredientId;
     private String name;
     private Double volume;
     private String unit;

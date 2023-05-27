@@ -23,7 +23,6 @@ import java.util.UUID;
 
 @SpringBootTest
 @Transactional
-@Commit
 public class TestDataCommit {
 
     @Autowired JoinUseCase joinUseCase;
@@ -58,6 +57,8 @@ public class TestDataCommit {
     void initAdminData(){
         joinUseCase.join(jkEmail, "password123!", "진경이");
         joinUseCase.join(msEmail, "password123!", "명선이");
+        joinUseCase.join("dhtest@gmail.com", "password123!", "도현");
+        joinUseCase.join("nhtest@gmail.com", "password123!", "나현");
     }
 
     /*

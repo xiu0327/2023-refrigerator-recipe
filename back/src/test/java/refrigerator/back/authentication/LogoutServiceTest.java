@@ -1,4 +1,4 @@
-package refrigerator.back.authentication.application.service;
+package refrigerator.back.authentication;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,17 +22,15 @@ class LogoutServiceTest {
 
     @Autowired LoginUseCase loginUseCase;
     @Autowired LogoutUseCase logoutUseCase;
-    @Autowired JoinUseCase joinUseCase;
     @Autowired CheckContainBlackListPort checkContainBlackListPort;
     @Autowired FindRefreshTokenByEmailPort findRefreshTokenByEmailPort;
 
+    private final String email = "nhtest@gmail.com";
+    private final String password = "password123!";
     @Test
     @DisplayName("정상적인 로그아웃")
     void logout() {
         // given
-        String password = "password123!";
-        String email = "email12378@gmail.com";
-        joinUseCase.join(email, password, "임시닉네임");
         String accessToken = loginUseCase.login(email, password).getAccessToken();
         // when
         logoutUseCase.logout(accessToken);

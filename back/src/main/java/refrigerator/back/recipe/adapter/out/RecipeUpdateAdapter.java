@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.out.persistence;
+package refrigerator.back.recipe.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
