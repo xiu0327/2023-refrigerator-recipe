@@ -3,6 +3,7 @@ pipeline {
 	stages {
 		stage("build") {
 			steps {
+                cd back
 				sh './gradlew clean build -x test'
 			}
 		}
