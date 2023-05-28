@@ -46,10 +46,10 @@ jobs:
           - name: Docker Image Build
             run: |
                 cd back
-                docker build -t xiu0327/refrigerator-applicaion:centos .
+                docker build -t xiu0327/refrigerator-application:centos .
           
           - name: Docker Image push
-            run: docker push xiu0327/refrigerator-applicaion:centos
+            run: docker push xiu0327/refrigerator-application:centos
 
 
 
