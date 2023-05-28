@@ -58,10 +58,11 @@ jobs:
                 password: ${{ secrets.NCP_SERVER_PASSWORD }}
                 port: ${{ secrets.NCP_SERVER_PORT }}
                 script: |
-                  docker pull xiu0327/refrigerator-application:centos
                   cd app
                   docker compose stop app
                   docker compose rm app -f
+                  docker rmi xiu0327/refrigerator-application:centos
+                  docker pull xiu0327/refrigerator-application:centos
                   docker compose up app -d
 
 
