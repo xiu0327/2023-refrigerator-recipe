@@ -2,7 +2,7 @@ name: build application docker
 
 on:
     push:
-        branches: [back-main-v2]
+        branches: [back-nh-v3]
 
 env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
@@ -13,7 +13,7 @@ env:
 jobs:
     setup-build-publish-deploy:
         name: Setup Build Publish deploy
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-18.04
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v2
