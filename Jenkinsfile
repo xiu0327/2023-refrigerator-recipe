@@ -3,7 +3,7 @@ pipeline {
 	stages {
         stage('Checkout') {
             steps {
-                git branch: 'back-nh-v3', url: 'https://github.com/xiu0327/2023-refrigerator-recipe.git'
+                git branch: 'origin/back-nh-v3', url: 'https://github.com/xiu0327/2023-refrigerator-recipe.git'
             }
         }
 		stage("build") {
