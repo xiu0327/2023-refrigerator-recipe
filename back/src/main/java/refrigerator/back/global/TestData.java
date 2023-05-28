@@ -108,7 +108,7 @@ public class TestData {
                 .setParameter("memberId", memberId)
                 .setParameter("commentId", commentId)
                 .getResultList().stream().findAny()
-                .orElseThrow(() -> new RuntimeException("좋아요 누른 사람 찾을 수 없음"));
+                .orElseThrow(() -> new RuntimeException("좋아요 누른  사람 찾을 수 없음"));
     }
 
     @Transactional(readOnly = true)
