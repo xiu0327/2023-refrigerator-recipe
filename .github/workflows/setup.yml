@@ -62,6 +62,6 @@ jobs:
                   cd app
                   docker compose stop app
                   docker compose rm app -f
-                  docker compose up app
+                  docker compose up app -d
 
 
