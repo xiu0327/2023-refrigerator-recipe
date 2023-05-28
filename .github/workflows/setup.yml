@@ -60,7 +60,7 @@ jobs:
                 script: |
                   docker pull xiu0327/refrigerator-application:centos
                   docker compose stop app
-                  docker compose rm app -y
+                  docker compose rm app -f
                   docker compose up app
 
 
