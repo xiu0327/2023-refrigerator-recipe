@@ -59,6 +59,7 @@ jobs:
                 port: ${{ secrets.NCP_SERVER_PORT }}
                 script: |
                   docker pull xiu0327/refrigerator-application:centos
+                  cd app
                   docker compose stop app
                   docker compose rm app -f
                   docker compose up app
