@@ -19,11 +19,6 @@ public class SearchWordController {
     private final FindRecommendSearchWordUseCase findRecommendSearchWordUseCase;
 
 
-    @Cacheable(
-            value = SearchWordRedisKey.RECOMMEND_SEARCH_WORD,
-            key = "#memberId",
-            cacheManager = "searchWordsCacheManager"
-    )
     @GetMapping("/api/search-word/recommend")
     public BasicListResponseDTO<String> getRecommendSearchWords(){
         String memberId = MemberInformation.getMemberEmail();
