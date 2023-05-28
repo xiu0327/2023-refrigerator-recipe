@@ -38,7 +38,7 @@ jobs:
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
               
-          - name: Application Build
+          - name: Application Build 
             run: |
                 cd back
                 ./gradlew build -x test
