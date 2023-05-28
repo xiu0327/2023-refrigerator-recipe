@@ -54,6 +54,7 @@ public class LoginController {
         TokenDTO token = loginUseCase.login(email, password);
         Cookie cookie = new Cookie("Refresh-Token", token.getRefreshToken());
         cookie.setHttpOnly(true);
+        cookie.setMaxAge(3600 * 24 * 30);
         cookie.setPath("/api/auth/reissue");
         response.addCookie(cookie);
         token.removeRefreshToken();

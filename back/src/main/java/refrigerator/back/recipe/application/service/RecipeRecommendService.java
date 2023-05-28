@@ -14,6 +14,8 @@ import refrigerator.back.recipe.exception.RecipeExceptionType;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.*;
+
 @Service
 @RequiredArgsConstructor
 public class RecipeRecommendService implements RecommendRecipeUseCase {
@@ -30,14 +32,20 @@ public class RecipeRecommendService implements RecommendRecipeUseCase {
             throw new BusinessException(RecipeExceptionType.EMPTY_MEMBER_INGREDIENT);
         }
         recipes.values().forEach(recipe -> recipe.count(myIngredientNames));
-        List<Long> ids = recipes.keySet().stream()
-                .sorted(Comparator.comparingDouble(
+        Map<Long, Double> ids = toExtractRecommendRecipeIds(recipes);
+        return findRecipePort.findRecipeByIds(ids).stream()
+                .sorted(comparingDouble(InRecipeRecommendDTO::getMatch).reversed())
+                .collect(Collectors.toList());
+    }
+
+    private Map<Long, Double> toExtractRecommendRecipeIds(Map<Long, RecipeRecommend> recipes) {
+        Map<Long, Double> ids = new HashMap<>();
+        recipes.keySet().stream()
+                .sorted(comparingDouble(
                         key -> recipes.get(key).getMatchPercent()).reversed())
                 .limit(10)
-                .collect(Collectors.toList());
-        List<InRecipeRecommendDTO> result = findRecipePort.findRecipeByIds(ids);
-        result.forEach(item -> item.setMatch(recipes.get(item.getRecipeID()).getMatchPercent()));
-        return result;
+                .forEach(key -> ids.put(key, recipes.get(key).getMatchPercent()));
+        return ids;
     }
 
 }

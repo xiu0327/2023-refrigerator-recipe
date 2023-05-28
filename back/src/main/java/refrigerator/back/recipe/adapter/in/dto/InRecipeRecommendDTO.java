@@ -47,7 +47,4 @@ public class InRecipeRecommendDTO {
         return Objects.hash(recipeID, recipeName, image, scoreAvg, match);
     }
 
-    public void setMatch(Double match) {
-        this.match = Double.valueOf(String.format("%.2f", match));
-    }
 }

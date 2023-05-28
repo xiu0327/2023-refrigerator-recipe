@@ -25,7 +25,7 @@ public interface RecipeDtoMapper {
             @Mapping(source = "dto.recipeId", target = "recipeID"),
             @Mapping(source = "dto.recipeImage", target = "image")
     })
-    InRecipeRecommendDTO toInRecipeRecommendDto(OutRecipeRecommendDTO dto, Double recipeScore);
+    InRecipeRecommendDTO toInRecipeRecommendDto(OutRecipeRecommendDTO dto, Double recipeScore, Double match);
 
     @Mapping(source = "dto.id", target = "recipeIngredientId")
     InRecipeIngredientVolumeDTO toInRecipeIngredientVolumeDTO(OutRecipeIngredientVolumeDTO dto);

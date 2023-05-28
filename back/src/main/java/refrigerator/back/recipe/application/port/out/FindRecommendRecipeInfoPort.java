@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface FindRecommendRecipeInfoPort {
-    List<InRecipeRecommendDTO> findRecipeByIds(List<Long> recipeIds);
+    List<InRecipeRecommendDTO> findRecipeByIds(Map<Long, Double> recipeIds);
     Map<Long, RecipeRecommend> findRecipeIngredientNames();
 }

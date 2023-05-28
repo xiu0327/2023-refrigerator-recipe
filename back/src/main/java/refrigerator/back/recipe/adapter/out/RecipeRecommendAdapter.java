@@ -38,11 +38,13 @@ public class RecipeRecommendAdapter implements FindRecommendRecipeInfoPort, Find
     }
 
     @Override
-    public List<InRecipeRecommendDTO> findRecipeByIds(List<Long> recipeIds) {
-        return repository.findRecommendRecipes(recipeIds).stream()
+    public List<InRecipeRecommendDTO> findRecipeByIds(Map<Long, Double> recipeIds) {
+        List<Long> ids = new ArrayList<>(recipeIds.keySet());
+        return repository.findRecommendRecipes(ids).stream()
                 .map(dto -> mapper.toInRecipeRecommendDto(
                         dto,
-                        dto.getScore().calculateScore()))
+                        dto.getScore().calculateScore(),
+                        recipeIds.get(dto.getRecipeId())))
                 .collect(Collectors.toList());
     }
 }

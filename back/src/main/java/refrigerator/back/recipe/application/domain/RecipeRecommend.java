@@ -10,7 +10,6 @@ import java.util.Set;
 public class RecipeRecommend {
 
     Set<String> names;
-    @Getter
     double matchPercent = 0;
 
     public RecipeRecommend() {
@@ -26,5 +25,9 @@ public class RecipeRecommend {
 
     public void addNames(String name){
         names.add(name);
+    }
+
+    public double getMatchPercent() {
+        return Double.parseDouble(String.format("%.2f", matchPercent));
     }
 }

@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.web;
+package refrigerator.back.recipe.adapter;
 
 import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,6 @@ class RecipeRecommendControllerTest {
     @Autowired MockMvc mockMvc;
     @Autowired WebApplicationContext context;
     @Autowired CreateTokenPort createTokenPort;
-    @Autowired TestData testData;
 
     @Before
     public void setting(){
@@ -51,9 +50,13 @@ class RecipeRecommendControllerTest {
         String email = "mstest102@gmail.com";
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 7000);
         mockMvc.perform(get("/api/recipe/recommend")
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andExpect(jsonPath("$.data").isArray()
         ).andDo(print());
+    }
+
+    private String makeTokenHeader(String token){
+        return "Bearer " + token;
     }
 }

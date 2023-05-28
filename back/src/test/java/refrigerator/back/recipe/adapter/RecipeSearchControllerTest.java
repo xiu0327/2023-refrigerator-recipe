@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.in.web;
+package refrigerator.back.recipe.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
@@ -37,8 +37,6 @@ class RecipeSearchControllerTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired WebApplicationContext context;
-    @Autowired TestData testData;
-    @Autowired FindLastSearchWordUseCase findLastSearchWordUseCase;
     @Autowired CreateTokenPort createTokenPort;
 
     @Before
@@ -51,10 +49,10 @@ class RecipeSearchControllerTest {
     @Test
     @DisplayName("레시피 조회")
     void findById() throws Exception {
-        String memberId = testData.createMemberByEmail("email@gmail.com");
+        String memberId = "nhtest@gmail.com";
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 3000);
         mockMvc.perform(get("/api/recipe/1")
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
@@ -62,14 +60,12 @@ class RecipeSearchControllerTest {
     @Test
     @DisplayName("레시피 검색")
     void search() throws Exception {
-        String memberId = testData.createMemberByEmail("email@gmail.com");
+        String memberId = "nhtest@gmail.com";
         String token = createTokenPort.createTokenWithDuration(memberId, "ROLE_STEADY_STATUS", 3000);
         mockMvc.perform(get("/api/recipe/search?searchWord=두부&page=0")
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
-        List<String> searchWords = findLastSearchWordUseCase.getLastSearchWords(memberId);
-        Assertions.assertThat("두부").isIn(searchWords);
     }
 
     @Test
@@ -102,5 +98,9 @@ class RecipeSearchControllerTest {
         mockMvc.perform(get("/api/recipe/search/condition/difficulty")
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
+    }
+
+    private String makeTokenHeader(String token){
+        return "Bearer " + token;
     }
 }

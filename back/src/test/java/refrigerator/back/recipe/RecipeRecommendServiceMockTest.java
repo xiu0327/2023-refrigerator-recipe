@@ -38,7 +38,9 @@ class RecipeRecommendServiceMockTest {
                 .willReturn(new HashSet<>(Arrays.asList("사과", "배", "계란")));
         given(findRecommendRecipeInfoPort.findRecipeByIds(any()))
                 .willReturn(getRecipeInfoData());
-        service.recommend(memberId);
+        List<InRecipeRecommendDTO> result = service.recommend(memberId);
+        assertThat(result.get(0).getMatch()).isEqualTo(100.0);
+        assertThat(result.get(1).getMatch()).isEqualTo(60.0);
     }
 
     @Test
@@ -63,10 +65,10 @@ class RecipeRecommendServiceMockTest {
         FixtureMonkey sut = FixtureMonkey.create();
         List<InRecipeRecommendDTO> result = new ArrayList<>();
         result.add(sut.giveMeBuilder(InRecipeRecommendDTO.class)
-                .set("match", 100.0)
+                .set("match", 60.0)
                 .sample());
         result.add(sut.giveMeBuilder(InRecipeRecommendDTO.class)
-                .set("match", 60.0)
+                .set("match", 100.0)
                 .sample());
         return result;
     }
