@@ -8,6 +8,7 @@ import ProfileModal from "@/components/member/ProfileModal/ProfileModal";
 import { logout } from "@/api/logout";
 import { unregister } from "@/api/unregister";
 import { profile, nickname, bookmarkPreview, scorePreview } from "@/api";
+import BackLayout from "@/components/layout/BackLayout";
 
 export default function Mypage() {
 	const [nick, setNick] = useState("");
@@ -76,59 +77,65 @@ export default function Mypage() {
 	};
 
 	return (
-		<div className={styles.mypageContainer}>
-			<span className={styles.mypageTitle}>마이페이지</span>
-			<div className={styles.mypageMe}>
-				<img className={styles.mypageImg} src={img} onClick={openModal} />
-				{isModalOpen && (
-					<div onClick={closeModal}>
-						<div>
-							<ProfileModal on={true} img={img} onImgChange={handleImgChange} />
+		<BackLayout>
+			<div className={styles.mypageContainer}>
+				<span className={styles.mypageTitle}>마이페이지</span>
+				<div className={styles.mypageMe}>
+					<img className={styles.mypageImg} src={img} onClick={openModal} />
+					{isModalOpen && (
+						<div onClick={closeModal}>
+							<div>
+								<ProfileModal
+									on={true}
+									img={img}
+									onImgChange={handleImgChange}
+								/>
+							</div>
 						</div>
+					)}
+					<div className={styles.mypageBackground}>
+						<input
+							placeholder="닉네임"
+							value={nick}
+							onChange={onChangeHandler}
+						></input>
+						<button
+							className={styles.mypageNicknameChange}
+							onClick={onClickHandler}
+						>
+							<PencilFill className={styles.mypagePencil} />
+						</button>
 					</div>
-				)}
-				<div className={styles.mypageBackground}>
-					<input
-						placeholder="닉네임"
-						value={nick}
-						onChange={onChangeHandler}
-					></input>
-					<button
-						className={styles.mypageNicknameChange}
-						onClick={onClickHandler}
-					>
-						<PencilFill className={styles.mypagePencil} />
-					</button>
+				</div>
+				<div className={styles.mypageStar}>
+					<span className={styles.mypageStarTitle}>
+						내가 남긴 별점 ({starPreview?.length})
+					</span>
+					<ScrollContent content="ratings" starPreview={starPreview} />
+				</div>
+				<div className={styles.mypageBookmark}>
+					<span className={styles.mypageBookmarkTitle}>
+						북마크 ({bookPreview?.length})
+					</span>
+					<ScrollContent content="bookmarks" bookPreview={bookPreview} />
+				</div>
+				<div className={`d-grid gap-2`}>
+					<LinkBtn title={"비밀번호 변경"} link={"../member/password/change"} />
+				</div>
+				<div className={styles.mypageLink}>
+					<ConfirmCancelModal
+						title="로그아웃"
+						ment="로그아웃 하시겠습니까?"
+						api={logout}
+					/>
+					<span>|</span>
+					<ConfirmCancelModal
+						title="회원탈퇴"
+						ment="정말 탈퇴하시겠습니까?"
+						api={unregister}
+					/>
 				</div>
 			</div>
-			<div className={styles.mypageStar}>
-				<span className={styles.mypageStarTitle}>
-					내가 남긴 별점 ({starPreview?.length})
-				</span>
-				<ScrollContent content="ratings" starPreview={starPreview} />
-			</div>
-			<div className={styles.mypageBookmark}>
-				<span className={styles.mypageBookmarkTitle}>
-					북마크 ({bookPreview?.length})
-				</span>
-				<ScrollContent content="bookmarks" bookPreview={bookPreview} />
-			</div>
-			<div className={`d-grid gap-2`}>
-				<LinkBtn title={"비밀번호 변경"} link={"../member/password/change"} />
-			</div>
-			<div className={styles.mypageLink}>
-				<ConfirmCancelModal
-					title="로그아웃"
-					ment="로그아웃 하시겠습니까?"
-					api={logout}
-				/>
-				<span>|</span>
-				<ConfirmCancelModal
-					title="회원탈퇴"
-					ment="정말 탈퇴하시겠습니까?"
-					api={unregister}
-				/>
-			</div>
-		</div>
+		</BackLayout>
 	);
 }

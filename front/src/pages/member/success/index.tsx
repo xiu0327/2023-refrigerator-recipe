@@ -6,11 +6,9 @@ export default function Success() {
 	useEffect(() => {
 		const queryString = window.location.search;
 		const urlParams = new URLSearchParams(queryString);
-		console.log(urlParams);
 		const paramValue = urlParams.get("token");
 		console.log(paramValue); //TODO: 지워야됨 ...
 
-		instance.defaults.headers.common["Authorization"] = `Bearer ${paramValue}`;
 		router.push("/mypage");
 	}, []);
 }
