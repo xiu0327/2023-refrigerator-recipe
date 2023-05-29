@@ -21,16 +21,12 @@ import static refrigerator.back.global.common.InputDataFormatCheck.inputCheck;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberModifyService implements
-        UpdateNicknameUseCase, UpdateProfileUseCase, InitNicknameAndProfileUseCase,
-        UpdatePasswordUseCase {
+public class MemberModifyService implements UpdateNicknameUseCase, UpdateProfileUseCase, InitNicknameAndProfileUseCase{
 
     private final ModifyMemberNicknamePort modifyMemberNicknamePort;
     private final ModifyMemberProfilePort modifyMemberProfilePort;
     private final InitMemberProfileAndNicknamePort initMemberProfileAndNicknamePort;
-    private final PersistMemberPort persistMemberPort;
-    private final EncryptPasswordPort encryptPasswordPort;
-    private final FindMemberPort findMemberPort;
+
 
     @Override
     @Transactional
@@ -55,19 +51,6 @@ public class MemberModifyService implements
                 MemberProfileImage.findImageByName(imageFileName));
     }
 
-    @Override
-    @Transactional
-    public void updatePassword(String email, String newPassword) {
-        Member member = findMemberPort.findMemberNotUseCache(email);
-        if (member == null){
-            throw new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER);
-        }
-        Boolean isMatchPassword = encryptPasswordPort.match(newPassword, member.getPassword());
-        if (isMatchPassword){
-            throw new BusinessException(MemberExceptionType.EQUAL_OLD_PASSWORD);
-        }
-        member.updatePassword(encryptPasswordPort.encrypt(newPassword));
-        persistMemberPort.persist(member);
-    }
+
 
 }

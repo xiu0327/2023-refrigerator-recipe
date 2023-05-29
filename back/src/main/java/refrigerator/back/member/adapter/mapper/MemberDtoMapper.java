@@ -13,5 +13,5 @@ public interface MemberDtoMapper {
     MemberDtoMapper INSTANCE = Mappers.getMapper(MemberDtoMapper.class);
 
     Member toMember(MemberCacheDTO dto, LocalDateTime createDate);
-    MemberCacheDTO toMemberCacheDto(Member member, LocalDateTime createDate);
+    MemberCacheDTO toMemberCacheDto(Member member);
 }

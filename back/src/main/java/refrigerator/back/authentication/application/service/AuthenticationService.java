@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.domain.TokenInfoDTO;
+import refrigerator.back.authentication.application.port.in.IssueTemporaryAccessTokenUseCase;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 import refrigerator.back.authentication.application.port.out.*;
 import refrigerator.back.authentication.exception.JwtExceptionType;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.member.application.domain.Member;
+import refrigerator.back.member.application.port.out.FindMemberPort;
+import refrigerator.back.member.exception.MemberExceptionType;
 
 import static refrigerator.back.authentication.infra.jwt.JsonWebTokenKey.*;
 
@@ -22,6 +26,7 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
     private final CreateAuthenticationPort authenticatePort;
     private final FindEmailByTokenPort findEmailByToken;
     private final ValidateTokenPort validateTokenPort;
+
 
     @Override
     public TokenDTO login(String email, String password) {
@@ -48,6 +53,5 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
                 .accessToken(createTokenPort.createAccessToken(email, authority))
                 .build();
     }
-
 
 }

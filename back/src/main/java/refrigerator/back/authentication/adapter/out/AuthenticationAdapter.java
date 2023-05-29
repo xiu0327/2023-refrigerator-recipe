@@ -21,13 +21,13 @@ public class AuthenticationAdapter implements EncryptPasswordPort, CreateAuthent
     private final AuthenticationProvider authenticationProvider;
 
     @Override
-    public String encrypt(String rawPassword) {
-        return passwordEncoder.encode(rawPassword);
+    public String encrypt(String password) {
+        return passwordEncoder.encode(password);
     }
 
     @Override
-    public Boolean match(String password, String rawPassword) {
-        return passwordEncoder.matches(password, rawPassword);
+    public Boolean match(String newPassword, String oldPassword) {
+        return passwordEncoder.matches(newPassword, oldPassword);
     }
 
     @Override

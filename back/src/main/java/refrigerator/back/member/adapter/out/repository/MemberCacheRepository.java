@@ -1,15 +1,10 @@
 package refrigerator.back.member.adapter.out.repository;
 
-import io.lettuce.core.RedisBusyException;
 import io.lettuce.core.RedisException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.member.adapter.cache.MemberCacheKey;
 import refrigerator.back.member.adapter.mapper.MemberDtoMapper;
@@ -42,7 +37,7 @@ public class MemberCacheRepository {
         }
         Optional<Member> member = repository.findByEmail(email);
         if (member.isPresent()){
-            MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member.get(), member.get().getCreateDate());
+            MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member.get());
             cache.put(email, dto);
             return dto;
         }
@@ -59,7 +54,7 @@ public class MemberCacheRepository {
     public void updateCacheDate(Member member){
         Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
         if (cache != null){
-            MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member, member.getCreateDate());
+            MemberCacheDTO dto = memberDtoMapper.toMemberCacheDto(member);
             cache.put(member.getEmail(), dto);
             return ;
         }

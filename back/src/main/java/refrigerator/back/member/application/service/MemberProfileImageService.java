@@ -1,5 +1,6 @@
 package refrigerator.back.member.application.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import refrigerator.back.member.adapter.in.dto.response.MemberProfileDTO;
@@ -12,12 +13,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MemberProfileImageService implements MakeProfileUrlUseCase, GetProfileListUseCase {
 
     @Value("${s3.image.route}")
-    private String route;
+    private final String route;
     @Value("${s3.image.profile.path}")
-    private String path;
+    private final String path;
 
     @Override
     public String createURL(String imageName) {

@@ -1,4 +1,4 @@
-package refrigerator.back.member.adapter.out.persistence;
+package refrigerator.back.member.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -30,7 +30,7 @@ public class MemberAdapter implements FindMemberPort, CreateMemberPort, PersistM
     public Member findMember(String email) {
         MemberCacheDTO cacheData = memberCacheRepository.getCacheData(email);
         if (cacheData != null){
-            return mapper.toMember(cacheData, cacheData.getCreateDate());
+            return mapper.toMember(cacheData, cacheData.getJoinDateTime());
         }
         return null;
     }

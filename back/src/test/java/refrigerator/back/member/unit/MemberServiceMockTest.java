@@ -1,4 +1,4 @@
-package refrigerator.back.member;
+package refrigerator.back.member.unit;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -9,14 +9,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.out.FindMemberPort;
-import refrigerator.back.member.application.service.MemberService;
+import refrigerator.back.member.application.service.MemberFindService;
 
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceMockTest {
 
-    @InjectMocks MemberService memberService;
+    @InjectMocks
+    MemberFindService memberService;
     @Mock FindMemberPort findMemberPort;
 
     @Test

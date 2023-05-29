@@ -1,4 +1,4 @@
-package refrigerator.back.member.adapter.out.persistence;
+package refrigerator.back.member.adapter.out;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

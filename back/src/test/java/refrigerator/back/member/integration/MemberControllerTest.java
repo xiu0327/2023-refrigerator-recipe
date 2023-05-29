@@ -1,4 +1,4 @@
-package refrigerator.back.member.adapter.in.web;
+package refrigerator.back.member.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.global.TestData;
@@ -33,19 +34,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
-@Slf4j
+@RedisFlushAll(beanName = "redisTemplate")
 class MemberControllerTest {
 
-    @Autowired TestData testData;
     @Autowired CreateTokenPort createTokenPort;
-    @Autowired EncryptPasswordPort encryptPasswordPort;
     @Autowired MockMvc mockMvc;
-    @Autowired
-    WebApplicationContext context;
+    @Autowired WebApplicationContext context;
+
+    String email = "nhtest@gmail.com";
+    String password = "password123!";
 
     @Before
     public void setting(){
@@ -54,24 +55,8 @@ class MemberControllerTest {
                 .build();
     }
 
-    private final RedisTemplate<String, MemberCacheDTO> redisTemplate;
-
-    public MemberControllerTest(
-            @Qualifier("memberCacheRedisTemplate") RedisTemplate<String, MemberCacheDTO> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
-    @BeforeEach()
-    void redisRollback(){
-        redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
-            connection.flushAll();
-            return null;
-        });
-    }
-
     @Test
     void 닉네임_수정() throws Exception {
-        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 5000);
         String nickname = "수정닉네임";
         MemberNicknameUpdateRequestDTO request = new MemberNicknameUpdateRequestDTO(nickname);
@@ -79,7 +64,7 @@ class MemberControllerTest {
         mockMvc.perform(put("/api/members/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
@@ -87,7 +72,6 @@ class MemberControllerTest {
     @Test
     void 닉네임_수정_실패() throws Exception {
         /* 형식에 맞지 않는 닉네임으로 수정하려 할 때 */
-        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         String nickname = "!#$@#%!@#%";
         MemberNicknameUpdateRequestDTO request = new MemberNicknameUpdateRequestDTO(nickname);
@@ -95,14 +79,13 @@ class MemberControllerTest {
         mockMvc.perform(put("/api/members/nickname")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     void 프로필_수정() throws Exception {
-        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         String imageName = "IMG_9709.JPG";
         MemberProfileUpdateRequestDTO request = new MemberProfileUpdateRequestDTO(imageName);
@@ -110,7 +93,7 @@ class MemberControllerTest {
         mockMvc.perform(put("/api/members/profile")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
@@ -118,7 +101,6 @@ class MemberControllerTest {
     @Test
     void 프로필_수정_실패() throws Exception {
         /* 유효하지 않은 이미지 이름이 파라미터로 들어왔을 때 */
-        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         String imageName = "imageimage.JPG";
         MemberProfileUpdateRequestDTO request = new MemberProfileUpdateRequestDTO(imageName);
@@ -126,32 +108,29 @@ class MemberControllerTest {
         mockMvc.perform(put("/api/members/profile")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     void 회원_탈퇴() throws Exception {
-        String password = "password123!";
-        String email = testData.createMemberByEmailAndPassword("email123@gmail.com", encryptPasswordPort.encrypt(password));
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         MemberWithdrawRequestDTO request = new MemberWithdrawRequestDTO(password);
         String requestJson = new ObjectMapper().writeValueAsString(request);
         mockMvc.perform(delete("/api/members")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
     void 회원_정보_조회() throws Exception {
-        String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         mockMvc.perform(get("/api/members")
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
+                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
@@ -162,5 +141,9 @@ class MemberControllerTest {
         ).andExpect(status().is2xxSuccessful()
         ).andExpect(jsonPath("$.data").isNotEmpty()
         ).andDo(print());
+    }
+
+    public String makeTokenHeader(String token){
+        return "Bearer " + token;
     }
 }

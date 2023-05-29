@@ -1,4 +1,4 @@
-package refrigerator.back.member.adapter.in.dto.response;
+package refrigerator.back.authentication.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberFindPasswordResponseDTO {
+public class TemporaryAccessTokenResponseDTO {
     private String grantType;
     private String authToken;
 }

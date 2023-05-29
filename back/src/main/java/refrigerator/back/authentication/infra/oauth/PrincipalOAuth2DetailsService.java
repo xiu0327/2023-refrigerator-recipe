@@ -33,7 +33,7 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
         String providerId = userRequest.getClientRegistration().getRegistrationId();
         String email = getEmail(providerId, oAuth2User);
         String nickname = getNickname(providerId, oAuth2User);
-        Optional<Member> member = Optional.ofNullable(findMemberInfoUseCase.pureFindMemberByEmail(email));
+        Optional<Member> member = Optional.ofNullable(findMemberInfoUseCase.findMemberNotUseCache(email));
         if (member.isPresent()){
             return OauthUser.builder()
                     .username(email)

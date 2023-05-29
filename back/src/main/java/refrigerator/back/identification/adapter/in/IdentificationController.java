@@ -33,7 +33,7 @@ public class IdentificationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void checkNumber(@RequestBody CheckNumberRequestDTO request, HttpServletResponse response){
         checkNumberUseCase.checkAuthenticationNumber(request.getInputCode(), request.getEmail());
-        Cookie cookie = new Cookie("Verified-User", "true");
+        Cookie cookie = new Cookie("Verified-User", request.getEmail());
         cookie.setHttpOnly(true);
         cookie.setPath("/api/members/join");
         cookie.setMaxAge(3 * 60);
