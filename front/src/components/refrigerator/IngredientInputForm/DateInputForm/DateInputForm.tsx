@@ -11,7 +11,7 @@ export default function DateInputForm({ date, setDate }: DateInputProps) {
 	return (
 		<div className={styles.dateInputForm}>
 			<DateInput date={date} setDate={setDate} />
-			<DatePlusBtnGroup date={date} setDate={setDate} />
+			<DatePlusBtnGroup setDate={setDate} />
 		</div>
 	);
 }
