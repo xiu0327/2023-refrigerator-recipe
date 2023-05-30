@@ -1,15 +1,9 @@
 pipeline {
 	agent any
 	stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'origin/back-nh-v3', url: 'https://github.com/xiu0327/2023-refrigerator-recipe.git'
-            }
-        }
 		stage("build") {
 			steps {
                 cd back
-				sh './gradlew clean build -x test'
 			}
 		}
 		stage("test") {
