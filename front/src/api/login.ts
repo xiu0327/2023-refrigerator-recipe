@@ -3,8 +3,6 @@ import instance from "./interceptors";
 import { reissueAccessToken } from "./reissueAccessToken";
 
 export const login = async (email: string, password: string) => {
-	const JWT_EXPIRY_TIME = 30 * 60 * 1000;
-
 	const url = `/api/auth/login`;
 	const body = { email: email, password: password };
 
@@ -13,7 +11,6 @@ export const login = async (email: string, password: string) => {
 		instance.defaults.headers.common[
 			"Authorization"
 		] = `Bearer ${response.data.accessToken}`;
-		setTimeout(reissueAccessToken, JWT_EXPIRY_TIME - 60000);
 	} catch (error) {
 		alert(error.response.data.message);
 		router.reload();

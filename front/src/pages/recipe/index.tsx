@@ -72,7 +72,10 @@ export default function RecipeListPage() {
 		<>
 			<AppNavLayout title="레시피">
 				<div className={styles.fixed}>
-					<Link href={`/recipe/search`} style={{ textDecoration: "none" }}>
+					<Link
+						href={`/recipe/search?query=`}
+						style={{ textDecoration: "none" }}
+					>
 						<SearchBar placeholder="궁금한 레시피를 검색해보세요!" disabled />
 					</Link>
 					<FilterBar

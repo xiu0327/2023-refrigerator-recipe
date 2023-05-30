@@ -16,10 +16,7 @@ import RatingBottomSheet from "@/components/recipe/CookingBottomSheet/RatingBott
 
 import styles from "@/scss/pages.module.scss";
 
-export default function RecipeInfoPage() {
-	const router = useRouter();
-	const recipeID = Number(router.query.recipeID);
-
+export default function RecipeInfoPage({ recipeID }) {
 	const [recipe, setRecipe] = useState<RecipeDetail | null>();
 	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[] | null>();
 	const [bookmarkIDs, setBookmarkIDs] = useState([]);
@@ -104,4 +101,14 @@ export default function RecipeInfoPage() {
 			/>
 		</>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const recipeID = Number(context.query.recipeID);
+
+	return {
+		props: {
+			recipeID,
+		},
+	};
 }

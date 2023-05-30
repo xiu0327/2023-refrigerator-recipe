@@ -15,10 +15,10 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
 
-export default function AddIngredientInfoPage() {
+export default function AddIngredientInfoPage({ name }) {
 	const router = useRouter();
 	const [ingredient, setIngredient] = useState({
-		name: router.query.ingredientName,
+		name: name,
 		storage: "냉장",
 		expirationDate: moment().format("YYYY-MM-DD"),
 		volume: "",
@@ -80,4 +80,14 @@ export default function AddIngredientInfoPage() {
 			/>
 		</BackBottomBtnLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const name = context.query.ingredientName;
+
+	return {
+		props: {
+			name,
+		},
+	};
 }

@@ -15,9 +15,7 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 import styles from "@/scss/pages.module.scss";
 import Link from "next/link";
 
-export default function IngredientInfoPage() {
-	const router = useRouter();
-	const ingredientID = Number(router.query.ingredientID);
+export default function IngredientInfoPage({ ingredientID }) {
 	const ingredient: IngredientDetail | null = useFetchData(
 		getIngredientInfo,
 		[ingredientID],
@@ -79,4 +77,14 @@ export default function IngredientInfoPage() {
 			)}
 		</BackBottomBtnLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const ingredientID = Number(context.query.ingredientID);
+
+	return {
+		props: {
+			ingredientID,
+		},
+	};
 }

@@ -14,9 +14,7 @@ import NoResult from "@/components/global/NoResult/NoResult";
 
 import styles from "@/scss/pages.module.scss";
 
-export default function RecipeSearchPage() {
-	const router = useRouter();
-	const query = router.query.query;
+export default function RecipeSearchPage({ query }) {
 	const [keyword, setKeyword] = useState<string>("");
 
 	const [recipeResultData, setRecipeResultData] = useState<RecipeBrief[]>([]);
@@ -83,4 +81,14 @@ export default function RecipeSearchPage() {
 			</div>
 		</BackLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const query = context.query?.query;
+
+	return {
+		props: {
+			query,
+		},
+	};
 }
