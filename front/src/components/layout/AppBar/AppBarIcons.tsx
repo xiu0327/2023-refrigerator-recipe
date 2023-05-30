@@ -1,15 +1,19 @@
 import router from "next/router";
 import styles from "./AppBar.module.scss";
-import { List, PlusCircle, ChevronLeft, Bell } from "react-bootstrap-icons";
+import { PlusCircle, ChevronLeft, Bell, Person } from "react-bootstrap-icons";
 import Link from "next/link";
 
 export const MyPageIcon = () => (
-	<List className={styles.appbarIcon} onClick={() => router.push("/mypage")} />
+	<Person
+		className={styles.appbarIcon}
+		onClick={() => router.push("/mypage")}
+	/>
 );
 
 export const NotificationIcon = () => (
 	<Bell
 		className={styles.appbarIcon}
+		style={{ width: "22" }}
 		onClick={() => router.push("/notification")}
 	/>
 );
