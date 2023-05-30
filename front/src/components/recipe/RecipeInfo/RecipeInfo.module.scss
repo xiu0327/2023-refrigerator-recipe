@@ -15,6 +15,7 @@ $header-button-font-color: $grey-800;
 $ingredient-type-width: 80px;
 $ingredient-font-size: 18px;
 $ingredient-font-color: $grey-500;
+$ingredient-font-color-selected: $grey-700;
 
 $step-number-width: 40px;
 $step-font-size: 16px;
@@ -143,15 +144,22 @@ $step-font-color: $grey-600;
 		width: $ingredient-type-width;
 		@include recipe-info-emphasis();
 	}
-	.recipeIngredientInfo {
-		padding: 0.5rem 0rem;
-		color: $ingredient-font-color;
+	@mixin recipe-ingredient-info {
+		padding: 0.5rem;
 		font-size: $ingredient-font-size;
 
-		.recipeIngredientVolume {
+		> span {
 			flex: 1;
-			text-align: end;
 		}
+	}
+	.recipeIngredientInfo {
+		@include recipe-ingredient-info();
+		color: $ingredient-font-color;
+	}
+	.recipeIngredientInfoSelected {
+		@include recipe-ingredient-info();
+		color: $ingredient-font-color-selected;
+		background-color: rgba($grey-100, 0.5);
 	}
 	.recipeIngredientIcon {
 		color: $primary-color-recipe;
