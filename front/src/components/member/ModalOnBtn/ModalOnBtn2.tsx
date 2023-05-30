@@ -36,4 +36,3 @@ export default function ModalOnBtn2({ title, ment, password, disabled }) {
 		</div>
 	);
 }
-//여기 비밀번호 변경 api 쓰기
