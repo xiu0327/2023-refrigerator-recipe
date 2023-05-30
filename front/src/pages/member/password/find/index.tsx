@@ -28,7 +28,7 @@ export default function change() {
 								router.push("/member/password/change");
 							})
 							.catch((error) => {
-								alert(error.data.message);
+								alert(error.response.data.message);
 								location.reload();
 							});
 					}}
