@@ -6,10 +6,11 @@ import styles from "./BottomSheet.module.scss";
 type BottomSheetProps = {
 	show: boolean;
 	onHide: Function;
+	style?: any;
 	children: React.ReactNode;
 };
 
-function BottomSheet({ show, onHide, children }: BottomSheetProps) {
+function BottomSheet({ show, onHide, style, children }: BottomSheetProps) {
 	return (
 		<>
 			{show && (
@@ -18,7 +19,9 @@ function BottomSheet({ show, onHide, children }: BottomSheetProps) {
 						className={styles.bottomsheetBackground}
 						onClick={() => onHide()}
 					/>
-					<div className={styles.bottomsheet}>{children}</div>
+					<div className={styles.bottomsheet} style={style}>
+						{children}
+					</div>
 				</div>
 			)}
 		</>

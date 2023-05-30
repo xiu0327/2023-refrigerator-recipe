@@ -10,7 +10,7 @@ export const getRecipes = async (page: number) => {
 	}
 };
 
-export const getRecipe = async (recipeID: string) => {
+export const getRecipe = async (recipeID: number) => {
 	const url = `/api/recipe/${recipeID}`;
 	try {
 		const response = await instance.get(url);
@@ -30,40 +30,24 @@ export const getRecipeSteps = async (recipeID: number) => {
 	}
 };
 
-export const getRecipeIngredients = (recipeId) => {
-	const url = `/api/recipe/${recipeId}/ingredient/volume`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+export const getRecipeIngredients = async (recipeID: number) => {
+	const url = `/api/recipe/${recipeID}/ingredient/volume`;
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const rateRecipe = (recipeId, score) => {
-	const url = `/api/my-score/cooking?recipeId=${recipeId}&score=${score}`;
-	instance
-		.post(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const recommendRecipe = () => {
+export const getRecommendedRecipes = async () => {
 	const url = `/api/recipe/recommend`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const getRecipeFoodType = async () => {
@@ -106,18 +90,23 @@ export const getRecipeDifficulty = async () => {
 	}
 };
 
-export const calculateIngredient = (ingredients) => {
+export const deductIngredient = async (ingredients) => {
 	const url = `/api/ingredients/deduction`;
-	instance
-		.put(url, { ingredients: ingredients })
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.put(url, { ingredients });
+	} catch (error) {
+		console.error(error);
+	}
 };
-// ingredients = [{name, volume, unit}, ...]
+
+export const rateRecipe = async (recipeID, score) => {
+	const url = `/api/my-score/cooking?recipeId=${recipeID}&score=${score}`;
+	try {
+		const response = await instance.post(url);
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 export const getOwnedIngredientIDs = async (recipeID: number) => {
 	const url = `/api/ingredients/owned/${recipeID}`;

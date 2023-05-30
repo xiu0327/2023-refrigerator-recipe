@@ -7,6 +7,8 @@ $header-bg-color: $grey-100;
 $header-font-color: $grey-800;
 $header-font-size: 17px;
 
+$header-font-color-disabled: $grey-400;
+
 .bottomsheetBackground {
 	position: fixed;
 	top: 0;
@@ -19,7 +21,7 @@ $header-font-size: 17px;
 .bottomsheet {
 	position: fixed;
 	bottom: 0;
-	max-height: 90%;
+	max-height: calc(100% - $appbar-height);
 	width: 100%;
 	z-index: 3;
 
@@ -56,6 +58,7 @@ $header-font-size: 17px;
 	}
 
 	.bottomsheetBody {
+		flex: 1;
 		overflow: scroll;
 	}
 
@@ -72,6 +75,10 @@ $header-font-size: 17px;
 			line-height: $header-font-size;
 			letter-spacing: 0.5px;
 			border-left: $divider;
+
+			&:disabled {
+				color: $header-font-color-disabled;
+			}
 		}
 	}
 }

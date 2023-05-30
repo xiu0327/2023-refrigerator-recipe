@@ -72,12 +72,13 @@ $step-font-color: $grey-600;
 		gap: 0.5rem;
 		font-size: $info-font-size;
 		font-weight: 600;
+		align-items: center;
+		margin-bottom: 0.3rem;
 	}
 	.recipeInfoKey {
 		color: $info-key-font-color;
 	}
 	.recipeInfoValue {
-		margin-bottom: 0.3rem;
 		margin-right: 1.25rem;
 		color: $info-value-font-color;
 	}

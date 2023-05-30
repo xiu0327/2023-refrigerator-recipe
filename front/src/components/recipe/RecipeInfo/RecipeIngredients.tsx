@@ -39,7 +39,10 @@ export default function RecipeIngredients({
 						<span className={styles.recipeIngredientType}>{type}</span>
 						<div>
 							{typeIngredients.map((ingredient: RecipeIngredient) => (
-								<div className={styles.recipeIngredientInfo}>
+								<div
+									key={ingredient.ingredientID}
+									className={styles.recipeIngredientInfo}
+								>
 									<span>{ingredient.name}</span>
 									{ownedIngredientIDs.includes(ingredient.ingredientID) && (
 										<CheckLg className={styles.recipeIngredientIcon} />
