@@ -5,9 +5,5 @@ import { useEffect } from "react";
 import { reissueAccessToken } from "@/api/reissueAccessToken";
 
 export default function App({ Component, pageProps }: AppProps) {
-	useEffect(() => {
-		reissueAccessToken();
-	}, [Component]);
-
 	return <Component {...pageProps} />;
 }
