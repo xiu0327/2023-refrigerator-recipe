@@ -1,4 +1,4 @@
-package refrigerator.back.authentication;
+package refrigerator.back.authentication.integration;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.service.AuthenticationService;
@@ -31,6 +32,7 @@ class AuthenticationServiceTest {
 
     private final String email = "mstest102@gmail.com";
     private final String password = "password123!";
+
     @Test
     void 로그인(){
         // when

@@ -1,17 +1,12 @@
 package refrigerator.back.ingredient.adapter.in.web;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
 
@@ -19,23 +14,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 class IngredientLookUpControllerTest {
 
     @Autowired MockMvc mockMvc;
-    @Autowired WebApplicationContext context;
     @Autowired TestData testData;
     @Autowired CreateTokenPort createTokenPort;
 
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     // RequestParam and PathValuable validation 방법 강구
 

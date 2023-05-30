@@ -1,4 +1,4 @@
-package refrigerator.back.authentication.infra;
+package refrigerator.back.authentication.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.infra.security.provider.EmailAuthenticationProvider;
 import refrigerator.back.authentication.infra.security.token.EmailAuthenticationToken;

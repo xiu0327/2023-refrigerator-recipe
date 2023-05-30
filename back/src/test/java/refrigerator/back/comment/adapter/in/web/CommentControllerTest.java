@@ -2,23 +2,15 @@ package refrigerator.back.comment.adapter.in.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
+import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
@@ -29,7 +21,6 @@ import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCas
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
 import refrigerator.back.global.TestData;
-import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 
 import javax.persistence.EntityManager;
 
@@ -37,14 +28,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
+@RedisFlushAll(beanName = "memberCacheRedisTemplate")
 class CommentControllerTest {
 
     @Autowired MockMvc mockMvc;
-    @Autowired WebApplicationContext context;
     @Autowired EncryptPasswordPort passwordEncoder;
     @Autowired LoginUseCase loginUseCase;
     @Autowired TestData testData;
@@ -53,27 +43,6 @@ class CommentControllerTest {
     @Autowired AddCommentHeartUseCase addCommentHeartUseCase;
     @Autowired EntityManager em;
 
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
-
-    private final RedisTemplate<String, MemberCacheDTO> redisTemplate;
-
-    public CommentControllerTest(
-            @Qualifier("memberCacheRedisTemplate") RedisTemplate<String, MemberCacheDTO> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
-    @BeforeEach()
-    void redisRollback(){
-        redisTemplate.execute((RedisCallback<? extends Object>) connection -> {
-            connection.flushAll();
-            return null;
-        });
-    }
 
     @Test
     void 댓글_작성() throws Exception {

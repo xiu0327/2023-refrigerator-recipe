@@ -1,17 +1,12 @@
 package refrigerator.back.myscore.adapter.in.web;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
 import refrigerator.back.myscore.application.port.in.CreateMyScoreUseCase;
@@ -21,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -32,14 +27,7 @@ class MyRecipeScoreControllerTest {
     @Autowired
     CreateMyScoreUseCase cookingUseCase;
     @Autowired MockMvc mockMvc;
-    @Autowired WebApplicationContext context;
 
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     @Test
     void 요리_하기() throws Exception {

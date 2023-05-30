@@ -1,21 +1,15 @@
 package refrigerator.back.searchword.adapter.in.web;
 
-import org.junit.Before;
+
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
-import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
 import refrigerator.back.searchword.application.port.in.AddSearchWordUseCase;
 
 import java.time.LocalDate;
@@ -26,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
@@ -35,18 +28,9 @@ class SearchWordControllerTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired
-    WebApplicationContext context;
-    @Autowired
     TestData testData;
     @Autowired CreateTokenPort createTokenPort;
     @Autowired AddSearchWordUseCase addSearchWordUseCase;
-
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     @Test
     void 추천_검색어_조회() throws Exception {

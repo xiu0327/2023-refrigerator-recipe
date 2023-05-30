@@ -1,32 +1,19 @@
 package refrigerator.back.member.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
-import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
-import refrigerator.back.global.TestData;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
-import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,17 +30,10 @@ class MemberControllerTest {
 
     @Autowired CreateTokenPort createTokenPort;
     @Autowired MockMvc mockMvc;
-    @Autowired WebApplicationContext context;
 
     String email = "nhtest@gmail.com";
     String password = "password123!";
 
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     @Test
     void 닉네임_수정() throws Exception {

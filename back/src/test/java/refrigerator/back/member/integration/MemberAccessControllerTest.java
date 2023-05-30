@@ -1,7 +1,9 @@
 package refrigerator.back.member.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
+
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
-import refrigerator.back.authentication.adapter.in.dto.IssueTemporaryAccessTokenRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberJoinRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberUpdatePasswordRequestDTO;
 
@@ -33,20 +34,12 @@ class MemberAccessControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-    @Autowired
-    WebApplicationContext context;
     @Autowired CreateTokenPort createTokenPort;
     ObjectMapper objectMapper = new ObjectMapper();
 
     String email = "nhtest@gmail.com";
     String password = "password123!";
 
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     @Test
     void 회원_가입() throws Exception {

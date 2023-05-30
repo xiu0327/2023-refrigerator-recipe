@@ -1,30 +1,23 @@
-package refrigerator.back.authentication;
+package refrigerator.back.authentication.integration;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
+
 import refrigerator.back.annotation.RedisFlushAll;
+
 import refrigerator.back.authentication.adapter.in.dto.IssueTemporaryAccessTokenRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
-import refrigerator.back.global.config.BasicRedisConfig;
-import refrigerator.back.member.adapter.cache.MemberRedisConfig;
 import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
 
 import javax.servlet.http.Cookie;
@@ -42,19 +35,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuthenticationControllerTest {
 
     @Autowired MockMvc mockMvc;
-    @Autowired WebApplicationContext context;
     @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired LoginUseCase loginUseCase;
 
     ObjectMapper objectMapper = new ObjectMapper();
     private final String email = "mstest102@gmail.com";
     private final String password = "password123!";
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     @Test
     @DisplayName("토큰 발행 테스트")

@@ -1,8 +1,6 @@
 package refrigerator.back.identification.application.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @Transactional
+@Disabled
 class IdentificationServiceTest {
 
     @Autowired IdentificationService identificationService;
     private Long testDuration = 30L;
 
     @Test
-    @Disabled
     void 인증_번호_통합테스트() throws InterruptedException {
         String email = "codinging0326@gmail.com";
         String code = identificationService.sendAuthenticationNumber(email, 1000L);
@@ -33,7 +31,6 @@ class IdentificationServiceTest {
     }
 
     @Test
-    @Disabled
     void 인증_번호_유효시간_만료() throws InterruptedException {
         String email = "codinging0326@gmail.com";
         String code = identificationService.sendAuthenticationNumber(email, testDuration);

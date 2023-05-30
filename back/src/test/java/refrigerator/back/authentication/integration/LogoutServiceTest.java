@@ -1,19 +1,14 @@
-package refrigerator.back.authentication;
+package refrigerator.back.authentication.integration;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.LogoutUseCase;
 import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
-import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.authentication.application.port.out.FindRefreshTokenByEmailPort;
-import refrigerator.back.global.TestData;
-import refrigerator.back.member.application.port.in.JoinUseCase;
 
 import static org.junit.jupiter.api.Assertions.*;
 

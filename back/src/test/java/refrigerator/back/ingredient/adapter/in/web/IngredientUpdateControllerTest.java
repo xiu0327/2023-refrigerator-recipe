@@ -2,20 +2,14 @@ package refrigerator.back.ingredient.adapter.in.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientListRemoveRequestDTO;
@@ -23,7 +17,6 @@ import refrigerator.back.ingredient.adapter.in.dto.request.IngredientProposeRequ
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientRegisterRequestDTO;
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientUpdateRequestDTO;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
-import refrigerator.back.ingredient.application.service.IngredientUpdateService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,21 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
 @Transactional
 class IngredientUpdateControllerTest {
 
     @Autowired MockMvc mockMvc;
-    @Autowired WebApplicationContext context;
     @Autowired TestData testData;
     @Autowired CreateTokenPort createTokenPort;
-
-    @Before
-    public void setting(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
 
     @Test
     void 식재료_등록() throws Exception {

@@ -1,4 +1,4 @@
-package refrigerator.back.authentication.infra;
+package refrigerator.back.authentication.integration;
 
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
