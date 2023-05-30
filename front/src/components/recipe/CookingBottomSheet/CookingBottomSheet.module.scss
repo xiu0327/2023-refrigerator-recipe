@@ -92,6 +92,7 @@
 		border-bottom: $divider;
 		align-items: center;
 		gap: 0.75rem;
+		text-decoration: line-through;
 
 		> span {
 			flex: 1;
@@ -101,6 +102,7 @@
 	.selected {
 		font-weight: bold;
 		color: $grey-800;
+		text-decoration: none;
 
 		.icon {
 			color: $primary-color-recipe;
