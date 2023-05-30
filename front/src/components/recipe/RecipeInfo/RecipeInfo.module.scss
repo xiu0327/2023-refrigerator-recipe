@@ -89,12 +89,13 @@ $step-font-color: $grey-600;
 	display: flex;
 	gap: 0.75rem;
 	align-items: center;
+	position: relative;
 
-	div {
+	> div {
 		font-size: $header-title-font-size;
 		font-weight: bold;
 	}
-	span {
+	> span {
 		flex: 1;
 		align-self: center;
 		font-size: 18px;
@@ -188,5 +189,7 @@ $step-font-color: $grey-600;
 }
 
 .questionIcon {
-	color: $grey-500;
+	color: $header-sub-font-color;
+	height: 20px;
+	width: 20px;
 }
