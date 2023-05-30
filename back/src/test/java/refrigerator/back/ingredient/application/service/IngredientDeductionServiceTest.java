@@ -27,7 +27,7 @@ class IngredientDeductionServiceTest {
     @Autowired TestData testData;
 
     @Test
-    @DisplayName("식재료 차감 -> 기존 용량 >= 레시피 용량")
+    @DisplayName("식재료 차감 -> 기존 용량 >= 레시피 용량 ")
     void deduction_case1() {
         // given
         String memberId = testData.createMemberByEmail("email@gmail.com");
