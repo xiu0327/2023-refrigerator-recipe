@@ -8,5 +8,5 @@ export const calcStarRates = (score: number, SIZE: number) => {
 		starVerScore -= SIZE;
 	}
 	starRates[index] = starVerScore;
-	return starRates;
+	return starRates.slice(0, 5);
 };

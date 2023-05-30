@@ -16,7 +16,7 @@ export default function MouseOverStars({ score, setScore }) {
 	return (
 		<div className="d-flex">
 			<div className={styles.mouseOverStarsContainer}>
-				{starRates.slice(0, 5).map((rate, index) => (
+				{starRates.map((rate, index) => (
 					<span
 						key={index}
 						className={styles.starIcon}
