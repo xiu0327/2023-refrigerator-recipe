@@ -71,8 +71,9 @@ export default function IngredientDeductionBottomSheet({
 			<BottomSheet.Body>
 				<div className={styles.container}>
 					<div className={styles.descriptionContainer}>
-						<span>사용한 식재료를 선택해주세요!</span>
-						냉장고 식재료의 용량을 차감해드릴게요
+						<span>차감하지 않을 식재료가 있나요?</span>
+						선택된 식재료는 자동으로 용량이 차감됩니다 <br />
+						차감하지 않을 식재료를 선택 취소해주세요
 					</div>
 
 					<div className={styles.ingredientList}>
