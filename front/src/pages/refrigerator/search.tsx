@@ -50,7 +50,7 @@ export default function SearchIngredientPage() {
 					(filteredIngredients.length > 0 ? (
 						<IngredientGrid ingredientData={filteredIngredients} />
 					) : (
-						<NoResult keyword={keyword} />
+						<NoResult />
 					))}
 			</div>
 		</BackLayout>
