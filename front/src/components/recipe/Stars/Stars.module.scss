@@ -7,10 +7,10 @@ $info-font-weight: 300; //500;
 .starsContainer {
 	display: flex;
 	align-items: center;
+	margin-right: 1px;
 
 	.starIcon {
 		display: inline-flex;
-		margin-right: 1px;
 	}
 }
 
@@ -21,4 +21,14 @@ $info-font-weight: 300; //500;
 	font-size: $info-font-size;
 	color: $info-font-color;
 	font-weight: $info-font-weight;
+}
+
+.mouseOverStarsContainer {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+
+	.starIcon {
+		display: inline-flex;
+	}
 }
