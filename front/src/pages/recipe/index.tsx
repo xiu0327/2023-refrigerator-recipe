@@ -13,6 +13,7 @@ import RecipeList from "@/components/recipe/RecipeList/RecipeList";
 import FilterMenuBottomSheet from "@/components/recipe/FilterMenuBottomSheet/FilterMenuBottomSheet";
 
 import styles from "@/scss/pages.module.scss";
+import FloatingBtn from "@/components/global/FloatingBtn/FloatingBtn";
 
 export default function RecipeListPage() {
 	const [recipeData, setRecipeData] = useState<RecipeBrief[]>([]);
@@ -68,22 +69,28 @@ export default function RecipeListPage() {
 	useIntersectionObserver(setPage, isDataLoaded);
 
 	return (
-		<AppNavLayout title="레시피">
-			<div className={styles.fixed}>
-				<Link href={`/recipe/search`} style={{ textDecoration: "none" }}>
-					<SearchBar placeholder="궁금한 레시피를 검색해보세요!" disabled />
-				</Link>
-				<FilterBar
-					filters={filters}
-					setActiveFilter={setActiveFilter}
-					setIsFilterMenuBottomSheetShow={setIsFilterMenuBottomSheetShow}
-				/>
-			</div>
+		<>
+			<AppNavLayout title="레시피">
+				<div className={styles.fixed}>
+					<Link href={`/recipe/search`} style={{ textDecoration: "none" }}>
+						<SearchBar placeholder="궁금한 레시피를 검색해보세요!" disabled />
+					</Link>
+					<FilterBar
+						filters={filters}
+						setActiveFilter={setActiveFilter}
+						setIsFilterMenuBottomSheetShow={setIsFilterMenuBottomSheetShow}
+					/>
+				</div>
 
-			<div style={{ marginTop: "90px" }}>
-				<RecipeList recipeData={recipeData} />
-				{isDataLoaded && <div id="end-of-list"></div>}
-			</div>
+				<div style={{ marginTop: "90px" }}>
+					<RecipeList recipeData={recipeData} />
+					{isDataLoaded && <div id="end-of-list"></div>}
+				</div>
+
+				<Link href={`/recipe/recommendation`}>
+					<FloatingBtn label="추천 레시피 보기" />
+				</Link>
+			</AppNavLayout>
 
 			<FilterMenuBottomSheet
 				show={isFilterMenuBottomSheetShow}
@@ -91,6 +98,6 @@ export default function RecipeListPage() {
 				activeFilter={activeFilter}
 				setFilters={setFilters}
 			/>
-		</AppNavLayout>
+		</>
 	);
 }
