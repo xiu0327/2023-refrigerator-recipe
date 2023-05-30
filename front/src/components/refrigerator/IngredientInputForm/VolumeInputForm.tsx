@@ -21,6 +21,7 @@ export default function VolumeInputForm({
 				setValue={setVolume}
 				valueType="number"
 				disabled={disabled}
+				placeholder="숫자를 입력해주세요"
 			/>
 			<div className={styles.unit}>{unit}</div>
 		</div>
