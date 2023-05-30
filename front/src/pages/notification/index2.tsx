@@ -1,4 +1,3 @@
-import { notification } from "@/api/notification";
 import styles from "./notification.module.scss";
 import {
 	HandThumbsUpFill,
@@ -7,7 +6,6 @@ import {
 } from "react-bootstrap-icons";
 
 export default function Notification() {
-	notification();
 	const STATE = [
 		{
 			title: "유통기한",
