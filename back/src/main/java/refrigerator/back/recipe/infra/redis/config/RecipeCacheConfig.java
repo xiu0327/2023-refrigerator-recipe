@@ -1,4 +1,4 @@
-package refrigerator.back.recipe.adapter.cache.config;
+package refrigerator.back.recipe.infra.redis.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,6 +56,21 @@ public class RecipeCacheConfig {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(RecipeCacheKey.RECIPE, RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_EXPIRE_SEC)));
+
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(redisConnectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations).build();
+    }
+
+    @Bean
+    public RedisCacheManager recipeNameCacheManagerForWordCompletion(RedisConnectionFactory redisConnectionFactory){
+        RedisCacheConfiguration configuration = getConfiguration();
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        cacheConfigurations.put(RecipeCacheKey.RECIPE_NAME, RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_NAME_SEC)));
 
 
         return RedisCacheManager.RedisCacheManagerBuilder

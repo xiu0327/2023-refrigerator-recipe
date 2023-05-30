@@ -20,6 +20,9 @@ public class BasicRedisConfig extends CachingConfigurerSupport {
     @Value("${spring.redis.basic.port}")
     private int port;
 
+    @Value("${spring.redis.basic.password}")
+    private String password;
+
 
     @Bean
     public RedisTemplate<String, String> redisTemplate() {
@@ -30,7 +33,11 @@ public class BasicRedisConfig extends CachingConfigurerSupport {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration();
+        redisConfiguration.setHostName(host);
+        redisConfiguration.setPort(port);
+        redisConfiguration.setPassword(password);
+        return new LettuceConnectionFactory(redisConfiguration);
     }
 
 }

@@ -162,8 +162,8 @@ class MyBookmarkServiceTest {
     void 북마크_삭제_실패() {
         /* 이미 삭제된 북마크를 삭제하려는 경우 */
         // given
-        String memberId = createMember();
-        Long recipeID = 3L;
+        String memberId = "mstest102@gmail.com";
+        Long recipeID = 43L;
         Long bookmarkId = service.add(memberId, recipeID);
         service.remove(bookmarkId);
         // when
@@ -186,8 +186,8 @@ class MyBookmarkServiceTest {
     @Test
     @DisplayName("recipeId 와 memberId 로 북마크 삭제")
     void removeByRecipeIdAndMemberId(){
-        String memberId = testData.createMemberByEmail("email123@gmail.com");
-        Long recipeId = 7L;
+        String memberId = "mstest102@gmail.com";
+        Long recipeId = 32L;
         Long bookmarkId = service.add(memberId, recipeId);
         service.removeByRecipeId(recipeId, memberId);
         MyBookmark deletedBookmark = em.find(MyBookmark.class, bookmarkId);

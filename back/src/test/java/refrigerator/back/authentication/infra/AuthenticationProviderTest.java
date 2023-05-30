@@ -25,7 +25,7 @@ public class AuthenticationProviderTest {
     @Test
     void 이메일_인증_공급자_테스트(){
         // given
-        String email = "nhtest@gmail.com";
+        String email = "mstest102@gmail.com";
         String password = "password123!";
         // when
         /* 사용자가 클라이언트를 통해 email, password 입력 -> 인증 객체 변환 */

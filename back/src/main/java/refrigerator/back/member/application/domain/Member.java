@@ -71,7 +71,7 @@ public class Member {
     }
 
     public boolean isEqualPassword(String target){
-        return this.password.equals(target);
+        return password.equals(target);
     }
 
     public boolean isWithdrawMember(){

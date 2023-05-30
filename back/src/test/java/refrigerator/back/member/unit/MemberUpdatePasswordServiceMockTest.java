@@ -11,14 +11,12 @@ import refrigerator.back.authentication.application.port.out.EncryptPasswordPort
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.out.FindMemberPort;
-import refrigerator.back.member.application.port.out.PersistMemberPort;
 import refrigerator.back.member.application.service.MemberUpdatePasswordService;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.will;
 
 @ExtendWith(MockitoExtension.class)
 class MemberUpdatePasswordServiceMockTest {
@@ -73,8 +71,8 @@ class MemberUpdatePasswordServiceMockTest {
         String oldPassword = "password123!";
         given(findMemberPort.findMemberNotUseCache(email))
                 .willReturn(Member.join(email, oldPassword, "닉네임"));
-        given(encryptPasswordPort.match(newPassword, oldPassword))
-                .willReturn(true);
+        given(encryptPasswordPort.encrypt(newPassword))
+                .willReturn(oldPassword);
         // when
         assertThrows(BusinessException.class, () -> {
             try{

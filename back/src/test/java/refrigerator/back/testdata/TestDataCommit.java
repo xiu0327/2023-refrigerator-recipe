@@ -1,9 +1,7 @@
 package refrigerator.back.testdata;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
@@ -43,11 +41,9 @@ public class TestDataCommit {
     * */
     void initMember() {
         for (int i = 1; i <= 100; i++) {
-            joinUseCase.join(
-                    getEmail(i),
+            joinUseCase.join(getEmail(i),
                     "password123!",
-                    "닉네임" + i
-            );
+                    "닉네임" + i);
         }
     }
 
@@ -57,8 +53,6 @@ public class TestDataCommit {
     void initAdminData(){
         joinUseCase.join(jkEmail, "password123!", "진경이");
         joinUseCase.join(msEmail, "password123!", "명선이");
-        joinUseCase.join("dhtest@gmail.com", "password123!", "도현");
-        joinUseCase.join("nhtest@gmail.com", "password123!", "나현");
     }
 
     /*

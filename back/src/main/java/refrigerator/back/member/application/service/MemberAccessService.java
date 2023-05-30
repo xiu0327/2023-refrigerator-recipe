@@ -12,8 +12,6 @@ import refrigerator.back.authentication.application.port.out.EncryptPasswordPort
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class MemberAccessService implements JoinUseCase, DuplicateCheckEmailUseCase {
@@ -34,6 +32,7 @@ public class MemberAccessService implements JoinUseCase, DuplicateCheckEmailUseC
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void duplicateCheck(String email) {
         Member findMember = findMemberPort.findMemberNotUseCache(email);
         if (findMember != null){

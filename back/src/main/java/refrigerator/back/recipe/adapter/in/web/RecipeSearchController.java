@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.global.common.MemberInformation;
-import refrigerator.back.recipe.adapter.cache.config.RecipeCacheKey;
+import refrigerator.back.recipe.infra.redis.config.RecipeCacheKey;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeSearchRequestDTO;
@@ -15,10 +15,6 @@ import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
 import refrigerator.back.recipe.application.port.in.FindSearchConditionUseCase;
 import refrigerator.back.recipe.application.port.in.SearchRecipeUseCase;
 import refrigerator.back.searchword.application.port.in.AddSearchWordUseCase;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @RestController

@@ -19,7 +19,6 @@ public class IssueTemporaryTokenService implements IssueTemporaryAccessTokenUseC
     private final CreateTokenPort createTokenPort;
 
     @Override
-    @Transactional(readOnly = true)
     public String issueTemporaryAccessToken(String email) {
         Member member = findMemberPort.findMember(email);
         if (member == null){

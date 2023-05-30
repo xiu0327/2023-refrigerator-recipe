@@ -57,7 +57,7 @@ class IdentificationControllerTest {
         mockMvc.perform(post("/api/identification/check")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(checkRequestDto))
-        ).andExpect(cookie().value("Verified-User", "true")
+        ).andExpect(cookie().value("Verified-User", email)
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
         // ------ 2. 회원가입 ------
@@ -65,7 +65,7 @@ class IdentificationControllerTest {
         mockMvc.perform(post("/api/members/join")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request))
-                .cookie(new Cookie("Verified-User", "true"))
+                .cookie(new Cookie("Verified-User", email))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }

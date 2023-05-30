@@ -128,7 +128,7 @@ class MemberControllerTest {
 
     @Test
     void 회원_정보_조회() throws Exception {
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
+        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 5000);
         mockMvc.perform(get("/api/members")
                 .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()

@@ -25,7 +25,6 @@ public class MemberUpdatePasswordService implements UpdatePasswordUseCase {
             throw new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER);
         }
         String encryptNewPassword = encryptPasswordPort.encrypt(newPassword);
-        member.isEqualPassword(encryptNewPassword);
         member.changePassword(encryptNewPassword);
         return member.getPassword();
     }

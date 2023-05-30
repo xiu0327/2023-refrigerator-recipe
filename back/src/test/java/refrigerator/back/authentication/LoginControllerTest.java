@@ -43,7 +43,7 @@ class LoginControllerTest {
     @DisplayName("토큰 발행 테스트")
     void createToken() throws Exception {
         String password = "password123!";
-        String email = "nhtest@gmail.com";
+        String email = "mstest102@gmail.com";
         LoginRequestDTO request = LoginRequestDTO.builder()
                 .email(email)
                 .password(password)

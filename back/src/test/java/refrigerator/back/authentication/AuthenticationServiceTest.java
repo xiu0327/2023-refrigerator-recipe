@@ -29,7 +29,7 @@ class AuthenticationServiceTest {
     @Autowired JsonWebTokenProvider jsonWebTokenProvider;
     @Autowired RefreshTokenRepository refreshTokenRepository;
 
-    private final String email = "nhtest@gmail.com";
+    private final String email = "mstest102@gmail.com";
     private final String password = "password123!";
     @Test
     void 로그인(){

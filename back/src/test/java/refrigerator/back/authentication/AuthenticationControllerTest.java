@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import refrigerator.back.annotation.RedisFlushAll;
+import refrigerator.back.authentication.adapter.in.dto.IssueTemporaryAccessTokenRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
@@ -45,7 +46,8 @@ class AuthenticationControllerTest {
     @Autowired WithdrawMemberUseCase withdrawMemberUseCase;
     @Autowired LoginUseCase loginUseCase;
 
-    private final String email = "nhtest@gmail.com";
+    ObjectMapper objectMapper = new ObjectMapper();
+    private final String email = "mstest102@gmail.com";
     private final String password = "password123!";
     @Before
     public void setting(){
@@ -126,6 +128,40 @@ class AuthenticationControllerTest {
         ).andExpect(status().is2xxSuccessful()
         ).andExpect(cookie().maxAge("Refresh-Token", 0)
         ).andExpect(header().string(HttpHeaders.AUTHORIZATION, "")
+        ).andDo(print());
+    }
+
+
+    @Test
+    @DisplayName("비밀번호를 찾기 위한 임시 토큰 발급 -> 실패")
+    void issueTemporaryToken() throws Exception {
+        /* 이메일 입력 -> 인증 토큰 발행, 인증 토큰은 10분간 유효 */
+        // given
+        IssueTemporaryAccessTokenRequestDTO request = IssueTemporaryAccessTokenRequestDTO.builder()
+                .email(email).build();
+        String requestJson = objectMapper.writeValueAsString(request);
+        // when
+        mockMvc.perform(post("/api/auth/issue/temporary-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        ).andExpect(status().is2xxSuccessful()
+        ).andExpect(jsonPath("$.authToken").isString()
+        ).andDo(print());
+    }
+
+    @Test
+    @DisplayName("비밀번호를 찾기 위한 임시 토큰 발급 -> 실패")
+    void issueTemporaryTokenFail() throws Exception {
+        /* 빈 문자열 또는 null 이 입력값으로 들어올 때 -> 에러 발생 */
+        // given
+        IssueTemporaryAccessTokenRequestDTO request = IssueTemporaryAccessTokenRequestDTO.builder()
+                .email("").build();
+        String requestJson = objectMapper.writeValueAsString(request);
+        // when
+        mockMvc.perform(post("/api/auth/issue/temporary-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson)
+        ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 }

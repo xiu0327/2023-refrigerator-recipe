@@ -1,6 +1,7 @@
 package refrigerator.back.authentication;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import refrigerator.back.member.application.port.in.JoinUseCase;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 class LogoutServiceTest {
 
     @Autowired LoginUseCase loginUseCase;
@@ -25,8 +25,10 @@ class LogoutServiceTest {
     @Autowired CheckContainBlackListPort checkContainBlackListPort;
     @Autowired FindRefreshTokenByEmailPort findRefreshTokenByEmailPort;
 
-    private final String email = "nhtest@gmail.com";
+    private final String email = "mstest102@gmail.com";
     private final String password = "password123!";
+
+
     @Test
     @DisplayName("정상적인 로그아웃")
     void logout() {

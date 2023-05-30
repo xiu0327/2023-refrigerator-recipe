@@ -29,20 +29,17 @@ public class MemberModifyService implements UpdateNicknameUseCase, UpdateProfile
 
 
     @Override
-    @Transactional
     public void updateNickname(String email, String newNickname) {
         inputCheck(NICKNAME_REGEX, newNickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
         modifyMemberNicknamePort.modifyNickname(email, newNickname);
     }
 
     @Override
-    @Transactional
     public void updateProfile(String email, String newProfileName) {
         modifyMemberProfilePort.modifyProfile(email, MemberProfileImage.findImageByName(newProfileName));
     }
 
     @Override
-    @Transactional
     public void initNicknameAndProfile(String email, String nickname, String imageFileName) {
         InputDataFormatCheck.inputCheck(NICKNAME_REGEX, nickname, MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
         initMemberProfileAndNicknamePort.initNicknameAndProfile(

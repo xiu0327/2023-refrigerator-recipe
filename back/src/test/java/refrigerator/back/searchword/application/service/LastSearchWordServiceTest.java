@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.global.TestData;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @Slf4j
+@RedisFlushAll(beanName = "searchWordRedisTemplate")
 class LastSearchWordServiceTest {
 
     @Autowired LastSearchWordService lastSearchWordService;

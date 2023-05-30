@@ -2,37 +2,42 @@ package refrigerator.back.word_completion.application.service;
 
 import org.springframework.stereotype.Service;
 import refrigerator.back.word_completion.application.domain.WordCompletionTrie;
-import refrigerator.back.word_completion.application.domain.WordFormat;
+import refrigerator.back.word_completion.application.domain.WordFormatValidation;
 import refrigerator.back.word_completion.application.port.in.IngredientWordCompletionUseCase;
+import refrigerator.back.word_completion.application.port.out.FindIngredientNamesPort;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class IngredientWordCompletionService implements IngredientWordCompletionUseCase {
 
-    private final WordCompletionInit wordCompletionInit;
+    private final FindIngredientNamesPort findIngredientNamesPort;
     private final WordCompletionTrie ingredientTrie;
-    private final WordFormat wordFormat;
+    private final WordFormatValidation wordFormat;
 
-    public IngredientWordCompletionService(WordCompletionInit wordCompletionInit) {
-        this.wordCompletionInit = wordCompletionInit;
+
+    public IngredientWordCompletionService(FindIngredientNamesPort findIngredientNamesPort) {
+        this.findIngredientNamesPort = findIngredientNamesPort;
         this.ingredientTrie = new WordCompletionTrie();
-        this.wordFormat = new WordFormat();
+        this.wordFormat = new WordFormatValidation();
     }
 
-    @PostConstruct
-    public void init(){
-        List<String> words = wordCompletionInit.getIngredientWordCompletionList();
-        words.forEach(ingredientTrie::insert);
-    }
 
     @Override
     public List<String> search(String keyword) {
+        init();
         if (!wordFormat.wordCheck(keyword)){
             return new ArrayList<>();
         }
         return ingredientTrie.search(keyword);
     }
+
+    private void init(){
+        if (this.ingredientTrie.isBlank()){
+            List<String> words = findIngredientNamesPort.getNamesByRegisteredIngredient();
+            words.forEach(ingredientTrie::insert);
+        }
+    }
+
 }

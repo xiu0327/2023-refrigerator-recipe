@@ -16,6 +16,10 @@ public class WordCompletionTrie {
         this.head = new TrieNode(null);
     }
 
+    public boolean isBlank(){
+        return this.head.getKey() == null;
+    }
+
     public void insert(String keyword){
         String recipeName = parser.split(keyword);
         TrieNode currentNode = this.head;

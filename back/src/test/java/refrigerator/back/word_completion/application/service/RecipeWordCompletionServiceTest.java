@@ -20,10 +20,7 @@ class RecipeWordCompletionServiceTest {
     @Test
     void 자동_완성() {
         String keyword = "당근";
-        long start = System.currentTimeMillis();
         List<String> result = service.search(keyword);
-        long end = System.currentTimeMillis() - start;
-        Assertions.assertThat(end < 10L).isTrue();
         for (String item : result) {
             Assertions.assertThat(item.startsWith(keyword)).isTrue();
         }

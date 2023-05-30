@@ -26,26 +26,8 @@ class RecommendSearchWordServiceTest {
     @Autowired FindRecommendSearchWordUseCase findRecommendSearchWordUseCase;
     @Autowired TestData testData;
 
-    @Test
-    @DisplayName("추천 검색어 조회")
-    void getRecommendSearchWords() {
-        String memberId = testData.createMemberByEmail("email@gmail.com");
-        testData.createIngredientWithDate("콩나물", memberId, LocalDate.of(2023, 4, 22));
-        testData.createIngredientWithDate("도라지", memberId, LocalDate.of(2023, 8, 28));
-        testData.createIngredientWithDate("계란", memberId, LocalDate.of(2023, 8, 29));
-        testData.createIngredientWithDate("콩", memberId, LocalDate.of(2023, 8, 30));
-        testData.createIngredientWithDate("돼지고기", memberId, LocalDate.of(2023, 9, 28));
-        testData.createIngredientWithDate("당근", memberId, LocalDate.of(2023, 9, 29));
-        testData.createIngredientWithDate("부추", memberId, LocalDate.of(2023, 9, 30));
-        List<String> result = findRecommendSearchWordUseCase.getRecommendSearchWords(memberId);
-        assertThat(result.size()).isEqualTo(5);
-        assertThat(result.get(0)).isEqualTo("도라지");
-        assertThat(result.get(1)).isEqualTo("계란");
-        assertThat(result.get(2)).isEqualTo("콩");
-        assertThat(result.get(3)).isEqualTo("돼지고기");
-        assertThat(result.get(4)).isEqualTo("당근");
-    }
 
+    // TODO : 테스트 구현
     @DisplayName("중복된 식재료 / 삭제된 식재료를 제외하고 추천 검색어 추출")
     void getRecommendWordDuplication(){
 

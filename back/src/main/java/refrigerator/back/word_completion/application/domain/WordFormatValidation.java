@@ -5,7 +5,7 @@ import lombok.Getter;
 import static java.util.regex.Pattern.matches;
 
 @Getter
-public class WordFormat {
+public class WordFormatValidation {
 
     private final String KEYWORD_REGEX = "^[가-힣ㄱ-ㅎ]+";
 

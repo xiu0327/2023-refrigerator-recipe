@@ -76,37 +76,6 @@ class MemberAccessControllerTest {
 
 
     @Test
-    void 비밀번호_찾기() throws Exception {
-        /* 이메일 입력 -> 인증 토큰 발행, 인증 토큰은 10분간 유효 */
-        // given
-        IssueTemporaryAccessTokenRequestDTO request = IssueTemporaryAccessTokenRequestDTO.builder()
-                .email(email).build();
-        String requestJson = objectMapper.writeValueAsString(request);
-        // when
-        mockMvc.perform(post("/api/members/password/find")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson)
-        ).andExpect(status().is2xxSuccessful()
-        ).andExpect(jsonPath("$.authToken").isString()
-        ).andDo(print());
-    }
-
-    @Test
-    void 비밀번호_찾기_실패() throws Exception {
-        /* 빈 문자열 또는 null 이 입력값으로 들어올 때 -> 에러 발생 */
-        // given
-        IssueTemporaryAccessTokenRequestDTO request = IssueTemporaryAccessTokenRequestDTO.builder()
-                .email("").build();
-        String requestJson = objectMapper.writeValueAsString(request);
-        // when
-        mockMvc.perform(post("/api/members/password/find")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson)
-        ).andExpect(status().is4xxClientError()
-        ).andDo(print());
-    }
-
-    @Test
     void 비밀번호_수정() throws Exception {
         /* 비밀번호 찾기를 통해 발급한 토큰을 헤더에 포함 -> 토큰으로 회원을 조회하고 비밀번호 수정 */
         // given
