@@ -21,7 +21,7 @@ export default function ExpiringIngredientListPage() {
 	}, [day]);
 
 	return (
-		<BackLayout title={`소비기한 ${day}일 남은 식재료`}>
+		<BackLayout title={`유통기한 ${day}일 남은 식재료`}>
 			<IngredientGrid ingredientData={expiringIngredientData} />
 		</BackLayout>
 	);

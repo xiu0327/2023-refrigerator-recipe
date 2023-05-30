@@ -61,7 +61,7 @@ export default function ModifyIngredientPage() {
 						</FormLabel>
 
 						<FormLabel
-							label="소비기한"
+							label="유통기한"
 							subLabel={calcDday(newIngredient.expirationDate)}
 						>
 							<DateInputForm

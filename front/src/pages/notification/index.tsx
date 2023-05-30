@@ -28,7 +28,7 @@ export default function Notification() {
 				<span className={styles.icon}>{STATE[0].icon}</span>
 				<span className={styles.ment}>
 					<span className={styles.state}>[{STATE[0].title}]</span>
-					냉장고에 사과 외 8개의 식재료 소비기한이 1일 남았어요.
+					냉장고에 사과 외 8개의 식재료 유통기한이 1일 남았어요.
 				</span>
 			</div>
 			{/* 클릭 시 유통기한 3일 남은 식재료 리스트 보여주기 */}
@@ -36,7 +36,7 @@ export default function Notification() {
 				<span className={styles.icon}>{STATE[0].icon}</span>
 				<span className={styles.ment}>
 					<span className={styles.state}>[{STATE[0].title}]</span>
-					냉장고에 상추 외 3개의 식재료 소비기한이 3일 남았어요.
+					냉장고에 상추 외 3개의 식재료 유통기한이 3일 남았어요.
 				</span>
 			</div>
 			{/* 클릭 시 댓글 화면으로 넘어가기 */}

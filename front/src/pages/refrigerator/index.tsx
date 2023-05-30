@@ -56,7 +56,7 @@ export default function RefrigeratorPage() {
 					</Link>
 				</div>
 				<Switch
-					label="소비기한 지난 식재료만 보기"
+					label="유통기한 지난 식재료만 보기"
 					isOn={isExpired}
 					setIsOn={setIsExpired}
 				/>

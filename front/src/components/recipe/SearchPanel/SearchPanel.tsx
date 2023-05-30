@@ -35,7 +35,7 @@ export default function SearchPanel() {
 					<div>
 						<div className={styles.title}>추천 검색어</div>
 						<div className={styles.description}>
-							소비기한이 얼마남지 않은 식재료에요!
+							유통기한이 얼마남지 않은 식재료에요!
 						</div>
 					</div>
 					<SearchTags tagData={recommendationSearches} />

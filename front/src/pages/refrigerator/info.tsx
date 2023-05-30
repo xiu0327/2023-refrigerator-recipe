@@ -54,7 +54,7 @@ export default function IngredientInfoPage() {
 						</FormLabel>
 
 						<FormLabel
-							label="소비기한"
+							label="유통기한"
 							subLabel={getDday(ingredient.remainDays)}
 						>
 							<Input value={ingredient.expirationDate} disabled />
