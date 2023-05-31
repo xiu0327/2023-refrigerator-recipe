@@ -19,13 +19,11 @@ import styles from "@/scss/pages.module.scss";
 type RecipeCommentPageProps = {
 	recipeID: number;
 	recipeName: string;
-	focusedCommentID?: number;
 };
 
 export default function RecipeCommentPage({
 	recipeID,
 	recipeName,
-	focusedCommentID,
 }: RecipeCommentPageProps) {
 	const [myCommentData, setMyCommentData] = useState<RecipeComment[]>([]);
 	const [otherCommentData, setOtherCommentData] = useState<RecipeComment[]>([]);
@@ -123,13 +121,11 @@ export default function RecipeCommentPage({
 export async function getServerSideProps(context: any) {
 	const recipeID = Number(context.query.recipeID);
 	const recipeName = context.query.recipeName;
-	const focusedCommentID = context.query?.commentID;
 
 	return {
 		props: {
 			recipeID,
 			recipeName,
-			focusedCommentID,
 		},
 	};
 }
