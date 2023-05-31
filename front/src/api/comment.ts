@@ -1,7 +1,7 @@
 import instance from "./interceptors";
 
 export const getCommentsPreview = async (recipeID: number) => {
-	const url = `/api/comments/preview?recipeId=${recipeID}&size=3`;
+	const url = `/api/recipe/${recipeID}/comments/preview`;
 	try {
 		const response = await instance.get(url);
 		return response.data;
@@ -11,7 +11,7 @@ export const getCommentsPreview = async (recipeID: number) => {
 };
 
 export const getCommentsByLike = async (recipeID: number, page: number) => {
-	const url = `/api/comments/heart?recipeId=${recipeID}&page=${page}`;
+	const url = `/api/recipe/${recipeID}/comments/heart?page=${page}`;
 	try {
 		const response = await instance.get(url);
 		return response.data.comments;
@@ -21,7 +21,7 @@ export const getCommentsByLike = async (recipeID: number, page: number) => {
 };
 
 export const getCommentsByDate = async (recipeID: number, page: number) => {
-	const url = `/api/comments/date?recipeId=${recipeID}&page=${page}`;
+	const url = `/api/recipe/${recipeID}/comments/date?page=${page}`;
 	try {
 		const response = await instance.get(url);
 		return response.data.comments;
@@ -31,10 +31,9 @@ export const getCommentsByDate = async (recipeID: number, page: number) => {
 };
 
 export const getMyComments = async (recipeID: number) => {
-	const url = `/api/comments/my/${recipeID}`;
+	const url = `/api/recipe/${recipeID}/comments/my`;
 	try {
 		const response = await instance.get(url);
-		console.log(response.data.comments);
 		return response.data.comments;
 	} catch (error) {
 		console.error(error);
@@ -42,7 +41,7 @@ export const getMyComments = async (recipeID: number) => {
 };
 
 export const addComment = async (recipeID: number, content: string) => {
-	const url = `/api/comments/`;
+	const url = `/api/comments`;
 	const body = { recipeId: recipeID, content: content };
 	try {
 		const response = await instance.post(url, body);
@@ -53,7 +52,7 @@ export const addComment = async (recipeID: number, content: string) => {
 };
 
 export const modifyComment = async (commentID: number, content: string) => {
-	const url = `/api/comments/`;
+	const url = `/api/comments`;
 	const body = { commentID: commentID, content: content };
 	try {
 		const response = await instance.put(url, body);
