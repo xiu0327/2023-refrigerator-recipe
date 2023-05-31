@@ -1,7 +1,6 @@
 import { RecipeDetail } from "@/types";
 import Stars from "../Stars/Stars";
 import styles from "./RecipeInfo.module.scss";
-import { useEffect } from "react";
 
 type RecipeDescriptionProps = {
 	recipe: RecipeDetail;
@@ -11,9 +10,9 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 	const recipeExtraInfo = [
 		["난이도", recipe.difficulty],
 		["조리시간", recipe.cookingTime],
-		recipe.kcal !== "0kcal" && ["칼로리", recipe.kcal],
-		recipe.scoreAvg && ["별점", recipe.scoreAvg],
-	];
+		recipe.kcal !== "0kcal" ? ["칼로리", recipe.kcal] : null,
+		recipe.scoreAvg ? ["별점", recipe.scoreAvg] : null,
+	] as [string, string | number][];
 
 	// TODO: 별점 세로 가운데 정렬
 	// HACK: 별점 NaN 에러 - Error: <rect> attribute width: Expected length, "NaN".

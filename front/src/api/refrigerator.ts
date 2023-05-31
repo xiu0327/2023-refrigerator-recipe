@@ -1,4 +1,3 @@
-import { SetStateAction } from "react";
 import instance from "./interceptors";
 
 export const getIngredients = async (

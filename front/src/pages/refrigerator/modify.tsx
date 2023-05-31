@@ -14,13 +14,21 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 import styles from "@/scss/pages.module.scss";
 import { useValidateIngredient } from "@/hooks/useValidateIngredient";
 
+type pageProps = {
+	ingredientID: number;
+	name: string;
+	registrationDate: string;
+	unit: string;
+	ingredient: any;
+};
+
 export default function ModifyIngredientPage({
 	ingredientID,
 	name,
 	registrationDate,
 	unit,
 	ingredient,
-}) {
+}: pageProps) {
 	const router = useRouter();
 	const oldIngredient = { ...ingredient, volume: Number(ingredient.volume) };
 	const [newIngredient, setNewIngredient] = useState(oldIngredient);
@@ -35,8 +43,8 @@ export default function ModifyIngredientPage({
 		setIsIngredientChanged(!isSame);
 	}, [newIngredient]);
 
-	const updateIngredient = (key, value) => {
-		setNewIngredient((prev) => ({ ...prev, [key]: value }));
+	const updateIngredient = (key: string, value: string | number) => {
+		setNewIngredient((prev: any) => ({ ...prev, [key]: value }));
 	};
 
 	const onModifyIngredientClick = async () => {
@@ -60,7 +68,9 @@ export default function ModifyIngredientPage({
 						<FormLabel label="보관 방법">
 							<StorageTab
 								storage={newIngredient.storage}
-								setStorage={(value) => updateIngredient("storage", value)}
+								setStorage={(value: string) =>
+									updateIngredient("storage", value)
+								}
 							/>
 						</FormLabel>
 
@@ -70,7 +80,9 @@ export default function ModifyIngredientPage({
 						>
 							<DateInputForm
 								date={newIngredient.expirationDate}
-								setDate={(value) => updateIngredient("expirationDate", value)}
+								setDate={(value: string) =>
+									updateIngredient("expirationDate", value)
+								}
 							/>
 						</FormLabel>
 
@@ -94,7 +106,7 @@ export default function ModifyIngredientPage({
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const { ingredientID, name, registrationDate, unit, ...ingredient } =
 		context.query;
 

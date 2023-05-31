@@ -37,56 +37,65 @@ export default function Comment({
 	} = comment;
 
 	const onModifyTextClick = () => {
-		setModifyMode(true);
-		setCommentID(commentID);
-		setComment(content);
+		setModifyMode && setModifyMode(true);
+		setCommentID && setCommentID(commentID);
+		setComment && setComment(content);
 		// TODO: input focus 하기
 	};
 	const onDeleteTextClick = () => {
 		// TODO: 삭제 확인 모달
 		deleteComment(commentID);
-		setMyCommentData((prevCommentData) =>
-			prevCommentData.filter([
-				(commentItem) => commentID! == commentItem.commentID,
-			]),
-		);
+		setMyCommentData &&
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
+				prevCommentData.filter(
+					(commentItem) => commentID !== commentItem.commentID,
+				),
+			);
 	};
 
 	const onLikeCommentClick = () => {
 		likeComment(comment.commentID);
-		setHeartCommentIDs((prevIDs) => [...prevIDs, commentID]);
-		setMyCommentData((prevCommentData) =>
-			prevCommentData.map((commentItem) =>
-				commentItem.commentID === commentID
-					? { ...commentItem, heart: heart + 1 }
-					: commentItem,
-			),
-		);
-		setOtherCommentData((prevCommentData) =>
-			prevCommentData.map((commentItem) =>
-				commentItem.commentID === commentID
-					? { ...commentItem, heart: heart + 1 }
-					: commentItem,
-			),
-		);
+		setHeartCommentIDs &&
+			setHeartCommentIDs((prevIDs: number[]) => [...prevIDs, commentID]);
+		setMyCommentData &&
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
+				prevCommentData.map((commentItem) =>
+					commentItem.commentID === commentID
+						? { ...commentItem, heart: heart + 1 }
+						: commentItem,
+				),
+			);
+		setOtherCommentData &&
+			setOtherCommentData((prevCommentData: RecipeComment[]) =>
+				prevCommentData.map((commentItem) =>
+					commentItem.commentID === commentID
+						? { ...commentItem, heart: heart + 1 }
+						: commentItem,
+				),
+			);
 	};
 	const onUnlikeCommentClick = () => {
 		unlikeComment(comment.commentID);
-		setHeartCommentIDs((prevIDs) => prevIDs.filter((id) => id !== commentID));
-		setMyCommentData((prevCommentData) =>
-			prevCommentData.map((commentItem) =>
-				commentItem.commentID === commentID
-					? { ...commentItem, heart: heart - 1 }
-					: commentItem,
-			),
-		);
-		setOtherCommentData((prevCommentData) =>
-			prevCommentData.map((commentItem) =>
-				commentItem.commentID === commentID
-					? { ...commentItem, heart: heart - 1 }
-					: commentItem,
-			),
-		);
+		setHeartCommentIDs &&
+			setHeartCommentIDs((prevIDs: number[]) =>
+				prevIDs.filter((id) => id !== commentID),
+			);
+		setMyCommentData &&
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
+				prevCommentData.map((commentItem) =>
+					commentItem.commentID === commentID
+						? { ...commentItem, heart: heart - 1 }
+						: commentItem,
+				),
+			);
+		setOtherCommentData &&
+			setOtherCommentData((prevCommentData: RecipeComment[]) =>
+				prevCommentData.map((commentItem) =>
+					commentItem.commentID === commentID
+						? { ...commentItem, heart: heart - 1 }
+						: commentItem,
+				),
+			);
 	};
 
 	return (

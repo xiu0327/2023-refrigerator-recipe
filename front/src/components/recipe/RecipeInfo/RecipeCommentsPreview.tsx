@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import styles from "./RecipeInfo.module.scss";
-// import { getRecipeCommentPreview, getRecipeSteps } from "@/api";
-import { RecipeComment } from "@/types/types";
-import { login } from "@/api/login";
-import { Heart, HeartFill, ThreeDots } from "react-bootstrap-icons";
-import router from "next/router";
-import Comment from "../Comment/Comment";
+import { RecipeComment } from "@/types";
 import { getCommentsPreview } from "@/api";
+import Comment from "../Comment/Comment";
 import Link from "next/link";
 
-export default function RecipeCommentsPreview({ recipeID, recipeName }) {
-	const [commentData, setCommentData] = useState([]);
+type RecipeCommentsPreviewProps = {
+	recipeID: number;
+	recipeName: string;
+	commentID?: number;
+};
+
+export default function RecipeCommentsPreview({
+	recipeID,
+	recipeName,
+	commentID,
+}: RecipeCommentsPreviewProps) {
+	const [commentData, setCommentData] = useState<RecipeComment[]>([]);
 	const [commentNum, setCommentNum] = useState(0);
 
 	useEffect(() => {
