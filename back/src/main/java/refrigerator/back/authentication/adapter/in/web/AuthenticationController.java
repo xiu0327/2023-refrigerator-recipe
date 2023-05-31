@@ -65,7 +65,7 @@ public class AuthenticationController {
                 if (cookie.getName().equals("Logout-Token") && cookie.getValue().equals("true")){
                     Cookie logoutToken = new Cookie("Logout-Token", null);
                     cookie.setMaxAge(0);
-                    response.addCookie(cookie);
+                    response.addCookie(logoutToken);
                     throw new BusinessException(AuthenticationExceptionType.ALREADY_LOGOUT_MEMBER);
                 }
                 if (cookie.getName().equals("Refresh-Token")){
