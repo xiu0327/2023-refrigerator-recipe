@@ -51,6 +51,7 @@ public class AuthenticationController {
 
         Cookie cookie = new Cookie("Refresh-Token", null);
         cookie.setMaxAge(0);
+        cookie.setPath("/");
         response.addCookie(cookie);
 
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
