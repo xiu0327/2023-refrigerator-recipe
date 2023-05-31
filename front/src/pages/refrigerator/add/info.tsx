@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import moment from "moment";
 
 import { addIngredient, getIngredientUnit } from "@/api";
 import { calcDday } from "@/utils";
-import { useFetchData, useValidateIngredient } from "@/hooks";
+import { useValidateIngredient } from "@/hooks";
 
 import BackBottomBtnLayout from "@/components/layout/BackBottomBtnLayout";
 import FormLabel from "@/components/global/FormLabel/FormLabel";
@@ -23,11 +23,17 @@ export default function AddIngredientInfoPage({ name }) {
 		expirationDate: moment().format("YYYY-MM-DD"),
 		volume: "",
 	});
-	const unit = useFetchData(getIngredientUnit, [ingredient.name], []);
-
+	const [unit, setUnit] = useState("");
 	const isValid = useValidateIngredient(ingredient, [ingredient]);
 
-	const updateIngredient = (key, value) => {
+	useEffect(() => {
+		(async () => {
+			const data = await getIngredientUnit(name);
+			setUnit(data);
+		})();
+	}, []);
+
+	const updateIngredient = (key: string, value: string | number) => {
 		setIngredient((prev) => ({ ...prev, [key]: value }));
 	};
 
@@ -49,7 +55,7 @@ export default function AddIngredientInfoPage({ name }) {
 					<FormLabel label="보관 방법">
 						<StorageTab
 							storage={ingredient.storage}
-							setStorage={(value) => updateIngredient("storage", value)}
+							setStorage={(value: string) => updateIngredient("storage", value)}
 						/>
 					</FormLabel>
 
@@ -59,7 +65,9 @@ export default function AddIngredientInfoPage({ name }) {
 					>
 						<DateInputForm
 							date={ingredient.expirationDate}
-							setDate={(value) => updateIngredient("expirationDate", value)}
+							setDate={(value: string) =>
+								updateIngredient("expirationDate", value)
+							}
 						/>
 					</FormLabel>
 
@@ -82,7 +90,7 @@ export default function AddIngredientInfoPage({ name }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const name = context.query.ingredient;
 
 	return {

@@ -3,7 +3,6 @@ import { Search } from "react-bootstrap-icons";
 
 import { getAllIngredients } from "@/api";
 import { toPhoneme } from "@/utils";
-import { useFetchData } from "@/hooks";
 
 import BackLayout from "@/components/layout/BackLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
@@ -14,8 +13,15 @@ import styles from "@/scss/pages.module.scss";
 
 export default function SearchIngredientPage() {
 	const [keyword, setKeyword] = useState<string>("");
-	const ingredientData = useFetchData(getAllIngredients, [], []);
+	const [ingredientData, setIngredientData] = useState([]);
 	const [myIngredients, setMyIngredients] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			const data = await getAllIngredients();
+			setIngredientData(data);
+		})();
+	}, []);
 
 	useEffect(() => {
 		if (ingredientData) {
