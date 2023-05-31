@@ -1,7 +1,8 @@
+import axios from "axios";
 import instance from "./interceptors";
 
-export const notification = async () => {
-	const url = `/api/notifications?page=0&size=12`;
+export const notification = async (page: number) => {
+	const url = `/api/notifications?page=${page}&size=12`;
 	try {
 		const response = await instance.get(url);
 		console.log(response.data.data);
@@ -9,4 +10,16 @@ export const notification = async () => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+export const readNotification = (id: number) => {
+	const url = `/api/notifications/815`;
+	instance
+		.put(url, { id: id })
+		.then((response) => {
+			console.log(response.data);
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 };
