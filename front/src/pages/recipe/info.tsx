@@ -77,7 +77,7 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 				</RecipeInfoLayout>
 			)}
 
-			{recipe && recipeSteps && (
+			{recipe && recipeSteps.length !== 0 && (
 				<RecipeStepBottomSheet
 					show={isRecipeStepBottomSheetShow}
 					onHide={() => setIsRecipeStepBottomSheetShow(false)}
