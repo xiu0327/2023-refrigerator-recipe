@@ -83,7 +83,7 @@ export default function AddIngredientInfoPage({ name }) {
 }
 
 export async function getServerSideProps(context) {
-	const name = context.query.ingredientName;
+	const name = context.query.ingredient;
 
 	return {
 		props: {

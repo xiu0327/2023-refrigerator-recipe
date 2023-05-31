@@ -15,9 +15,7 @@ export default function AddIngredientNamePage() {
 	const [selectedIngredient, setSelectedIngredient] = useState("");
 
 	const onAddIngredientBtnClick = () => {
-		router.replace(
-			`/refrigerator/add/info?ingredientName=${selectedIngredient}`,
-		);
+		router.replace(`/refrigerator/add/info?ingredient=${selectedIngredient}`);
 	};
 
 	return (
