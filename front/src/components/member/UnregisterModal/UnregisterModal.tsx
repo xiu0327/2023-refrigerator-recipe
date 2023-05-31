@@ -2,12 +2,15 @@ import { unregister } from "@/api/unregister";
 import Link from "next/link";
 import { Button, Modal } from "react-bootstrap";
 
-// interface ModalsProps {
-// 	show: boolean;
-// 	handleClose: () => void;
-// }
+interface UnregisterModalsProps {
+	show: boolean;
+	handleClose: () => void;
+}
 
-export default function UnregisterModal({ show, handleClose, password }) {
+export default function UnregisterModal({
+	show,
+	handleClose,
+}: UnregisterModalsProps) {
 	return (
 		<Modal show={show} onHide={handleClose}>
 			<Modal.Header>
@@ -18,7 +21,7 @@ export default function UnregisterModal({ show, handleClose, password }) {
 				<Link legacyBehavior href="/">
 					<Button
 						onClick={() => {
-							unregister(password);
+							unregister();
 							console.log("회원탈퇴 완.");
 						}}
 					>

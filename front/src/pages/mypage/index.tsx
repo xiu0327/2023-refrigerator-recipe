@@ -7,13 +7,7 @@ import ScrollContent from "@/components/member/ScrollContent/ScrollContent";
 import ProfileModal from "@/components/member/ProfileModal/ProfileModal";
 import { logout } from "@/api/logout";
 import { unregister } from "@/api/unregister";
-import {
-	profile,
-	nickname,
-	bookmarkPreview,
-	scorePreview,
-	getBookmarks,
-} from "@/api";
+import { profile, nickname, bookmarkPreview, scorePreview } from "@/api";
 import BackLayout from "@/components/layout/BackLayout";
 
 export default function Mypage() {

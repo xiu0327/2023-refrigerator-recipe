@@ -1,4 +1,3 @@
-import instance from "@/api/interceptors";
 import router from "next/router";
 import { useEffect } from "react";
 
