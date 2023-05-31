@@ -11,8 +11,6 @@ export default function Stars({ score, label }: StarsProps) {
 	const VIEWBOX_SIZE = 14;
 	const starRates = calcStarRates(score, VIEWBOX_SIZE);
 
-	console.log({ score });
-
 	return (
 		<div className="d-flex">
 			<div className={styles.starsContainer}>

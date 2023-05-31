@@ -41,7 +41,7 @@ export default function SearchIngredientPage() {
 					keyword={keyword}
 					setKeyword={setKeyword}
 					placeholder="궁금한 식재료를 검색해보세요!"
-					focus={false}
+					focus
 				/>
 			</div>
 
@@ -50,7 +50,7 @@ export default function SearchIngredientPage() {
 					(filteredIngredients.length > 0 ? (
 						<IngredientGrid ingredientData={filteredIngredients} />
 					) : (
-						<NoResult keyword={keyword} />
+						<NoResult />
 					))}
 			</div>
 		</BackLayout>

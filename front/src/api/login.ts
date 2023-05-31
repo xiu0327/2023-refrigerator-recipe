@@ -1,9 +1,11 @@
 import router from "next/router";
 import instance from "./interceptors";
+import { reissueAccessToken } from "./reissueAccessToken";
 
 export const login = async (email: string, password: string) => {
 	const url = `/api/auth/login`;
 	const body = { email: email, password: password };
+
 	try {
 		const response = await instance.post(url, body);
 		instance.defaults.headers.common[

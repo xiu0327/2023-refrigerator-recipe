@@ -14,10 +14,14 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 import styles from "@/scss/pages.module.scss";
 import { useValidateIngredient } from "@/hooks/useValidateIngredient";
 
-export default function ModifyIngredientPage() {
+export default function ModifyIngredientPage({
+	ingredientID,
+	name,
+	registrationDate,
+	unit,
+	ingredient,
+}) {
 	const router = useRouter();
-	const { ingredientID, name, registrationDate, unit, ...ingredient } =
-		router.query;
 	const oldIngredient = { ...ingredient, volume: Number(ingredient.volume) };
 	const [newIngredient, setNewIngredient] = useState(oldIngredient);
 
@@ -35,8 +39,8 @@ export default function ModifyIngredientPage() {
 		setNewIngredient((prev) => ({ ...prev, [key]: value }));
 	};
 
-	const onModifyIngredientClick = () => {
-		modifyIngredient(ingredientID, newIngredient);
+	const onModifyIngredientClick = async () => {
+		await modifyIngredient(ingredientID, newIngredient);
 		router.back();
 	};
 
@@ -61,7 +65,7 @@ export default function ModifyIngredientPage() {
 						</FormLabel>
 
 						<FormLabel
-							label="소비기한"
+							label="유통기한"
 							subLabel={calcDday(newIngredient.expirationDate)}
 						>
 							<DateInputForm
@@ -88,4 +92,19 @@ export default function ModifyIngredientPage() {
 			/>
 		</BackBottomBtnLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const { ingredientID, name, registrationDate, unit, ...ingredient } =
+		context.query;
+
+	return {
+		props: {
+			ingredientID,
+			name,
+			registrationDate,
+			unit,
+			ingredient,
+		},
+	};
 }

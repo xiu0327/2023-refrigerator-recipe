@@ -1,10 +1,15 @@
 import styles from "./NoResult.module.scss";
 
-export default function NoResult({ keyword }) {
+type NoResultProps = {
+	keyword?: string;
+};
+
+export default function NoResult({ keyword }: NoResultProps) {
 	return (
 		<div className={styles.noResultContainer}>
-			<div className={styles.noResultKeyword}>{keyword}</div>
-			<div>에 관한 검색 결과가 없어요</div>
+			{keyword && <div className={styles.noResultKeyword}>{keyword}</div>}
+			{keyword && <div>에 관한</div>}
+			<div>검색 결과가 없어요</div>
 		</div>
 	);
 }

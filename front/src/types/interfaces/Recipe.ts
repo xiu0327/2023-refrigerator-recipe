@@ -1,3 +1,5 @@
+import { RecipeFilterName } from "../types";
+
 export interface RecipeBrief {
 	recipeID: number;
 	recipeName: string;
@@ -47,4 +49,11 @@ export interface BookmarkedRecipe extends RecipeBrief {
 
 export interface RatedRecipe extends RecipeBrief {
 	scoreID: number;
+}
+
+export interface RecipeFilter {
+	key: string;
+	name: RecipeFilterName;
+	activeItem: string;
+	fetchFilterMenu: () => Promise<any>;
 }

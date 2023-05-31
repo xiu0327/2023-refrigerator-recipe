@@ -6,3 +6,4 @@ export * from "./password";
 export * from "./profile";
 export * from "./preview";
 export * from "./score";
+export * from "./search";

@@ -34,6 +34,7 @@ export const getMyComments = async (recipeID: number) => {
 	const url = `/api/comments/my/${recipeID}`;
 	try {
 		const response = await instance.get(url);
+		console.log(response.data.comments);
 		return response.data.comments;
 	} catch (error) {
 		console.error(error);

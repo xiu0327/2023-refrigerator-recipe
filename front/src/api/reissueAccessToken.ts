@@ -1,6 +1,7 @@
 import instance from "./interceptors";
 
 export const reissueAccessToken = async () => {
+	console.log("mistakes ....");
 	const url = `/api/auth/reissue`;
 	try {
 		const response = await instance.post(url);

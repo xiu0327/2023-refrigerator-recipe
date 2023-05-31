@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { PencilSquare } from "react-bootstrap-icons";
+import { Trash3 } from "react-bootstrap-icons";
 
 import { getIngredientInfo, deleteIngredient } from "@/api";
 import { getDday } from "@/utils";
@@ -13,69 +13,78 @@ import VolumeInputForm from "@/components/refrigerator/IngredientInputForm/Volum
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
+import Link from "next/link";
 
-export default function IngredientInfoPage() {
-	const router = useRouter();
-	const ingredientID = Number(router.query.ingredientID);
+export default function IngredientInfoPage({ ingredientID }) {
 	const ingredient: IngredientDetail | null = useFetchData(
 		getIngredientInfo,
 		[ingredientID],
 		[],
 	);
 
-	const onEditBtnClick = () => {
-		const { remainDays, image, ...params } = ingredient;
-
-		router.push({
-			pathname: `/refrigerator/modify`,
-			query: params,
-		});
-	};
-
-	const onDeleteIngredientClick = () => {
+	const onDeleteIngredientClick = async () => {
 		// TODO: 삭제 확인 모달 띄우기
-		deleteIngredient(ingredientID);
+		await deleteIngredient(ingredientID);
 		router.back();
 	};
 
 	return (
 		<BackBottomBtnLayout>
 			{ingredient && (
-				<div className={styles.container}>
-					<div className="d-flex">
-						<div className="d-flex flex-grow-1 flex-column">
-							<div className={styles.title_lg}>{ingredient.name}</div>
-							<div className={styles.subtitle}>
-								{ingredient.registrationDate} 등록
+				<>
+					<div className={styles.container}>
+						<div className="d-flex">
+							<div className="d-flex flex-grow-1 flex-column">
+								<div className={styles.title_lg}>{ingredient.name}</div>
+								<div className={styles.subtitle}>
+									{ingredient.registrationDate} 등록
+								</div>
 							</div>
-						</div>
-						<PencilSquare className={styles.icon} onClick={onEditBtnClick} />
-					</div>
-
-					<div className={styles.ingredientInfoContainer}>
-						<FormLabel label="보관 방법">
-							<Input value={ingredient.storage} disabled />
-						</FormLabel>
-
-						<FormLabel
-							label="소비기한"
-							subLabel={getDday(ingredient.remainDays)}
-						>
-							<Input value={ingredient.expirationDate} disabled />
-						</FormLabel>
-
-						<FormLabel label="용량">
-							<VolumeInputForm
-								volume={ingredient.volume}
-								unit={ingredient.unit}
-								disabled
+							<Trash3
+								className={styles.icon}
+								onClick={onDeleteIngredientClick}
 							/>
-						</FormLabel>
-					</div>
-				</div>
-			)}
+						</div>
 
-			<BottomBtn label="삭제하기" onClick={onDeleteIngredientClick} />
+						<div className={styles.ingredientInfoContainer}>
+							<FormLabel label="보관 방법">
+								<Input value={ingredient.storage} disabled />
+							</FormLabel>
+
+							<FormLabel
+								label="유통기한"
+								subLabel={getDday(ingredient.remainDays)}
+							>
+								<Input value={ingredient.expirationDate} disabled />
+							</FormLabel>
+
+							<FormLabel label="용량">
+								<VolumeInputForm
+									volume={ingredient.volume}
+									unit={ingredient.unit}
+									disabled
+								/>
+							</FormLabel>
+						</div>
+					</div>
+
+					<Link
+						href={`/refrigerator/modify?ingredientID=${ingredient.ingredientID}&name=${ingredient.name}&storage=${ingredient.storage}&expirationDate=${ingredient.expirationDate}&registrationDate=${ingredient.registrationDate}&volume=${ingredient.volume}&unit=${ingredient.unit}`}
+					>
+						<BottomBtn label="수정하기" />
+					</Link>
+				</>
+			)}
 		</BackBottomBtnLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const ingredientID = Number(context.query.ingredientID);
+
+	return {
+		props: {
+			ingredientID,
+		},
+	};
 }

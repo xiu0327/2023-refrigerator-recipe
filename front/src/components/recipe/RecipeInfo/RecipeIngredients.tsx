@@ -1,4 +1,4 @@
-import { CheckLg } from "react-bootstrap-icons";
+import { CheckCircle, CheckCircleFill, CheckLg } from "react-bootstrap-icons";
 import { RecipeIngredient } from "@/types";
 import styles from "./RecipeInfo.module.scss";
 
@@ -39,14 +39,25 @@ export default function RecipeIngredients({
 						<span className={styles.recipeIngredientType}>{type}</span>
 						<div>
 							{typeIngredients.map((ingredient: RecipeIngredient) => (
-								<div className={styles.recipeIngredientInfo}>
-									<span>{ingredient.name}</span>
+								<div
+									key={ingredient.ingredientID}
+									className={
+										ownedIngredientIDs.includes(ingredient.ingredientID)
+											? styles.recipeIngredientInfoSelected
+											: styles.recipeIngredientInfo
+									}
+								>
+									<div>{ingredient.name}</div>
+
 									{ownedIngredientIDs.includes(ingredient.ingredientID) && (
-										<CheckLg className={styles.recipeIngredientIcon} />
+										<CheckCircleFill className={styles.recipeIngredientIcon} />
 									)}
-									<span className={styles.recipeIngredientVolume}>
+
+									<span />
+
+									<div className={styles.recipeIngredientVolume}>
 										{ingredient.volume}
-									</span>
+									</div>
 								</div>
 							))}
 						</div>

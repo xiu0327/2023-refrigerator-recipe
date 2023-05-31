@@ -17,11 +17,7 @@ import CommentInputForm from "@/components/recipe/Comment/CommentInputForm";
 import styles from "@/scss/pages.module.scss";
 import { useIntersectionObserver } from "@/hooks";
 
-export default function RecipeCommentPage() {
-	const router = useRouter();
-	const recipeID = Number(router.query.recipeID);
-	const recipeName = router.query.recipeName;
-
+export default function RecipeCommentPage({ recipeID, recipeName }) {
 	const [myCommentData, setMyCommentData] = useState<RecipeComment[]>([]);
 	const [otherCommentData, setOtherCommentData] = useState<RecipeComment[]>([]);
 
@@ -113,4 +109,16 @@ export default function RecipeCommentPage() {
 			/>
 		</RecipeCommentLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const recipeID = Number(context.query.recipeID);
+	const recipeName = context.query.recipeName;
+
+	return {
+		props: {
+			recipeID,
+			recipeName,
+		},
+	};
 }

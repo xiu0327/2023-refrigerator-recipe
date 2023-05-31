@@ -1,5 +1,12 @@
 @import "@/scss/variables";
 
+$tag-font-size: 17px;
+$tag-bg-color: $grey-100;
+$tag-font-color: $grey-500;
+
+$delete-btn-font-size: 20px;
+$delete-btn-font-color: $grey-400;
+
 .panelContainer {
 	display: flex;
 	flex-direction: column;
@@ -30,25 +37,24 @@
 .tagsContainer {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 12px;
+	gap: 1rem;
 }
 
-// filterGroup.scss
 .tag {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
-	padding: 0.375rem 0.8rem;
-	font-size: 16px;
-	border: none;
-	background-color: $grey-100;
-	color: $grey-700;
-	border-radius: 3rem;
-}
+	gap: 0.5rem;
+	padding: 0.5rem 1rem;
 
-.closeBtn {
-	margin-left: 7px;
-	margin-bottom: 1px;
-	font-size: 20px;
-	line-height: 16px;
-	color: $grey-400;
+	background-color: $tag-bg-color;
+	border: none;
+	border-radius: 1.5rem;
+	color: $tag-font-color;
+	font-size: $tag-font-size;
+
+	> div {
+		font-size: $delete-btn-font-size;
+		line-height: $delete-btn-font-size;
+		color: $delete-btn-font-color;
+	}
 }

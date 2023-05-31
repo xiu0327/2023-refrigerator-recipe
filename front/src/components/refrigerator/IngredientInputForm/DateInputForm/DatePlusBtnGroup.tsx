@@ -2,18 +2,14 @@ import moment from "moment";
 import styles from "../IngredientInputForm.module.scss";
 
 type DatePlusBtnGroupProps = {
-	date: string;
 	setDate: Function;
 };
 
-export default function DatePlusBtnGroup({
-	date,
-	setDate,
-}: DatePlusBtnGroupProps) {
+export default function DatePlusBtnGroup({ setDate }: DatePlusBtnGroupProps) {
 	const DAYS = [3, 5, 7, 14];
 
 	const onPlusDayBtnClick = (day: number) => {
-		const updatedDate = moment(date).add(day, "days");
+		const updatedDate = moment().add(day, "days");
 		setDate(updatedDate.format("YYYY-MM-DD"));
 	};
 
@@ -25,7 +21,7 @@ export default function DatePlusBtnGroup({
 					className={styles.datePlusBtn}
 					onClick={() => onPlusDayBtnClick(day)}
 				>
-					+ {day}
+					{day}일
 				</button>
 			))}
 		</div>

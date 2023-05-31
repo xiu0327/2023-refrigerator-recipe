@@ -10,7 +10,7 @@ export const getRecipes = async (page: number) => {
 	}
 };
 
-export const getRecipe = async (recipeID: string) => {
+export const getRecipe = async (recipeID: number) => {
 	const url = `/api/recipe/${recipeID}`;
 	try {
 		const response = await instance.get(url);
@@ -18,29 +18,6 @@ export const getRecipe = async (recipeID: string) => {
 	} catch (error) {
 		console.error(error);
 	}
-};
-
-export const searchRecipe = async (page: number, query: string) => {
-	const url = `/api/recipe/search?page=${page}&searchWord=${query}`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-export const getBookmarkIDs = async () => {
-	const url = `/api/my-bookmark/added`;
-	return instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data.data);
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
 };
 
 export const getRecipeSteps = async (recipeID: number) => {
@@ -53,151 +30,83 @@ export const getRecipeSteps = async (recipeID: number) => {
 	}
 };
 
-export const getRecipeIngredients = (recipeId) => {
-	const url = `/api/recipe/${recipeId}/ingredient/volume`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+export const getRecipeIngredients = async (recipeID: number) => {
+	const url = `/api/recipe/${recipeID}/ingredient/volume`;
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const rateRecipe = (recipeId, score) => {
-	const url = `/api/my-score/cooking?recipeId=${recipeId}&score=${score}`;
-	instance
-		.post(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const 레시피자동완성 = (keyword) => {
-	const url = `/api/word-completion/recipe?keyword=${keyword}`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const recommendRecipe = () => {
+export const getRecommendedRecipes = async () => {
 	const url = `/api/recipe/recommend`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeFoodType = () => {
+export const getRecipeFoodType = async () => {
 	const url = `/api/recipe/search/condition/food-type`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeIngredientCategory = () => {
+export const getRecipeIngredientCategory = async () => {
 	const url = `/api/recipe/search/condition/category`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeRecipeType = () => {
+export const getRecipeRecipeType = async () => {
 	const url = `/api/recipe/search/condition/recipe-type`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecipeDifficulty = () => {
+export const getRecipeDifficulty = async () => {
 	const url = `/api/recipe/search/condition/difficulty`;
-	return instance
-		.get(url)
-		.then((response) => {
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-export const getRecommendationSearches = (setData) => {
-	const url = `/api/search-word/recommend`;
-	instance
-		.get(url)
-		.then((response) => {
-			setData(response.data.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const getLastSearches = (setData) => {
-	const url = `/api/search-word/last`;
-	instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data);
-			setData([...new Set(response.data.data)]);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const removeLateSearch = (word: string) => {
-	const url = `/api/search-word?word=${word}`;
-	instance
-		.delete(url)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-};
-
-export const calculateIngredient = (ingredients) => {
+export const deductIngredient = async (ingredients) => {
 	const url = `/api/ingredients/deduction`;
-	instance
-		.put(url, { ingredients: ingredients })
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.put(url, { ingredients });
+	} catch (error) {
+		console.error(error);
+	}
 };
-// ingredients = [{name, volume, unit}, ...]
+
+export const rateRecipe = async (recipeID, score) => {
+	const url = `/api/my-score/cooking?recipeId=${recipeID}&score=${score}`;
+	try {
+		const response = await instance.post(url);
+	} catch (error) {
+		console.error(error);
+	}
+};
 
 export const getOwnedIngredientIDs = async (recipeID: number) => {
 	const url = `/api/ingredients/owned/${recipeID}`;

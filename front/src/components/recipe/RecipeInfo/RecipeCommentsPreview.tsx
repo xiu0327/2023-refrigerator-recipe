@@ -3,10 +3,11 @@ import styles from "./RecipeInfo.module.scss";
 // import { getRecipeCommentPreview, getRecipeSteps } from "@/api";
 import { RecipeComment } from "@/types/types";
 import { login } from "@/api/login";
-import { Heart, HeartFill, Link, ThreeDots } from "react-bootstrap-icons";
+import { Heart, HeartFill, ThreeDots } from "react-bootstrap-icons";
 import router from "next/router";
 import Comment from "../Comment/Comment";
 import { getCommentsPreview } from "@/api";
+import Link from "next/link";
 
 export default function RecipeCommentsPreview({ recipeID, recipeName }) {
 	const [commentData, setCommentData] = useState([]);
@@ -20,18 +21,16 @@ export default function RecipeCommentsPreview({ recipeID, recipeName }) {
 		})();
 	}, []);
 
-	const onMoreCommentsBtnClick = () => {
-		router.push(
-			`/recipe/comment?recipeID=${recipeID}&recipeName=${recipeName}`,
-		);
-	};
-
 	return (
 		<div className={styles.recipeInfoContainer}>
 			<div className={styles.recipeInfoHeader}>
 				<div>댓글</div>
 				<span>{commentNum}</span>
-				<button onClick={onMoreCommentsBtnClick}>댓글 전체 보기</button>
+				<Link
+					href={`/recipe/comment?recipeID=${recipeID}&recipeName=${recipeName}`}
+				>
+					<button>댓글 전체 보기</button>
+				</Link>
 			</div>
 
 			<div className={styles.recipeCommentList}>

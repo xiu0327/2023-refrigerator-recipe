@@ -12,9 +12,15 @@ export default function SortBar({ sortType, setSortType }: SortBarProps) {
 
 	return (
 		<div className={styles.sortbarContainer}>
-			<button className={styles.filterBtn} onClick={onSortBtnClick}>
-				{sortType}
-			</button>
+			{["좋아요순", "최신순"].map((type) => (
+				<button
+					key={type}
+					className={sortType === type ? styles.selected : undefined}
+					onClick={onSortBtnClick}
+				>
+					{type}
+				</button>
+			))}
 		</div>
 	);
 }

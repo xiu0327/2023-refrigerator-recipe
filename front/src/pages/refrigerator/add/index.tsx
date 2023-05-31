@@ -8,16 +8,14 @@ import RequestIngredient from "@/components/refrigerator/RequestIngredient/Reque
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
+import Link from "next/link";
 
 export default function AddIngredientNamePage() {
 	const [keyword, setKeyword] = useState<string>("");
 	const [selectedIngredient, setSelectedIngredient] = useState("");
 
 	const onAddIngredientBtnClick = () => {
-		router.replace({
-			pathname: `/refrigerator/add/info`,
-			query: { ingredientName: selectedIngredient },
-		});
+		router.replace(`/refrigerator/add/info?ingredient=${selectedIngredient}`);
 	};
 
 	return (
@@ -41,11 +39,10 @@ export default function AddIngredientNamePage() {
 			{keyword && !selectedIngredient && (
 				<RequestIngredient keyword={keyword} />
 			)}
-
 			<BottomBtn
 				label="추가하기"
-				onClick={onAddIngredientBtnClick}
 				disabled={!Boolean(selectedIngredient)}
+				onClick={onAddIngredientBtnClick}
 			/>
 		</BackBottomBtnLayout>
 	);

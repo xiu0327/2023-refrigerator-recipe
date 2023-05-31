@@ -15,10 +15,10 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
 
-export default function AddIngredientInfoPage() {
+export default function AddIngredientInfoPage({ name }) {
 	const router = useRouter();
 	const [ingredient, setIngredient] = useState({
-		name: router.query.ingredientName,
+		name: name,
 		storage: "냉장",
 		expirationDate: moment().format("YYYY-MM-DD"),
 		volume: "",
@@ -31,8 +31,8 @@ export default function AddIngredientInfoPage() {
 		setIngredient((prev) => ({ ...prev, [key]: value }));
 	};
 
-	const onAddIngredientBtnClick = () => {
-		addIngredient(ingredient);
+	const onAddIngredientBtnClick = async () => {
+		await addIngredient(ingredient);
 		// TODO: 식재료 추가 완료 토스트메시지
 		router.back();
 	};
@@ -54,7 +54,7 @@ export default function AddIngredientInfoPage() {
 					</FormLabel>
 
 					<FormLabel
-						label="소비기한"
+						label="유통기한"
 						subLabel={calcDday(ingredient.expirationDate)}
 					>
 						<DateInputForm
@@ -80,4 +80,14 @@ export default function AddIngredientInfoPage() {
 			/>
 		</BackBottomBtnLayout>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const name = context.query.ingredient;
+
+	return {
+		props: {
+			name,
+		},
+	};
 }
