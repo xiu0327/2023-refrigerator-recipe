@@ -51,7 +51,6 @@ public class AuthenticationController {
 
         Cookie cookie = new Cookie("Refresh-Token", null);
         cookie.setMaxAge(0);
-        cookie.setPath("/");
         response.addCookie(cookie);
 
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
@@ -59,11 +58,14 @@ public class AuthenticationController {
 
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)
-    public TokenDTO reissue(HttpServletRequest request){
+    public TokenDTO reissue(HttpServletRequest request, HttpServletResponse response){
         Cookie[] cookies = request.getCookies();
         try{
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("Logout-Token") && cookie.getValue().equals("true")){
+                    Cookie logoutToken = new Cookie("Logout-Token", null);
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
                     throw new BusinessException(AuthenticationExceptionType.ALREADY_LOGOUT_MEMBER);
                 }
                 if (cookie.getName().equals("Refresh-Token")){
