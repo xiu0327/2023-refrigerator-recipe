@@ -15,7 +15,11 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
 
-export default function AddIngredientInfoPage({ name }) {
+type pageProps = {
+	name: string;
+};
+
+export default function AddIngredientInfoPage({ name }: pageProps) {
 	const router = useRouter();
 	const [ingredient, setIngredient] = useState({
 		name: name,

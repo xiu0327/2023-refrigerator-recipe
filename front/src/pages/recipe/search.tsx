@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 
 import { searchRecipe } from "@/api";
 import { useIntersectionObserver } from "@/hooks";
@@ -14,7 +14,11 @@ import NoResult from "@/components/global/NoResult/NoResult";
 
 import styles from "@/scss/pages.module.scss";
 
-export default function RecipeSearchPage({ query }) {
+type RecipeSearchPageProps = {
+	query: string;
+};
+
+export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 	const [keyword, setKeyword] = useState<string>("");
 
 	const [recipeResultData, setRecipeResultData] = useState<RecipeBrief[]>([]);
@@ -83,7 +87,7 @@ export default function RecipeSearchPage({ query }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const query = context.query?.query;
 
 	return {

@@ -72,7 +72,7 @@ export interface MatchedRecipe {
 
 export interface RecipeFilter {
 	key: string;
-	name: RecipeFilterName;
+	name: string;
 	activeItem: string;
 	fetchFilterMenu: () => Promise<any>;
 }

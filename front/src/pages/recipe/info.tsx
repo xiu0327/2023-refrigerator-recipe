@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 import { getBookmarkIDs, getOwnedIngredientIDs, getRecipe } from "@/api";
@@ -16,9 +15,13 @@ import RatingBottomSheet from "@/components/recipe/CookingBottomSheet/RatingBott
 
 import styles from "@/scss/pages.module.scss";
 
-export default function RecipeInfoPage({ recipeID }) {
+type RecipeInfoPageProps = {
+	recipeID: number;
+};
+
+export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 	const [recipe, setRecipe] = useState<RecipeDetail | null>();
-	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[] | null>();
+	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[]>([]);
 	const [bookmarkIDs, setBookmarkIDs] = useState([]);
 	const [ownedIngredientIDs, setOwnedIngredientIDs] = useState([]);
 	const [isOwnedDataLoaded, setIsOwnedDataLoaded] = useState(false);
@@ -103,7 +106,7 @@ export default function RecipeInfoPage({ recipeID }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const recipeID = Number(context.query.recipeID);
 
 	return {

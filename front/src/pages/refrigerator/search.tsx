@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search } from "react-bootstrap-icons";
 
 import { getAllIngredients } from "@/api";
 import { toPhoneme } from "@/utils";
@@ -10,11 +9,12 @@ import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientG
 import NoResult from "@/components/global/NoResult/NoResult";
 
 import styles from "@/scss/pages.module.scss";
+import { IngredientBrief } from "@/types";
 
 export default function SearchIngredientPage() {
 	const [keyword, setKeyword] = useState<string>("");
-	const [ingredientData, setIngredientData] = useState([]);
-	const [myIngredients, setMyIngredients] = useState([]);
+	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
+	const [myIngredients, setMyIngredients] = useState<IngredientBrief[]>([]);
 
 	useEffect(() => {
 		(async () => {
@@ -35,8 +35,9 @@ export default function SearchIngredientPage() {
 
 	const filteredIngredients = useMemo(() => {
 		const keywordPhoneme = toPhoneme(keyword);
-		return myIngredients.filter((ingredient) =>
-			ingredient.phoneme.includes(keywordPhoneme),
+		return myIngredients.filter(
+			(ingredient) =>
+				ingredient.phoneme && ingredient.phoneme.includes(keywordPhoneme),
 		);
 	}, [myIngredients, keyword]);
 
