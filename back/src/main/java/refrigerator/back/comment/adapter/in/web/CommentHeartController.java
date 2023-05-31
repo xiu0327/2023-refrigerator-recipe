@@ -29,7 +29,9 @@ public class CommentHeartController {
         addCommentHeartUseCase.addHeart(
                 getMemberEmail(),
                 commentId);
-        createCommentHeartNotificationUseCase.createCommentHeartNotification(getMemberEmail(), commentId);
+        createCommentHeartNotificationUseCase.createCommentHeartNotification(
+                getMemberEmail(),
+                commentId);
         return new CommentBasicResponseDTO(commentId);
     }
 

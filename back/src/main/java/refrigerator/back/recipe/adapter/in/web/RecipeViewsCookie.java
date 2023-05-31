@@ -34,6 +34,7 @@ public class RecipeViewsCookie {
 
     public Cookie createCookie(){
         Cookie cookie = new Cookie(cookieName, "true");
+        cookie.setPath("/api/recipe");
         cookie.setMaxAge(validTime);
         cookie.setHttpOnly(true);
         return cookie;

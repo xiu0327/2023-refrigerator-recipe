@@ -31,7 +31,7 @@ public class CommentHeartPeopleAdapter implements FindCommentHeartPeoplePort, Wr
     }
 
     @Override
-    public Long addHeartPeople(CommentHeartPeople commentHeartPeople) {
+    public Long  addHeartPeople(CommentHeartPeople commentHeartPeople) {
         String result = stringRedisTemplate.opsForValue().get(commentHeartPeople.getSubPeopleId());
         if (result != null){
             throw new BusinessException(CommentExceptionType.DUPLICATE_HEART_REQUEST);

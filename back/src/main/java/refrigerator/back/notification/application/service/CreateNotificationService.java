@@ -25,7 +25,6 @@ public class CreateNotificationService implements CreateCommentHeartNotification
     private final ModifyMemberNotificationPort modifyMemberNotificationPort;
 
     @Override
-//    @Async
     public Long createCommentHeartNotification(String senderId, Long commentId) {
         String senderNickname = findSenderNicknamePort.getNickname(senderId);
         CommentNotificationDetails details = commentDetailsPort.getDetails(commentId);

@@ -53,7 +53,7 @@ public class AuthenticationController {
         Cookie[] cookies = request.getCookies();
         try{
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Refresh-Token")){
+                if (cookie.getName().equals("Refresh-Token") && cookie.getMaxAge() > 0){
                     return tokenReissueUseCase.reissue(cookie.getValue());
                 }
             }
