@@ -49,7 +49,7 @@ export default function Notification() {
 					<span className={styles.ment}>
 						<span className={styles.state}>[{STATE[1].title}]</span>
 						'이냉장'님이 회원님의 댓글을 좋아해요.
-						<span className={styles.day}>1시간 전</span>
+						<span className={styles.time}>1시간 전</span>
 					</span>
 				</div>
 			</div>
@@ -75,7 +75,7 @@ export default function Notification() {
 					<span className={styles.ment}>
 						<span className={styles.state}>[{STATE[2].title}]</span>
 						'오이' 친구가 새롭게 등록 되었어요.
-						<span className={styles.day}>3일전</span>
+						<span className={styles.time}>3일전</span>
 					</span>
 				</div>
 				<div className={styles.notificationList}>
@@ -83,7 +83,7 @@ export default function Notification() {
 					<span className={styles.ment}>
 						<span className={styles.state}>[{STATE[1].title}]</span>
 						'김모씨'님이 회원님의 댓글을 좋아해요.
-						<span className={styles.day}>4일전</span>
+						<span className={styles.time}>4일전</span>
 					</span>
 				</div>
 			</div>
@@ -96,7 +96,7 @@ export default function Notification() {
 					<span className={styles.ment}>
 						<span className={styles.state}>[{STATE[2].title}]</span>
 						'가지' 친구가 새롭게 등록 되었어요.
-						<span className={styles.day}>12일전</span>
+						<span className={styles.time}>12일전</span>
 					</span>
 				</div>
 			</div>
