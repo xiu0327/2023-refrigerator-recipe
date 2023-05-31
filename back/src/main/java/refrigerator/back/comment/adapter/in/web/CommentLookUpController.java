@@ -21,9 +21,9 @@ public class CommentLookUpController {
     private final FindCommentListUseCase findCommentListUseCase;
     private final FindMyCommentsUseCase findMyCommentsUseCase;
 
-    @GetMapping("/api/comments/heart")
+    @GetMapping("/api/comments/{recipeId}/heart")
     public InCommentListDTO findCommentByHeart(
-            @RequestParam("recipeId") Long recipeId,
+            @PathVariable("recipeId") Long recipeId,
             @RequestParam("page") int page,
             @RequestParam(value = "size", defaultValue = "11") int size){
         return InCommentListDTO.builder()
@@ -31,9 +31,9 @@ public class CommentLookUpController {
                 .build();
     }
 
-    @GetMapping("/api/comments/date")
+    @GetMapping("/api/comments/{recipeId}/date")
     public InCommentListDTO findCommentByDate(
-            @RequestParam("recipeId") Long recipeId,
+            @PathVariable("recipeId") Long recipeId,
             @RequestParam("page") int page,
             @RequestParam(value = "size", defaultValue = "11") int size){
         return InCommentListDTO.builder()
@@ -41,14 +41,14 @@ public class CommentLookUpController {
                 .build();
     }
 
-    @GetMapping("/api/comments/preview")
+    @GetMapping("/api/comments/{recipeId}/preview")
     public InCommentListDTO findCommentPreview(
-            @RequestParam("recipeId") Long recipeId,
+            @PathVariable("recipeId") Long recipeId,
             @RequestParam(value = "size", defaultValue = "3") int size){
         return findCommentPreviewListUseCase.findCommentPreviews(recipeId, getMemberEmail(), size);
     }
 
-    @GetMapping("/api/comments/my/{recipeId}")
+    @GetMapping("/api/comments/{recipeId}/my")
     public InCommentListDTO findMyComments(@PathVariable("recipeId") Long recipeId){
         return InCommentListDTO.builder()
                 .comments(findMyCommentsUseCase.findMyComments(getMemberEmail(), recipeId))
