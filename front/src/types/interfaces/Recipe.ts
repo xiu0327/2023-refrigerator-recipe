@@ -27,6 +27,12 @@ export interface RecipeIngredient {
 	volume: string;
 }
 
+export interface RecipeDeductedIngredient {
+	name: string;
+	volume: number;
+	unit: string;
+}
+
 export interface RecipeStep {
 	step: string;
 	explanation: string;
