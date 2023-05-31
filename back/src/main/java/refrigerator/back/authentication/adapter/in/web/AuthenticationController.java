@@ -41,11 +41,20 @@ public class AuthenticationController {
     public void logout(HttpServletRequest request, HttpServletResponse response){
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
         logoutUseCase.logout(accessToken);
+        // TODO: 인증/인가 쿠키 관련 로직 캡슐화하기
+
+        Cookie logoutToken = new Cookie("Logout-Token", "true");
+        logoutToken.setHttpOnly(true);
+        logoutToken.setPath("/api/auth/reissue");
+        logoutToken.setMaxAge(60 * 20);
+        response.addCookie(logoutToken);
+
         Cookie cookie = new Cookie("Refresh-Token", "logout");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
         cookie.setPath("/api/auth/login");
         response.addCookie(cookie);
+
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
     }
 
@@ -55,7 +64,10 @@ public class AuthenticationController {
         Cookie[] cookies = request.getCookies();
         try{
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Refresh-Token") && !cookie.getValue().equals("logout")){
+                if (cookie.getName().equals("Logout-Token") && cookie.getValue().equals("true")){
+                    throw new BusinessException(AuthenticationExceptionType.ALREADY_LOGOUT_MEMBER);
+                }
+                if (cookie.getName().equals("Refresh-Token")){
                     return tokenReissueUseCase.reissue(cookie.getValue());
                 }
             }
