@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import styles from "./ModalOnBtn.module.scss";
-import axios from "axios";
 import { register } from "@/api/register";
 
 export default function ModalOnBtn({
