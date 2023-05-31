@@ -2,9 +2,6 @@ import styles from "./styles.module.scss";
 import { useState } from "react";
 import InputContent from "@/components/member/InputContent/InputContent";
 import ModalOnBtn2 from "@/components/member/ModalOnBtn/ModalOnBtn2";
-import InputBtn from "@/components/member/InputBtn/InputBtn";
-import { authenticate } from "@/api/athenticate";
-import { getCheckEmail } from "@/api/getCheckEmail";
 import BackLayout from "@/components/layout/BackLayout";
 
 export default function change() {
