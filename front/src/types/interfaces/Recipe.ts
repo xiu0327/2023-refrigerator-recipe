@@ -1,4 +1,4 @@
-import { RecipeFilterName } from "../types";
+import { IngredientType, RecipeFilterName } from "../types";
 
 export interface RecipeBrief {
 	recipeID: number;
@@ -33,6 +33,11 @@ export interface RecipeDeductedIngredient {
 	unit: string;
 }
 
+export interface RecipeCalculatedIngredient extends RecipeDeductedIngredient {
+	recipeIngredientId: number;
+	type: IngredientType;
+}
+
 export interface RecipeStep {
 	step: string;
 	explanation: string;
@@ -55,6 +60,14 @@ export interface BookmarkedRecipe extends RecipeBrief {
 
 export interface RatedRecipe extends RecipeBrief {
 	scoreID: number;
+}
+
+export interface MatchedRecipe {
+	image: string;
+	match: number;
+	recipeID: number;
+	recipeName: string;
+	scoreAvg: number;
 }
 
 export interface RecipeFilter {

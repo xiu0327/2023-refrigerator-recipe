@@ -1,11 +1,8 @@
 import router from "next/router";
-import { Cup, EyeFill, Percent, StarFill } from "react-bootstrap-icons";
-import { RecipeBrief, BookmarkedRecipe } from "@/types";
+import { MatchedRecipe } from "@/types";
 import styles from "./RecipeGallery.module.scss";
-import Stars from "../Stars/Stars";
-
 type RecipeGalleryProps = {
-	recipeData: RecipeBrief[] | BookmarkedRecipe[];
+	recipeData: MatchedRecipe[];
 };
 
 export default function RecipeGalleryWithMatch({

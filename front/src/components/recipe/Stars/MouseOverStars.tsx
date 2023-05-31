@@ -1,12 +1,17 @@
 import { calcStarRates } from "@/utils";
 import styles from "./Stars.module.scss";
 
-export default function MouseOverStars({ score, setScore }) {
+type StarsProps = {
+	score: number;
+	setScore: Function;
+};
+
+export default function MouseOverStars({ score, setScore }: StarsProps) {
 	const ICON_SIZE = 42;
 	const VIEWBOX_SIZE = 14;
 	const starRates = calcStarRates(score, VIEWBOX_SIZE);
 
-	const onStarClick = (event, value) => {
+	const onStarClick = (event: any, value: number) => {
 		const spanLeft = event.target.getBoundingClientRect().left;
 		const clickX = event.clientX;
 		const newScore = clickX < spanLeft + ICON_SIZE / 2 ? value - 0.5 : value;

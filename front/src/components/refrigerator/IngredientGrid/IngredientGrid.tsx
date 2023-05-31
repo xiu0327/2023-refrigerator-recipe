@@ -1,4 +1,3 @@
-import router from "next/router";
 import { getDday } from "@/utils";
 import { IngredientBrief } from "@/types";
 import styles from "./IngredientGrid.module.scss";

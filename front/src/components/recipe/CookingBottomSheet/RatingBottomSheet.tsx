@@ -1,9 +1,7 @@
 import BottomSheet from "@/components/global/BottomSheet/BottomSheet";
 import styles from "./CookingBottomSheet.module.scss";
-import { useEffect, useState } from "react";
-import { deductIngredient, getRecipeIngredients, rateRecipe } from "@/api";
-import { CheckCircle, CheckCircleFill } from "react-bootstrap-icons";
-import Stars from "../Stars/Stars";
+import { useState } from "react";
+import { rateRecipe } from "@/api";
 import MouseOverStars from "../Stars/MouseOverStars";
 
 type RatingBottomSheetProps = {
