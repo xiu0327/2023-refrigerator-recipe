@@ -4,6 +4,15 @@ import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import styles from "./ModalOnBtn.module.scss";
 import { register } from "@/api/register";
 
+interface ModalOnBtnProps {
+	title: string;
+	ment: string;
+	email: string;
+	password: string;
+	nickname: string;
+	disabled: boolean;
+}
+
 export default function ModalOnBtn({
 	title,
 	ment,
@@ -11,7 +20,7 @@ export default function ModalOnBtn({
 	password,
 	nickname,
 	disabled,
-}) {
+}: ModalOnBtnProps) {
 	const [showModal, setShowModal] = useState(false);
 
 	return (

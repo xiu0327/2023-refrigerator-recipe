@@ -12,7 +12,7 @@ export default function ProfileModal(props: any) {
 	const handleClose = () => setShow(false);
 	//const handleShow = () => setShow(true);
 
-	const handleImageChange = async (event) => {
+	const handleImageChange = async (event: any) => {
 		try {
 			let src = event.target.src;
 			let imageName = src.substring(src.lastIndexOf("/") + 1);

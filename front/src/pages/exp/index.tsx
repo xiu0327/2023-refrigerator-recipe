@@ -6,7 +6,7 @@ import { getExpiringIngredients } from "@/api";
 import BackLayout from "@/components/layout/BackLayout";
 import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientGrid";
 
-export default function ExpiringIngredientListPage({ day }) {
+export default function ExpiringIngredientListPage(day: any) {
 	const [expiringIngredientData, setExpiringIngredientData] = useState([]);
 
 	useEffect(() => {
@@ -24,7 +24,7 @@ export default function ExpiringIngredientListPage({ day }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const day = Number(context.quer.day);
 
 	return {

@@ -9,11 +9,11 @@ export default function LoginEmail() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const onEmailHandler = (e) => {
+	const onEmailHandler = (e: any) => {
 		setEmail(e.target.value);
 	};
 
-	const onPasswordHandler = (e) => {
+	const onPasswordHandler = (e: any) => {
 		setPassword(e.target.value);
 	};
 

@@ -11,7 +11,7 @@ export const login = async (email: string, password: string) => {
 		loginSuccess(response);
 		console.log("login success");
 		router.push("/refrigerator");
-	} catch (error) {
+	} catch (error: any) {
 		alert(error.response.data.message);
 		router.reload();
 	}
@@ -31,7 +31,7 @@ export const silentRefresh = async () => {
 	}
 };
 
-const loginSuccess = (response) => {
+const loginSuccess = (response: any) => {
 	instance.defaults.headers.common[
 		"Authorization"
 	] = `Bearer ${response.data.accessToken}`;

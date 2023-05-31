@@ -4,14 +4,26 @@ import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import styles from "./ModalOnBtn.module.scss";
 import { changePassword } from "@/api";
 
-export default function ModalOnBtn2({ title, ment, password, disabled }) {
+interface ModalOnBtn2Props {
+	title: string;
+	ment: string;
+	password: string;
+	disabled: boolean;
+}
+
+export default function ModalOnBtn2({
+	title,
+	ment,
+	password,
+	disabled,
+}: ModalOnBtn2Props) {
 	const [modalShow, setModalShow] = useState(false);
 
 	const handleButtonClick = async () => {
 		try {
 			await changePassword(password);
 			setModalShow(true);
-		} catch (error) {
+		} catch (error: any) {
 			alert(error.response.data.message);
 			setModalShow(false);
 		}
