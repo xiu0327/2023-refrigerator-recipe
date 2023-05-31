@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getCheckEmail = (checkEmail: string) => {
+export const checkEmail = (checkEmail: string) => {
 	let data = JSON.stringify({
 		email: checkEmail,
 	});

@@ -7,7 +7,7 @@ import ModalOnBtn from "@/components/member/ModalOnBtn/ModalOnBtn";
 
 import { authenticate } from "@/api/athenticate";
 import { duplicate } from "@/api/duplicate";
-import { getCheckEmail } from "@/api/getCheckEmail";
+import { checkEmail } from "@/api/checkEmail";
 import BackLayout from "@/components/layout/BackLayout";
 
 export default function Register() {
@@ -17,7 +17,7 @@ export default function Register() {
 	const [password, setPassword] = useState("");
 	const [nickname, setNickname] = useState("");
 	const [checkPw, setCheckPw] = useState("");
-	const [checkEmail, setCheckEmail] = useState("");
+	const [checked, setChecked] = useState("");
 	const [clickBtn, setClickBtn] = useState(false);
 	const [code, setCode] = useState("");
 
@@ -38,7 +38,7 @@ export default function Register() {
 	}; // 닉네임 작성
 
 	const onCheckEmailHandler = (e: any) => {
-		setCheckEmail(e.target.value);
+		setChecked(e.target.value);
 	}; // 이메일 인증 작성
 
 	const onAuthenticateHandler = (e: any) => {
@@ -50,11 +50,11 @@ export default function Register() {
 	}; // 이메일 중복 확인 클릭
 
 	const onCheckEmailClick = () => {
-		checkEmail !== "" && (getCheckEmail(checkEmail), setClickBtn(true));
+		checked !== "" && (checkEmail(checked), setClickBtn(true));
 	}; // 인증번호 전송 버튼 클릭 시 실행
 
 	const onAuthenticateClick = () => {
-		authenticate(checkEmail, code);
+		authenticate(checked, code);
 	}; // 인증번호 확인 클릭
 
 	return (
