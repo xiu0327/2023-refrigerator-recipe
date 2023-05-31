@@ -49,10 +49,8 @@ public class AuthenticationController {
         logoutToken.setMaxAge(60 * 20);
         response.addCookie(logoutToken);
 
-        Cookie cookie = new Cookie("Refresh-Token", "logout");
-        cookie.setHttpOnly(true);
+        Cookie cookie = new Cookie("Refresh-Token", null);
         cookie.setMaxAge(0);
-        cookie.setPath("/api/auth/login");
         response.addCookie(cookie);
 
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
