@@ -30,11 +30,13 @@ public class LoginController {
     @Value("${front.domain}")
     private String frontDomain;
 
+
     @PostMapping("/api/auth/login")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO loginByBasic(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         return login(request.getEmail(), request.getPassword(), response);
     }
+
     @GetMapping("/api/auth/login/oauth")
     @ResponseStatus(HttpStatus.CREATED)
     public void loginByOAuth2(@RequestParam("email") String email, HttpServletResponse response) throws IOException {

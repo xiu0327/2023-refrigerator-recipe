@@ -41,19 +41,21 @@ public class AuthenticationController {
     public void logout(HttpServletRequest request, HttpServletResponse response){
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION).split(" ")[1];
         logoutUseCase.logout(accessToken);
-        Cookie cookie = new Cookie("Refresh-Token", null);
+        Cookie cookie = new Cookie("Refresh-Token", "logout");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(0);
+        cookie.setPath("/api/auth/login");
         response.addCookie(cookie);
         response.setHeader(HttpHeaders.AUTHORIZATION, "");
     }
+
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO reissue(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         try{
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Refresh-Token") && cookie.getMaxAge() > 0){
+                if (cookie.getName().equals("Refresh-Token") && !cookie.getValue().equals("logout")){
                     return tokenReissueUseCase.reissue(cookie.getValue());
                 }
             }

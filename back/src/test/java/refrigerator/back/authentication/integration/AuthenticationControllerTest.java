@@ -104,6 +104,15 @@ class AuthenticationControllerTest {
     }
 
     @Test
+    @DisplayName("토큰 재발행 -> 쿠키 값이 유효하지 않는 경우")
+    void reissueTokenFail() throws Exception {
+        mockMvc.perform(post("/api/auth/reissue")
+                .cookie(new Cookie("Refresh-Token", "logout"))
+        ).andExpect(status().is4xxClientError()
+        ).andDo(print());
+    }
+
+    @Test
     @DisplayName("정상적인 로그아웃")
     void logoutSuccess() throws Exception {
         // given

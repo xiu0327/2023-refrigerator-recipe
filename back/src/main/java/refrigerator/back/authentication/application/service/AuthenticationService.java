@@ -42,6 +42,7 @@ public class AuthenticationService implements LoginUseCase, TokenReissueUseCase 
 
     @Override
     public TokenDTO reissue(String refreshToken) {
+        // TODO : refreshToken 이 블랙 리스트에 있는 토큰인지 확인하는 코드 추가
         if (validateTokenPort.isExpired(refreshToken)){
             throw new BusinessException(JwtExceptionType.REFRESH_TOKEN_EXPIRED);
         }
