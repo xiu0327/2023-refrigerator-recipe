@@ -12,7 +12,7 @@ export const login = async (email: string, password: string) => {
 			"Authorization"
 		] = `Bearer ${response.data.accessToken}`;
 		console.log(response.data.accessToken);
-		router.push("/notification");
+		router.push("/refrigerator");
 	} catch (error) {
 		alert(error.response.data.message);
 		router.reload();
