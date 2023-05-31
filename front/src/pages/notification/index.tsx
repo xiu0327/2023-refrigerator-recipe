@@ -1,108 +1,91 @@
-import { notification } from "@/api/notification";
-import styles from "./notification.module.scss";
+import { useEffect, useState } from "react";
+import styles from "./styles.module.scss";
+
+import { notification, readNotification } from "@/api/notification";
+
+import { useIntersectionObserver } from "@/hooks";
+import { NotificationList } from "@/types";
+
+import BackLayout from "@/components/layout/BackLayout";
 import {
-	HandThumbsUpFill,
 	CupStraw,
 	ExclamationTriangleFill,
+	HandThumbsUpFill,
 } from "react-bootstrap-icons";
+import Link from "next/link";
 
 export default function Notification() {
-	notification();
-	const STATE = [
+	const TYPE = [
 		{
+			type: "EXPIRATION_DATE",
 			title: "유통기한",
 			icon: <ExclamationTriangleFill />,
 		},
 		{
+			type: "HEART",
 			title: "좋아요",
 			icon: <HandThumbsUpFill />,
 		},
 		{
+			type: "INGREDIENT",
 			title: "식재료",
 			icon: <CupStraw />,
 		},
 	];
+	const [notificationData, setNotificationData] = useState<NotificationList[]>(
+		[],
+	);
+	const [page, setPage] = useState(0);
+	const [isDataLoaded, setIsDataLoaded] = useState(false);
+	const [isScrollEnd, setIsScrollEnd] = useState(false);
+
+	const onLinkClick = (id: number) => {
+		readNotification(id);
+	};
+
+	useEffect(() => {
+		!isScrollEnd &&
+			(async () => {
+				const data = await notification(page);
+				data.length !== 0
+					? setNotificationData((prev) => [...prev, ...data])
+					: setIsScrollEnd(true);
+				setIsDataLoaded(true);
+			})();
+	}, [page]);
+
+	useIntersectionObserver(setPage, isDataLoaded);
+
 	return (
-		<div className={styles.noficiationContainer}>
-			<div className={styles.notificationTitle}>알림</div>
-			{/* 클릭 시 유통기한 하루 남은 식재료 리스트 보여주기 */}
-			<div className={styles.notificationList}>
-				<span className={styles.icon}>{STATE[0].icon}</span>
-				<span className={styles.ment}>
-					<span className={styles.state}>[{STATE[0].title}]</span>
-					냉장고에 사과 외 8개의 식재료 소비기한이 1일 남았어요.
-				</span>
+		<BackLayout title={"알림"}>
+			<div className={styles.notificationContainer}>
+				{notificationData.map((item) => {
+					const matchingType = TYPE.find(
+						(typeItem) => typeItem.type === item.type,
+					);
+					if (matchingType) {
+						const { title, icon } = matchingType;
+						return (
+							<Link
+								key={item.id}
+								href={item.path}
+								className={styles.link}
+								onClick={() => onLinkClick(item.id)}
+							>
+								<div className={styles.notificationList}>
+									<span className={styles.icon}>{icon}</span>
+									<span className={styles.ment}>
+										<span>
+											[{title}] {item.message}
+										</span>
+										<span className={styles.time}>{item.registerTime}</span>
+									</span>
+								</div>
+							</Link>
+						);
+					}
+				})}
 			</div>
-			{/* 클릭 시 유통기한 3일 남은 식재료 리스트 보여주기 */}
-			<div className={styles.notificationList}>
-				<span className={styles.icon}>{STATE[0].icon}</span>
-				<span className={styles.ment}>
-					<span className={styles.state}>[{STATE[0].title}]</span>
-					냉장고에 상추 외 3개의 식재료 소비기한이 3일 남았어요.
-				</span>
-			</div>
-			{/* 클릭 시 댓글 화면으로 넘어가기 */}
-			<div className={styles.notificationDays}>
-				<div className={styles.notificationDay}>
-					<span>오늘</span>
-				</div>
-				<div className={styles.notificationList}>
-					<span className={styles.icon}>{STATE[1].icon}</span>
-					<span className={styles.ment}>
-						<span className={styles.state}>[{STATE[1].title}]</span>
-						'이냉장'님이 회원님의 댓글을 좋아해요.
-						<span className={styles.day}>1시간 전</span>
-					</span>
-				</div>
-			</div>
-			{/* 클릭 시 식재료 등록 화면으로 넘어가기 */}
-			<div className={styles.notificationDays}>
-				<div className={styles.notificationDay}>
-					<span>어제</span>
-				</div>
-				<div className={styles.notificationList}>
-					<span className={styles.icon}>{STATE[2].icon}</span>
-					<span className={styles.ment}>
-						<span className={styles.state}>[{STATE[2].title}]</span>
-						'당근' 친구가 새롭게 등록 되었어요.
-					</span>
-				</div>
-			</div>
-			<div className={styles.notificationDays}>
-				<div className={styles.notificationDay}>
-					<span>이번 주</span>
-				</div>
-				<div className={styles.notificationList}>
-					<span className={styles.icon}>{STATE[2].icon}</span>
-					<span className={styles.ment}>
-						<span className={styles.state}>[{STATE[2].title}]</span>
-						'오이' 친구가 새롭게 등록 되었어요.
-						<span className={styles.day}>3일전</span>
-					</span>
-				</div>
-				<div className={styles.notificationList}>
-					<span className={styles.icon}>{STATE[1].icon}</span>
-					<span className={styles.ment}>
-						<span className={styles.state}>[{STATE[1].title}]</span>
-						'김모씨'님이 회원님의 댓글을 좋아해요.
-						<span className={styles.day}>4일전</span>
-					</span>
-				</div>
-			</div>
-			<div className={styles.notificationDays}>
-				<div className={styles.notificationDay}>
-					<span>지난 주</span>
-				</div>
-				<div className={styles.notificationList}>
-					<span className={styles.icon}>{STATE[2].icon}</span>
-					<span className={styles.ment}>
-						<span className={styles.state}>[{STATE[2].title}]</span>
-						'가지' 친구가 새롭게 등록 되었어요.
-						<span className={styles.day}>12일전</span>
-					</span>
-				</div>
-			</div>
-		</div>
+		</BackLayout>
 	);
 }
-// 각 리스트 클릭 시 링크 연결되게 만들기
