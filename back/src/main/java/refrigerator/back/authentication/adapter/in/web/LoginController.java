@@ -59,11 +59,6 @@ public class LoginController {
         cookie.setMaxAge(3600 * 24 * 30);
         cookie.setPath("/api/auth/reissue");
         response.addCookie(cookie);
-
-        Cookie logoutToken = new Cookie("Logout-Token", null);
-        cookie.setMaxAge(0);
-        response.addCookie(logoutToken);
-
         token.removeRefreshToken();
         return token;
     }
