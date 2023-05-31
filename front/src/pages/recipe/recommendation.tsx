@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { getRecommendedRecipes } from "@/api";
 
-import { RatedRecipe } from "@/types";
+import { MatchedRecipe } from "@/types";
 
 import BackLayout from "@/components/layout/BackLayout";
-import RecipeGallery from "@/components/recipe/RecipeGallery/RecipeGallery";
 import RecipeGalleryWithMatch from "@/components/recipe/RecipeGallery/RecipeGalleryWithMatch";
 
 export default function RecommendedRecipeListPage() {
 	const [recommendedRecipeData, setRecommendedRecipeData] = useState<
-		RatedRecipe[]
+		MatchedRecipe[]
 	>([]);
 
 	useEffect(() => {

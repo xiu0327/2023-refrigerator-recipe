@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { Trash3 } from "react-bootstrap-icons";
 
 import { getIngredientInfo, deleteIngredient } from "@/api";
 import { getDday } from "@/utils";
-import { useFetchData } from "@/hooks";
 import { IngredientDetail } from "@/types";
 
 import BackBottomBtnLayout from "@/components/layout/BackBottomBtnLayout";
@@ -14,13 +13,25 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function IngredientInfoPage({ ingredientID }) {
-	const ingredient: IngredientDetail | null = useFetchData(
-		getIngredientInfo,
-		[ingredientID],
-		[],
+type IngredientInfoPageProps = {
+	ingredientID: number;
+};
+
+export default function IngredientInfoPage({
+	ingredientID,
+}: IngredientInfoPageProps) {
+	const [ingredient, setIngredient] = useState<IngredientDetail | undefined>(
+		undefined,
 	);
+
+	useEffect(() => {
+		(async () => {
+			const data = await getIngredientInfo(ingredientID);
+			setIngredient(data);
+		})();
+	}, []);
 
 	const onDeleteIngredientClick = async () => {
 		// TODO: 삭제 확인 모달 띄우기
@@ -79,7 +90,7 @@ export default function IngredientInfoPage({ ingredientID }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const ingredientID = Number(context.query.ingredientID);
 
 	return {
