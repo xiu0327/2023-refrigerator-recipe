@@ -25,7 +25,7 @@ export default function SearchBar({
 		handleSearchBtnClick && handleSearchBtnClick();
 	};
 
-	const onSearchSubmit = (e) => {
+	const onSearchSubmit = (e: any) => {
 		e.preventDefault();
 		handleSubmit && handleSubmit();
 	};
