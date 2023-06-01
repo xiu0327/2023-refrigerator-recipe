@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const useValidateIngredient = (
-	ingredient: Object,
-	dependencies: any[],
-) => {
+export const useValidateIngredient = (ingredient: any, dependencies: any[]) => {
 	const [isValid, setIsValid] = useState(false);
 
 	useEffect(() => {
