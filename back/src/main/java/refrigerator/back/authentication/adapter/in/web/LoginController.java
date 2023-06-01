@@ -2,6 +2,7 @@ package refrigerator.back.authentication.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.LogoutUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
+import refrigerator.back.global.common.CustomCookie;
 import refrigerator.back.global.exception.BusinessException;
 
 import javax.servlet.http.Cookie;
@@ -20,20 +22,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-@RequiredArgsConstructor
 @Slf4j
 public class LoginController {
 
     private final LoginUseCase loginUseCase;
-    @Value("${oauth.password}")
-    private String oauthPassword;
-    @Value("${front.domain}")
-    private String frontDomain;
+    private final CustomCookie refreshTokenCookie;
+    private final String oauthPassword;
+    private final String frontDomain;
 
+    public LoginController(LoginUseCase loginUseCase,
+                           @Qualifier("refreshTokenCookie") CustomCookie refreshTokenCookie,
+                           @Value("${oauth.password}") String oauthPassword,
+                           @Value("${front.domain}") String frontDomain) {
+        this.loginUseCase = loginUseCase;
+        this.refreshTokenCookie = refreshTokenCookie;
+        this.oauthPassword = oauthPassword;
+        this.frontDomain = frontDomain;
+    }
 
     @PostMapping("/api/auth/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public TokenDTO loginByBasic(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
+    public TokenDTO loginByEmail(@RequestBody LoginRequestDTO request, HttpServletResponse response) {
         return login(request.getEmail(), request.getPassword(), response);
     }
 
@@ -44,9 +53,7 @@ public class LoginController {
             TokenDTO token = login(email, oauthPassword, response);
             response.sendRedirect(frontDomain + "/member/success?token=" + token.getAccessToken());
         } catch (BusinessException e){
-            response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.setCharacterEncoding("UTF-8");
             response.sendRedirect(frontDomain + "/member/fail?errorCode="
                     + e.getBasicExceptionType().getErrorCode());
         }
@@ -54,11 +61,7 @@ public class LoginController {
 
     private TokenDTO login(String email, String password, HttpServletResponse response) {
         TokenDTO token = loginUseCase.login(email, password);
-        Cookie cookie = new Cookie("Refresh-Token", token.getRefreshToken());
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(3600 * 24 * 30);
-        cookie.setPath("/api/auth/reissue");
-        response.addCookie(cookie);
+        response.addCookie(refreshTokenCookie.create(token.getRefreshToken()));
         token.removeRefreshToken();
         return token;
     }

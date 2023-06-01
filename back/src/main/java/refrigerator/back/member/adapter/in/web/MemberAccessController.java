@@ -29,11 +29,7 @@ public class MemberAccessController {
     @ResponseStatus(HttpStatus.CREATED)
     public MemberJoinResponseDTO joinMember(
             @RequestBody @Valid MemberJoinRequestDTO requestDTO,
-            BindingResult result,
-            HttpServletRequest request,
-            HttpServletResponse response){
-        MemberCookieAdapter cookieAdapter = new MemberCookieAdapter(request.getCookies());
-        cookieAdapter.isVerified(response, requestDTO.getEmail());
+            BindingResult result){
         check(result, MemberExceptionType.EMPTY_INPUT_DATA);
         requestDTO.check();
         Long memberID = joinUseCase.join(requestDTO.getEmail(), requestDTO.getPassword(), requestDTO.getNickname());

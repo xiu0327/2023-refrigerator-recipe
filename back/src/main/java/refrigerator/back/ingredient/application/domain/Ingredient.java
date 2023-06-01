@@ -51,7 +51,7 @@ public class Ingredient {
     @Column(name = "image", nullable = false)
     private Integer image;
 
-    @Column(name = "deleted", nullable = false)
+    @Column(name = "delete", nullable = false)
     private boolean deleted;
 
     @Column(name = "email", nullable = false)

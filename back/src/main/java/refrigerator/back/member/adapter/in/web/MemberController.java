@@ -24,7 +24,6 @@ public class MemberController {
 
     private final UpdateNicknameUseCase updateNicknameUseCase;
     private final UpdateProfileUseCase updateProfileUseCase;
-    private final WithdrawMemberUseCase withdrawMemberUseCase;
     private final MakeProfileUrlUseCase makeProfileUrlUseCase;
     private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final GetProfileListUseCase getProfileListUseCase;
@@ -44,11 +43,6 @@ public class MemberController {
     public void setUpdateProfileUseCase(@RequestBody @Valid MemberProfileUpdateRequestDTO request, BindingResult result){
         ValidationExceptionHandler.check(result, MemberExceptionType.EMPTY_INPUT_DATA);
         updateProfileUseCase.updateProfile(getMemberEmail(), request.getImageName());
-    }
-
-    @DeleteMapping("/api/members")
-    public void setWithdrawMemberUseCase(){
-        withdrawMemberUseCase.withdrawMember(getMemberEmail());
     }
 
     @GetMapping("/api/members")

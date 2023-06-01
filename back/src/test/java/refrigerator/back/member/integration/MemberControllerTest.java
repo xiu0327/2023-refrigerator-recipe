@@ -3,6 +3,7 @@ package refrigerator.back.member.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.annotation.RedisFlushAll;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
+import refrigerator.back.global.common.CustomCookie;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
@@ -18,8 +20,7 @@ import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @AutoConfigureMockMvc
@@ -29,6 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class MemberControllerTest {
 
     @Autowired CreateTokenPort createTokenPort;
+
+    @Autowired
+    @Qualifier("refreshTokenCookie")
+    CustomCookie refreshTokenCookie;
+
     @Autowired MockMvc mockMvc;
 
     String email = "nhtest@gmail.com";
@@ -102,7 +108,9 @@ class MemberControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
                 .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
+                .cookie(refreshTokenCookie.create(token))
         ).andExpect(status().is2xxSuccessful()
+        ).andExpect(cookie().maxAge("Refresh-Token", 0)
         ).andDo(print());
     }
 

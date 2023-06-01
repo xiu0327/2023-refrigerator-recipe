@@ -32,7 +32,7 @@ public class MemberCacheRepository {
     public MemberCacheDTO getCacheData(String email){
         Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
         MemberCacheDTO cacheData = cache.get(email, MemberCacheDTO.class);
-        if (cacheData != null && !cacheData.getEmail().equals("deleted")){
+        if (cacheData != null && !cacheData.getEmail().equals("delete")){
             return cacheData;
         }
         Optional<Member> member = repository.findByEmail(email);
@@ -47,7 +47,7 @@ public class MemberCacheRepository {
     public void deleteCacheDate(String email){
         Cache cache = redisCacheManager.getCache(MemberCacheKey.MEMBER);
         if (cache != null){
-            cache.put(email, new MemberCacheDTO("deleted"));
+            cache.put(email, new MemberCacheDTO("delete"));
         }
     }
 
