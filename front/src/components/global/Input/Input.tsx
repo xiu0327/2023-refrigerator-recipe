@@ -24,12 +24,14 @@ export default function Input({
 	const inputRef = useRef(null);
 
 	useEffect(() => {
-		focus && inputRef.current && inputRef.current.focus();
+		focus &&
+			inputRef.current &&
+			(inputRef.current as HTMLInputElement)?.focus();
 	}, []);
 
 	const onClearBtnClick = () => {
 		setValue && setValue("");
-		inputRef.current && inputRef.current.focus();
+		inputRef.current && (inputRef.current as HTMLInputElement)?.focus();
 	};
 
 	return (
