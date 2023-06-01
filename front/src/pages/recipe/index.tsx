@@ -21,7 +21,7 @@ export default function RecipeListPage() {
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
-	const [filters, setFilters] = useState(FILTERS);
+	const [filters, setFilters] = useState<RecipeFilter[]>(FILTERS);
 	const [activeFilter, setActiveFilter] = useState({
 		name: "",
 		activeItem: "",

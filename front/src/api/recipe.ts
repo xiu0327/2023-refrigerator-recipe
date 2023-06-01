@@ -1,3 +1,4 @@
+import { RecipeDeductedIngredient } from "@/types";
 import instance from "./interceptors";
 
 export const getRecipes = async (page: number) => {
@@ -90,19 +91,22 @@ export const getRecipeDifficulty = async () => {
 	}
 };
 
-export const deductIngredient = async (ingredients) => {
+export const deductIngredient = async (
+	ingredients: RecipeDeductedIngredient[],
+) => {
 	const url = `/api/ingredients/deduction`;
+	console.log(ingredients);
 	try {
-		const response = await instance.put(url, { ingredients });
+		await instance.put(url, { ingredients });
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-export const rateRecipe = async (recipeID, score) => {
+export const rateRecipe = async (recipeID: number, score: number) => {
 	const url = `/api/my-score/cooking?recipeId=${recipeID}&score=${score}`;
 	try {
-		const response = await instance.post(url);
+		await instance.post(url);
 	} catch (error) {
 		console.error(error);
 	}

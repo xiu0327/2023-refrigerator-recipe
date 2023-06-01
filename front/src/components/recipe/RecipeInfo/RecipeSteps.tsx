@@ -28,7 +28,7 @@ export default function RecipeInfo({
 		(async () => {
 			const data = await getRecipeSteps(recipeID);
 			setRecipeSteps(
-				data.map((step) => ({
+				data.map((step: RecipeStep) => ({
 					...step,
 					explanation: step.explanation.replace(/,+$/, ""),
 				})),

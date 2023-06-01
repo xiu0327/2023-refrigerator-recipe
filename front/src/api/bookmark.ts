@@ -2,15 +2,12 @@ import instance from "./interceptors";
 
 export const getBookmarkIDs = async () => {
 	const url = `/api/my-bookmark/added`;
-	return instance
-		.get(url)
-		.then((response) => {
-			console.log(response.data.data);
-			return response.data.data;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	try {
+		const response = await instance.get(url);
+		return response.data.data;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const getBookmarks = async (page: number) => {

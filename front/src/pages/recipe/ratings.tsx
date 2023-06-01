@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getBookmarks, getRatedRecipes } from "@/api";
+import { getRatedRecipes } from "@/api";
 
 import { useIntersectionObserver } from "@/hooks";
 import { RatedRecipe } from "@/types";
