@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
 
 import {
 	getCommentsByLike,
@@ -7,6 +6,7 @@ import {
 	getMyComments,
 	getHeartCommentIDs,
 } from "@/api";
+import { useIntersectionObserver } from "@/hooks";
 import { CommentSortType, RecipeComment } from "@/types";
 
 import RecipeCommentLayout from "@/components/layout/RecipeCommentLayout";
@@ -15,9 +15,16 @@ import Comment from "@/components/recipe/Comment/Comment";
 import CommentInputForm from "@/components/recipe/Comment/CommentInputForm";
 
 import styles from "@/scss/pages.module.scss";
-import { useIntersectionObserver } from "@/hooks";
 
-export default function RecipeCommentPage({ recipeID, recipeName }) {
+type RecipeCommentPageProps = {
+	recipeID: number;
+	recipeName: string;
+};
+
+export default function RecipeCommentPage({
+	recipeID,
+	recipeName,
+}: RecipeCommentPageProps) {
 	const [myCommentData, setMyCommentData] = useState<RecipeComment[]>([]);
 	const [otherCommentData, setOtherCommentData] = useState<RecipeComment[]>([]);
 
@@ -32,7 +39,7 @@ export default function RecipeCommentPage({ recipeID, recipeName }) {
 	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
 	const [modifyMode, setModifyMode] = useState(false);
-	const [heartCommentIDs, setHeartCommentIDs] = useState([]);
+	const [heartCommentIDs, setHeartCommentIDs] = useState<number[]>([]);
 
 	const [comment, setComment] = useState("");
 	const [commentID, setCommentID] = useState(0);
@@ -111,7 +118,7 @@ export default function RecipeCommentPage({ recipeID, recipeName }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const recipeID = Number(context.query.recipeID);
 	const recipeName = context.query.recipeName;
 

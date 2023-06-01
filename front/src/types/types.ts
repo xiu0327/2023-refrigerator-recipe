@@ -7,3 +7,4 @@ export type RecipeFilterName =
 	| "난이도"
 	| "조리시간"
 	| "별점";
+export type IngredientType = "주재료" | "부재료" | "양념";

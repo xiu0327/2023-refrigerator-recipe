@@ -46,7 +46,7 @@ export default function Comment({
 		// TODO: 삭제 확인 모달
 		deleteComment(commentID);
 		setMyCommentData &&
-			setMyCommentData((prevCommentData) =>
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.filter(
 					(commentItem) => commentID !== commentItem.commentID,
 				),
@@ -56,9 +56,9 @@ export default function Comment({
 	const onLikeCommentClick = () => {
 		likeComment(comment.commentID);
 		setHeartCommentIDs &&
-			setHeartCommentIDs((prevIDs) => [...prevIDs, commentID]);
+			setHeartCommentIDs((prevIDs: number[]) => [...prevIDs, commentID]);
 		setMyCommentData &&
-			setMyCommentData((prevCommentData) =>
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart + 1 }
@@ -66,7 +66,7 @@ export default function Comment({
 				),
 			);
 		setOtherCommentData &&
-			setOtherCommentData((prevCommentData) =>
+			setOtherCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart + 1 }
@@ -77,9 +77,11 @@ export default function Comment({
 	const onUnlikeCommentClick = () => {
 		unlikeComment(comment.commentID);
 		setHeartCommentIDs &&
-			setHeartCommentIDs((prevIDs) => prevIDs.filter((id) => id !== commentID));
+			setHeartCommentIDs((prevIDs: number[]) =>
+				prevIDs.filter((id) => id !== commentID),
+			);
 		setMyCommentData &&
-			setMyCommentData((prevCommentData) =>
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart - 1 }
@@ -87,7 +89,7 @@ export default function Comment({
 				),
 			);
 		setOtherCommentData &&
-			setOtherCommentData((prevCommentData) =>
+			setOtherCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart - 1 }

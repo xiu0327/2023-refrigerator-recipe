@@ -20,7 +20,9 @@ export default function SearchTags({
 	const onDeleteTagBtnClick = async (tag: string) => {
 		await deleteLateSearch(tag);
 		setTagData &&
-			setTagData((prevTags) => prevTags.filter((prevTag) => prevTag !== tag));
+			setTagData((prevTags: string[]) =>
+				prevTags.filter((prevTag) => prevTag !== tag),
+			);
 	};
 
 	return (
