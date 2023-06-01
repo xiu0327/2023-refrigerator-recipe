@@ -31,7 +31,7 @@ export default function CommentBox({
 		setModifyMode(false);
 	};
 
-	const onCommentSubmit = (event: any) => {
+	const onCommentSubmit = (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		onCommentBtnClick();
 	};

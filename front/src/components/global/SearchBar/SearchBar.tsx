@@ -1,6 +1,7 @@
 import { Search } from "react-bootstrap-icons";
 import Input from "../Input/Input";
 import styles from "@/scss/pages.module.scss";
+import { FormEvent } from "react";
 
 type SearchInputProps = {
 	keyword?: string;
@@ -25,7 +26,7 @@ export default function SearchBar({
 		handleSearchBtnClick && handleSearchBtnClick();
 	};
 
-	const onSearchSubmit = (e: any) => {
+	const onSearchSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		handleSubmit && handleSubmit();
 	};

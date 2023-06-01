@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect } from "react";
+import { FormEvent, MutableRefObject, useEffect } from "react";
 import { X, XCircleFill } from "react-bootstrap-icons";
 import { addComment, getMyComments, modifyComment } from "@/api";
 import styles from "./Comment.module.scss";
@@ -38,7 +38,7 @@ export default function CommentInputForm({
 		setModifyMode(false);
 	};
 
-	const onCommentSubmit = (e) => {
+	const onCommentSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		onCommentRegisterBtnClick();
 	};
