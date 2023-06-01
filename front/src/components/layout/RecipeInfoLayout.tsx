@@ -2,6 +2,7 @@ import AppBar from "./AppBar/AppBar";
 import { BackIcon } from "./AppBar/AppBarIcons";
 import { BookmarkIcon } from "./AppBar/BookmarkIcon";
 import styles from "./Layout.module.scss";
+import NavBar from "./NavBar/NavBar";
 
 type layoutProps = {
 	recipeName: string;
@@ -30,7 +31,8 @@ export default function RecipeInfoLayout({
 					setBookmarkIDs={setBookmarkIDs}
 				/>
 			</AppBar>
-			<div className={styles.layoutContentWithApp}>{children}</div>
+			<div className={styles.layoutContentWithAppNav}>{children}</div>
+			<NavBar activeLabel="레시피" />
 		</div>
 	);
 }
