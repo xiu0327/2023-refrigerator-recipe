@@ -13,7 +13,7 @@ export default function ScrollContent(props: any) {
 	};
 	return props.content === "ratings" ? (
 		<div className={styles.scroll}>
-			{props.starPreview?.map((i) => (
+			{props.starPreview?.map((i: any) => (
 				<div className={styles.content} key={i.scoreId}>
 					<button
 						className={styles.recipeBtn}
@@ -42,7 +42,7 @@ export default function ScrollContent(props: any) {
 		</div>
 	) : (
 		<div className={styles.scroll}>
-			{props.bookPreview?.map((i) => (
+			{props.bookPreview?.map((i: any) => (
 				<div className={styles.content} key={i.recipeId}>
 					<button
 						className={styles.recipeBtn}

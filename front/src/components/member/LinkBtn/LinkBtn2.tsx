@@ -1,9 +1,14 @@
-import Link from "next/link";
 import { Button } from "react-bootstrap";
 import styles from "./LinkBtn.module.scss";
 import { login } from "@/api/login";
 
-export default function LinkBtn2({ title, email, password }) {
+interface LinkBtn2Props {
+	title: string;
+	email: string;
+	password: string;
+}
+
+export default function LinkBtn2({ title, email, password }: LinkBtn2Props) {
 	return (
 		<Button
 			className={styles.linkButton}

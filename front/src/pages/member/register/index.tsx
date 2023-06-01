@@ -37,25 +37,25 @@ export default function Register() {
 		setNickname(e.target.value);
 	}; // 닉네임 작성
 
-	const onCheckEmailHandler = (e: any) => {
-		setChecked(e.target.value);
-	}; // 이메일 인증 작성
+	// const onCheckEmailHandler = (e: any) => {
+	// 	setChecked(e.target.value);
+	// }; // 이메일 인증 작성
 
-	const onAuthenticateHandler = (e: any) => {
-		setCode(e.target.value);
-	}; // 인증번호 입력 작성
+	// const onAuthenticateHandler = (e: any) => {
+	// 	setCode(e.target.value);
+	// }; // 인증번호 입력 작성
 
 	const onDuplicateCheckClick = () => {
 		duplicate(email);
 	}; // 이메일 중복 확인 클릭
 
-	const onCheckEmailClick = () => {
-		checked !== "" && (checkEmail(checked), setClickBtn(true));
-	}; // 인증번호 전송 버튼 클릭 시 실행
+	// const onCheckEmailClick = () => {
+	// 	checked !== "" && (checkEmail(checked), setClickBtn(true));
+	// }; // 인증번호 전송 버튼 클릭 시 실행
 
-	const onAuthenticateClick = () => {
-		authenticate(checked, code);
-	}; // 인증번호 확인 클릭
+	// const onAuthenticateClick = () => {
+	// 	authenticate(checked, code);
+	// }; // 인증번호 확인 클릭
 
 	return (
 		<BackLayout>
@@ -87,7 +87,7 @@ export default function Register() {
 						type="password"
 						onChange={onPasswordHandler}
 					/>
-					<div>
+					<div className={styles.notice}>
 						<span className={styles.regularPw}>
 							<span>문자, 숫자, 특수 문자(@$!%*#?&)의 조합으로 이루어진</span>
 							<span>길이 4이상 16이하 문자</span>
@@ -122,7 +122,7 @@ export default function Register() {
 						type="text"
 						onChange={onNicknameHandler}
 					/>
-					<div>
+					<div className={styles.notice}>
 						<span className={styles.regularPw}>
 							<span>
 								영어, 한글, 띄어쓰기 포함 3자리 이상 10자리 이하 문자열
@@ -130,7 +130,7 @@ export default function Register() {
 						</span>
 					</div>
 				</div>
-				<div>
+				{/* <div>
 					<InputBtn
 						formTitle="이메일 인증"
 						btnTitle="인증번호 전송"
@@ -155,7 +155,7 @@ export default function Register() {
 					btnTitle="인증번호 확인"
 					onChange={onAuthenticateHandler}
 					onClick={onAuthenticateClick}
-				/>
+				/> */}
 				<div className={`d-grid gap-2`}>
 					<ModalOnBtn
 						title="가입하기"
