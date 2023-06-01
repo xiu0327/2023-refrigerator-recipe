@@ -40,7 +40,7 @@ jobs:
               
           - name: Application Build
             run: |
-                cd back/refrigerator-api
+                cd back
                 ./gradlew refrigerator-api build -x test
           
           - name: Docker Image Build
