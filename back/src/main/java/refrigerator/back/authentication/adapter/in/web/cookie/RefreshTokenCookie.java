@@ -48,7 +48,7 @@ public class RefreshTokenCookie implements CustomCookie {
         return Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(NAME))
                 .findAny()
-                .orElseThrow(() -> new BusinessException(AuthenticationExceptionType.NOT_FOUND_COOKIE));
+                .orElseThrow(() -> new BusinessException(AuthenticationExceptionType.NOT_FOUND_TOKEN));
     }
 
     @Override

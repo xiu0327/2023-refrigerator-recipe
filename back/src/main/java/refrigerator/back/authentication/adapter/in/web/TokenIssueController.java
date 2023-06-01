@@ -44,8 +44,9 @@ public class TokenIssueController {
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDTO reissue(HttpServletRequest request){
         String refreshToken = refreshTokenCookie.get(request.getCookies()).getValue();
-        tokenReissueUseCase.reissue(refreshToken);
-        throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_TOKEN);
+        TokenDTO token = tokenReissueUseCase.reissue(refreshToken);
+        token.removeRefreshToken();
+        return token;
     }
 
     @PostMapping("/api/auth/issue/temporary-token")

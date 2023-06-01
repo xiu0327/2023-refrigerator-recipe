@@ -1,4 +1,4 @@
-package refrigerator.back.authentication;
+package refrigerator.back.authentication.integration;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
