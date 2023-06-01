@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { getBookmarkIDs, getOwnedIngredientIDs, getRecipe } from "@/api";
-import { RecipeDetail, RecipeStep } from "@/types";
+import {
+	getBookmarkIDs,
+	getCommentsPreview,
+	getOwnedIngredientIDs,
+	getRecipe,
+} from "@/api";
+import { RecipeComment, RecipeDetail, RecipeStep } from "@/types";
 
 import RecipeInfoLayout from "@/components/layout/RecipeInfoLayout";
 import RecipeDescription from "@/components/recipe/RecipeInfo/RecipeDescription";
@@ -26,6 +31,9 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 	const [ownedIngredientIDs, setOwnedIngredientIDs] = useState([]);
 	const [isOwnedDataLoaded, setIsOwnedDataLoaded] = useState(false);
 
+	const [commentData, setCommentData] = useState<RecipeComment[]>([]);
+	const [commentNum, setCommentNum] = useState(0);
+
 	const [isRecipeStepBottomSheetShow, setIsRecipeStepBottomSheetShow] =
 		useState(false);
 	const [
@@ -43,6 +51,10 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 			const ownedIngredientIDsData = await getOwnedIngredientIDs(recipeID);
 			setOwnedIngredientIDs(ownedIngredientIDsData);
 			setIsOwnedDataLoaded(true);
+
+			const data = await getCommentsPreview(recipeID);
+			setCommentData(data.comments);
+			setCommentNum(data.count);
 		})();
 	}, []);
 
@@ -72,6 +84,9 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 						<RecipeCommentsPreview
 							recipeID={recipeID}
 							recipeName={recipe.recipeName}
+							commentData={commentData}
+							commentNum={commentNum}
+							setCommentData={setCommentData}
 						/>
 					</div>
 				</RecipeInfoLayout>

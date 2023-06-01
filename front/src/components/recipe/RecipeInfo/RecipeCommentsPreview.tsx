@@ -1,29 +1,31 @@
 import { useEffect, useState } from "react";
 import styles from "./RecipeInfo.module.scss";
 import { RecipeComment } from "@/types";
-import { getCommentsPreview } from "@/api";
+import { getHeartCommentIDs } from "@/api";
 import Comment from "../Comment/Comment";
 import Link from "next/link";
 
 type RecipeCommentsPreviewProps = {
 	recipeID: number;
 	recipeName: string;
-	commentID?: number;
+	commentData: RecipeComment[];
+	commentNum: number;
+	setCommentData: Function;
 };
 
 export default function RecipeCommentsPreview({
 	recipeID,
 	recipeName,
-	commentID,
+	commentData,
+	commentNum,
+	setCommentData,
 }: RecipeCommentsPreviewProps) {
-	const [commentData, setCommentData] = useState<RecipeComment[]>([]);
-	const [commentNum, setCommentNum] = useState(0);
+	const [heartCommentIDs, setHeartCommentIDs] = useState<number[]>([]);
 
 	useEffect(() => {
 		(async () => {
-			const data = await getCommentsPreview(recipeID);
-			setCommentData(data.comments);
-			setCommentNum(data.count);
+			const heartData = await getHeartCommentIDs();
+			setHeartCommentIDs(heartData);
 		})();
 	}, []);
 
@@ -42,7 +44,13 @@ export default function RecipeCommentsPreview({
 			<div className={styles.recipeCommentList}>
 				{commentData?.map((comment) => (
 					<div key={comment.commentID}>
-						<Comment comment={comment} isLiked={false} preview />
+						<Comment
+							comment={comment}
+							isLiked={heartCommentIDs.includes(comment.commentID)}
+							setOtherCommentData={setCommentData}
+							setHeartCommentIDs={setHeartCommentIDs}
+							preview
+						/>
 					</div>
 				))}
 			</div>
