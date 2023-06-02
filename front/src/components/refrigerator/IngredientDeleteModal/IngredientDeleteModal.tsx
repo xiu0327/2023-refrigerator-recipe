@@ -33,8 +33,9 @@ export default function IngredientDeleteModal({
 			</Modal.Body>
 
 			{/* 버튼 취소, 삭제 특징적인 거 뽑아서 컴포넌트화 modal+bottomsheet */}
+			{/* onHide 같은 파라미터 통일 modal+bottomsheet */}
 			<Modal.Footer>
-				<button onClick={onHide}>취소</button>
+				<button onClick={onHide()}>취소</button>
 				<button onClick={onDeleteIngredientClick}>삭제</button>
 			</Modal.Footer>
 		</Modal>
