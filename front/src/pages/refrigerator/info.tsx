@@ -14,6 +14,8 @@ import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 import styles from "@/scss/pages.module.scss";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Modal from "@/components/global/Modal/Modal";
+import IngredientDeleteModal from "@/components/refrigerator/IngredientDeleteModal/IngredientDeleteModal";
 
 type IngredientInfoPageProps = {
 	ingredientID: number;
@@ -25,6 +27,7 @@ export default function IngredientInfoPage({
 	const [ingredient, setIngredient] = useState<IngredientDetail | undefined>(
 		undefined,
 	);
+	const [isDeleteModalOn, setIsDeleteModalOn] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -33,10 +36,8 @@ export default function IngredientInfoPage({
 		})();
 	}, []);
 
-	const onDeleteIngredientClick = async () => {
-		// TODO: 삭제 확인 모달 띄우기
-		await deleteIngredient(ingredientID);
-		router.back();
+	const onDeleteIngredientClick = () => {
+		setIsDeleteModalOn(true);
 	};
 
 	return (
@@ -84,6 +85,13 @@ export default function IngredientInfoPage({
 					>
 						<BottomBtn label="수정하기" />
 					</Link>
+
+					<IngredientDeleteModal
+						show={isDeleteModalOn}
+						onHide={() => setIsDeleteModalOn(false)}
+						ingredientID={ingredient.ingredientID}
+						ingredientName={ingredient.name}
+					/>
 				</>
 			)}
 		</BackBottomBtnLayout>

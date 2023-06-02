@@ -1,0 +1,22 @@
+@import "@/scss/variables";
+
+.messageContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	flex: 1;
+	padding: 1.25rem 1rem;
+	font-size: 17px;
+	text-align: center;
+	color: $grey-600;
+
+	.ingredientName {
+		font-size: 19px;
+		font-weight: bold;
+		color: $grey-800;
+	}
+}
+
+.deleteBtn {
+	color: #ffcdd2;
+}
