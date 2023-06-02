@@ -22,6 +22,7 @@ $nav-label-size: 12px;
 	gap: 0.5rem;
 	background-color: white;
 	border-top: 1px solid $grey-300;
+	margin: 0 -1px;
 }
 .navItem {
 	@include nav-item();
