@@ -71,7 +71,7 @@ export default function RecipeListPage() {
 	return (
 		<>
 			<AppNavLayout title="레시피">
-				<div className={styles.fixed}>
+				<div className={styles.fixedContainer}>
 					<Link
 						href={`/recipe/search?query=`}
 						style={{ textDecoration: "none" }}

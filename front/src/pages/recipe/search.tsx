@@ -57,7 +57,7 @@ export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 
 	return (
 		<BackLayout>
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<SearchBar
 					keyword={keyword}
 					setKeyword={setKeyword}

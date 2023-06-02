@@ -43,7 +43,7 @@ export default function SearchIngredientPage() {
 
 	return (
 		<BackLayout>
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<SearchBar
 					keyword={keyword}
 					setKeyword={setKeyword}

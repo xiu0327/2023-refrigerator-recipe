@@ -51,7 +51,7 @@ export default function RefrigeratorPage() {
 
 	return (
 		<AppNavLayout title="냉장고">
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<div className="d-flex align-items-center gap-3">
 					<StorageTab storage={storage} setStorage={setStorage} size="sm" />
 					<Link href={`/refrigerator/search`}>
