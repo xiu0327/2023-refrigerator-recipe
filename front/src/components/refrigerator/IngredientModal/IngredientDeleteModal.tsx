@@ -1,5 +1,5 @@
 import Modal from "@/components/global/Modal/Modal";
-import styles from "./IngredientDeleteModal.module.scss";
+import styles from "./IngredientModal.module.scss";
 import { deleteIngredient } from "@/api";
 import router from "next/router";
 
@@ -35,7 +35,7 @@ export default function IngredientDeleteModal({
 			{/* 버튼 취소, 삭제 특징적인 거 뽑아서 컴포넌트화 modal+bottomsheet */}
 			{/* onHide 같은 파라미터 통일 modal+bottomsheet */}
 			<Modal.Footer>
-				<button onClick={onHide()}>취소</button>
+				<button onClick={() => onHide()}>취소</button>
 				<button onClick={onDeleteIngredientClick}>삭제</button>
 			</Modal.Footer>
 		</Modal>

@@ -1,4 +1,5 @@
-import router, { useRouter } from "next/router";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Trash3 } from "react-bootstrap-icons";
 
 import { getIngredientInfo, deleteIngredient } from "@/api";
@@ -10,12 +11,9 @@ import FormLabel from "@/components/global/FormLabel/FormLabel";
 import Input from "@/components/global/Input/Input";
 import VolumeInputForm from "@/components/refrigerator/IngredientInputForm/VolumeInputForm";
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
+import IngredientDeleteModal from "@/components/refrigerator/IngredientModal/IngredientDeleteModal";
 
 import styles from "@/scss/pages.module.scss";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import Modal from "@/components/global/Modal/Modal";
-import IngredientDeleteModal from "@/components/refrigerator/IngredientDeleteModal/IngredientDeleteModal";
 
 type IngredientInfoPageProps = {
 	ingredientID: number;

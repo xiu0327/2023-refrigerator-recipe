@@ -8,7 +8,6 @@ import RequestIngredient from "@/components/refrigerator/RequestIngredient/Reque
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
-import Link from "next/link";
 
 export default function AddIngredientNamePage() {
 	const [keyword, setKeyword] = useState<string>("");
