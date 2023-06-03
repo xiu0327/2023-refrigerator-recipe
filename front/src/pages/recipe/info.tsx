@@ -1,8 +1,12 @@
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { getBookmarkIDs, getOwnedIngredientIDs, getRecipe } from "@/api";
-import { RecipeDetail, RecipeStep } from "@/types";
+import {
+	getBookmarkIDs,
+	getCommentsPreview,
+	getOwnedIngredientIDs,
+	getRecipe,
+} from "@/api";
+import { RecipeComment, RecipeDetail, RecipeStep } from "@/types";
 
 import RecipeInfoLayout from "@/components/layout/RecipeInfoLayout";
 import RecipeDescription from "@/components/recipe/RecipeInfo/RecipeDescription";
@@ -16,12 +20,19 @@ import RatingBottomSheet from "@/components/recipe/CookingBottomSheet/RatingBott
 
 import styles from "@/scss/pages.module.scss";
 
-export default function RecipeInfoPage({ recipeID }) {
+type RecipeInfoPageProps = {
+	recipeID: number;
+};
+
+export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 	const [recipe, setRecipe] = useState<RecipeDetail | null>();
-	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[] | null>();
+	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[]>([]);
 	const [bookmarkIDs, setBookmarkIDs] = useState([]);
 	const [ownedIngredientIDs, setOwnedIngredientIDs] = useState([]);
 	const [isOwnedDataLoaded, setIsOwnedDataLoaded] = useState(false);
+
+	const [commentData, setCommentData] = useState<RecipeComment[]>([]);
+	const [commentNum, setCommentNum] = useState(0);
 
 	const [isRecipeStepBottomSheetShow, setIsRecipeStepBottomSheetShow] =
 		useState(false);
@@ -40,6 +51,10 @@ export default function RecipeInfoPage({ recipeID }) {
 			const ownedIngredientIDsData = await getOwnedIngredientIDs(recipeID);
 			setOwnedIngredientIDs(ownedIngredientIDsData);
 			setIsOwnedDataLoaded(true);
+
+			const data = await getCommentsPreview(recipeID);
+			setCommentData(data.comments);
+			setCommentNum(data.count);
 		})();
 	}, []);
 
@@ -69,12 +84,15 @@ export default function RecipeInfoPage({ recipeID }) {
 						<RecipeCommentsPreview
 							recipeID={recipeID}
 							recipeName={recipe.recipeName}
+							commentData={commentData}
+							commentNum={commentNum}
+							setCommentData={setCommentData}
 						/>
 					</div>
 				</RecipeInfoLayout>
 			)}
 
-			{recipe && recipeSteps && (
+			{recipe && recipeSteps.length !== 0 && (
 				<RecipeStepBottomSheet
 					show={isRecipeStepBottomSheetShow}
 					onHide={() => setIsRecipeStepBottomSheetShow(false)}
@@ -103,7 +121,7 @@ export default function RecipeInfoPage({ recipeID }) {
 	);
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
 	const recipeID = Number(context.query.recipeID);
 
 	return {

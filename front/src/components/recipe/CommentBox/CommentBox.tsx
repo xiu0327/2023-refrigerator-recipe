@@ -1,13 +1,16 @@
-import { useState } from "react";
 import styles from "./CommentBox.module.scss";
-import {
-	addComment,
-	getCommentsByLike,
-	getMyComments,
-	modifyComment,
-} from "@/api";
-import { login } from "@/api/login";
+import { addComment, getMyComments, modifyComment } from "@/api";
 import { X } from "react-bootstrap-icons";
+
+type CommentBoxProps = {
+	recipeID: number;
+	setCommentData: Function;
+	comment: string;
+	setComment: Function;
+	modifyMode: boolean;
+	setModifyMode: Function;
+	commentID: number;
+};
 
 export default function CommentBox({
 	recipeID,
@@ -17,19 +20,18 @@ export default function CommentBox({
 	modifyMode,
 	setModifyMode,
 	commentID,
-}) {
+}: CommentBoxProps) {
 	const onCommentBtnClick = async () => {
 		modifyMode
 			? await modifyComment(commentID, comment)
 			: await addComment(recipeID, comment);
-		// const data = await getCommentsByLike(recipeID, 0, 10);
 		const myData = await getMyComments(recipeID);
 		setCommentData(myData);
 		setComment("");
 		setModifyMode(false);
 	};
 
-	const onCommentSubmit = (event) => {
+	const onCommentSubmit = (event: { preventDefault: () => void }) => {
 		event.preventDefault();
 		onCommentBtnClick();
 	};

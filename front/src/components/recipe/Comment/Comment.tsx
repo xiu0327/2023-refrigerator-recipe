@@ -2,6 +2,7 @@ import { Heart, HeartFill } from "react-bootstrap-icons";
 import { RecipeComment } from "@/types";
 import { deleteComment, likeComment, unlikeComment } from "@/api";
 import styles from "./Comment.module.scss";
+import { useEffect } from "react";
 
 type CommentProps = {
 	comment: RecipeComment;
@@ -42,23 +43,23 @@ export default function Comment({
 		setComment && setComment(content);
 		// TODO: input focus 하기
 	};
-	const onDeleteTextClick = () => {
+	const onDeleteTextClick = async () => {
 		// TODO: 삭제 확인 모달
-		deleteComment(commentID);
+		await deleteComment(commentID);
 		setMyCommentData &&
-			setMyCommentData((prevCommentData) =>
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.filter(
 					(commentItem) => commentID !== commentItem.commentID,
 				),
 			);
 	};
 
-	const onLikeCommentClick = () => {
-		likeComment(comment.commentID);
+	const onLikeCommentClick = async () => {
+		await likeComment(comment.commentID);
 		setHeartCommentIDs &&
-			setHeartCommentIDs((prevIDs) => [...prevIDs, commentID]);
+			setHeartCommentIDs((prevIDs: number[]) => [...prevIDs, commentID]);
 		setMyCommentData &&
-			setMyCommentData((prevCommentData) =>
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart + 1 }
@@ -66,7 +67,7 @@ export default function Comment({
 				),
 			);
 		setOtherCommentData &&
-			setOtherCommentData((prevCommentData) =>
+			setOtherCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart + 1 }
@@ -74,12 +75,14 @@ export default function Comment({
 				),
 			);
 	};
-	const onUnlikeCommentClick = () => {
-		unlikeComment(comment.commentID);
+	const onUnlikeCommentClick = async () => {
+		await unlikeComment(comment.commentID);
 		setHeartCommentIDs &&
-			setHeartCommentIDs((prevIDs) => prevIDs.filter((id) => id !== commentID));
+			setHeartCommentIDs((prevIDs: number[]) =>
+				prevIDs.filter((id) => id !== commentID),
+			);
 		setMyCommentData &&
-			setMyCommentData((prevCommentData) =>
+			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart - 1 }
@@ -87,7 +90,7 @@ export default function Comment({
 				),
 			);
 		setOtherCommentData &&
-			setOtherCommentData((prevCommentData) =>
+			setOtherCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.map((commentItem) =>
 					commentItem.commentID === commentID
 						? { ...commentItem, heart: heart - 1 }

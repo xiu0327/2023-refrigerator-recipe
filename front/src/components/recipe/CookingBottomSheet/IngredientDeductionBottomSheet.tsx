@@ -3,6 +3,7 @@ import styles from "./CookingBottomSheet.module.scss";
 import { useEffect, useState } from "react";
 import { deductIngredient, getRecipeIngredients } from "@/api";
 import { CheckCircle, CheckCircleFill } from "react-bootstrap-icons";
+import { RecipeCalculatedIngredient } from "@/types";
 
 type IngredientDeductionBottomSheetProps = {
 	show: boolean;
@@ -19,9 +20,13 @@ export default function IngredientDeductionBottomSheet({
 	recipeID,
 	ownedIngredientIDs,
 }: IngredientDeductionBottomSheetProps) {
-	const [ingredients, setIngredients] = useState([]);
-	const [isDeductionAvailable, setIsDeductionAvailable] = useState([]);
-	const [isDeductionSelected, setIsDeductionSelected] = useState([]);
+	const [ingredients, setIngredients] = useState<RecipeCalculatedIngredient[]>(
+		[],
+	);
+	const [isDeductionAvailable, setIsDeductionAvailable] = useState<number[]>(
+		[],
+	);
+	const [isDeductionSelected, setIsDeductionSelected] = useState<number[]>([]);
 
 	useEffect(() => {
 		(async () => {
@@ -29,10 +34,13 @@ export default function IngredientDeductionBottomSheet({
 			setIngredients(data);
 
 			const filteredData = data
-				.filter((ingredient) =>
+				.filter((ingredient: RecipeCalculatedIngredient) =>
 					ownedIngredientIDs.includes(ingredient.recipeIngredientId),
 				)
-				.map((ingredient) => ingredient.recipeIngredientId);
+				.map(
+					(ingredient: RecipeCalculatedIngredient) =>
+						ingredient.recipeIngredientId,
+				);
 			setIsDeductionAvailable(filteredData);
 			setIsDeductionSelected(filteredData);
 		})();
@@ -40,7 +48,7 @@ export default function IngredientDeductionBottomSheet({
 
 	const onNextBtnClick = () => {
 		const selectedIngredients = ingredients
-			.filter((ingredient) =>
+			.filter((ingredient: RecipeCalculatedIngredient) =>
 				isDeductionSelected.includes(ingredient.recipeIngredientId),
 			)
 			.map(({ name, volume, unit }) => ({ name, volume, unit }));

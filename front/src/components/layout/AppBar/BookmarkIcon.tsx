@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bookmark, BookmarkStarFill } from "react-bootstrap-icons";
 import { addBookmark, removeBookmark } from "@/api";
 import styles from "./AppBar.module.scss";
@@ -14,17 +14,19 @@ export const BookmarkIcon = ({
 	bookmarkIDs,
 	setBookmarkIDs,
 }: BookmarkProps) => {
-	const [isBookmarked, setIsBookmarked] = useState(
-		bookmarkIDs.includes(recipeID),
-	);
+	const [isBookmarked, setIsBookmarked] = useState(false);
 
-	const onAddBookmarkClick = () => {
-		addBookmark(recipeID, setBookmarkIDs);
+	useEffect(() => {
+		setIsBookmarked(bookmarkIDs.includes(recipeID));
+	}, []);
+
+	const onAddBookmarkClick = async () => {
+		await addBookmark(recipeID, setBookmarkIDs);
 		setIsBookmarked(true);
 	};
 
-	const onRemoveBookmarkClick = () => {
-		removeBookmark(recipeID, setBookmarkIDs);
+	const onRemoveBookmarkClick = async () => {
+		await removeBookmark(recipeID, setBookmarkIDs);
 		setIsBookmarked(false);
 	};
 
