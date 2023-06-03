@@ -27,7 +27,7 @@ type RecipeInfoPageProps = {
 export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 	const [recipe, setRecipe] = useState<RecipeDetail | null>();
 	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[]>([]);
-	const [bookmarkIDs, setBookmarkIDs] = useState([]);
+	const [bookmarkIDs, setBookmarkIDs] = useState();
 	const [ownedIngredientIDs, setOwnedIngredientIDs] = useState([]);
 	const [isOwnedDataLoaded, setIsOwnedDataLoaded] = useState(false);
 
@@ -60,7 +60,7 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 
 	return (
 		<>
-			{recipe && (
+			{recipe && bookmarkIDs && (
 				<RecipeInfoLayout
 					recipeID={recipeID}
 					bookmarkIDs={bookmarkIDs}

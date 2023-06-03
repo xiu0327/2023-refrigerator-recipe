@@ -17,6 +17,7 @@ export const BookmarkIcon = ({
 	const [isBookmarked, setIsBookmarked] = useState(false);
 
 	useEffect(() => {
+		console.log(bookmarkIDs);
 		setIsBookmarked(bookmarkIDs.includes(recipeID));
 	}, []);
 
