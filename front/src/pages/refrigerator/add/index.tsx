@@ -6,12 +6,14 @@ import Input from "@/components/global/Input/Input";
 import IngredientList from "@/components/refrigerator/IngredientList/IngredientsList";
 import RequestIngredient from "@/components/refrigerator/RequestIngredient/RequestIngredient";
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
+import IngredientRequestModal from "@/components/refrigerator/IngredientModal/IngredientRequestModal";
 
 import styles from "@/scss/pages.module.scss";
 
 export default function AddIngredientNamePage() {
 	const [keyword, setKeyword] = useState<string>("");
 	const [selectedIngredient, setSelectedIngredient] = useState("");
+	const [isRequestModalOn, setIsRequestModalOn] = useState(false);
 
 	const onAddIngredientBtnClick = () => {
 		router.replace(`/refrigerator/add/info?ingredient=${selectedIngredient}`);
@@ -36,12 +38,18 @@ export default function AddIngredientNamePage() {
 			</div>
 
 			{keyword && !selectedIngredient && (
-				<RequestIngredient keyword={keyword} />
+				<RequestIngredient setIsRequestModalOn={setIsRequestModalOn} />
 			)}
 			<BottomBtn
 				label="추가하기"
 				disabled={!Boolean(selectedIngredient)}
 				onClick={onAddIngredientBtnClick}
+			/>
+
+			<IngredientRequestModal
+				show={isRequestModalOn}
+				onHide={() => setIsRequestModalOn(false)}
+				keyword={keyword}
 			/>
 		</BackBottomBtnLayout>
 	);

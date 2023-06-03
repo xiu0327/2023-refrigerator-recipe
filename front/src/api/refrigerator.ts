@@ -71,7 +71,7 @@ export const getExpiringIngredients = async (day: number) => {
 
 export const requestIngredient = async (name: string, unit: string) => {
 	const url = `/api/ingredients/propose`;
-	const body = { name: name, unit: unit };
+	const body = { name, unit };
 	try {
 		await instance.post(url, body);
 	} catch (error) {

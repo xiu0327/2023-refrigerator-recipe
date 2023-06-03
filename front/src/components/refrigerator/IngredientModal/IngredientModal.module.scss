@@ -15,8 +15,22 @@
 		font-weight: bold;
 		color: $grey-800;
 	}
-}
 
-.deleteBtn {
-	color: #ffcdd2;
+	.message {
+		line-height: 150%;
+		letter-spacing: 0.5px;
+		padding-bottom: 1rem;
+	}
+
+	.inputContainer {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+
+		> span {
+			font-size: 18px;
+			font-weight: 600;
+			display: inline-block;
+		}
+	}
 }
