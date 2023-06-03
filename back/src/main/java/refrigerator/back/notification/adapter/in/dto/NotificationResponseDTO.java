@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class NotificationResponseDTO {
 
     private Long id;
-    private String image;
     private String message;
     private String type;
     private String registerTime;

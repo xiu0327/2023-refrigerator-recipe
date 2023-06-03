@@ -31,7 +31,7 @@ public class CreateNotificationService implements CreateCommentHeartNotification
         CommentNotificationDetails details = commentDetailsPort.getDetails(commentId);
         Notification notification = Notification.create(
                 NotificationType.HEART,
-                "/api/comments/heart?recipeId=" + details.getRecipeId() + "&page=0",
+                "/recipe/comment?recipeId=" + details.getRecipeId() + "&commentID=" + commentId,
                 details.getAuthorId(),
                 HttpMethod.GET.name()
         );

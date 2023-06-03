@@ -12,8 +12,6 @@ public interface NotificationMapper {
 
     NotificationMapper INSTANCE = Mappers.getMapper(NotificationMapper.class);
 
-    NotificationResponseDTO toNotificationResponseDTO(Notification notification);
-
     CommentNotificationDetails toCommentNotificationDetail(OutCommentDetailsDTO dto);
 
 }

@@ -1,5 +1,6 @@
 package refrigerator.back.ingredient.adapter.out.repository.query;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static org.springframework.util.StringUtils.*;
 import static refrigerator.back.ingredient.application.domain.QIngredient.*;
@@ -54,8 +56,6 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
         em.flush();
         em.clear();
     }
-
-
 
     @Override
     public void saveSuggestIngredient(SuggestedIngredient ingredient) {
@@ -150,22 +150,23 @@ public class IngredientQueryRepositoryImpl implements IngredientQueryRepository 
 
     // condition
 
-    private BooleanExpression emailCheck(String email) {
-        if(hasText(email))
-            return ingredient.email.eq(email);
-        else
-            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+    private BooleanBuilder emailCheck(String email) {
+        return nullSafeBuilder(() -> ingredient.email.eq(email));
     }
 
-    private BooleanExpression storageCheck(IngredientStorageType storage) {
-        if(storage != null)
-            return ingredient.storageMethod.eq(storage);
-        else
-            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+    private BooleanBuilder storageCheck(IngredientStorageType storage) {
+        return nullSafeBuilder(() -> ingredient.storageMethod.eq(storage));
     }
 
     private BooleanExpression deadlineCheck(boolean deadline) {
+        return deadline ? ingredient.expirationDate.lt(LocalDate.now()) : ingredient.expirationDate.goe(LocalDate.now());
+    }
 
-        return deadline ? ingredient.expirationDate.lt(LocalDate.now()) : null;
+    public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
+        try {
+            return new BooleanBuilder(f.get());
+        } catch (NullPointerException e) {
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+        }
     }
 }

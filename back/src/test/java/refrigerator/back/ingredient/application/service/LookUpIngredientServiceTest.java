@@ -40,6 +40,7 @@ class LookUpIngredientServiceTest {
         RegisteredIngredient ingredient = ingredientLookUpService.getIngredient("당근");
         assertThat(ingredient.getUnit()).isEqualTo("g");
         assertThat(ingredient.getImage()).isEqualTo(10);
+        assertThat(ingredient.getName()).isEqualTo("당근");
     }
 
     @Test
@@ -63,7 +64,7 @@ class LookUpIngredientServiceTest {
 
         Integer count1 = 0;
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 3; i++) {
             List<IngredientResponseDTO> ingredientList = ingredientLookUpService.getIngredientList(
                     new IngredientSearchCondition(IngredientStorageType.FRIDGE, false, "asd123@naver.com"), i, 5);
 
@@ -95,7 +96,7 @@ class LookUpIngredientServiceTest {
             }
         }
 
-        assertThat(count1).isEqualTo(29);
+        assertThat(count1).isEqualTo(15);
         assertThat(count2).isEqualTo(14);
 
         // storage check

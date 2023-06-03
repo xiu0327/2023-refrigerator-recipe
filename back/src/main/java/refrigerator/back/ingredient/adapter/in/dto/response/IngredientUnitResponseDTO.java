@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class IngredientUnitResponseDTO {
 
     private String unit;
-    // private String Image;
+    private String name;
 }
