@@ -13,6 +13,7 @@ export const changePassword = (password: string) => {
 			})
 			.catch(function (error) {
 				reject(error);
+				router.reload();
 			});
 	});
 };
