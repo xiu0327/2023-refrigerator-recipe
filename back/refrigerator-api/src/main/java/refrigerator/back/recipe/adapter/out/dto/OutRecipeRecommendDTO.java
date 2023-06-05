@@ -4,6 +4,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 
+
 @Getter
 public class OutRecipeRecommendDTO {
     private Long recipeId;

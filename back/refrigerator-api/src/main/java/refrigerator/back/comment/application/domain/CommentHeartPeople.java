@@ -2,6 +2,7 @@ package refrigerator.back.comment.application.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "comment_heart_people")
 @Getter
 @NoArgsConstructor
+@Slf4j
 public class CommentHeartPeople {
 
     @Id
@@ -37,6 +39,10 @@ public class CommentHeartPeople {
 
     public static String makeSubPeopleId(String memberId, Long commentId){
         int commentHash = 7;
-        return String.valueOf(31 * commentHash * commentId * memberId.hashCode());
+        log.info("memberId = {}, commentId = {}", memberId, commentId);
+        log.info("memberId hashCode = {}", memberId.hashCode());
+        String result = String.valueOf(31 * commentHash * commentId * memberId.hashCode());
+        log.info("result = {}", result);
+        return result;
     }
 }

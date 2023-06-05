@@ -1,32 +1,52 @@
 package refrigerator.back.recipe.application.domain;
 
-import com.google.common.collect.Sets;
+import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.recipe.exception.RecipeExceptionType;
 
-import java.math.BigDecimal;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingDouble;
+
+/**
+ * 추천 레시피 추출
+ * 1. 레시피 식재료 이름과 사용자 식재료 이름을 비교하여 일치율 도출 -> IngredientMatchRate
+ * 2. 상위 일치율 10개의 레시피 식별자 값을 추출
+ */
 
 public class RecipeRecommend {
 
-    Set<String> names;
-    double matchPercent = 0;
+   private final Map<Long, IngredientMatchPercent> percents;
+   private final Set<String> myIngredientNames;
 
-    public RecipeRecommend() {
-        this.names = new HashSet<>();
+    public RecipeRecommend(Map<Long, IngredientMatchPercent> percents,
+                           Set<String> myIngredientNames) {
+        this.percents = percents;
+        this.myIngredientNames = myIngredientNames;
     }
 
-    public void count(Set<String> ingredientNames){
-        int matchCnt = Sets.intersection(names, ingredientNames).size();
-        BigDecimal a = BigDecimal.valueOf((double) matchCnt / names.size());
-        BigDecimal b = new BigDecimal("100");
-        this.matchPercent = a.multiply(b).doubleValue();
+    /* 비즈니스 로직 */
+
+    public List<Long> extractTopTenMatchPercentIds(){
+        isValidMyIngredients();
+        percents.keySet().forEach(key -> percents.get(key).count(myIngredientNames));
+        return percents.keySet().stream()
+                .sorted(comparingDouble(
+                        key -> percents.get(key).getMatchPercent()).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
     }
 
-    public void addNames(String name){
-        names.add(name);
+    public double findMatchPercentByRecipeId(Long recipeId){
+        return percents.get(recipeId).getMatchPercent();
     }
 
-    public double getMatchPercent() {
-        return Double.parseDouble(String.format("%.2f", matchPercent));
+    private void isValidMyIngredients() {
+        if (myIngredientNames.size() <= 0){
+            throw new BusinessException(RecipeExceptionType.EMPTY_MEMBER_INGREDIENT);
+        }
     }
+
 }

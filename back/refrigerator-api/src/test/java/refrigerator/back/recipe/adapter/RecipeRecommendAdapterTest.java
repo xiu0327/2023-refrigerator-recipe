@@ -30,7 +30,7 @@ package refrigerator.back.recipe.adapter;//package refrigerator.back.recipe.adap
 //    @Test
 //    @DisplayName("추천을 위한 레시피의 이름과 식재료 목록 불어오기")
 //    void getRecipeNameAndIngredient() {
-//        Map<Long, Set<String>> result = recipeRecommendAdapter.findRecipeIngredientNames();
+//        Map<Long, Set<String>> result = recipeRecommendAdapter.findMyIngredientNames();
 //        for (Set<String> value : result.values()) {
 //            Assertions.assertThat(value).isNotEmpty();
 //        }
@@ -38,22 +38,22 @@ package refrigerator.back.recipe.adapter;//package refrigerator.back.recipe.adap
 //
 //    @Test
 //    @DisplayName("회원의 식재료 이름 목록 불러오기")
-//    void findIngredientNames() {
+//    void findMyIngredientNames() {
 //        String memberId = testData.createMemberByEmail("email123@gmail.com");
 //        String ingredientName = "콩나물";
 //        testData.createIngredient(ingredientName, memberId);
-//        List<String> result = recipeRecommendAdapter.findIngredientNames(memberId);
+//        List<String> result = recipeRecommendAdapter.findMyIngredientNames(memberId);
 //        Assertions.assertThat(ingredientName).contains(result);
 //    }
 //
 //    @Test
 //    @DisplayName("추천 레시피 정보 불러오기")
-//    void findRecipeByIds() {
+//    void findRecipeInfo() {
 //        List<Long> recipeIds = new ArrayList<>();
 //        for(long i = 0 ; i < 10L ; i++){
 //            recipeIds.add(i);
 //        }
-//        List<InRecipeRecommendDTO> result = recipeRecommendAdapter.findRecipeByIds(recipeIds);
+//        List<InRecipeRecommendDTO> result = recipeRecommendAdapter.findRecipeInfo(recipeIds);
 //        for (InRecipeRecommendDTO dto : result) {
 //            log.info("dto = {}", dto);
 //        }

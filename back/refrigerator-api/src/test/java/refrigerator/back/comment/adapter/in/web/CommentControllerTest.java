@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
-@RedisFlushAll(beanName = "memberCacheRedisTemplate")
+//@RedisFlushAll(beanName = "memberCacheRedisTemplate")
 class CommentControllerTest {
 
     @Autowired MockMvc mockMvc;

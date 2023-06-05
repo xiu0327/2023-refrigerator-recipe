@@ -1,9 +1,6 @@
 package refrigerator.back.recipe.adapter.in.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -13,7 +10,7 @@ import java.util.Objects;
 
 @Data
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class InRecipeRecommendDTO {
 
@@ -50,4 +47,9 @@ public class InRecipeRecommendDTO {
         return Objects.hash(recipeID, recipeName, image, scoreAvg, match);
     }
 
+
+    public InRecipeRecommendDTO calculateMatchRate(Double match){
+        this.match = match;
+        return this;
+    }
 }
