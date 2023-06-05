@@ -1,7 +1,7 @@
 import router from "next/router";
 import instance from "./interceptors";
 
-const JWT_EXPIRY_TIME = 10 * 60 * 1000;
+const JWT_EXPIRY_TIME = 24 * 60 * 60 * 1000;
 
 export const login = async (email: string, password: string) => {
 	const url = `/api/auth/login`;
