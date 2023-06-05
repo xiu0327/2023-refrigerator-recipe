@@ -18,7 +18,10 @@ export default function RecipeList({ recipeData }: RecipeListProps) {
 					href={`/recipe/info?recipeID=${recipe.recipeID}`}
 				>
 					<div className={styles.recipeContainer}>
-						<img src={recipe.image} className={styles.recipeImage} />
+						<img
+							src={recipe.image.replace("https", "http")}
+							className={styles.recipeImage}
+						/>
 						<div className={styles.recipeInfoContainer}>
 							<div className={styles.recipeName}>{recipe.recipeName}</div>
 							<div className="d-flex gap-3">
