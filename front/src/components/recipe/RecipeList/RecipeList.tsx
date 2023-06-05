@@ -19,7 +19,7 @@ export default function RecipeList({ recipeData }: RecipeListProps) {
 				>
 					<div className={styles.recipeContainer}>
 						<img
-							src={recipe.image.replace("https", "http")}
+							src={recipe.image.replace("http", "https")}
 							className={styles.recipeImage}
 						/>
 						<div className={styles.recipeInfoContainer}>
