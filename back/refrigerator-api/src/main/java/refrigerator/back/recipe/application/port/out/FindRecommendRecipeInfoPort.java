@@ -1,7 +1,7 @@
 package refrigerator.back.recipe.application.port.out;
 
-import refrigerator.back.recipe.application.domain.RecipeRecommend;
+import refrigerator.back.recipe.application.domain.RecipeRecommendDomainService;
 
 public interface FindRecommendRecipeInfoPort {
-    RecipeRecommend getRecipeRecommend(String memberId);
+    RecipeRecommendDomainService getRecipeRecommend(String memberId);
 }

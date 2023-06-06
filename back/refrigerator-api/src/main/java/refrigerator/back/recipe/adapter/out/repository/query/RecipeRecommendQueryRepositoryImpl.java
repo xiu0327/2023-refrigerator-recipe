@@ -7,6 +7,7 @@ import refrigerator.back.recipe.adapter.out.dto.OutRecipeIngredientNameDTO;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeRecommendDTO;
 import refrigerator.back.recipe.adapter.out.dto.QOutRecipeIngredientNameDTO;
 import refrigerator.back.recipe.adapter.out.dto.QOutRecipeRecommendDTO;
+import refrigerator.back.recipe.application.domain.RecipeIngredientTuple;
 
 
 import java.time.LocalDate;
@@ -50,20 +51,26 @@ public class RecipeRecommendQueryRepositoryImpl implements RecipeRecommendQueryR
     }
 
     @Override
-    public Map<Long, Set<String>> findRecipeIngredientNames() {
+    public Map<Long, Set<RecipeIngredientTuple>> findRecipeIngredientNames() {
         // 1. DB 에서 레시피 식재료 명 데이터 가져오기
         List<OutRecipeIngredientNameDTO> data = jpaQueryFactory.select(
                         new QOutRecipeIngredientNameDTO(
                                 recipeIngredient.recipeID,
-                                recipeIngredient.name))
+                                recipeIngredient.name,
+                                recipeIngredient.type))
                 .from(recipeIngredient)
                 .fetch();
         // 2. 동일한 recipeId 별로 Map 자료구조 형성
-        Map<Long, Set<String>> result = new HashMap<>();
+        Map<Long, Set<RecipeIngredientTuple>> result = new HashMap<>();
         data.forEach(ingredient -> {
-            Set<String> names = result.getOrDefault(ingredient.getRecipeId(), new HashSet<>());
-            names.add(ingredient.getIngredientName());
-            result.put(ingredient.getRecipeId(), names);
+            Set<RecipeIngredientTuple> tuples = result.getOrDefault(
+                    ingredient.getRecipeId(),
+                    new HashSet<>());
+            tuples.add(new RecipeIngredientTuple(
+                    ingredient.getIngredientName(),
+                    ingredient.getType()
+            ));
+            result.put(ingredient.getRecipeId(), tuples);
         });
         return result;
     }

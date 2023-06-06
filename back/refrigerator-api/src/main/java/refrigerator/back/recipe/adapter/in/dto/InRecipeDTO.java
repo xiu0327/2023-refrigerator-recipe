@@ -17,4 +17,9 @@ public class InRecipeDTO implements Serializable {
     private String image;
     private Double scoreAvg;
     private Integer views;
+
+    public void settingImageUrl(String url){
+        this.image = url;
+    }
+
 }

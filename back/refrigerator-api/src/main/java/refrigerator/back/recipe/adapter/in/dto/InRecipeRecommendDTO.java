@@ -52,4 +52,8 @@ public class InRecipeRecommendDTO {
         this.match = match;
         return this;
     }
+
+    public void settingImageUrl(String url){
+        this.image = url;
+    }
 }

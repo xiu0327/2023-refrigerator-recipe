@@ -16,13 +16,13 @@ import static java.util.Comparator.comparingDouble;
  * 2. 상위 일치율 10개의 레시피 식별자 값을 추출
  */
 
-public class RecipeRecommend {
+public class RecipeRecommendDomainService {
 
-   private final Map<Long, IngredientMatchPercent> percents;
+   private final Map<Long, RecommendMatchPercent> percents;
    private final Set<String> myIngredientNames;
 
-    public RecipeRecommend(Map<Long, IngredientMatchPercent> percents,
-                           Set<String> myIngredientNames) {
+    public RecipeRecommendDomainService(Map<Long, RecommendMatchPercent> percents,
+                                        Set<String> myIngredientNames) {
         this.percents = percents;
         this.myIngredientNames = myIngredientNames;
     }
@@ -31,7 +31,7 @@ public class RecipeRecommend {
 
     public List<Long> extractTopTenMatchPercentIds(){
         isValidMyIngredients();
-        percents.keySet().forEach(key -> percents.get(key).count(myIngredientNames));
+        percents.keySet().forEach(key -> percents.get(key).calculateMatchPercent(myIngredientNames));
         return percents.keySet().stream()
                 .sorted(comparingDouble(
                         key -> percents.get(key).getMatchPercent()).reversed())

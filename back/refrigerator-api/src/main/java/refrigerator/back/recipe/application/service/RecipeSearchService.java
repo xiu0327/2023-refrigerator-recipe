@@ -3,7 +3,6 @@ package refrigerator.back.recipe.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeDTO;
 import refrigerator.back.recipe.application.domain.entity.RecipeSearchCondition;
 import refrigerator.back.recipe.application.domain.value.RecipeDifficulty;
@@ -25,10 +24,9 @@ public class RecipeSearchService implements SearchRecipeUseCase, FindSearchCondi
     private final SearchRecipePort searchRecipePort;
 
     @Override
-    public InRecipeBasicListDTO<InRecipeDTO> search(RecipeSearchCondition condition, int page, int size) {
+    public List<InRecipeDTO> search(RecipeSearchCondition condition, int page, int size) {
         condition.parameterCheck();
-        return new InRecipeBasicListDTO<>(
-                searchRecipePort.search(condition, page, size));
+        return searchRecipePort.search(condition, page, size);
     }
 
     @Override

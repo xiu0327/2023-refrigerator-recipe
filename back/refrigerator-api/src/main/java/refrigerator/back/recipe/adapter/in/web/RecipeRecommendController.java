@@ -8,6 +8,8 @@ import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe.application.port.in.RecommendRecipeUseCase;
 
 
+import java.util.List;
+
 import static refrigerator.back.global.common.MemberInformation.*;
 
 @RestController
@@ -15,12 +17,13 @@ import static refrigerator.back.global.common.MemberInformation.*;
 public class RecipeRecommendController {
 
     private final RecommendRecipeUseCase recommendRecipeUseCase;
+    private final MakeRecipeImageUrlAdapter makeRecipeImageUrl;
 
     @GetMapping("/api/recipe/recommend")
     public BasicListResponseDTO<InRecipeRecommendDTO> recommend(){
-        return new BasicListResponseDTO<>(
-                recommendRecipeUseCase.recommend(getMemberEmail())
-        );
+        List<InRecipeRecommendDTO> data = recommendRecipeUseCase.recommend(getMemberEmail());
+        makeRecipeImageUrl.toUrlByRecipeRecommendDto(data);
+        return new BasicListResponseDTO<>(data);
     }
 
 }

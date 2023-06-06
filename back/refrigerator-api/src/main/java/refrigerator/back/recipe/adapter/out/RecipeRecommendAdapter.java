@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe.adapter.mapper.RecipeDtoMapper;
 import refrigerator.back.recipe.adapter.out.repository.query.RecipeRecommendQueryRepository;
+import refrigerator.back.recipe.application.domain.RecipeIngredientTuple;
 import refrigerator.back.recipe.application.port.out.FindMyIngredientNamesPort;
 import refrigerator.back.recipe.application.port.out.FindRecipeRecommendInfoPort;
 
@@ -20,7 +21,7 @@ public class RecipeRecommendAdapter implements FindMyIngredientNamesPort, FindRe
     private final RecipeDtoMapper mapper;
 
     @Override
-    public Map<Long, Set<String>> findRecipeIngredientNames() {
+    public Map<Long, Set<RecipeIngredientTuple>> findRecipeIngredientNames() {
         return repository.findRecipeIngredientNames();
 
     }

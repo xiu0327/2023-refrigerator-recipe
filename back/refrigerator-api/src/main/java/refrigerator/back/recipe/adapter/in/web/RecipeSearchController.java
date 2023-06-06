@@ -16,6 +16,8 @@ import refrigerator.back.recipe.application.port.in.SearchRecipeUseCase;
 import refrigerator.back.recipe.infra.redis.config.RecipeCacheKey;
 import refrigerator.back.searchword.application.port.in.AddSearchWordUseCase;
 
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ public class RecipeSearchController {
     private final SearchRecipeUseCase searchRecipeUseCase;
     private final FindSearchConditionUseCase findSearchConditionUseCase;
     private final AddSearchWordUseCase addSearchWordUseCase;
+    private final MakeRecipeImageUrlAdapter makeRecipeImageUrlAdapter;
     private final RecipeDtoMapper mapper;
 
     @GetMapping("/api/recipe/search")
@@ -39,7 +42,7 @@ public class RecipeSearchController {
         if (StringUtils.hasText(searchWord)){
             addSearchWordUseCase.addSearchWord(MemberInformation.getMemberEmail(), searchWord);
         }
-        return searchRecipeUseCase.search(
+        List<InRecipeDTO> data = searchRecipeUseCase.search(
                 mapper.toRecipeSearchCondition(InRecipeSearchRequestDTO.builder()
                         .searchWord(searchWord)
                         .recipeType(recipeType)
@@ -49,6 +52,8 @@ public class RecipeSearchController {
                         .score(score)
                         .build()),
                 page, size);
+        makeRecipeImageUrlAdapter.toUrlByRecipeDto(data);
+        return new InRecipeBasicListDTO<>(data);
     }
 
     @GetMapping("/api/recipe/search/condition/food-type")

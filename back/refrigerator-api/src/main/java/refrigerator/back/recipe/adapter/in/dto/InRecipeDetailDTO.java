@@ -32,4 +32,8 @@ public class InRecipeDetailDTO extends RecipeOutputFormat {
         this.cookingTime = cookingTime;
     }
 
+    public void settingImageUrl(String url){
+        this.image = url;
+    }
+
 }

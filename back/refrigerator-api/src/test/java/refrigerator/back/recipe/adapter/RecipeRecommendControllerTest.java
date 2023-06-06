@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
@@ -22,22 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RecipeRecommendControllerTest {
 
     @Autowired MockMvc mockMvc;
-    @Autowired CreateTokenPort createTokenPort;
-
 
     @Test
+    @WithUserDetails(value = "mstest102@gmail.com")
     @DisplayName("레시피 추천")
     void recommend() throws Exception {
-        String email = "mstest102@gmail.com";
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 7000);
         mockMvc.perform(get("/api/recipe/recommend")
-                .header(HttpHeaders.AUTHORIZATION, makeTokenHeader(token))
         ).andExpect(status().is2xxSuccessful()
         ).andExpect(jsonPath("$.data").isArray()
         ).andDo(print());
     }
 
-    private String makeTokenHeader(String token){
-        return "Bearer " + token;
-    }
 }

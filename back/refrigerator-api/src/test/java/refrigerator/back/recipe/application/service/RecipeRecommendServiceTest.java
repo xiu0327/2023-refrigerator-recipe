@@ -24,7 +24,9 @@ class RecipeRecommendServiceTest {
     void recommend() {
         String memberId = "mstest102@gmail.com";
         List<InRecipeRecommendDTO> result = recipeRecommendService.recommend(memberId);
-        result.forEach(item -> assertThat(item.getMatch()>=0.0 && item.getMatch() <=100.0).isTrue());
+        result.forEach(item -> {
+            assertThat(item.getMatch()>=0.0 && item.getMatch() <=100.0).isTrue();
+        });
     }
 
 }

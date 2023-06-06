@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
-import refrigerator.back.recipe.application.domain.IngredientMatchPercent;
-import refrigerator.back.recipe.application.domain.RecipeRecommend;
+import refrigerator.back.recipe.application.domain.RecommendMatchPercent;
+import refrigerator.back.recipe.application.domain.RecipeRecommendDomainService;
 import refrigerator.back.recipe.application.port.in.RecommendRecipeUseCase;
 import refrigerator.back.recipe.application.port.out.FindMyIngredientNamesPort;
 import refrigerator.back.recipe.application.port.out.FindRecipeRecommendInfoPort;
@@ -27,7 +27,7 @@ public class RecipeRecommendService implements RecommendRecipeUseCase {
     @Override
     @Transactional(readOnly = true)
     public List<InRecipeRecommendDTO> recommend(String memberId) {
-        RecipeRecommend recommend = getRecipeRecommend(memberId);
+        RecipeRecommendDomainService recommend = getRecipeRecommend(memberId);
         List<Long> ids = recommend.extractTopTenMatchPercentIds();
         return findRecipeRecommendInfo.findInfoByIds(ids).stream()
                 .map(dto -> dto.calculateMatchRate(recommend.findMatchPercentByRecipeId(dto.getRecipeID())))
@@ -35,12 +35,11 @@ public class RecipeRecommendService implements RecommendRecipeUseCase {
                 .collect(Collectors.toList());
     }
 
-    private RecipeRecommend getRecipeRecommend(String memberId) {
-        Map<Long, IngredientMatchPercent> result = new HashMap<>();
+    private RecipeRecommendDomainService getRecipeRecommend(String memberId) {
+        Map<Long, RecommendMatchPercent> result = new HashMap<>();
         findRecipeRecommendInfo.findRecipeIngredientNames().forEach((key, value) ->
-                result.put(key, new IngredientMatchPercent(value))
+                result.put(key, new RecommendMatchPercent(value))
         );
-        return new RecipeRecommend(result,
-                findMyIngredientNames.findMyIngredientNames(memberId));
+        return new RecipeRecommendDomainService(result, findMyIngredientNames.findMyIngredientNames(memberId));
     }
 }

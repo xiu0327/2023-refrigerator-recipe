@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeRecommendDTO;
+import refrigerator.back.recipe.application.domain.RecipeIngredientTuple;
 import refrigerator.back.recipe.application.port.out.FindMyIngredientNamesPort;
 import refrigerator.back.recipe.application.port.out.FindRecipeRecommendInfoPort;
 import refrigerator.back.recipe.application.service.RecipeRecommendService;
@@ -33,14 +34,14 @@ class RecipeRecommendServiceMockTest {
     void recommend() {
         String memberId = "email123@gmail.com";
         given(findMyIngredientNames.findMyIngredientNames(memberId))
-                .willReturn(new HashSet<>(Arrays.asList("사과", "배")));
+                .willReturn(new HashSet<>(Arrays.asList("사과", "계란", "배")));
         given(findRecipeRecommendInfo.findRecipeIngredientNames())
                 .willReturn(getRecipeIngredientNames());
         given(findRecipeRecommendInfo.findInfoByIds(any()))
                 .willReturn(getRecipeInfoData());
         List<InRecipeRecommendDTO> result = service.recommend(memberId);
         assertThat(result.get(0).getMatch()).isEqualTo(100.0);
-        assertThat(result.get(1).getMatch()).isEqualTo(40.0);
+        assertThat(result.get(1).getMatch()).isEqualTo(62.5);
     }
 
     @Test
@@ -73,10 +74,21 @@ class RecipeRecommendServiceMockTest {
         return result;
     }
 
-    private Map<Long, Set<String>> getRecipeIngredientNames() {
-        Map<Long, Set<String>> data = new HashMap<>();
-        data.put(1L, new HashSet<>(Arrays.asList("사과", "배", "계란", "빵", "우유")));
-        data.put(2L, new HashSet<>(Arrays.asList("사과", "배")));
+    private Map<Long, Set<RecipeIngredientTuple>> getRecipeIngredientNames() {
+        Map<Long, Set<RecipeIngredientTuple>> data = new HashMap<>();
+        // given 1
+        Set<RecipeIngredientTuple> firstTuple = new HashSet<>();
+        firstTuple.add(new RecipeIngredientTuple("사과", "주재료"));
+        firstTuple.add(new RecipeIngredientTuple("계란", "부재료"));
+        firstTuple.add(new RecipeIngredientTuple("케찹", "양념"));
+        firstTuple.add(new RecipeIngredientTuple("소금", "양념"));
+        firstTuple.add(new RecipeIngredientTuple("후추", "양념"));
+        data.put(1L, firstTuple);
+        // given 2
+        Set<RecipeIngredientTuple> secondTuple = new HashSet<>();
+        secondTuple.add(new RecipeIngredientTuple("사과", "주재료"));
+        secondTuple.add(new RecipeIngredientTuple("배", "주재료"));
+        data.put(2L, secondTuple);
         return data;
     }
 }

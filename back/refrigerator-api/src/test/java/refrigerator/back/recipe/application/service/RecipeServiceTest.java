@@ -54,7 +54,7 @@ class RecipeServiceTest {
     @Test
     void 레시피_목록_조회() {
         // when
-        List<InRecipeDTO> recipes = recipeService.getRecipeList(0, 11).getData();
+        List<InRecipeDTO> recipes = recipeService.getRecipeList(0, 11);
         // then
         /* 모든 필드 not null */
         for (InRecipeDTO recipe : recipes) {

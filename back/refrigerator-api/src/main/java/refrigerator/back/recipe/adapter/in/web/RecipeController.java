@@ -21,6 +21,7 @@ import refrigerator.back.recipe.infra.redis.config.RecipeCacheKey;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +33,7 @@ public class RecipeController {
     private final FindRecipeCourseUseCase findRecipeCourseUseCase;
     private final RecipeDtoMapper mapper;
     private final RecipeFormatService recipeFormatService;
+    private final MakeRecipeImageUrlAdapter makeRecipeImageUrl;
 
     @GetMapping("/api/recipe/{recipeID}")
     public InRecipeDetailDTO findRecipeByID(@PathVariable("recipeID") Long recipeID,
@@ -43,7 +45,9 @@ public class RecipeController {
             response.addCookie(cookie.createCookie());
         }
         Recipe recipe = findRecipeDetailUseCase.getRecipe(recipeID, isViewed);
-        return transRecipeDto(recipe);
+        InRecipeDetailDTO dto = transRecipeDto(recipe);
+        makeRecipeImageUrl.toUrlByRecipeDetailDto(dto);
+        return dto;
     }
 
     @GetMapping("/api/recipe/{recipeID}/course")
@@ -56,7 +60,9 @@ public class RecipeController {
     public InRecipeBasicListDTO<InRecipeDTO> findAllRecipe(
             @RequestParam("page") int page,
             @RequestParam(value = "size", defaultValue = "11") int size){
-        return findRecipeListUseCase.getRecipeList(page, size);
+        List<InRecipeDTO> data = findRecipeListUseCase.getRecipeList(page, size);
+        makeRecipeImageUrl.toUrlByRecipeDto(data);
+        return new InRecipeBasicListDTO<>(data);
     }
 
     private InRecipeDetailDTO transRecipeDto(Recipe recipe) {

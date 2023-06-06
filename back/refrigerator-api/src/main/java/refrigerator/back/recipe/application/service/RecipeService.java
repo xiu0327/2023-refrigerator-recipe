@@ -48,9 +48,8 @@ public class RecipeService implements FindRecipeListUseCase, FindRecipeDetailUse
 
     @Override
     @Transactional(readOnly = true)
-    public InRecipeBasicListDTO<InRecipeDTO> getRecipeList(int page, int size) {
-        return new InRecipeBasicListDTO<>(
-                recipeReadPort.getRecipeList(page, size));
+    public List<InRecipeDTO> getRecipeList(int page, int size) {
+        return recipeReadPort.getRecipeList(page, size);
     }
 
     @Override

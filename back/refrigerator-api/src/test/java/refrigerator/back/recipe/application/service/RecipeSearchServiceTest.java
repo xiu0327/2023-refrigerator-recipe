@@ -37,7 +37,7 @@ class RecipeSearchServiceTest {
                 .recipeType(searchRecipeType)
                 .searchWord(searchWord).build();
         // when
-        List<InRecipeDTO> recipes = searchService.search(condition, 0, 15).getData();
+        List<InRecipeDTO> recipes = searchService.search(condition, 0, 15);
         List<Recipe> findRecipes = em.createQuery("select r from Recipe r join fetch r.ingredients where r.recipeID in (:ids)", Recipe.class)
                 .setParameter("ids", recipes.stream()
                         .map(InRecipeDTO::getRecipeID)
