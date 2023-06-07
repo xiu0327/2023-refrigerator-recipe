@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { PencilFill } from "react-bootstrap-icons";
-import ConfirmCancelModal from "@/components/member/ConfirmCancelModal/ConfirmCancelModal";
+import { PencilFill, GearFill } from "react-bootstrap-icons";
 import LinkBtn from "@/components/member/LinkBtn/LinkBtn";
 import ScrollContent from "@/components/member/ScrollContent/ScrollContent";
 import ProfileModal from "@/components/member/ProfileModal/ProfileModal";
@@ -9,6 +8,8 @@ import { logout } from "@/api/logout";
 import { unregister } from "@/api/unregister";
 import { profile, nickname, bookmarkPreview, scorePreview } from "@/api";
 import BackLayout from "@/components/layout/BackLayout";
+import ConfirmCancelModal from "@/components/member/ConfirmCancelModal/ConfirmCancelModal";
+import { Button } from "react-bootstrap";
 
 export default function Mypage() {
 	const [nick, setNick] = useState("");
@@ -17,14 +18,14 @@ export default function Mypage() {
 	const [starPreview, setStarPreview] = useState<Array<object>>([]);
 	const [bookmarkCount, setBookmarkCount] = useState(0);
 	const [starCount, setStarCount] = useState(0);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
-	const openModal = () => {
-		setIsModalOpen(true);
+	const openProfileModal = () => {
+		setIsProfileModalOpen(true);
 	};
 
-	const closeModal = () => {
-		setIsModalOpen(false);
+	const closeProfileModal = () => {
+		setIsProfileModalOpen(false);
 	};
 
 	const fetchProfile = async () => {
@@ -72,21 +73,21 @@ export default function Mypage() {
 		fetchScorePreview();
 	}, []);
 
-	const onChangeHandler = (e: any) => {
-		setNick(e.target.value);
-	};
-	const onClickHandler = () => {
-		nickname(nick);
-	};
+	const onNicknameBtnClick = () => {
+		//setInputActive(true);
+	}; // 닉네임 변경 클릭
 
 	return (
-		<BackLayout>
+		<BackLayout title={"마이페이지"}>
 			<div className={styles.mypageContainer}>
-				<span className={styles.mypageTitle}>마이페이지</span>
 				<div className={styles.mypageMe}>
-					<img className={styles.mypageImg} src={img} onClick={openModal} />
-					{isModalOpen && (
-						<div onClick={closeModal}>
+					<img
+						className={styles.mypageImg}
+						src={img}
+						onClick={openProfileModal}
+					/>
+					{isProfileModalOpen && (
+						<div onClick={closeProfileModal}>
 							<div>
 								<ProfileModal
 									on={true}
@@ -97,17 +98,21 @@ export default function Mypage() {
 						</div>
 					)}
 					<div className={styles.mypageBackground}>
-						<input
-							placeholder="닉네임"
-							value={nick}
-							onChange={onChangeHandler}
-						></input>
-						<button
-							className={styles.mypageNicknameChange}
-							onClick={onClickHandler}
-						>
-							<PencilFill className={styles.mypagePencil} />
-						</button>
+						<span className={styles.mypageNickContainer}>
+							안녕하세요, <span className={styles.mypageNickname}> {nick}</span>{" "}
+							님{" "}
+						</span>
+					</div>
+					<div className={styles.mypageChange}>
+						<LinkBtn
+							title={"닉네임 변경"}
+							link={"../member/nickname"}
+						></LinkBtn>
+						<span className={styles.mypageBar}>|</span>
+						<LinkBtn
+							title={"비밀번호 변경"}
+							link={"../member/password/change"}
+						></LinkBtn>
 					</div>
 				</div>
 				<div className={styles.mypageStar}>
@@ -122,17 +127,21 @@ export default function Mypage() {
 					</span>
 					<ScrollContent content="bookmarks" bookPreview={bookPreview} />
 				</div>
-				<div className={`d-grid gap-2`}>
-					<LinkBtn title={"비밀번호 변경"} link={"../member/password/change"} />
-				</div>
-				<div className={styles.mypageLink}>
+				<div>
+					{/* <LinkBtn title={"비밀번호 변경"} link={"../member/password/change"} /> */}
 					<ConfirmCancelModal
+						style="logoutBtn"
+						variant="primary"
 						title="로그아웃"
 						ment="로그아웃 하시겠습니까?"
 						api={logout}
 					/>
-					<span>|</span>
+				</div>
+				<div className={styles.mypageUnregister}>
+					<span>회원을 탈퇴하시겠습니까?</span>
 					<ConfirmCancelModal
+						style="unregisterBtn"
+						variant="link"
 						title="회원탈퇴"
 						ment="정말 탈퇴하시겠습니까?"
 						api={unregister}

@@ -11,7 +11,7 @@ interface LinkBtn2Props {
 export default function LinkBtn2({ title, email, password }: LinkBtn2Props) {
 	return (
 		<Button
-			className={styles.linkButton}
+			className={styles.loginButton}
 			variant="primary"
 			size="lg"
 			onClick={() => {

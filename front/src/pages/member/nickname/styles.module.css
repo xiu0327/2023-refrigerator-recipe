@@ -1,4 +1,4 @@
-.registerContainer {
+.passwordContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,27 +7,15 @@
   gap: 15px;
 }
 
-.registerTitle {
+.passwordTitle {
   font-size: 27px;
   font-weight: 600;
 }
 
-.registerInput {
-  width: 320px;
-  height: 57px;
-}
-
-.registerBtn {
-  width: 320px;
-  height: 57px;
-  margin-bottom: 35px;
-}
-
 .checkEmail,
 .checkPw,
-.clickBtn,
-.notice {
-  margin-top: -10px;
+.clickBtn {
+  margin-top: -12px;
 }
 
 .checkEmailTrue,
@@ -40,9 +28,6 @@
   color: red;
 }
 
-.clickTrue {
-  color: #6fb2d2;
-}
 .clickTrue span {
   display: flex;
   font-size: 12px;
