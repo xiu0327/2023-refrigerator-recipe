@@ -1,6 +1,5 @@
 import router from "next/router";
 import instance from "./interceptors";
-import { AxiosError } from "axios";
 
 export const changePassword = (password: string) => {
 	return new Promise((resolve, reject) => {
