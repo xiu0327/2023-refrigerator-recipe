@@ -46,8 +46,10 @@ export const getRecommendedRecipes = async () => {
 	try {
 		const response = await instance.get(url);
 		return response.data.data;
-	} catch (error) {
-		console.error(error);
+	} catch (error: any) {
+		const errorCode = error?.response?.data?.code;
+		if (errorCode === "EMPTY_MEMBER_INGREDIENT") return [];
+		else console.error(error);
 	}
 };
 

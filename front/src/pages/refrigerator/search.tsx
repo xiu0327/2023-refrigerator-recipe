@@ -6,7 +6,7 @@ import { toPhoneme } from "@/utils";
 import BackLayout from "@/components/layout/BackLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
 import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientGrid";
-import NoResult from "@/components/global/NoResult/NoResult";
+import NoSearchResult from "@/components/global/NoResult/NoSearchResult";
 
 import styles from "@/scss/pages.module.scss";
 import { IngredientBrief } from "@/types";
@@ -57,7 +57,7 @@ export default function SearchIngredientPage() {
 					(filteredIngredients.length > 0 ? (
 						<IngredientGrid ingredientData={filteredIngredients} />
 					) : (
-						<NoResult />
+						<NoSearchResult />
 					))}
 			</div>
 		</BackLayout>

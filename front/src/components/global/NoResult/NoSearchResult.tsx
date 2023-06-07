@@ -4,7 +4,7 @@ type NoResultProps = {
 	keyword?: string;
 };
 
-export default function NoResult({ keyword }: NoResultProps) {
+export default function NoSearchResult({ keyword }: NoResultProps) {
 	return (
 		<div className={styles.noResultContainer}>
 			{keyword && <div className={styles.noResultKeyword}>{keyword}</div>}

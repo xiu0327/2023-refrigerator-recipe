@@ -10,7 +10,7 @@ import SearchBar from "@/components/global/SearchBar/SearchBar";
 import SearchPanel from "@/components/recipe/SearchPanel/SearchPanel";
 import SearchSuggestions from "@/components/recipe/SearchSuggestions/SearchSuggestions";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
-import NoResult from "@/components/global/NoResult/NoResult";
+import NoSearchResult from "@/components/global/NoResult/NoSearchResult";
 
 import styles from "@/scss/pages.module.scss";
 
@@ -80,7 +80,7 @@ export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 					</>
 				)}
 				{keyword && keyword === query && recipeResultData.length === 0 && (
-					<NoResult keyword={query} />
+					<NoSearchResult keyword={query} />
 				)}
 			</div>
 		</BackLayout>
