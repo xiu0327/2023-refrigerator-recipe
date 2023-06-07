@@ -26,9 +26,8 @@ export default function LoginEmail() {
 	};
 
 	return (
-		<BackLayout>
+		<BackLayout title={"로그인"}>
 			<div className={styles.loginEmailContainer}>
-				<span className={styles.loginEmailTitle}>로그인</span>
 				<InputContent
 					type="email"
 					title="이메일"

@@ -58,9 +58,8 @@ export default function Register() {
 	// }; // 인증번호 확인 클릭
 
 	return (
-		<BackLayout>
+		<BackLayout title={"회원가입"}>
 			<form className={styles.registerContainer}>
-				<span className={styles.registerTitle}>회원가입</span>
 				<div>
 					<InputBtn
 						formTitle="이메일"
