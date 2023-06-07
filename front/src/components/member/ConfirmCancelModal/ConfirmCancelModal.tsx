@@ -3,6 +3,8 @@ import { Button, Modal } from "react-bootstrap";
 import styles from "./ConfirmCancelModal.module.scss";
 
 export default function ConfirmCancelModal(props: {
+	style: string;
+	variant: string;
 	title: string;
 	ment: string;
 	api: any;
@@ -14,7 +16,11 @@ export default function ConfirmCancelModal(props: {
 
 	return (
 		<>
-			<Button className={styles.button} variant="primary" onClick={handleShow}>
+			<Button
+				className={`${styles[props.style]}`}
+				variant={props.variant}
+				onClick={handleShow}
+			>
 				{props.title}
 			</Button>
 
