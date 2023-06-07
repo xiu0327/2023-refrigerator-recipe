@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Button } from "react-bootstrap";
-import { EmojiSmile, HouseFill, Google } from "react-bootstrap-icons";
+import { EmojiSmileFill, HouseFill, Google } from "react-bootstrap-icons";
 import styles from "./LoginBtn.module.scss";
 
 export default function LoginBtn() {
 	const LoginBtns = [
 		{
-			icon: <EmojiSmile />,
+			icon: <EmojiSmileFill />,
 			title: "이메일로 로그인하기",
 			link: "../member/email",
 		},
