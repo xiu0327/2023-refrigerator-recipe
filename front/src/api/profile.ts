@@ -1,3 +1,4 @@
+import router from "next/router";
 import instance from "./interceptors";
 import axios from "axios";
 
@@ -29,12 +30,11 @@ export const nickname = (nick: string) => {
 			nickname: nick,
 		})
 		.then(function (response) {
-			alert("닉네임 변경 완료!");
+			alert(`닉네임 변경이 완료되었습니다.`);
+			router.push("/mypage");
 		})
 		.catch(function (error) {
-			alert(
-				`닉네임 규칙: 영어, 한글, 띄어쓰기 포함 3자리 이상 10자리 이하 문자열`,
-			);
+			console.log(error);
 		});
 }; // 닉네임 변경
 

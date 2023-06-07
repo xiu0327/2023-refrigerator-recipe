@@ -14,9 +14,8 @@ export default function change() {
 	}; // 이메일 작성
 
 	return (
-		<BackLayout>
+		<BackLayout title={"비밀번호 찾기"}>
 			<div className={styles.passwordContainer}>
-				<span className={styles.passwordTitle}>비밀번호 찾기</span>
 				<InputContent title="이메일" type="email" onChange={onEmailHandler} />
 
 				<Button

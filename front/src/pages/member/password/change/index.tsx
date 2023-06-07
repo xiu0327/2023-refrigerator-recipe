@@ -17,9 +17,8 @@ export default function change() {
 	};
 
 	return (
-		<BackLayout>
+		<BackLayout title={"비밀번호 변경"}>
 			<div className={styles.passwordContainer}>
-				<span className={styles.passwordTitle}>비밀번호 변경</span>
 				<div>
 					<InputContent
 						title="새 비밀번호"

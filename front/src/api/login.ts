@@ -12,7 +12,6 @@ export const login = async (email: string, password: string) => {
 		router.push("/refrigerator");
 	} catch (error: any) {
 		alert(error.response.data.message);
-		router.reload();
 	}
 };
 
