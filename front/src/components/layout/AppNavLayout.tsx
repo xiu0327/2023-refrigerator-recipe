@@ -1,11 +1,8 @@
 import AppBar from "./AppBar/AppBar";
-import {
-	MyPageIcon,
-	NotificationIcon,
-	AddIngredientIcon,
-} from "./AppBar/AppBarIcons";
+import { MyPageIcon, AddIngredientIcon } from "./AppBar/AppBarIcons";
 import NavBar from "./NavBar/NavBar";
 import styles from "./Layout.module.scss";
+import { NotificationIcon } from "./AppBar/NotificationIcon";
 
 type layoutProps = {
 	title: string;

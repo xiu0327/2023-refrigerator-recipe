@@ -27,9 +27,8 @@ type RecipeInfoPageProps = {
 export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 	const [recipe, setRecipe] = useState<RecipeDetail | null>();
 	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[]>([]);
-	const [bookmarkIDs, setBookmarkIDs] = useState([]);
+	const [bookmarkIDs, setBookmarkIDs] = useState();
 	const [ownedIngredientIDs, setOwnedIngredientIDs] = useState([]);
-	const [isOwnedDataLoaded, setIsOwnedDataLoaded] = useState(false);
 
 	const [commentData, setCommentData] = useState<RecipeComment[]>([]);
 	const [commentNum, setCommentNum] = useState(0);
@@ -50,7 +49,6 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 			setBookmarkIDs(bookmarkIDsData);
 			const ownedIngredientIDsData = await getOwnedIngredientIDs(recipeID);
 			setOwnedIngredientIDs(ownedIngredientIDsData);
-			setIsOwnedDataLoaded(true);
 
 			const data = await getCommentsPreview(recipeID);
 			setCommentData(data.comments);
@@ -58,9 +56,15 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 		})();
 	}, []);
 
+	const onRecipeStepNextShow = () => {
+		ownedIngredientIDs.length !== 0
+			? setIsIngredientDeductionBottomSheetShow(true)
+			: setIsRatingBottomSheetShow(true);
+	};
+
 	return (
 		<>
-			{recipe && (
+			{recipe && bookmarkIDs && (
 				<RecipeInfoLayout
 					recipeID={recipeID}
 					bookmarkIDs={bookmarkIDs}
@@ -96,21 +100,19 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 				<RecipeStepBottomSheet
 					show={isRecipeStepBottomSheetShow}
 					onHide={() => setIsRecipeStepBottomSheetShow(false)}
-					onNextShow={() => setIsIngredientDeductionBottomSheetShow(true)}
+					onNextShow={onRecipeStepNextShow}
 					recipeName={recipe.recipeName}
 					recipeSteps={recipeSteps}
 				/>
 			)}
 
-			{isOwnedDataLoaded && (
-				<IngredientDeductionBottomSheet
-					show={isIngredientDeductionBottomSheetShow}
-					onHide={() => setIsIngredientDeductionBottomSheetShow(false)}
-					onNextShow={() => setIsRatingBottomSheetShow(true)}
-					recipeID={recipeID}
-					ownedIngredientIDs={ownedIngredientIDs}
-				/>
-			)}
+			<IngredientDeductionBottomSheet
+				show={isIngredientDeductionBottomSheetShow}
+				onHide={() => setIsIngredientDeductionBottomSheetShow(false)}
+				onNextShow={() => setIsRatingBottomSheetShow(true)}
+				recipeID={recipeID}
+				ownedIngredientIDs={ownedIngredientIDs}
+			/>
 
 			<RatingBottomSheet
 				show={isRatingBottomSheetShow}

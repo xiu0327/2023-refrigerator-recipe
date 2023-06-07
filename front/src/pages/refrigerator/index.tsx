@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import router from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { Search } from "react-bootstrap-icons";
 
 import { getIngredients } from "@/api";
@@ -23,6 +22,8 @@ export default function RefrigeratorPage() {
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
+	const scrollRef = useRef<HTMLDivElement>(null);
+
 	useEffect(() => {
 		(async () => {
 			setPage(0);
@@ -30,6 +31,8 @@ export default function RefrigeratorPage() {
 			setIngredientData(data);
 			setIsScrollEnd(false);
 			setIsDataLoaded(true);
+
+			scrollRef.current && (scrollRef.current.scrollTop = 0);
 		})();
 	}, [storage, isExpired]);
 
@@ -48,7 +51,7 @@ export default function RefrigeratorPage() {
 
 	return (
 		<AppNavLayout title="냉장고">
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<div className="d-flex align-items-center gap-3">
 					<StorageTab storage={storage} setStorage={setStorage} size="sm" />
 					<Link href={`/refrigerator/search`}>
@@ -62,7 +65,12 @@ export default function RefrigeratorPage() {
 				/>
 			</div>
 
-			<div style={{ marginTop: "90px" }}>
+			<div
+				id="scroll-area"
+				style={{ marginTop: "90px", height: `calc(100vh - 205px)` }}
+				className={styles.scrollContainer}
+				ref={scrollRef}
+			>
 				<IngredientGrid ingredientData={ingredientData} />
 				{isDataLoaded && <div id="end-of-list" />}
 			</div>

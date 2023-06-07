@@ -23,3 +23,13 @@ export const readNotification = (id: number) => {
 			console.log(error);
 		});
 };
+
+export const getIsNotificationRead = async () => {
+	const url = `/api/notifications/sign`;
+	try {
+		const response = await instance.get(url);
+		return response.data.sign;
+	} catch (error) {
+		console.log(error);
+	}
+};

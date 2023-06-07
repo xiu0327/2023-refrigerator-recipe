@@ -81,7 +81,7 @@ export default function RecipeCommentPage({
 
 	return (
 		<RecipeCommentLayout title={recipeName}>
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<SortBar sortType={sortType} setSortType={setSortType} />
 			</div>
 			<div
