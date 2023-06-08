@@ -6,7 +6,7 @@ export const logout = () => {
 		.get("/api/auth/logout")
 		.then(function (response) {
 			instance.defaults.headers.common = {};
-			console.log("로그아웃 완료!");
+			alert("정상적으로 로그아웃 되었습니다.");
 			router.replace("/");
 		})
 		.catch(function (error) {
