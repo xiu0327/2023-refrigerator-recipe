@@ -1,6 +1,9 @@
 import { RecipeDetail } from "@/types";
 import Stars from "../Stars/Stars";
 import styles from "./RecipeInfo.module.scss";
+import { BookmarkIcon } from "./BookmarkIcon";
+import { useEffect, useState } from "react";
+import { getBookmarkIDs } from "@/api";
 
 type RecipeDescriptionProps = {
 	recipe: RecipeDetail;
@@ -14,6 +17,14 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 		recipe.scoreAvg ? ["별점", recipe.scoreAvg] : null,
 	] as [string, string | number][];
 
+	const [bookmarkIDs, setBookmarkIDs] = useState([]);
+	useEffect(() => {
+		(async () => {
+			const bookmarkIDsData = await getBookmarkIDs();
+			setBookmarkIDs(bookmarkIDsData);
+		})();
+	}, []);
+
 	// TODO: 별점 세로 가운데 정렬
 	// HACK: 별점 NaN 에러 - Error: <rect> attribute width: Expected length, "NaN".
 
@@ -22,6 +33,12 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 			<div className={styles.recipeNameInbun}>
 				<div className={styles.recipeName}>{recipe.recipeName} </div>
 				<div className={styles.recipeInbun}>{recipe.servings}</div>
+				<span />
+				<BookmarkIcon
+					recipeID={recipe.recipeID}
+					bookmarkIDs={bookmarkIDs}
+					setBookmarkIDs={setBookmarkIDs}
+				/>
 			</div>
 
 			<div className={styles.recipeDescription}>{recipe.description}</div>

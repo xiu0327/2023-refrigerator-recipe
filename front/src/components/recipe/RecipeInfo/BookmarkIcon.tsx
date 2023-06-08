@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Bookmark, BookmarkStarFill } from "react-bootstrap-icons";
 import { addBookmark, removeBookmark } from "@/api";
-import styles from "./AppBar.module.scss";
+import styles from "./RecipeInfo.module.scss";
 
 type BookmarkProps = {
 	recipeID: number;
@@ -35,11 +35,14 @@ export const BookmarkIcon = ({
 		<div>
 			{isBookmarked ? (
 				<BookmarkStarFill
-					className={styles.appbarIcon}
+					className={styles.bookmarkedIcon}
 					onClick={onRemoveBookmarkClick}
 				/>
 			) : (
-				<Bookmark className={styles.appbarIcon} onClick={onAddBookmarkClick} />
+				<Bookmark
+					className={styles.bookmarkIcon}
+					onClick={onAddBookmarkClick}
+				/>
 			)}
 		</div>
 	);

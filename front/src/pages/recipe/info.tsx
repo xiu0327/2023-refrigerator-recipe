@@ -27,7 +27,6 @@ type RecipeInfoPageProps = {
 export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 	const [recipe, setRecipe] = useState<RecipeDetail | null>();
 	const [recipeSteps, setRecipeSteps] = useState<RecipeStep[]>([]);
-	const [bookmarkIDs, setBookmarkIDs] = useState();
 	const [ownedIngredientIDs, setOwnedIngredientIDs] = useState([]);
 
 	const [commentData, setCommentData] = useState<RecipeComment[]>([]);
@@ -45,8 +44,6 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 		(async () => {
 			const recipeData = await getRecipe(recipeID);
 			setRecipe(recipeData);
-			const bookmarkIDsData = await getBookmarkIDs();
-			setBookmarkIDs(bookmarkIDsData);
 			const ownedIngredientIDsData = await getOwnedIngredientIDs(recipeID);
 			setOwnedIngredientIDs(ownedIngredientIDsData);
 
@@ -64,13 +61,8 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 
 	return (
 		<>
-			{recipe && bookmarkIDs && (
-				<RecipeInfoLayout
-					recipeID={recipeID}
-					bookmarkIDs={bookmarkIDs}
-					setBookmarkIDs={setBookmarkIDs}
-					recipeName={recipe.recipeName}
-				>
+			{recipe && (
+				<RecipeInfoLayout recipeName={recipe.recipeName}>
 					<img src={recipe.image} className={styles.backgroundImg} />
 					<div className={styles.recipeInfoContainer}>
 						<RecipeDescription recipe={recipe} />
