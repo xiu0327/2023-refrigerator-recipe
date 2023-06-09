@@ -29,12 +29,12 @@ export default function CommentInputForm({
 	}, [modifyMode]);
 
 	const onCommentRegisterBtnClick = async () => {
+		setComment("");
 		modifyMode
 			? await modifyComment(commentID, comment)
 			: await addComment(recipeID, comment);
 		const myCommentData = await getMyComments(recipeID);
 		setMyCommentData(myCommentData);
-		setComment("");
 		setModifyMode(false);
 	};
 

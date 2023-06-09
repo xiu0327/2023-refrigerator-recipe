@@ -2,7 +2,6 @@ import { Heart, HeartFill } from "react-bootstrap-icons";
 import { RecipeComment } from "@/types";
 import { deleteComment, likeComment, unlikeComment } from "@/api";
 import styles from "./Comment.module.scss";
-import { useEffect } from "react";
 
 type CommentProps = {
 	comment: RecipeComment;
@@ -45,17 +44,16 @@ export default function Comment({
 	};
 	const onDeleteTextClick = async () => {
 		// TODO: 삭제 확인 모달
-		await deleteComment(commentID);
 		setMyCommentData &&
 			setMyCommentData((prevCommentData: RecipeComment[]) =>
 				prevCommentData.filter(
 					(commentItem) => commentID !== commentItem.commentID,
 				),
 			);
+		await deleteComment(commentID);
 	};
 
 	const onLikeCommentClick = async () => {
-		await likeComment(comment.commentID);
 		setHeartCommentIDs &&
 			setHeartCommentIDs((prevIDs: number[]) => [...prevIDs, commentID]);
 		setMyCommentData &&
@@ -74,9 +72,9 @@ export default function Comment({
 						: commentItem,
 				),
 			);
+		await likeComment(comment.commentID);
 	};
 	const onUnlikeCommentClick = async () => {
-		await unlikeComment(comment.commentID);
 		setHeartCommentIDs &&
 			setHeartCommentIDs((prevIDs: number[]) =>
 				prevIDs.filter((id) => id !== commentID),
@@ -97,6 +95,7 @@ export default function Comment({
 						: commentItem,
 				),
 			);
+		await unlikeComment(comment.commentID);
 	};
 
 	return (

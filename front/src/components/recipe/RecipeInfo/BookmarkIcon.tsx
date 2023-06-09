@@ -15,34 +15,39 @@ export const BookmarkIcon = ({
 	setBookmarkIDs,
 }: BookmarkProps) => {
 	const [isBookmarked, setIsBookmarked] = useState(false);
+	const [isBookmarkedLoaded, setIsBookmarkedLoaded] = useState(false);
 
 	useEffect(() => {
-		console.log(bookmarkIDs);
 		setIsBookmarked(bookmarkIDs.includes(recipeID));
+		setIsBookmarkedLoaded(true);
 	}, []);
 
 	const onAddBookmarkClick = async () => {
-		await addBookmark(recipeID, setBookmarkIDs);
 		setIsBookmarked(true);
+		await addBookmark(recipeID, setBookmarkIDs);
 	};
 
 	const onRemoveBookmarkClick = async () => {
-		await removeBookmark(recipeID, setBookmarkIDs);
 		setIsBookmarked(false);
+		await removeBookmark(recipeID, setBookmarkIDs);
 	};
 
 	return (
 		<div>
-			{isBookmarked ? (
-				<BookmarkStarFill
-					className={styles.bookmarkedIcon}
-					onClick={onRemoveBookmarkClick}
-				/>
-			) : (
-				<Bookmark
-					className={styles.bookmarkIcon}
-					onClick={onAddBookmarkClick}
-				/>
+			{isBookmarkedLoaded && (
+				<div>
+					{isBookmarked ? (
+						<BookmarkStarFill
+							className={styles.bookmarkedIcon}
+							onClick={onRemoveBookmarkClick}
+						/>
+					) : (
+						<Bookmark
+							className={styles.bookmarkIcon}
+							onClick={onAddBookmarkClick}
+						/>
+					)}
+				</div>
 			)}
 		</div>
 	);
