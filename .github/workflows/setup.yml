@@ -38,11 +38,16 @@ jobs:
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
               
+          - name: Application Clean
+            run: |
+                cd back/refrigerator-api
+                rm -rf out
+                cd ..
+                ./gradlew :refrigerator-api:clean
+              
           - name: Application Build
             run: |
                 cd back
-                ./gradlew clean
-                ./gradlew :refrigerator-api:clean
                 ./gradlew :refrigerator-api:build -x test
           
           - name: Docker Image Build
