@@ -2,7 +2,7 @@ name: build application docker
 
 on:
     push:
-        branches: [back-nh-v5]
+        branches: [back-nh-v6]
 
 env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
@@ -41,7 +41,7 @@ jobs:
           - name: Application Build
             run: |
                 cd back
-                ./gradlew clean :refrigerator-api:compileQuerydsl
+                ./gradlew :refrigerator-api:build -x test
           
           - name: Docker Image Build
             run: |
