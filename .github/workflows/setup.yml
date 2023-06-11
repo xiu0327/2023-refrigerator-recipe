@@ -41,6 +41,7 @@ jobs:
           - name: Application Build
             run: |
                 cd back
+                ./gradlew clean
                 ./gradlew :refrigerator-api:clean
                 ./gradlew :refrigerator-api:build -x test
           
