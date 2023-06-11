@@ -2,7 +2,7 @@ name: build application docker
 
 on:
     push:
-        branches: [back-nh-v4]
+        branches: [back-nh-v5]
 
 env:
     APPLICATION_YML: ${{secrets.APPLICATION_YML}}
