@@ -41,6 +41,7 @@ jobs:
           - name: Application Build
             run: |
                 cd back
+                ./gradlew :refrigerator-api:clean
                 ./gradlew :refrigerator-api:build -x test
           
           - name: Docker Image Build
