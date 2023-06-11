@@ -41,7 +41,7 @@ jobs:
           - name: Application Build
             run: |
                 cd back
-                ./gradlew clean :refrigerator-api:buildNeeded --stacktrace --info -x test
+                ./gradlew clean :refrigerator-api:compileQuerydsl
           
           - name: Docker Image Build
             run: |
