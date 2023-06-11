@@ -38,17 +38,9 @@ jobs:
               username: ${{ secrets.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_TOKEN }}
               
-#           - name: Application Clean
-#             run: |
-#                 cd back/refrigerator-api
-#                 rm -rf out
-#                 cd ..
-#                 ./gradlew :refrigerator-api:clean
-#                 ./gradlew :refrigerator-api:compileQuerydsl
-              
           - name: Application Build
             run: |
-                cd back/refrigerator-api
+                cd back
                 ./gradlew :refrigerator-api:build -x test --warning-mode all
           
           - name: Docker Image Build
