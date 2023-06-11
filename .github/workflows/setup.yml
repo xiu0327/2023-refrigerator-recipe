@@ -41,8 +41,7 @@ jobs:
           - name: Application Build
             run: |
                 cd back
-                ./gradlew :refrigerator-api:compileQuerydsl --warning-mode all
-                ./gradlew :refrigerator-api:build -x test --warning-mode all
+                ./gradlew clean :refrigerator-api:buildNeeded --stacktrace --info -x test
           
           - name: Docker Image Build
             run: |
