@@ -55,7 +55,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:0.5.0'
+	testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:0.5.2'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
