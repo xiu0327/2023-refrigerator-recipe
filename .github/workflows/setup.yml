@@ -48,8 +48,8 @@ jobs:
               
           - name: Application Build
             run: |
-                cd back
-                ./gradlew :refrigerator-api:build -x test
+                cd back/refrigerator-api
+                ./gradlew :refrigerator-api:build -x test --warning-mode all
           
           - name: Docker Image Build
             run: |
