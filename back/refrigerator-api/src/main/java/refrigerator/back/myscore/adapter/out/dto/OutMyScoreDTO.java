@@ -12,11 +12,11 @@ public class OutMyScoreDTO {
     private Long recipeId;
     private String recipeImage;
     private String recipeName;
-    private RecipeScore score;
+    private Double score;
     private Integer views;
 
     @QueryProjection
-    public OutMyScoreDTO(Long scoreId, Long recipeId, String recipeImage, String recipeName, RecipeScore score, Integer views) {
+    public OutMyScoreDTO(Long scoreId, Long recipeId, String recipeImage, String recipeName, Double score, Integer views) {
         this.scoreId = scoreId;
         this.recipeId = recipeId;
         this.recipeImage = recipeImage;

@@ -58,7 +58,7 @@ public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository{
                         myBookmark.recipeId,
                         recipe.image,
                         recipe.recipeName,
-                        recipeScore,
+                        recipeScore.score,
                         recipeViews.views))
                 .from(myBookmark)
                 .leftJoin(recipe).on(recipe.recipeID.eq(myBookmark.recipeId))

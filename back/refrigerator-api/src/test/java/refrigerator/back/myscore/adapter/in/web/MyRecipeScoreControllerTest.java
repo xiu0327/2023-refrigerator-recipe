@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
@@ -30,11 +31,9 @@ class MyRecipeScoreControllerTest {
 
 
     @Test
+    @WithUserDetails("nhtest@gmail.com")
     void 요리_하기() throws Exception {
-        String email = testData.createMemberByEmail("email123@gmail.com");
-        String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 1000);
         mockMvc.perform(post("/api/my-score/cooking?recipeId=1&score=1.5")
-                .header(HttpHeaders.AUTHORIZATION, testData.makeTokenHeader(token))
         ).andExpect(jsonPath("$.isCreated").isBoolean()
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());

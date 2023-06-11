@@ -46,7 +46,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/redirect_test");
+        return (web) -> web.ignoring().antMatchers("/test/**");
     }
     @Bean
     public AuthenticationManager authenticationManager(){
@@ -100,6 +100,7 @@ public class SecurityConfig {
                 .mvcMatchers("/api/recipe/{recipeID}/course").permitAll()
                 .mvcMatchers("/api/recipe").permitAll()
                 .mvcMatchers("/api/recipe/{recipeId}/ingredient/volume").permitAll()
+                .mvcMatchers("/api/recipe/search/normal").permitAll()
                 .mvcMatchers("/api/recipe/search/condition/food-type").permitAll()
                 .mvcMatchers("/api/recipe/search/condition/category").permitAll()
                 .mvcMatchers("/api/recipe/search/condition/recipe-type").permitAll()

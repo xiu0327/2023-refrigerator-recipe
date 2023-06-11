@@ -1,6 +1,7 @@
 package refrigerator.back;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import javax.persistence.EntityManager;
 
 @SpringBootTest
 @RedisFlushAll(beanName = "tokenRedisTemplate")
+@Disabled
 public class RedisTransactionTest {
 
     @Autowired

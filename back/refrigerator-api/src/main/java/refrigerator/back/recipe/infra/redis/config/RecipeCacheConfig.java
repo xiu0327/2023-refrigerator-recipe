@@ -20,42 +20,27 @@ public class RecipeCacheConfig {
 
     @Bean
     @Primary
-    public RedisCacheManager recipeFoodTypeCacheManager(RedisConnectionFactory redisConnectionFactory){
-        RedisCacheConfiguration configuration = getConfiguration();
-
-        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put(RecipeCacheKey.FOOD_TYPE, RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(RecipeCacheKey.CONDITION_EXPIRE_SEC)));
-
-
-        return RedisCacheManager.RedisCacheManagerBuilder
-                .fromConnectionFactory(redisConnectionFactory)
-                .cacheDefaults(configuration)
-                .withInitialCacheConfigurations(cacheConfigurations).build();
-    }
-
-    @Bean
-    public RedisCacheManager recipeCategoryCacheManager(RedisConnectionFactory redisConnectionFactory){
-        RedisCacheConfiguration configuration = getConfiguration();
-
-        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put(RecipeCacheKey.CATEGORY, RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofSeconds(RecipeCacheKey.CONDITION_EXPIRE_SEC)));
-
-
-        return RedisCacheManager.RedisCacheManagerBuilder
-                .fromConnectionFactory(redisConnectionFactory)
-                .cacheDefaults(configuration)
-                .withInitialCacheConfigurations(cacheConfigurations).build();
-    }
-
-    @Bean
     public RedisCacheManager recipeCacheManager(RedisConnectionFactory redisConnectionFactory){
         RedisCacheConfiguration configuration = getConfiguration();
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         cacheConfigurations.put(RecipeCacheKey.RECIPE, RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_EXPIRE_SEC)));
+
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(redisConnectionFactory)
+                .cacheDefaults(configuration)
+                .withInitialCacheConfigurations(cacheConfigurations).build();
+    }
+
+    @Bean
+    public RedisCacheManager recipeIngredientAndCourse(RedisConnectionFactory redisConnectionFactory){
+        RedisCacheConfiguration configuration = getConfiguration();
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        cacheConfigurations.put(RecipeCacheKey.RECIPE_INGREDIENT_AND_COURSE, RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofSeconds(RecipeCacheKey.RECIPE_INGREDIENT_AND_COURSE_SEC)));
 
 
         return RedisCacheManager.RedisCacheManagerBuilder

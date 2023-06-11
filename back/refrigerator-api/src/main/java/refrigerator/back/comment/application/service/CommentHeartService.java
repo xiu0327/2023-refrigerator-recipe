@@ -1,6 +1,7 @@
 package refrigerator.back.comment.application.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentHeartService implements AddCommentHeartUseCase, ReduceCommentHeartUseCase, FindLikedPeopleListUseCase {
 
     private final UpdateCommentHeartPort commentHeartUpdatePort;

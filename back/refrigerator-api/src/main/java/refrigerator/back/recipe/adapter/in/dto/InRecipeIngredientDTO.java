@@ -1,18 +1,18 @@
 package refrigerator.back.recipe.adapter.in.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class InRecipeIngredientDTO {
+public class InRecipeIngredientDto {
     private Long ingredientID;
     private String name;
     private String type;
     private String volume;
-    private Boolean isOwn;
+    private String transUnit;
+    private String transVolume;
+    private Boolean isOwned;
 }

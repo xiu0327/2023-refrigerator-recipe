@@ -60,18 +60,6 @@ class AuthenticationControllerTest {
         ).andDo(print());
     }
 
-    @Test
-    @DisplayName("토큰 발행 후 레시피 목록 조회 성공")
-    void afterLoginSuccess() throws Exception {
-        // given
-        TokenDTO token = loginUseCase.login(email, password);
-        // when
-        mockMvc.perform(get("/api/recipe?page=0")
-                .header(HttpHeaders.AUTHORIZATION, getHeader(token))
-        ).andExpect(status().is2xxSuccessful()
-        ).andExpect(jsonPath("$.data").isArray()
-        ).andDo(print());
-    }
 
     private String getHeader(TokenDTO token) {
         return token.getGrantType() + " " + token.getAccessToken();

@@ -2,22 +2,47 @@ package refrigerator.back.recipe.adapter.out.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
-import refrigerator.back.recipe.application.domain.entity.RecipeScore;
+import lombok.ToString;
+
+import java.lang.reflect.Field;
 
 @Getter
-public class OutRecipeDTO {
-    private Long recipeID;
-    private String recipeName;
-    private String image;
-    private RecipeScore score;
-    private Integer views;
+@ToString
+public class OutRecipeDto {
+    Long recipeID;
+    String recipeName;
+    String image;
+    Double scoreAvg;
+    String description;
+    Integer cookingTime;
+    Integer kcal;
+    Integer servings;
+    String difficulty;
 
     @QueryProjection
-    public OutRecipeDTO(Long recipeID, String recipeName, String image, RecipeScore score, Integer views) {
+    public OutRecipeDto(Long recipeID, String recipeName, String image, Double scoreAvg, String description, Integer cookingTime, Integer kcal, Integer servings, String difficulty) {
         this.recipeID = recipeID;
         this.recipeName = recipeName;
         this.image = image;
-        this.score = score;
-        this.views = views;
+        this.scoreAvg = scoreAvg;
+        this.description = description;
+        this.cookingTime = cookingTime;
+        this.kcal = kcal;
+        this.servings = servings;
+        this.difficulty = difficulty;
+    }
+
+
+    public boolean isNotNull(){
+        try{
+            for(Field field : getClass().getDeclaredFields()){
+                if (field.get(this) == null){
+                    return false;
+                }
+            }
+            return true;
+        }catch (IllegalAccessException e){
+            return false;
+        }
     }
 }

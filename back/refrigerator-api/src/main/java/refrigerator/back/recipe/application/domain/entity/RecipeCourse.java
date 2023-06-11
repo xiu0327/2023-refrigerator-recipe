@@ -1,35 +1,31 @@
 package refrigerator.back.recipe.application.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import refrigerator.back.recipe.application.domain.entity.Recipe;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "recipe_course", indexes = {@Index(name = "recipe_course_index", columnList = "recipe_id")})
+@Table(name = "recipe_course")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class RecipeCourse {
+public class RecipeCourse implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_course_id")
     private Long courseID;
 
-    @Column(name = "recipe_id", nullable = false)
-    private Long recipeID;
-
-    @Column(name = "step", nullable = false)
+    @Column(name = "step")
     private Integer step;
 
-    @Column(name = "explanation", nullable = false)
+    @Column(name = "explanation")
     private String explanation;
 
     @Column(name = "image")
     private String image;
+
+    @Column(name = "recipe_id")
+    private Long recipeId;
 
 }

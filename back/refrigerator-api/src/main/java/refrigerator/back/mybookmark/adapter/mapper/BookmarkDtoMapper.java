@@ -20,7 +20,8 @@ public interface BookmarkDtoMapper {
     @Mappings({
             @Mapping(source = "dto.bookmarkId", target = "bookmarkID"),
             @Mapping(source = "dto.recipeId", target = "recipeID"),
-            @Mapping(source = "dto.recipeImage", target = "image")
+            @Mapping(source = "dto.recipeImage", target = "image"),
+            @Mapping(source = "dto.score", target = "scoreAvg")
     })
-    InBookmarkDTO toBookmarkDTO(OutBookmarkDTO dto, Double scoreAvg);
+    InBookmarkDTO toBookmarkDTO(OutBookmarkDTO dto);
 }

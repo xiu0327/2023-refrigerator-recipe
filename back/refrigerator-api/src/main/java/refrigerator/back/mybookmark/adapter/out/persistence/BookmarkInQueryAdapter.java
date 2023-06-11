@@ -27,8 +27,7 @@ public class BookmarkInQueryAdapter implements FindBookmarkListPort, FindBookmar
 
     @Override
     public InBookmarkPreviewListDTO findBookmarkPreviewList(String memberId, int page, int size) {
-        Page<OutBookmarkPreviewDTO> result =
-                repository.findBookmarkPreview(memberId, PageRequest.of(page, size));
+        Page<OutBookmarkPreviewDTO> result = repository.findBookmarkPreview(memberId, PageRequest.of(page, size));
         List<InBookmarkPreviewDTO> bookmarks = result.getContent().stream()
                 .map(mapper::toBookmarkPreviewDTO)
                 .collect(Collectors.toList());
@@ -41,11 +40,7 @@ public class BookmarkInQueryAdapter implements FindBookmarkListPort, FindBookmar
     @Override
     public List<InBookmarkDTO> findBookmarkList(String memberId, int page, int size) {
         return repository.findBookmarkList(memberId, PageRequest.of(page, size))
-                .stream().map(bookmark ->
-                        mapper.toBookmarkDTO(
-                                bookmark,
-                                bookmark.getScore().calculateScore())
-                )
+                .stream().map(mapper::toBookmarkDTO)
                 .collect(Collectors.toList());
     }
 

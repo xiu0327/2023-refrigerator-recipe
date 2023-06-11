@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "recipe")
@@ -52,14 +50,4 @@ public class Recipe {
     @Column(name = "main_image", nullable = false)
     private String image;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recipe_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Set<RecipeIngredient> ingredients = new HashSet<>();
-
-    @Transient
-    private RecipeDetails details;
-
-    public void initDetails(RecipeDetails details) {
-        this.details = details;
-    }
 }

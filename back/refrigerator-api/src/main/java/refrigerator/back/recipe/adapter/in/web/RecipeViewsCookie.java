@@ -3,35 +3,36 @@ package refrigerator.back.recipe.adapter.in.web;
 import lombok.Getter;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 @Getter
 public class RecipeViewsCookie {
 
-    private int validTime = 24 * 60 * 60;
-    private String cookieName;
-    private boolean isViewed;
+    private final Cookie[] cookies;
 
-    public RecipeViewsCookie(Long recipeID) {
-        this.cookieName = "viewed_" + recipeID;
-        this.isViewed = false;
+    public RecipeViewsCookie(Cookie[] cookies) {
+        this.cookies = cookies;
     }
 
-    public boolean changeViewed(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
+    private final int validTime = 24 * 60 * 60;
+    private final String cookieName = "Recipe-View";
+
+
+    public boolean isViewed(Long recipeId){
         if (cookies != null){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(cookieName)){
-                    this.isViewed = true;
-                    break;
-                }
-            }
+            return Arrays.stream(cookies).anyMatch(cookie ->
+                    cookie.getName().equals(cookieName) && cookie.getValue().equals(String.valueOf(recipeId)));
         }
-        return isViewed;
+        return false;
     }
 
-    public Cookie createCookie(){
-        Cookie cookie = new Cookie(cookieName, "true");
+    public void addViewCookie(Long recipeId, HttpServletResponse response){
+        response.addCookie(createCookie(recipeId));
+    }
+
+    private Cookie createCookie(Long recipeId){
+        Cookie cookie = new Cookie(cookieName, String.valueOf(recipeId));
         cookie.setPath("/api/recipe");
         cookie.setMaxAge(validTime);
         cookie.setHttpOnly(true);

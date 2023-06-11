@@ -15,6 +15,7 @@ import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
+import refrigerator.back.ingredient.application.service.IngredientLookUpService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ class LookUpIngredientServiceTest {
     @Autowired RegisterIngredientUseCase registerIngredientUseCase;
     @Autowired RemoveIngredientUseCase removeIngredientUseCase;
     @Autowired ReadIngredientPort readIngredientPort;
-    @Autowired IngredientLookUpService ingredientLookUpService;
+    @Autowired
+    IngredientLookUpService ingredientLookUpService;
 
     @Test
     @DisplayName("식재료_이름에_따른_용량단위_반환")

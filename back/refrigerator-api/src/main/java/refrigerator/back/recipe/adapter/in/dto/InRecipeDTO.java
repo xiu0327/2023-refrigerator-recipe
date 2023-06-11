@@ -1,25 +1,47 @@
 package refrigerator.back.recipe.adapter.in.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import refrigerator.back.global.image.Image;
+import refrigerator.back.global.image.ImageGenerator;
 
-import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 
 @Getter
-@Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class InRecipeDTO implements Serializable {
-    private Long recipeID;
-    private String recipeName;
-    private String image;
-    private Double scoreAvg;
-    private Integer views;
+@ToString
+public class InRecipeDto extends Image {
+    Long recipeID;
+    String recipeName;
+    String image;
+    Double scoreAvg;
+    String description;
+    String cookingTime;
+    String kcal;
+    String servings;
+    String difficulty;
+    Boolean isBookmarked;
+    List<InRecipeIngredientDto> ingredients;
+    List<InRecipeCourseDto> courses;
 
-    public void settingImageUrl(String url){
-        this.image = url;
+    @JsonIgnore
+    public boolean isNotNull(){
+        try{
+            for (Field field : getClass().getDeclaredFields()){
+                if (field.get(this) == null){
+                    return false;
+                }
+            }
+            return true;
+        } catch (IllegalAccessException e) {
+            return false;
+        }
     }
 
+    @Override
+    public void generateImageUrl(ImageGenerator generator) {
+        this.image = generator.getUrl(image);
+    }
 }

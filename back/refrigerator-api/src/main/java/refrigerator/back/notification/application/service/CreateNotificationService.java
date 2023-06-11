@@ -1,6 +1,7 @@
 package refrigerator.back.notification.application.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import refrigerator.back.notification.application.port.out.write.SaveNotificatio
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CreateNotificationService implements CreateCommentHeartNotificationUseCase {
 
     private final FindSenderNicknamePort findSenderNicknamePort;

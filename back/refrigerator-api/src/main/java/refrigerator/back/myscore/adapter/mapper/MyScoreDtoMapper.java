@@ -17,7 +17,9 @@ public interface MyScoreDtoMapper {
     @Mappings({
             @Mapping(source = "dto.scoreId", target = "scoreID"),
             @Mapping(source = "dto.recipeId", target = "recipeID"),
-            @Mapping(source = "dto.recipeImage", target = "image")})
-    InMyScoreDTO toInMyScoreDto(OutMyScoreDTO dto, Double scoreAvg);
+            @Mapping(source = "dto.recipeImage", target = "image"),
+            @Mapping(source = "dto.score", target = "scoreAvg"),
+    })
+    InMyScoreDTO toInMyScoreDto(OutMyScoreDTO dto);
     InMyScorePreviewDTO toInMyScorePreviewDto(OutMyScorePreviewDTO dto);
 }
