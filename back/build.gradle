@@ -1,101 +1,47 @@
-buildscript {
-	ext {
-		queryDslVersion = "5.0.0"
-	}
-}
-
 plugins {
-	id 'java'
 	id 'org.springframework.boot' version '2.7.9'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-	id 'com.google.cloud.tools.jib' version '3.1.2'
+	id 'java'
 }
 
-jib {
-	from {
-		image = "adoptopenjdk:11-jre"
-		platforms {
-			platform {
-				architecture = "arm64"
-				os = "linux"
-			}
-		}
-	}
-	to {
-		image = "xiu0327/refrigerator"
-		tags = ["latest"]
-	}
-	container {
-		jvmFlags = ["-Xms128m", "-Xmx128m"]
-	}
-}
-
-group = 'refrigerator'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
 
 repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+bootJar.enabled = false
 
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
-    implementation 'junit:junit:4.13.1'
-    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testCompileOnly 'org.projectlombok:lombok'
-	testAnnotationProcessor 'org.projectlombok:lombok'
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
-}
+subprojects {
+	group = 'com.example'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '11'
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+	apply plugin: 'java'
+	// build.gradle에서 api() 를 사용하려면 java-library 사용
+	apply plugin: 'java-library'
+	apply plugin: 'org.springframework.boot'
+	// spring boot dependency를 사용하여 사용중인 부트 버전에서 자동으로 의존성을 가져온다.
+	apply plugin: 'io.spring.dependency-management'
 
-def querydslDir = "$buildDir/generated/querydsl"
-
-querydsl {
-	jpa = true
-	querydslSourcesDir = querydslDir
-}
-
-sourceSets {
-	main.java.srcDir querydslDir
-}
-
-compileQuerydsl{
-	options.annotationProcessorPath = configurations.querydsl
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
 	}
-	querydsl.extendsFrom compileClasspath
+
+	repositories {
+		mavenCentral()
+	}
+
+	// 관리하는 모듈에 공통 dependencies
+	dependencies {
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	}
+
+	test {
+		useJUnitPlatform()
+	}
 }
