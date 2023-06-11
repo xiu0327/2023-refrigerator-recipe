@@ -2,9 +2,10 @@ import { RecipeDeductedIngredient } from "@/types";
 import instance from "./interceptors";
 
 export const getRecipes = async (page: number) => {
-	const url = `/api/recipe?page=${page}`;
+	const url = `/api/recipe/search/normal?page=${page}`;
 	try {
 		const response = await instance.get(url);
+		console.log(response.data.data);
 		return response.data.data;
 	} catch (error) {
 		console.error(error);
@@ -15,6 +16,7 @@ export const getRecipe = async (recipeID: number) => {
 	const url = `/api/recipe/${recipeID}`;
 	try {
 		const response = await instance.get(url);
+		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.error(error);
