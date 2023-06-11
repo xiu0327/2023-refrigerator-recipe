@@ -33,7 +33,7 @@ public class OutRecipeDto {
     }
 
 
-    public boolean isNotNull(){
+    public boolean checkNotNull(){
         try{
             for(Field field : getClass().getDeclaredFields()){
                 if (field.get(this) == null){

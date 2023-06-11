@@ -31,7 +31,7 @@ class RecipeDataPortTest {
     void getRecipeBasics() {
         for (long id = 1L ; id < 10L ; id++) {
             OutRecipeDto data = recipePort.getData(id);
-            assertTrue(data.isNotNull());
+            assertTrue(data.checkNotNull());
         }
     }
 
