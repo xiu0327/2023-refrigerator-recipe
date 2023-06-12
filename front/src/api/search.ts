@@ -1,9 +1,9 @@
 import instance from "./interceptors";
 
-export const searchRecipe = async (page: number, query: string) => {
-	const url = `/api/recipe/search?page=${page}${query}`;
+export const searchRecipe = async (page: number, body: any) => {
+	const url = `/api/recipe/search?page=${page}`;
 	try {
-		const response = await instance.get(url);
+		const response = await instance.post(url, body);
 		return response.data.data;
 	} catch (error) {
 		console.log(error);
