@@ -5,13 +5,11 @@ import styles from "./RecipeInfo.module.scss";
 type RecipeIngredientsProps = {
 	servings: string;
 	ingredients: RecipeIngredient[];
-	ownedIngredientIDs: number[];
 };
 
 export default function RecipeIngredients({
 	servings,
 	ingredients,
-	ownedIngredientIDs,
 }: RecipeIngredientsProps) {
 	const TYPE = ["주재료", "부재료", "양념"];
 
@@ -42,14 +40,14 @@ export default function RecipeIngredients({
 								<div
 									key={ingredient.ingredientID}
 									className={
-										ownedIngredientIDs.includes(ingredient.ingredientID)
+										ingredient.isOwned
 											? styles.recipeIngredientInfoSelected
 											: styles.recipeIngredientInfo
 									}
 								>
 									<div>{ingredient.name}</div>
 
-									{ownedIngredientIDs.includes(ingredient.ingredientID) && (
+									{ingredient.isOwned && (
 										<CheckCircleFill className={styles.recipeIngredientIcon} />
 									)}
 

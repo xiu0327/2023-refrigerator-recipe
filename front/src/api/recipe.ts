@@ -2,7 +2,7 @@ import { RecipeDeductedIngredient } from "@/types";
 import instance from "./interceptors";
 
 export const getRecipes = async (page: number) => {
-	const url = `/api/recipe?page=${page}`;
+	const url = `/api/recipe/search/normal?page=${page}`;
 	try {
 		const response = await instance.get(url);
 		return response.data.data;
@@ -12,30 +12,10 @@ export const getRecipes = async (page: number) => {
 };
 
 export const getRecipe = async (recipeID: number) => {
-	const url = `/api/recipe/${recipeID}`;
+	const url = `/api/recipe/${recipeID}/details`;
 	try {
 		const response = await instance.get(url);
 		return response.data;
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-export const getRecipeSteps = async (recipeID: number) => {
-	const url = `/api/recipe/${recipeID}/course`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
-	} catch (error) {
-		console.error(error);
-	}
-};
-
-export const getRecipeIngredients = async (recipeID: number) => {
-	const url = `/api/recipe/${recipeID}/ingredient/volume`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
 	} catch (error) {
 		console.error(error);
 	}
@@ -112,15 +92,5 @@ export const rateRecipe = async (recipeID: number, score: number) => {
 		await instance.post(url);
 	} catch (error) {
 		console.error(error);
-	}
-};
-
-export const getOwnedIngredientIDs = async (recipeID: number) => {
-	const url = `/api/ingredients/owned/${recipeID}`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
-	} catch (error) {
-		console.log(error);
 	}
 };

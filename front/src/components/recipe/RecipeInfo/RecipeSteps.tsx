@@ -1,4 +1,3 @@
-import { getRecipeSteps } from "@/api";
 import styles from "./RecipeInfo.module.scss";
 import { RecipeStep } from "@/types";
 import { useEffect } from "react";
@@ -6,16 +5,12 @@ import { QuestionCircle } from "react-bootstrap-icons";
 import Tooltip from "@/components/global/Tooltip/Tooltip";
 
 type RecipeInfoProps = {
-	recipeID: number;
 	recipeSteps: RecipeStep[];
-	setRecipeSteps: Function;
 	setIsRecipeStepBottomModalShow: Function;
 };
 
 export default function RecipeInfo({
-	recipeID,
 	recipeSteps,
-	setRecipeSteps,
 	setIsRecipeStepBottomModalShow,
 }: RecipeInfoProps) {
 	const tooltipMessageLines = [
@@ -23,18 +18,6 @@ export default function RecipeInfo({
 		`모든 과정을 끝내면 사용한 식재료를 차감하고,`,
 		`레시피에 대한 별점을 남길 수 있어요!`,
 	];
-
-	useEffect(() => {
-		(async () => {
-			const data = await getRecipeSteps(recipeID);
-			setRecipeSteps(
-				data.map((step: RecipeStep) => ({
-					...step,
-					explanation: step.explanation.replace(/,+$/, ""),
-				})),
-			);
-		})();
-	}, []);
 
 	const onCookingBtnClick = () => {
 		setIsRecipeStepBottomModalShow(true);

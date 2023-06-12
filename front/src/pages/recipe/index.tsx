@@ -30,16 +30,17 @@ export default function RecipeListPage() {
 	const [isFilterMenuBottomSheetShow, setIsFilterMenuBottomSheetShow] =
 		useState(false);
 
-	const [query, setQuery] = useState(``);
+	const [query, setQuery] = useState({});
 
 	useEffect(() => {
 		const activeFilters = filters.filter(
 			(filter) => filter.activeItem !== "전체",
 		);
-		const activeFilterParams = activeFilters.map(
-			(filter) => `&${filter.key}=${filter.activeItem}`,
-		);
-		setQuery(activeFilterParams.join(""));
+		const activeFilterParams = activeFilters.reduce((acc, item) => {
+			acc[item.key] = item.activeItem;
+			return acc;
+		}, {} as { [key: string]: string });
+		setQuery(activeFilterParams);
 	}, [filters]);
 
 	useEffect(() => {
