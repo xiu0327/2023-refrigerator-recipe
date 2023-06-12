@@ -16,6 +16,7 @@ public class RecipeIngredientAndCourseCollection {
     private final Set<RecipeIngredient> ingredients;
     private final Set<RecipeCourse> courses;
 
+
     public RecipeIngredientAndCourseCollection(
             Set<RecipeIngredient> ingredients,
             Set<RecipeCourse> courses) {

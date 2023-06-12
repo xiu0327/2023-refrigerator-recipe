@@ -32,7 +32,6 @@ public class OutRecipeDto {
         this.difficulty = difficulty;
     }
 
-
     public boolean checkNotNull(){
         try{
             for(Field field : getClass().getDeclaredFields()){

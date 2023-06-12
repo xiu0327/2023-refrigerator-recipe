@@ -24,8 +24,8 @@ public class RecipeDetailsController {
 
     @GetMapping("/api/recipe/{recipeId}/details")
     public InRecipeDto findRecipeOne(@PathVariable("recipeId") Long recipeId,
-                                      HttpServletRequest request,
-                                      HttpServletResponse response){
+                                     HttpServletRequest request,
+                                     HttpServletResponse response){
         InRecipeDto dto = recipeUseCase.findRecipeDetails(recipeId, getMemberEmail());
         dto.generateImageUrl(recipeImageGenerator);
         RecipeViewsCookie cookie = new RecipeViewsCookie(request.getCookies());

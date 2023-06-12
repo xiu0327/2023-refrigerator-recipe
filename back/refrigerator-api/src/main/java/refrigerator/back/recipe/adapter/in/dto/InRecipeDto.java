@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class InRecipeDto extends Image {
+
     Long recipeID;
     String recipeName;
     String image;

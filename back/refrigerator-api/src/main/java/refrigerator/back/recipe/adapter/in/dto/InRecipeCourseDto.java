@@ -10,6 +10,7 @@ import refrigerator.back.global.image.ImageGenerator;
 @AllArgsConstructor
 @ToString
 public class InRecipeCourseDto extends Image {
+
     private String step;
     private String explanation;
     private String image;
