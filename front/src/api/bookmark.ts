@@ -20,27 +20,19 @@ export const getBookmarks = async (page: number) => {
 	}
 };
 
-export const addBookmark = async (
-	recipeID: number,
-	setBookmarkIDs: Function,
-) => {
+export const addBookmark = async (recipeID: number) => {
 	const url = `/api/my-bookmark/add/${recipeID}`;
 	try {
 		const response = await instance.post(url);
-		setBookmarkIDs((prev: number[]) => [...prev, recipeID]);
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-export const removeBookmark = async (
-	recipeID: number,
-	setBookmarkIDs: Function,
-) => {
+export const removeBookmark = async (recipeID: number) => {
 	const url = `/api/my-bookmark/remove/${recipeID}`;
 	try {
 		const response = await instance.delete(url);
-		setBookmarkIDs((prev: number[]) => prev.filter((id) => id !== recipeID));
 	} catch (error) {
 		console.error(error);
 	}

@@ -1,57 +1,46 @@
 import BottomSheet from "@/components/global/BottomSheet/BottomSheet";
 import styles from "./CookingBottomSheet.module.scss";
 import { useEffect, useState } from "react";
-import { deductIngredient, getRecipeIngredients } from "@/api";
+import { deductIngredient } from "@/api";
 import { CheckCircle, CheckCircleFill } from "react-bootstrap-icons";
-import { RecipeCalculatedIngredient } from "@/types";
+import { RecipeIngredient } from "@/types";
 
 type IngredientDeductionBottomSheetProps = {
 	show: boolean;
 	onHide: Function;
 	onNextShow: Function;
-	recipeID: number;
-	ownedIngredientIDs: number[];
+	ingredients: RecipeIngredient[];
 };
 
 export default function IngredientDeductionBottomSheet({
 	show,
 	onHide,
 	onNextShow,
-	recipeID,
-	ownedIngredientIDs,
+	ingredients,
 }: IngredientDeductionBottomSheetProps) {
-	const [ingredients, setIngredients] = useState<RecipeCalculatedIngredient[]>(
-		[],
-	);
 	const [isDeductionAvailable, setIsDeductionAvailable] = useState<number[]>(
 		[],
 	);
 	const [isDeductionSelected, setIsDeductionSelected] = useState<number[]>([]);
 
 	useEffect(() => {
-		(async () => {
-			const data = await getRecipeIngredients(recipeID);
-			setIngredients(data);
-
-			const filteredData = data
-				.filter((ingredient: RecipeCalculatedIngredient) =>
-					ownedIngredientIDs.includes(ingredient.recipeIngredientId),
-				)
-				.map(
-					(ingredient: RecipeCalculatedIngredient) =>
-						ingredient.recipeIngredientId,
-				);
-			setIsDeductionAvailable(filteredData);
-			setIsDeductionSelected(filteredData);
-		})();
+		const filteredData = ingredients
+			.filter((ingredient) => ingredient.isOwned)
+			.map((ingredient) => ingredient.ingredientID);
+		setIsDeductionAvailable(filteredData);
+		setIsDeductionSelected(filteredData);
 	}, []);
 
 	const onNextBtnClick = () => {
 		const selectedIngredients = ingredients
-			.filter((ingredient: RecipeCalculatedIngredient) =>
-				isDeductionSelected.includes(ingredient.recipeIngredientId),
+			.filter((ingredient) =>
+				isDeductionSelected.includes(ingredient.ingredientID),
 			)
-			.map(({ name, volume, unit }) => ({ name, volume, unit }));
+			.map(({ name, transVolume, transUnit }) => ({
+				name: name,
+				volume: transVolume,
+				unit: transUnit,
+			}));
 		deductIngredient(selectedIngredients);
 		onNextShow();
 		onHide();
@@ -62,13 +51,13 @@ export default function IngredientDeductionBottomSheet({
 		onHide();
 	};
 
-	const onIngredientClick = (recipeIngredientId: number) => {
-		if (isDeductionAvailable.includes(recipeIngredientId)) {
-			isDeductionSelected.includes(recipeIngredientId)
+	const onIngredientClick = (ingredientID: number) => {
+		if (isDeductionAvailable.includes(ingredientID)) {
+			isDeductionSelected.includes(ingredientID)
 				? setIsDeductionSelected((prev) =>
-						prev.filter((id) => id !== recipeIngredientId),
+						prev.filter((id) => id !== ingredientID),
 				  )
-				: setIsDeductionSelected((prev) => [...prev, recipeIngredientId]);
+				: setIsDeductionSelected((prev) => [...prev, ingredientID]);
 		}
 	};
 
@@ -85,28 +74,28 @@ export default function IngredientDeductionBottomSheet({
 					</div>
 
 					<div className={styles.ingredientList}>
-						{ingredients.map(({ recipeIngredientId, ...ingredient }) => {
-							if (ingredient.volume && ingredient.unit) {
+						{ingredients.map(({ ingredientID, ...ingredient }) => {
+							if (ingredient.transVolume && ingredient.transUnit) {
 								return (
 									<div
-										key={ingredient.name}
+										key={ingredientID}
 										className={
-											isDeductionSelected.includes(recipeIngredientId)
+											isDeductionSelected.includes(ingredientID)
 												? styles.selected
 												: undefined
 										}
-										onClick={() => onIngredientClick(recipeIngredientId)}
+										onClick={() => onIngredientClick(ingredientID)}
 									>
-										{isDeductionSelected.includes(recipeIngredientId) ? (
+										{isDeductionSelected.includes(ingredientID) ? (
 											<CheckCircleFill className={styles.icon} />
 										) : (
-											isDeductionAvailable.includes(recipeIngredientId) && (
+											isDeductionAvailable.includes(ingredientID) && (
 												<CheckCircle />
 											)
 										)}
 
 										<span>{ingredient.name}</span>
-										{`${ingredient.volume} ${ingredient.unit}`}
+										{`${ingredient.transVolume} ${ingredient.transUnit}`}
 									</div>
 								);
 							}

@@ -7,23 +7,19 @@ import { getBookmarkIDs } from "@/api";
 
 type RecipeDescriptionProps = {
 	recipe: RecipeDetail;
+	setRecipe: Function;
 };
 
-export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
+export default function RecipeDescription({
+	recipe,
+	setRecipe,
+}: RecipeDescriptionProps) {
 	const recipeExtraInfo = [
 		["난이도", recipe.difficulty],
 		["조리시간", recipe.cookingTime],
 		recipe.kcal !== "0kcal" ? ["칼로리", recipe.kcal] : null,
 		recipe.scoreAvg ? ["별점", recipe.scoreAvg] : null,
 	] as [string, string | number][];
-
-	const [bookmarkIDs, setBookmarkIDs] = useState([]);
-	useEffect(() => {
-		(async () => {
-			const bookmarkIDsData = await getBookmarkIDs();
-			setBookmarkIDs(bookmarkIDsData);
-		})();
-	}, []);
 
 	// TODO: 별점 세로 가운데 정렬
 	// HACK: 별점 NaN 에러 - Error: <rect> attribute width: Expected length, "NaN".
@@ -36,8 +32,8 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 				<span />
 				<BookmarkIcon
 					recipeID={recipe.recipeID}
-					bookmarkIDs={bookmarkIDs}
-					setBookmarkIDs={setBookmarkIDs}
+					isBookmarked={recipe.isBookmarked}
+					setRecipe={setRecipe}
 				/>
 			</div>
 
