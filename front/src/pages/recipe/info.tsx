@@ -97,7 +97,7 @@ export default function RecipeInfoPage({ recipeID }: RecipeInfoPageProps) {
 				/>
 			)}
 
-			{recipe && (
+			{recipe && isOwned && (
 				<IngredientDeductionBottomSheet
 					show={isIngredientDeductionBottomSheetShow}
 					onHide={() => setIsIngredientDeductionBottomSheetShow(false)}
