@@ -23,7 +23,7 @@ export default function RecipeList({ recipeData }: RecipeListProps) {
 							<div className={styles.recipeName}>{recipe.recipeName}</div>
 							<div className="d-flex gap-3">
 								{recipe.scoreAvg != 0 && (
-									<Stars score={recipe.scoreAvg} label />
+									<Stars id={recipe.recipeID} score={recipe.scoreAvg} label />
 								)}
 								<div className={styles.recipeInfo}>
 									<EyeFill width="16" height="16" />

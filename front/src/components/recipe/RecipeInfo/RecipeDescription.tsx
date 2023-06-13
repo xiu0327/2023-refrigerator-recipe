@@ -45,7 +45,9 @@ export default function RecipeDescription({
 					.map(([key, value]) => (
 						<div key={key}>
 							<div className={styles.recipeInfoKey}>{key}</div>
-							{key === "별점" && <Stars score={Number(value)} />}
+							{key === "별점" && (
+								<Stars id={recipe.recipeID} score={Number(value)} />
+							)}
 							<div className={styles.recipeInfoValue}>
 								{key === "별점" && value ? Number(value).toFixed(1) : value}
 							</div>
