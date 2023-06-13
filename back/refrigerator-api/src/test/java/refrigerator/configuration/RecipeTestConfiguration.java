@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import refrigerator.back.recipe.adapter.out.QueryMyIngredientDataAdapter;
 import refrigerator.back.recipe.adapter.out.QueryRecipeBasicDataAdapter;
 import refrigerator.back.recipe.adapter.out.QueryRecipeIngredientAndCourseAdapter;
+import refrigerator.back.recipe.adapter.out.mapper.OutRecipeBasicDataMapper;
+import refrigerator.back.recipe.adapter.out.mapper.OutRecipeBasicDataMapperImpl;
 import refrigerator.back.recipe.adapter.out.repository.RecipeSelectQueryRepository;
 import refrigerator.back.recipe.application.port.out.GetMyIngredientDataPort;
 import refrigerator.back.recipe.application.port.out.GetRecipeBasicsDataPort;
@@ -22,7 +24,12 @@ public class RecipeTestConfiguration {
 
     @Bean
     public GetRecipeBasicsDataPort getRecipeBasicsDataPort(){
-        return new QueryRecipeBasicDataAdapter(recipeSelectQueryRepository());
+        return new QueryRecipeBasicDataAdapter(recipeSelectQueryRepository(), outRecipeBasicDataMapper());
+    }
+
+    @Bean
+    public OutRecipeBasicDataMapper outRecipeBasicDataMapper(){
+        return new OutRecipeBasicDataMapperImpl();
     }
 
     @Bean

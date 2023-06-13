@@ -35,7 +35,7 @@ class RecipeSearchServiceTest {
         // when
         List<InRecipeSearchDto> recipes = searchRecipeUseCase.search(condition, 0, 15);
         // then
-        Assertions.assertTrue(recipes.stream().allMatch(InRecipeSearchDto::isNotNull));
+        Assertions.assertTrue(recipes.stream().allMatch(InRecipeSearchDto::checkNotNull));
     }
 
     @Test
@@ -43,7 +43,7 @@ class RecipeSearchServiceTest {
         // when
         List<InRecipeSearchDto> recipes = searchRecipeUseCase.normalSearch(0, 15);
         // then
-        Assertions.assertTrue(recipes.stream().allMatch(InRecipeSearchDto::isNotNull));
+        Assertions.assertTrue(recipes.stream().allMatch(InRecipeSearchDto::checkNotNull));
     }
 
     @Test

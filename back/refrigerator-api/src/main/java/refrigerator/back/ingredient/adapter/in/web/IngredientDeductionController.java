@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.global.common.MemberInformation;
+import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
 import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeRequestDTO;
@@ -25,6 +25,7 @@ public class IngredientDeductionController {
 
     private final DeductionIngredientVolumeUseCase deductionIngredientVolumeUseCase;
     private final FindRegisteredIngredientUseCase findRegisteredIngredientUseCase;
+    private final GetMemberEmailUseCase memberInformation;
 
     @PutMapping("/api/ingredients/deduction")
     public void deductionIngredientVolume(@RequestBody @Valid RecipeIngredientVolumeRequestDTO request, BindingResult bindingResult){
@@ -40,7 +41,7 @@ public class IngredientDeductionController {
         }
 
         deductionIngredientVolumeUseCase.deduction(
-                MemberInformation.getMemberEmail(),
+                memberInformation.getMemberEmail(),
                 request.getIngredients());
     }
 }

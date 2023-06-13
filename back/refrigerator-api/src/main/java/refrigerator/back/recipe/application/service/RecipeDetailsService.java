@@ -3,12 +3,12 @@ package refrigerator.back.recipe.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeCourseDto;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeIngredientDto;
-import refrigerator.back.recipe.adapter.mapper.RecipeBasicDataMapper;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeDto;
-import refrigerator.back.recipe.adapter.mapper.RecipeCourseDataMapper;
-import refrigerator.back.recipe.adapter.mapper.RecipeIngredientDataMapper;
+import refrigerator.back.recipe.application.domain.dto.RecipeCourseDto;
+import refrigerator.back.recipe.application.domain.dto.RecipeIngredientDto;
+import refrigerator.back.recipe.application.mapper.RecipeBasicDataMapper;
+import refrigerator.back.recipe.application.domain.dto.RecipeDto;
+import refrigerator.back.recipe.application.mapper.RecipeCourseDataMapper;
+import refrigerator.back.recipe.application.mapper.RecipeIngredientDataMapper;
 import refrigerator.back.recipe.application.domain.RecipeIngredientAndCourseCollection;
 import refrigerator.back.recipe.application.port.in.FindRecipeDetailsUseCase;
 import refrigerator.back.recipe.application.port.out.*;
@@ -29,18 +29,23 @@ public class RecipeDetailsService implements FindRecipeDetailsUseCase {
     private final GetRecipeBasicsDataPort recipePort;
     private final GetRecipeIngredientAndCourseDataPort recipeOtherDataPort;
     private final GetMyIngredientDataPort myIngredientPort;
+    private final AddRecipeViewsPort addRecipeViewsPort;
 
     @Override
-    @Transactional(readOnly = true)
-    public InRecipeDto findRecipeDetails(Long recipeId, String memberId) {
+    @Transactional
+    public RecipeDto findRecipeDetails(Long recipeId, String memberId, boolean isViewed) {
         RecipeIngredientAndCourseCollection otherCollection = recipeOtherDataPort.getData(recipeId);
-        List<InRecipeIngredientDto> ingredients = otherCollection.mappingIngredient(ingredientMapper, myIngredientPort.getMyIngredients(memberId));
-        List<InRecipeCourseDto> courses = otherCollection.mappingCourse(coursesMapper);
-        return recipeMapper.toInRecipeDto(
+        List<RecipeIngredientDto> ingredients = otherCollection.mappingIngredient(ingredientMapper, myIngredientPort.getMyIngredients(memberId));
+        List<RecipeCourseDto> courses = otherCollection.mappingCourse(coursesMapper);
+        RecipeDto result = recipeMapper.toInRecipeDto(
                 recipePort.getData(recipeId),
                 ingredients,
                 courses,
                 bookmarkPort.getStatus(recipeId, memberId)
         );
+        if (!isViewed){
+            addRecipeViewsPort.addViews(recipeId);
+        }
+        return result;
     }
 }

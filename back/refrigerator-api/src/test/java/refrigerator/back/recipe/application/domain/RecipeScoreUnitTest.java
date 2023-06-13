@@ -66,7 +66,7 @@ class RecipeScoreUnitTest {
         threadB.start();
 
         Thread.sleep(1000 * 3);
-        assertEquals(score.getScore(), 3.25);
+        assertEquals(score.getScore(), 3.25); // 실패한다면 동시성 이슈가 해결되지 않았음을 의미
 
     }
 }

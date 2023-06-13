@@ -1,9 +1,9 @@
 package refrigerator.back.recipe.application.domain;
 
-import refrigerator.back.recipe.adapter.in.dto.InRecipeCourseDto;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeIngredientDto;
-import refrigerator.back.recipe.adapter.mapper.RecipeCourseDataMapper;
-import refrigerator.back.recipe.adapter.mapper.RecipeIngredientDataMapper;
+import refrigerator.back.recipe.application.domain.dto.RecipeCourseDto;
+import refrigerator.back.recipe.application.domain.dto.RecipeIngredientDto;
+import refrigerator.back.recipe.application.mapper.RecipeCourseDataMapper;
+import refrigerator.back.recipe.application.mapper.RecipeIngredientDataMapper;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourse;
 import refrigerator.back.recipe.application.domain.entity.RecipeIngredient;
 
@@ -27,17 +27,18 @@ public class RecipeIngredientAndCourseCollection {
     /* 제대로 값이 있는지 확인하는 함수, 주로 테스트에서 사용 */
     public boolean isValid(){
         if (ingredients != null && courses != null){
-            return ingredients.size() > 0 && courses.size() > 0;
+            return ingredients.stream().allMatch(RecipeIngredient::checkNotNull) &&
+                    courses.stream().allMatch(RecipeCourse::checkNotNull);
         }
         return false;
     }
 
-    public List<InRecipeCourseDto> mappingCourse(RecipeCourseDataMapper mapper){
+    public List<RecipeCourseDto> mappingCourse(RecipeCourseDataMapper mapper){
         return courses.stream().map(mapper::toInRecipeCourseDto)
                 .collect(Collectors.toList());
     }
 
-    public List<InRecipeIngredientDto> mappingIngredient(RecipeIngredientDataMapper mapper, MyIngredientCollection myIngredients){
+    public List<RecipeIngredientDto> mappingIngredient(RecipeIngredientDataMapper mapper, MyIngredientCollection myIngredients){
         return ingredients.stream()
                 .map(ingredient ->
                         mapper.toInRecipeIngredientDto(ingredient,

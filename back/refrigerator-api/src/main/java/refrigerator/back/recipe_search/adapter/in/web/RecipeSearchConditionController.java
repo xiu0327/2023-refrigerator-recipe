@@ -3,7 +3,7 @@ package refrigerator.back.recipe_search.adapter.in.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
+import refrigerator.back.recipe_search.adapter.in.dto.InRecipeBasicListDTO;
 import refrigerator.back.recipe_search.application.port.in.FindSearchConditionUseCase;
 
 @RestController

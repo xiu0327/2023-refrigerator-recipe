@@ -17,7 +17,6 @@ import refrigerator.back.myscore.application.port.out.MyScoreReadPort;
 import refrigerator.back.myscore.application.port.out.MyScoreWritePort;
 import refrigerator.back.myscore.exception.MyRecipeScoreExceptionType;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
-import refrigerator.back.recipe.application.port.out.AddRecipeScorePort;
 import refrigerator.back.recipe.application.port.out.GetRecipeScoreDataPort;
 
 import java.util.Optional;
@@ -29,7 +28,6 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
 
     private final MyScoreReadPort myScoreReadPort;
     private final MyScoreWritePort myScoreWritePort;
-    private final AddRecipeScorePort addRecipeScorePort;
     private final GetRecipeScoreDataPort getRecipeScoreDataPort;
 
     @Override
@@ -51,7 +49,8 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
                 .orElseThrow(() -> new BusinessException(MyRecipeScoreExceptionType.NOT_FOUND_SCORE));
         Double oldScore = myScore.getScore();
         myScore.modify(newScore);
-        addRecipeScorePort.addScore(myScore.getRecipeID(), newScore - oldScore, 0);
+        RecipeScore recipeScore = getRecipeScoreDataPort.findOne(myScore.getRecipeID());
+        recipeScore.toRecalculateTotalScore(oldScore, newScore);
     }
 
     // TODO : MyScore 변경 로직과 RecipeScore 변경 로직 리팩터링 후 비동기처리
@@ -68,7 +67,6 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
 
     private InCookingResponseDTO firstCooking(String memberID, Long recipeID, Double score) {
         Long scoreID = myScoreWritePort.save(MyScore.create(memberID, recipeID, score));
-//        addRecipeScorePort.addScore(recipeID, score, 1);
         RecipeScore recipeScore = getRecipeScoreDataPort.findOne(recipeID);
         recipeScore.toCalculateTotalScore(score);
         return InCookingResponseDTO.builder()
@@ -79,7 +77,6 @@ public class MyScoreService implements FindMyScoreListUseCase, FindMyScorePrevie
     private InCookingResponseDTO reCooking(Long recipeId, Double newScore, MyScore myScore) {
         Double oldScore = myScore.getScore();
         myScore.modify(newScore);
-//        addRecipeScorePort.addScore(myScore.getRecipeID(), newScore - oldScore, 0);
         RecipeScore recipeScore = getRecipeScoreDataPort.findOne(recipeId);
         recipeScore.toRecalculateTotalScore(oldScore, newScore);
         return InCookingResponseDTO.builder()

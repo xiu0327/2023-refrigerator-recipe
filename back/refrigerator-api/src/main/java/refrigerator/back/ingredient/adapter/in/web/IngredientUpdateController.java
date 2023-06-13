@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientListRemoveRequestDTO;
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientProposeRequestDTO;
 import refrigerator.back.ingredient.adapter.in.dto.request.IngredientRegisterRequestDTO;
@@ -18,7 +19,6 @@ import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 
 import javax.validation.Valid;
 
-import static refrigerator.back.global.common.MemberInformation.*;
 import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 
 @RestController
@@ -29,6 +29,7 @@ public class IngredientUpdateController {
     final private ModifyIngredientUseCase modifyIngredientUseCase;
     final private RemoveIngredientUseCase removeIngredientUseCase;
     final private FindRegisteredIngredientUseCase findRegisteredIngredientUseCase;
+    private final GetMemberEmailUseCase memberInformation;
 
     @PostMapping("/api/ingredients")
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,7 +38,7 @@ public class IngredientUpdateController {
         RegisteredIngredient ingredientUnit = findRegisteredIngredientUseCase.getIngredient(request.getName());
 
         Long id = registerIngredientUseCase.registerIngredient(request.getName(), request.getExpirationDate(), request.getVolume(),
-                                                               ingredientUnit.getUnit(), request.getStorage(), ingredientUnit.getImage(), getMemberEmail());
+                                                               ingredientUnit.getUnit(), request.getStorage(), ingredientUnit.getImage(), memberInformation.getMemberEmail());
         return new IngredientRegisterResponseDTO(id);
     }
 
@@ -68,7 +69,7 @@ public class IngredientUpdateController {
     public void proposeIngredient(@RequestBody @Valid IngredientProposeRequestDTO request, BindingResult bindingResult) {
         ingredientExceptionHandle(bindingResult);
 
-        registerIngredientUseCase.proposeIngredient(request.getName(), request.getUnit(), getMemberEmail());
+        registerIngredientUseCase.proposeIngredient(request.getName(), request.getUnit(), memberInformation.getMemberEmail());
     }
 
 

@@ -5,6 +5,7 @@ import refrigerator.back.recipe.application.domain.entity.Recipe;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 @Entity
 @Table(name = "recipe_course")
@@ -27,5 +28,18 @@ public class RecipeCourse implements Serializable {
 
     @Column(name = "recipe_id")
     private Long recipeId;
+
+    public boolean checkNotNull(){
+        try{
+            for (Field field : getClass().getDeclaredFields()){
+                if (field.get(this) == null){
+                    return false;
+                }
+            }
+            return true;
+        } catch (IllegalAccessException e) {
+            return false;
+        }
+    }
 
 }

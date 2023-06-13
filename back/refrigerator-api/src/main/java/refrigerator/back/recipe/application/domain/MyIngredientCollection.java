@@ -17,7 +17,7 @@ public class MyIngredientCollection {
 
     public boolean checkOwnedIngredient(String recipeIngredientName, Double recipeIngredientVolume){
         Double myIngredientVolume = myIngredients.get(recipeIngredientName);
-        if (myIngredientVolume != null){
+        if (myIngredientVolume != null && myIngredientVolume > 0){
             return myIngredientVolume >= recipeIngredientVolume;
         }
         return false;

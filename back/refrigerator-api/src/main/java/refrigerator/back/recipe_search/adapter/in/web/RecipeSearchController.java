@@ -2,10 +2,10 @@ package refrigerator.back.recipe_search.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.global.common.MemberInformation;
+import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.global.image.ImageGenerator;
-import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
+import refrigerator.back.recipe_search.adapter.in.dto.InRecipeBasicListDTO;
 import refrigerator.back.recipe_search.adapter.RecipeSearchDataMapper;
 import refrigerator.back.recipe_search.adapter.in.dto.InRecipeSearchConditionDto;
 import refrigerator.back.recipe_search.adapter.in.dto.InRecipeSearchDto;
@@ -24,6 +24,7 @@ public class RecipeSearchController {
     private final AddSearchWordUseCase addSearchWordUseCase;
     private final ImageGenerator recipeImageGenerator;
     private final RecipeSearchDataMapper mapper;
+    private final GetMemberEmailUseCase memberInformation;
 
 
     @PostMapping("/api/recipe/search")
@@ -52,13 +53,13 @@ public class RecipeSearchController {
                 page,
                 size);
         data.forEach(recipe -> {
-            if (recipe.isNotNull()){
+            if (recipe.checkNotNull()){
                 recipe.generateImageUrl(recipeImageGenerator);
             } else{
                 throw new BusinessException(RecipeSearchExceptionType.INVALID_RECIPE_DATA);
             }
         });
-        addSearchWordUseCase.addSearchWord(MemberInformation.getMemberEmail(), requestDto.getSearchWord());
+        addSearchWordUseCase.addSearchWord(memberInformation.getMemberEmail(), requestDto.getSearchWord());
         return new InRecipeBasicListDTO<>(data);
     }
 

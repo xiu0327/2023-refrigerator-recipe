@@ -8,9 +8,9 @@ import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCas
 import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.people.FindLikedPeopleListUseCase;
 import refrigerator.back.global.common.BasicListResponseDTO;
+import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
 
-import static refrigerator.back.global.common.MemberInformation.*;
 
 
 @RestController
@@ -21,15 +21,16 @@ public class CommentHeartController {
     private final ReduceCommentHeartUseCase reduceCommentHeartUseCase;
     private final FindLikedPeopleListUseCase findLikedPeopleListUseCase;
     private final CreateCommentHeartNotificationUseCase createCommentHeartNotificationUseCase;
+    private final GetMemberEmailUseCase memberInformation;
 
     @PostMapping("/api/comments/{commentId}/heart/add")
     @ResponseStatus(HttpStatus.CREATED)
     public CommentBasicResponseDTO addHeartCount(@PathVariable("commentId") Long commentId){
         addCommentHeartUseCase.addHeart(
-                getMemberEmail(),
+                memberInformation.getMemberEmail(),
                 commentId);
         createCommentHeartNotificationUseCase.createCommentHeartNotification(
-                getMemberEmail(),
+                memberInformation.getMemberEmail(),
                 commentId);
         return new CommentBasicResponseDTO(commentId);
     }
@@ -37,7 +38,7 @@ public class CommentHeartController {
     @PostMapping("/api/comments/{commentId}/heart/reduce")
     public CommentBasicResponseDTO reduceHeartCount(@PathVariable("commentId") Long commentId){
         reduceCommentHeartUseCase.reduceHeart(
-                getMemberEmail(),
+                memberInformation.getMemberEmail(),
                 commentId);
         return new CommentBasicResponseDTO(commentId);
     }
@@ -45,7 +46,7 @@ public class CommentHeartController {
     @GetMapping("/api/comments/heart/list")
     public BasicListResponseDTO<Long> findLikedPeopleList(){
         return new BasicListResponseDTO<>(
-                findLikedPeopleListUseCase.findLikedPeople(getMemberEmail())
+                findLikedPeopleListUseCase.findLikedPeople(memberInformation.getMemberEmail())
         );
     }
 }

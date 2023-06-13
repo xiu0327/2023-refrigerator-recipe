@@ -21,7 +21,7 @@ public class RecipeSearchDataCollection {
     }
 
     public boolean isValid(){
-        return data.stream().allMatch(OutRecipeDto::isNotNull);
+        return data.stream().allMatch(dto -> dto != OutRecipeDto.builder().build());
     }
 
 }

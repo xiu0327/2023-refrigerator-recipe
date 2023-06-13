@@ -1,9 +1,10 @@
 package refrigerator.back.authentication.adapter.in.web.cookie;
 
 import org.springframework.stereotype.Component;
+import refrigerator.back.authentication.application.domain.TokenStatus;
+import refrigerator.back.authentication.application.port.JsonWebTokenProvider;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
-import refrigerator.back.authentication.infra.jwt.TokenStatus;
-import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
+
 import refrigerator.back.global.common.CustomCookie;
 import refrigerator.back.global.exception.BusinessException;
 

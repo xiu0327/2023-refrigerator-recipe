@@ -15,6 +15,7 @@ public enum AuthenticationExceptionType implements BasicExceptionType {
     NOT_INIT_PROFILE_AND_NICKNAME("NOT_INIT_PROFILE_AND_NICKNAME", "프로필과 닉네임이 초기화되지 않았습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_TOKEN("NOT_FOUND_TOKEN", "토큰을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_COOKIE("NOT_FOUND_COOKIE", "쿠키가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
+    EXPIRED_TOKEN("EXPIRED_TOKEN", "기간이 만료된 토큰입니다.", HttpStatus.BAD_REQUEST),
     FAIL_REDIRECT("FAIL_REDIRECT", "리다이렉트 경로가 잘못되었습니다.", HttpStatus.BAD_REQUEST)
     ;
 

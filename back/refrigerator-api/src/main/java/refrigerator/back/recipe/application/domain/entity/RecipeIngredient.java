@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 
 @Entity
-@Table(name = "recipe_ingredient", indexes = {@Index(name = "recipe_ingredient_index", columnList = "recipe_id")})
+@Table(name = "recipe_ingredient")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -38,5 +39,18 @@ public class RecipeIngredient implements Serializable {
 
     @Column(name = "type", nullable = false, length = 30)
     private String type;
+
+    public boolean checkNotNull(){
+        try{
+            for (Field field : getClass().getDeclaredFields()){
+                if (field.get(this) == null){
+                    return false;
+                }
+            }
+            return true;
+        } catch (IllegalAccessException e) {
+            return false;
+        }
+    }
 
 }

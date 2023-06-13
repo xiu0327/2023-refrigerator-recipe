@@ -1,19 +1,20 @@
 package refrigerator.back.authentication.adapter.out;
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
 import refrigerator.back.authentication.application.domain.TokenInfoDTO;
+import refrigerator.back.authentication.application.domain.TokenStatus;
+import refrigerator.back.authentication.application.dto.ParseClaimsDto;
+import refrigerator.back.authentication.application.port.JsonWebTokenProvider;
 import refrigerator.back.authentication.application.port.out.*;
-import refrigerator.back.authentication.infra.jwt.TokenStatus;
-import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
+
 
 
 import java.util.Date;
 
-import static refrigerator.back.authentication.infra.jwt.JsonWebTokenKey.*;
-import static refrigerator.back.authentication.infra.jwt.TokenStatus.*;
+import static refrigerator.back.authentication.adapter.out.JsonWebTokenKey.*;
+import static refrigerator.back.authentication.application.domain.TokenStatus.*;
 
 
 @Component
@@ -53,8 +54,8 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPor
 
     @Override
     public TokenInfoDTO findEmailByToken(String token) {
-        Claims claims = jsonWebTokenProvider.parseClaims(token);
-        return new TokenInfoDTO(claims.getSubject(), (String)claims.get("auth"));
+        ParseClaimsDto parseClaimsDto = jsonWebTokenProvider.parseClaims(token);
+        return new TokenInfoDTO(parseClaimsDto.getEmail(), parseClaimsDto.getRole());
     }
 
     @Override
@@ -66,7 +67,7 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPor
     public boolean validate(String accessToken, String refreshToken) {
         TokenStatus accessTokenStatus = jsonWebTokenProvider.validateToken(accessToken);
         TokenStatus refreshTokenStatus = jsonWebTokenProvider.validateToken(refreshToken);
-        if (accessTokenStatus == PASS && refreshTokenStatus == EXPIRED){
+        if (accessTokenStatus == TokenStatus.PASS && refreshTokenStatus == EXPIRED){
             // 액세스 토큰 = 유효, 리프레시 토큰 = 만료 -> 재발급 불가능
             return false;
         }

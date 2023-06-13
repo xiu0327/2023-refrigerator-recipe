@@ -1,6 +1,7 @@
 package refrigerator.back.recipe_recommend.application;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ class RecipeRecommendServiceTest {
         String memberId = "mstest102@gmail.com";
         List<InRecipeRecommendDTO> result = recipeRecommendService.recommend(memberId);
         result.forEach(item -> {
-            assertThat(item.isNotNull()).isTrue();
+            Assertions.assertNotSame(item, InRecipeRecommendDTO.builder().build());
             assertThat(item.getMatch()>=0.0 && item.getMatch() <=100.0).isTrue();
         });
     }

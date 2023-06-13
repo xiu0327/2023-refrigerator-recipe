@@ -9,12 +9,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.lang.reflect.Field;
-import java.util.Objects;
 
-@Data
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class InRecipeRecommendDTO extends Image {
 
     @NotNull
@@ -37,36 +37,10 @@ public class InRecipeRecommendDTO extends Image {
     @Max(100)
     private Double match;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InRecipeRecommendDTO that = (InRecipeRecommendDTO) o;
-        return recipeID.equals(that.recipeID) && recipeName.equals(that.recipeName) && image.equals(that.image) && scoreAvg.equals(that.scoreAvg) && match.equals(that.match);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(recipeID, recipeName, image, scoreAvg, match);
-    }
-
 
     public InRecipeRecommendDTO calculateMatchRate(Double match){
         this.match = match;
         return this;
-    }
-
-    public boolean isNotNull(){
-        try{
-            for (Field field : getClass().getDeclaredFields()){
-                if (field.get(this) == null){
-                    return false;
-                }
-            }
-            return true;
-        } catch (IllegalAccessException e) {
-            return false;
-        }
     }
 
     @Override

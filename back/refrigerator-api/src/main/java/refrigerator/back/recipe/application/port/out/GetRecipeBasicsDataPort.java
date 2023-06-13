@@ -1,7 +1,7 @@
 package refrigerator.back.recipe.application.port.out;
 
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeDto;
+import refrigerator.back.recipe.application.domain.dto.RecipeDomainDto;
 
 public interface GetRecipeBasicsDataPort {
-    OutRecipeDto getData(Long recipeId);
+    RecipeDomainDto getData(Long recipeId);
 }

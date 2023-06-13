@@ -23,12 +23,6 @@ public enum RecipeType {
 
     private String name;
 
-    public static List<String> getRecipeTypeList(){
-        return Arrays.stream(RecipeType.values())
-                .map(RecipeType::getName)
-                .collect(Collectors.toList());
-    }
-
     public static RecipeType lookup(String name){
         return Arrays.stream(RecipeType.values())
                 .filter(recipeType -> recipeType.getName().equals(name))

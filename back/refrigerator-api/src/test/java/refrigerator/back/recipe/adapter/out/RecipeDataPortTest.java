@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import refrigerator.configuration.RecipeTestConfiguration;
-import refrigerator.back.recipe.adapter.out.dto.OutRecipeDto;
+import refrigerator.back.recipe.application.domain.dto.RecipeDomainDto;
 import refrigerator.back.recipe.application.domain.MyIngredientCollection;
 import refrigerator.back.recipe.application.domain.RecipeIngredientAndCourseCollection;
 import refrigerator.back.recipe.application.port.out.GetMyIngredientDataPort;
 import refrigerator.back.recipe.application.port.out.GetRecipeBasicsDataPort;
 import refrigerator.back.recipe.application.port.out.GetRecipeIngredientAndCourseDataPort;
+import refrigerator.configuration.RecipeTestConfiguration;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,7 +30,7 @@ class RecipeDataPortTest {
     @DisplayName("레시피 기본 정보 제대로 가져오는지 확인")
     void getRecipeBasics() {
         for (long id = 1L ; id < 10L ; id++) {
-            OutRecipeDto data = recipePort.getData(id);
+            RecipeDomainDto data = recipePort.getData(id);
             assertTrue(data.checkNotNull());
         }
     }

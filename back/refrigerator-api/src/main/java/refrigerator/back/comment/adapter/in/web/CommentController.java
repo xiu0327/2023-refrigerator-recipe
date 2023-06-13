@@ -10,8 +10,7 @@ import refrigerator.back.comment.adapter.in.dto.response.CommentBasicResponseDTO
 import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCase;
 import refrigerator.back.comment.application.port.in.comment.EditCommentUseCase;
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
-
-import static refrigerator.back.global.common.MemberInformation.*;
+import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 
 
 @RestController
@@ -22,11 +21,12 @@ public class CommentController {
     private final WriteCommentUseCase writeCommentUseCase;
     private final EditCommentUseCase editCommentUseCase;
     private final DeleteCommentUseCase deleteCommentUseCase;
+    private final GetMemberEmailUseCase memberInformation;
 
     @PostMapping("/api/comments")
     @ResponseStatus(HttpStatus.CREATED)
     public CommentBasicResponseDTO write(@RequestBody WriteCommentRequestDTO request){
-        String memberId = getMemberEmail();
+        String memberId = memberInformation.getMemberEmail();
         Long commentId = writeCommentUseCase.write(
                 request.getRecipeId(),
                 memberId,
@@ -37,7 +37,7 @@ public class CommentController {
     @PutMapping("/api/comments")
     public CommentBasicResponseDTO edit(@RequestBody EditCommentRequestDTO request){
         Long commentId = editCommentUseCase.edit(
-                getMemberEmail(),
+                memberInformation.getMemberEmail(),
                 request.getCommentID(),
                 request.getContent());
         return new CommentBasicResponseDTO(commentId);
@@ -47,7 +47,7 @@ public class CommentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("commentId") Long commentId){
         deleteCommentUseCase.delete(
-                getMemberEmail(),
+                memberInformation.getMemberEmail(),
                 commentId);
     }
 }

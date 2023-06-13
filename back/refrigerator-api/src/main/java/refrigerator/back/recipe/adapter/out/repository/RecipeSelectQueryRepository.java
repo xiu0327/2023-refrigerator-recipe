@@ -1,6 +1,5 @@
 package refrigerator.back.recipe.adapter.out.repository;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;

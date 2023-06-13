@@ -3,8 +3,8 @@ package refrigerator.back.recipe.adapter.out.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.lang.reflect.Field;
+import refrigerator.back.recipe.adapter.out.mapper.OutRecipeBasicDataMapper;
+import refrigerator.back.recipe.application.domain.dto.RecipeDomainDto;
 
 @Getter
 @ToString
@@ -32,16 +32,7 @@ public class OutRecipeDto {
         this.difficulty = difficulty;
     }
 
-    public boolean checkNotNull(){
-        try{
-            for(Field field : getClass().getDeclaredFields()){
-                if (field.get(this) == null){
-                    return false;
-                }
-            }
-            return true;
-        }catch (IllegalAccessException e){
-            return false;
-        }
+    public RecipeDomainDto mappingToDomainDto(OutRecipeBasicDataMapper mapper){
+        return mapper.toRecipeDomainDto(this);
     }
 }

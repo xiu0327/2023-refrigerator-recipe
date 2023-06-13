@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientListResponseDTO;
 import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
@@ -19,8 +20,6 @@ import refrigerator.back.ingredient.application.port.in.MakeImageUrlUseCase;
 
 import java.util.List;
 
-import static refrigerator.back.global.common.MemberInformation.*;
-
 @RestController
 @RequiredArgsConstructor
 public class IngredientLookUpController {
@@ -29,6 +28,7 @@ public class IngredientLookUpController {
     private final FindIngredientListUseCase findIngredientListUseCase;
     private final FindRegisteredIngredientUseCase findRegisteredIngredientUseCase;
     private final MakeImageUrlUseCase makeImageUrlUseCase;
+    private final GetMemberEmailUseCase memberInformation;
     private final IngredientMapper mapper;
 
     // @RequestParam validation 방안 생각해야함
@@ -46,7 +46,7 @@ public class IngredientLookUpController {
                                                                                @RequestParam(value = "size", defaultValue = "12") int size) {
 
         List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientList(
-                mapper.toIngredientSearchCondition(IngredientStorageType.from(storage), deadline, getMemberEmail()), page, size);
+                mapper.toIngredientSearchCondition(IngredientStorageType.from(storage), deadline, memberInformation.getMemberEmail()), page, size);
 
         getIngredientResponseDTO(ingredients);
 
@@ -56,7 +56,7 @@ public class IngredientLookUpController {
     @GetMapping("/api/ingredients/search")
     public IngredientListResponseDTO<IngredientResponseDTO> searchIngredientList() {
 
-        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientListOfAll(getMemberEmail());
+        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientListOfAll(memberInformation.getMemberEmail());
 
         getIngredientResponseDTO(ingredients);
 
@@ -75,7 +75,7 @@ public class IngredientLookUpController {
     @GetMapping("/api/ingredients/deadline/{days}")
     public IngredientListResponseDTO<IngredientResponseDTO> findIngredientListByDeadline(@PathVariable("days") Long days) {
 
-        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientListByDeadline(days, getMemberEmail());
+        List<IngredientResponseDTO> ingredients = findIngredientListUseCase.getIngredientListByDeadline(days, memberInformation.getMemberEmail());
 
         getIngredientResponseDTO(ingredients);
 
