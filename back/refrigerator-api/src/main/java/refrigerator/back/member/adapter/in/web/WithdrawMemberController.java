@@ -3,6 +3,7 @@ package refrigerator.back.member.adapter.in.web;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
+import refrigerator.back.authentication.adapter.in.web.cookie.RefreshTokenCookie;
 import refrigerator.back.global.common.CustomCookie;
 import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.member.application.port.in.WithdrawMemberUseCase;
@@ -19,10 +20,9 @@ public class WithdrawMemberController {
     private final GetMemberEmailUseCase memberInformation;
 
     public WithdrawMemberController(WithdrawMemberUseCase withdrawMemberUseCase,
-                                    GetMemberEmailUseCase memberInformation,
-                                    @Qualifier("refreshTokenCookie") CustomCookie refreshTokenCookie) {
+                                    GetMemberEmailUseCase memberInformation) {
         this.withdrawMemberUseCase = withdrawMemberUseCase;
-        this.refreshTokenCookie = refreshTokenCookie;
+        this.refreshTokenCookie = new RefreshTokenCookie();
         this.memberInformation = memberInformation;
     }
 

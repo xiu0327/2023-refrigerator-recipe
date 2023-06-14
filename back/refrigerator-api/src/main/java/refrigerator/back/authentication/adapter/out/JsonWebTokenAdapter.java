@@ -6,7 +6,7 @@ import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepos
 import refrigerator.back.authentication.application.domain.TokenInfoDTO;
 import refrigerator.back.authentication.application.domain.TokenStatus;
 import refrigerator.back.authentication.application.dto.ParseClaimsDto;
-import refrigerator.back.authentication.application.port.JsonWebTokenProvider;
+import refrigerator.back.authentication.application.port.external.JsonWebTokenProvider;
 import refrigerator.back.authentication.application.port.out.*;
 
 
@@ -50,7 +50,6 @@ public class JsonWebTokenAdapter implements CreateTokenPort, FindEmailByTokenPor
                 authority,
                 duration);
     }
-
 
     @Override
     public TokenInfoDTO findEmailByToken(String token) {

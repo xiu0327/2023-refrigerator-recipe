@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
-import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
+import refrigerator.back.authentication.adapter.in.web.cookie.RefreshTokenCookie;
+import refrigerator.back.authentication.application.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.global.common.CustomCookie;
 import refrigerator.back.global.exception.BusinessException;
@@ -20,16 +21,14 @@ import java.io.IOException;
 public class LoginController {
 
     private final LoginUseCase loginUseCase;
-    private final CustomCookie refreshTokenCookie;
+    private final CustomCookie refreshTokenCookie = new RefreshTokenCookie();
     private final String oauthPassword;
     private final String frontDomain;
 
     public LoginController(LoginUseCase loginUseCase,
-                           @Qualifier("refreshTokenCookie") CustomCookie refreshTokenCookie,
                            @Value("${oauth.password}") String oauthPassword,
                            @Value("${front.domain}") String frontDomain) {
         this.loginUseCase = loginUseCase;
-        this.refreshTokenCookie = refreshTokenCookie;
         this.oauthPassword = oauthPassword;
         this.frontDomain = frontDomain;
     }

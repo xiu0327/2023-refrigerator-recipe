@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.authentication.adapter.in.dto.IssueTemporaryAccessTokenRequestDTO;
+import refrigerator.back.authentication.adapter.in.dto.TemporaryAccessTokenRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TemporaryAccessTokenResponseDTO;
-import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
+import refrigerator.back.authentication.adapter.in.web.cookie.RefreshTokenCookie;
+import refrigerator.back.authentication.application.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.IssueTemporaryAccessTokenUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
 import refrigerator.back.global.common.CustomCookie;
@@ -28,16 +29,14 @@ public class TokenIssueController {
 
     private final TokenReissueUseCase tokenReissueUseCase;
     private final IssueTemporaryAccessTokenUseCase issueTemporaryAccessToken;
-    private final CustomCookie refreshTokenCookie;
+    private final CustomCookie refreshTokenCookie = new RefreshTokenCookie();
     private final String grantType;
 
     public TokenIssueController(TokenReissueUseCase tokenReissueUseCase,
                                 IssueTemporaryAccessTokenUseCase issueTemporaryAccessToken,
-                                @Qualifier("refreshTokenCookie") CustomCookie refreshTokenCookie,
                                 @Value("${jwt.type}") String grantType) {
         this.tokenReissueUseCase = tokenReissueUseCase;
         this.issueTemporaryAccessToken = issueTemporaryAccessToken;
-        this.refreshTokenCookie = refreshTokenCookie;
         this.grantType = grantType;
     }
 
@@ -52,7 +51,7 @@ public class TokenIssueController {
 
     @PostMapping("/api/auth/issue/temporary-token")
     public TemporaryAccessTokenResponseDTO findPassword(
-            @RequestBody @Valid IssueTemporaryAccessTokenRequestDTO request,
+            @RequestBody @Valid TemporaryAccessTokenRequestDTO request,
             BindingResult result){
         check(result, MemberExceptionType.EMPTY_INPUT_DATA);
         String authToken = issueTemporaryAccessToken.issueTemporaryAccessToken(request.getEmail());

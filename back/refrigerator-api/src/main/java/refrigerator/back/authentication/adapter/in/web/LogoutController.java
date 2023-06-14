@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import refrigerator.back.authentication.adapter.in.web.cookie.RefreshTokenCookie;
 import refrigerator.back.authentication.application.port.in.LogoutUseCase;
 import refrigerator.back.global.common.CustomCookie;
 
@@ -15,12 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LogoutController {
     private final LogoutUseCase logoutUseCase;
-    private final CustomCookie refreshTokenCookie;
+    private final CustomCookie refreshTokenCookie = new RefreshTokenCookie();
 
-    public LogoutController(LogoutUseCase logoutUseCase,
-                            @Qualifier("refreshTokenCookie") CustomCookie refreshTokenCookie) {
+    public LogoutController(LogoutUseCase logoutUseCase) {
         this.logoutUseCase = logoutUseCase;
-        this.refreshTokenCookie = refreshTokenCookie;
     }
 
     @GetMapping("/api/auth/logout")

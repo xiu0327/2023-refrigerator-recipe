@@ -1,8 +1,7 @@
 package refrigerator.back.authentication.adapter.in.web.cookie;
 
-import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.application.domain.TokenStatus;
-import refrigerator.back.authentication.application.port.JsonWebTokenProvider;
+import refrigerator.back.authentication.application.port.external.JsonWebTokenProvider;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 
 import refrigerator.back.global.common.CustomCookie;
@@ -12,16 +11,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-@Component
+
 public class RefreshTokenCookie implements CustomCookie {
 
-    private final JsonWebTokenProvider jsonWebTokenProvider;
     private final String NAME = "Refresh-Token";
     private final String PATH = "/api/auth/reissue";
 
-    public RefreshTokenCookie(JsonWebTokenProvider jsonWebTokenProvider) {
-        this.jsonWebTokenProvider = jsonWebTokenProvider;
-    }
 
     @Override
     public Cookie create(String token) {
@@ -53,9 +48,9 @@ public class RefreshTokenCookie implements CustomCookie {
     }
 
     @Override
-    public boolean isValid(Cookie target) {
+    public boolean isValid(JsonWebTokenProvider provider, Cookie target) {
         return target.getName().equals(NAME) &&
-                jsonWebTokenProvider.validateToken(target.getValue()).equals(TokenStatus.PASS);
+                provider.validateToken(target.getValue()).equals(TokenStatus.PASS);
     }
 
 }

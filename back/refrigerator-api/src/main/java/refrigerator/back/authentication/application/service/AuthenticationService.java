@@ -3,7 +3,7 @@ package refrigerator.back.authentication.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
+import refrigerator.back.authentication.application.dto.TokenDTO;
 import refrigerator.back.authentication.application.domain.TokenInfoDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;

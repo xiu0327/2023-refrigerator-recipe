@@ -1,5 +1,6 @@
 plugins {
 	id 'org.springframework.boot' version '2.7.9'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
 
@@ -10,16 +11,23 @@ repositories {
 
 bootJar.enabled = false
 
-subprojects {
-	group = 'com.example'
-	version = '0.0.1-SNAPSHOT'
-	sourceCompatibility = '11'
+group = 'refrigerator'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
 
+dependencies {
+
+	implementation project(':refrigerator-boot')
+	implementation project(':refrigerator-api')
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.6.3'
+}
+
+subprojects {
 	apply plugin: 'java'
-	// build.gradle에서 api() 를 사용하려면 java-library 사용
 	apply plugin: 'java-library'
 	apply plugin: 'org.springframework.boot'
-	// spring boot dependency를 사용하여 사용중인 부트 버전에서 자동으로 의존성을 가져온다.
 	apply plugin: 'io.spring.dependency-management'
 
 	configurations {
@@ -32,14 +40,20 @@ subprojects {
 		mavenCentral()
 	}
 
+	group = 'refrigerator'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '11'
+
+
 	// 관리하는 모듈에 공통 dependencies
 	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-web'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		testImplementation 'org.springframework.boot:spring-boot-starter-jdbc'
+		testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		testImplementation 'org.springframework.security:spring-security-test'
 		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
 		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'

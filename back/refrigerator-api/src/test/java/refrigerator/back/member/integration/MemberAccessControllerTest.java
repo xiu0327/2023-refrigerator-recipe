@@ -14,6 +14,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.annotation.RedisFlushAll;
+import refrigerator.back.authentication.adapter.in.web.cookie.RefreshTokenCookie;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.common.CustomCookie;
 import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
@@ -35,9 +36,7 @@ class MemberAccessControllerTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired CreateTokenPort createTokenPort;
-    @Autowired
-    @Qualifier("refreshTokenCookie")
-    CustomCookie refreshTokenCookie;
+    CustomCookie refreshTokenCookie = new RefreshTokenCookie();
     ObjectMapper objectMapper = new ObjectMapper();
 
     String email = "nhtest@gmail.com";
