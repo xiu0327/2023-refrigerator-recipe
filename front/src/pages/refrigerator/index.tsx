@@ -12,17 +12,34 @@ import Switch from "@/components/global/Switch/Switch";
 import styles from "@/scss/pages.module.scss";
 import { useIntersectionObserver } from "@/hooks";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	setIsExpired,
+	setStorage,
+} from "@/store/refrigerator/ingredientSettings";
 
 export default function RefrigeratorPage() {
 	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
-	const [storage, setStorage] = useState<Storage>("냉장");
-	const [isExpired, setIsExpired] = useState(false);
 
 	const [page, setPage] = useState(0);
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [isScrollEnd, setIsScrollEnd] = useState(false);
 
 	const scrollRef = useRef<HTMLDivElement>(null);
+
+	const storage = useSelector(
+		({ ingredientSettings }) => ingredientSettings.storage,
+	);
+	const storageDispatch = useDispatch();
+	const changeStorage = (payload: Storage) =>
+		storageDispatch(setStorage(payload));
+
+	const isExpired = useSelector(
+		({ ingredientSettings }) => ingredientSettings.isExpired,
+	);
+	const isExpiredDispatch = useDispatch();
+	const toggleIsExpired = (payload: boolean) =>
+		storageDispatch(setIsExpired(payload));
 
 	useEffect(() => {
 		(async () => {
@@ -53,7 +70,7 @@ export default function RefrigeratorPage() {
 		<AppNavLayout title="냉장고">
 			<div className={styles.fixedContainer}>
 				<div className="d-flex align-items-center gap-3">
-					<StorageTab storage={storage} setStorage={setStorage} size="sm" />
+					<StorageTab storage={storage} setStorage={changeStorage} size="sm" />
 					<Link href={`/refrigerator/search`}>
 						<Search className={styles.icon} />
 					</Link>
@@ -61,7 +78,7 @@ export default function RefrigeratorPage() {
 				<Switch
 					label="유통기한 지난 식재료만 보기"
 					isOn={isExpired}
-					setIsOn={setIsExpired}
+					setIsOn={toggleIsExpired}
 				/>
 			</div>
 
