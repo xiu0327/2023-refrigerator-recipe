@@ -1,7 +1,7 @@
 package refrigerator.back.member.unit;
 
 import org.junit.jupiter.api.Test;
-import refrigerator.back.member.adapter.in.dto.response.MemberProfileDTO;
+import refrigerator.back.member.application.dto.MemberProfileDto;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.service.MemberProfileImageService;
 
@@ -24,7 +24,7 @@ class MemberProfileImageServiceUnitTest {
 
     @Test
     void 프로필_이미지_목록_조회(){
-        List<MemberProfileDTO> result = service.getProfileList();
+        List<MemberProfileDto> result = service.getProfileList();
         result.forEach(image -> {
             assertThat(image).isNotNull();
             assertThat(image.getImageUrl().startsWith("route" + "path")).isTrue();

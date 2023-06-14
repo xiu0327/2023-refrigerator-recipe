@@ -3,7 +3,7 @@ package refrigerator.back.member.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import refrigerator.back.member.adapter.in.dto.response.MemberProfileDTO;
+import refrigerator.back.member.application.dto.MemberProfileDto;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.port.in.GetProfileListUseCase;
 import refrigerator.back.member.application.port.in.MakeProfileUrlUseCase;
@@ -28,9 +28,9 @@ public class MemberProfileImageService implements MakeProfileUrlUseCase, GetProf
     }
 
     @Override
-    public List<MemberProfileDTO> getProfileList() {
+    public List<MemberProfileDto> getProfileList() {
         return Arrays.stream(MemberProfileImage.values())
-                .map(image -> new MemberProfileDTO(image.getName(), createURL(image.getName())))
+                .map(image -> new MemberProfileDto(image.getName(), createURL(image.getName())))
                 .collect(Collectors.toList());
     }
 }

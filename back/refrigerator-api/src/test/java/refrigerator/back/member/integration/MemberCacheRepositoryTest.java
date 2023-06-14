@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.member.adapter.mapper.MemberDtoMapper;
+import refrigerator.back.member.adapter.out.mapper.MemberDtoMapper;
 import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 import refrigerator.back.member.adapter.out.repository.MemberCacheRepository;
 import refrigerator.back.member.application.domain.Member;

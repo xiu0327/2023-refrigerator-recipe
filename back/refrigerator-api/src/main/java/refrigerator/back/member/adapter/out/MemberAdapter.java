@@ -2,7 +2,7 @@ package refrigerator.back.member.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.member.adapter.mapper.MemberDtoMapper;
+import refrigerator.back.member.adapter.out.mapper.MemberDtoMapper;
 import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
 import refrigerator.back.member.adapter.out.repository.MemberCacheRepository;
 import refrigerator.back.member.adapter.out.repository.MemberRepository;
