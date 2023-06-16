@@ -1,4 +1,4 @@
 rootProject.name = 'back'
-include 'refrigerator-api'
+include 'refrigerator-domain'
 include 'refrigerator-boot'
 

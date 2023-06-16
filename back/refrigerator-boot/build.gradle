@@ -2,17 +2,16 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
-version 'unspecified'
-
 repositories {
     mavenCentral()
 }
 
 group = 'refrigerator'
+//version 'unspecified'
 
 dependencies {
-    implementation project(':refrigerator-api')
+    implementation project(':refrigerator-domain')
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
