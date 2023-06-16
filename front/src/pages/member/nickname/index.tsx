@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import InputContent from "@/components/member/InputContent/InputContent";
 import BackLayout from "@/components/layout/BackLayout";
 import ModalOnBtn3 from "@/components/member/ModalOnBtn/ModalOnBtn3";
@@ -7,7 +7,9 @@ import ModalOnBtn3 from "@/components/member/ModalOnBtn/ModalOnBtn3";
 export default function nickname() {
 	const [nick, setNick] = useState("");
 
-	const onNicknameHandler = (e: any) => {
+	const onNicknameHandler = (e: {
+		target: { value: SetStateAction<string> };
+	}) => {
 		setNick(e.target.value);
 	};
 
