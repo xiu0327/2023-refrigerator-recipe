@@ -2,11 +2,12 @@ import { calcStarRates } from "@/utils";
 import styles from "./Stars.module.scss";
 
 type StarsProps = {
+	id: number;
 	score: number;
 	label?: boolean;
 };
 
-export default function Stars({ score, label }: StarsProps) {
+export default function Stars({ id, score, label }: StarsProps) {
 	const ICON_SIZE = 16;
 	const VIEWBOX_SIZE = 14;
 	const starRates = calcStarRates(score, VIEWBOX_SIZE);
@@ -23,17 +24,17 @@ export default function Stars({ score, label }: StarsProps) {
 							viewBox={`0 0 ${VIEWBOX_SIZE} ${VIEWBOX_SIZE}`}
 							fill="#e0e0e0"
 						>
-							<clipPath id={`starClip${index}`}>
+							<clipPath id={`star${id}Clip${index}`}>
 								<rect width={rate} height={ICON_SIZE} />
 							</clipPath>
 							<path
-								id={`star${index}`}
+								id={`star${id}${index}`}
 								d="M9,2l2.163,4.279L16,6.969,12.5,10.3l.826,4.7L9,12.779,4.674,15,5.5,10.3,2,6.969l4.837-.69Z"
 								transform="translate(-2 -2)"
 							/>
 							<use
-								clipPath={`url(#starClip${index})`}
-								href={`#star${index}`}
+								clipPath={`url(#star${id}Clip${index})`}
+								href={`#star${id}${index}`}
 								fill="#FFC93C"
 							/>
 						</svg>

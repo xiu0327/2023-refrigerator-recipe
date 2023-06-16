@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import router, { useRouter } from "next/router";
+import router from "next/router";
 
 import { searchRecipe } from "@/api";
 import { useIntersectionObserver } from "@/hooks";
@@ -10,7 +10,7 @@ import SearchBar from "@/components/global/SearchBar/SearchBar";
 import SearchPanel from "@/components/recipe/SearchPanel/SearchPanel";
 import SearchSuggestions from "@/components/recipe/SearchSuggestions/SearchSuggestions";
 import RecipeList from "@/components/recipe/RecipeList/RecipeList";
-import NoResult from "@/components/global/NoResult/NoResult";
+import NoSearchResult from "@/components/global/NoResult/NoSearchResult";
 
 import styles from "@/scss/pages.module.scss";
 
@@ -31,7 +31,7 @@ export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 			(async () => {
 				setKeyword(query);
 				setPage(0);
-				const data = await searchRecipe(0, `&searchWord=${query}`);
+				const data = await searchRecipe(0, { searchWord: query });
 				setRecipeResultData(data);
 				setIsScrollEnd(false);
 				setIsDataLoaded(true);
@@ -41,7 +41,7 @@ export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 	useEffect(() => {
 		if (page != 0 && !isScrollEnd) {
 			(async () => {
-				const data = await searchRecipe(page, `&searchWord=${query}`);
+				const data = await searchRecipe(page, { searchWord: query });
 				data.length !== 0
 					? setRecipeResultData((prev) => [...prev, ...data])
 					: setIsScrollEnd(true);
@@ -57,7 +57,7 @@ export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 
 	return (
 		<BackLayout>
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<SearchBar
 					keyword={keyword}
 					setKeyword={setKeyword}
@@ -80,7 +80,7 @@ export default function RecipeSearchPage({ query }: RecipeSearchPageProps) {
 					</>
 				)}
 				{keyword && keyword === query && recipeResultData.length === 0 && (
-					<NoResult keyword={query} />
+					<NoSearchResult keyword={query} />
 				)}
 			</div>
 		</BackLayout>

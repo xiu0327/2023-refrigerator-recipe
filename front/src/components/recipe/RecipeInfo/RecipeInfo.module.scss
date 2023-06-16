@@ -4,6 +4,8 @@ $info-font-size: 17px;
 $info-key-font-color: $grey-500;
 $info-value-font-color: $grey-800;
 
+$bookmark-icon-size: 28px;
+
 $recipe-info-emphasis-font-size: 18px;
 $recipe-info-emphasis-font-color: $grey-900;
 
@@ -47,7 +49,7 @@ $step-font-color: $grey-600;
 .recipeNameInbun {
 	display: flex;
 	gap: 0.7rem;
-	align-items: flex-end;
+	align-items: center;
 
 	.recipeName {
 		font-size: 28px;
@@ -58,6 +60,20 @@ $step-font-color: $grey-600;
 		font-size: 16px;
 		line-height: 16px;
 		color: $grey-400;
+		align-self: flex-end;
+	}
+	.bookmarkIcon {
+		width: $bookmark-icon-size;
+		height: $bookmark-icon-size;
+		color: $grey-900;
+	}
+	.bookmarkedIcon {
+		width: $bookmark-icon-size;
+		height: $bookmark-icon-size;
+		color: $primary-color-recipe;
+	}
+	> span {
+		flex: 1;
 	}
 }
 .recipeDescription {

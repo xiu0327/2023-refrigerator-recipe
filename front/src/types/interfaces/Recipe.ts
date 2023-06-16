@@ -14,34 +14,37 @@ export interface RecipeDetail extends RecipeBrief {
 	kcal: string;
 	servings: string;
 	difficulty: string;
-	bookmarks: number;
-	recipeFoodTypeName: string;
-	recipeCategoryName: string;
+	isBookmarked: boolean;
 	ingredients: RecipeIngredient[];
+	courses: RecipeStep[];
+	notNull: boolean;
 }
 
 export interface RecipeIngredient {
 	ingredientID: number;
 	name: string;
-	type: string;
-	volume: string;
-}
-
-export interface RecipeDeductedIngredient {
-	name: string;
-	volume: number;
-	unit: string;
-}
-
-export interface RecipeCalculatedIngredient extends RecipeDeductedIngredient {
-	recipeIngredientId: number;
 	type: IngredientType;
+	volume: string;
+	transUnit: string;
+	transVolume: string;
+	isOwned: boolean;
 }
 
 export interface RecipeStep {
 	step: string;
 	explanation: string;
 	image: string;
+}
+
+export interface RecipeDeductedIngredient {
+	name: string;
+	volume: string;
+	unit: string;
+}
+
+export interface RecipeCalculatedIngredient extends RecipeDeductedIngredient {
+	recipeIngredientId: number;
+	type: IngredientType;
 }
 
 export interface RecipeComment {
@@ -62,12 +65,8 @@ export interface RatedRecipe extends RecipeBrief {
 	scoreID: number;
 }
 
-export interface MatchedRecipe {
-	image: string;
+export interface MatchedRecipe extends RecipeBrief {
 	match: number;
-	recipeID: number;
-	recipeName: string;
-	scoreAvg: number;
 }
 
 export interface RecipeFilter {

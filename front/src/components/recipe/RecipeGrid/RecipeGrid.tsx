@@ -25,7 +25,9 @@ export default function RecipeGrid({ recipeData }: RecipeListProps) {
 					<div className={styles.recipeInfoContainer}>
 						<div className={styles.recipeName}>{recipe.recipeName}</div>
 						<div className="d-flex gap-3">
-							{recipe.scoreAvg != 0 && <Stars score={recipe.scoreAvg} label />}
+							{recipe.scoreAvg != 0 && (
+								<Stars id={recipe.recipeID} score={recipe.scoreAvg} label />
+							)}
 							<div className={styles.recipeInfo}>
 								<EyeFill width="16" height="16" />
 								{recipe.views}

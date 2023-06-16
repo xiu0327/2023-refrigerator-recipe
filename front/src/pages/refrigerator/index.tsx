@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import router from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { Search } from "react-bootstrap-icons";
 
 import { getIngredients } from "@/api";
@@ -13,15 +12,34 @@ import Switch from "@/components/global/Switch/Switch";
 import styles from "@/scss/pages.module.scss";
 import { useIntersectionObserver } from "@/hooks";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	setIsExpired,
+	setStorage,
+} from "@/store/refrigerator/ingredientSettings";
 
 export default function RefrigeratorPage() {
 	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
-	const [storage, setStorage] = useState<Storage>("냉장");
-	const [isExpired, setIsExpired] = useState(false);
 
 	const [page, setPage] = useState(0);
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [isScrollEnd, setIsScrollEnd] = useState(false);
+
+	const scrollRef = useRef<HTMLDivElement>(null);
+
+	const storage = useSelector(
+		({ ingredientSettings }) => ingredientSettings.storage,
+	);
+	const storageDispatch = useDispatch();
+	const changeStorage = (payload: Storage) =>
+		storageDispatch(setStorage(payload));
+
+	const isExpired = useSelector(
+		({ ingredientSettings }) => ingredientSettings.isExpired,
+	);
+	const isExpiredDispatch = useDispatch();
+	const toggleIsExpired = (payload: boolean) =>
+		storageDispatch(setIsExpired(payload));
 
 	useEffect(() => {
 		(async () => {
@@ -30,6 +48,8 @@ export default function RefrigeratorPage() {
 			setIngredientData(data);
 			setIsScrollEnd(false);
 			setIsDataLoaded(true);
+
+			scrollRef.current && (scrollRef.current.scrollTop = 0);
 		})();
 	}, [storage, isExpired]);
 
@@ -48,9 +68,9 @@ export default function RefrigeratorPage() {
 
 	return (
 		<AppNavLayout title="냉장고">
-			<div className={styles.fixed}>
+			<div className={styles.fixedContainer}>
 				<div className="d-flex align-items-center gap-3">
-					<StorageTab storage={storage} setStorage={setStorage} size="sm" />
+					<StorageTab storage={storage} setStorage={changeStorage} size="sm" />
 					<Link href={`/refrigerator/search`}>
 						<Search className={styles.icon} />
 					</Link>
@@ -58,11 +78,16 @@ export default function RefrigeratorPage() {
 				<Switch
 					label="유통기한 지난 식재료만 보기"
 					isOn={isExpired}
-					setIsOn={setIsExpired}
+					setIsOn={toggleIsExpired}
 				/>
 			</div>
 
-			<div style={{ marginTop: "90px" }}>
+			<div
+				id="scroll-area"
+				style={{ marginTop: "90px", height: `calc(100vh - 205px)` }}
+				className={styles.scrollContainer}
+				ref={scrollRef}
+			>
 				<IngredientGrid ingredientData={ingredientData} />
 				{isDataLoaded && <div id="end-of-list" />}
 			</div>

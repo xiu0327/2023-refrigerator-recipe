@@ -52,7 +52,7 @@ $icon-size: 24px;
 	color: $grey-400;
 }
 
-.fixed {
+.fixedContainer {
 	position: fixed;
 	width: 100%;
 	display: flex;
@@ -94,4 +94,8 @@ $icon-size: 24px;
 		padding: 1rem 1.5rem;
 		border-top: $divider;
 	}
+}
+
+.scrollContainer {
+	overflow-y: scroll;
 }

@@ -1,17 +1,19 @@
 import { requestIngredient } from "@/api";
 import styles from "./RequestIngredient.module.scss";
 import router from "next/router";
+import IngredientRequestModal from "../IngredientModal/IngredientRequestModal";
+import { useState } from "react";
 
 type RequestIngredientProps = {
-	keyword: string;
+	setIsRequestModalOn: Function;
 };
 
-export default function RequestIngredient({ keyword }: RequestIngredientProps) {
+export default function RequestIngredient({
+	setIsRequestModalOn,
+}: RequestIngredientProps) {
 	const onRequestIngredientClick = () => {
-		// TODO: 모달로 단위 입력 받고 확인하기
+		setIsRequestModalOn(true);
 		// TODO: 추가할 수 있도록 빠른 시일 내에 등록하고 알려드릴게요 안내하기
-		requestIngredient(keyword, "개");
-		router.back();
 	};
 
 	return (

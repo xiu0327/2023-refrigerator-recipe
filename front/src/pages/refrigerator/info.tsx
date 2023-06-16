@@ -1,4 +1,5 @@
-import router, { useRouter } from "next/router";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { Trash3 } from "react-bootstrap-icons";
 
 import { getIngredientInfo, deleteIngredient } from "@/api";
@@ -10,10 +11,9 @@ import FormLabel from "@/components/global/FormLabel/FormLabel";
 import Input from "@/components/global/Input/Input";
 import VolumeInputForm from "@/components/refrigerator/IngredientInputForm/VolumeInputForm";
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
+import IngredientDeleteModal from "@/components/refrigerator/IngredientModal/IngredientDeleteModal";
 
 import styles from "@/scss/pages.module.scss";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type IngredientInfoPageProps = {
 	ingredientID: number;
@@ -25,6 +25,7 @@ export default function IngredientInfoPage({
 	const [ingredient, setIngredient] = useState<IngredientDetail | undefined>(
 		undefined,
 	);
+	const [isDeleteModalOn, setIsDeleteModalOn] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -33,10 +34,8 @@ export default function IngredientInfoPage({
 		})();
 	}, []);
 
-	const onDeleteIngredientClick = async () => {
-		// TODO: 삭제 확인 모달 띄우기
-		await deleteIngredient(ingredientID);
-		router.back();
+	const onDeleteIngredientClick = () => {
+		setIsDeleteModalOn(true);
 	};
 
 	return (
@@ -84,6 +83,13 @@ export default function IngredientInfoPage({
 					>
 						<BottomBtn label="수정하기" />
 					</Link>
+
+					<IngredientDeleteModal
+						show={isDeleteModalOn}
+						onHide={() => setIsDeleteModalOn(false)}
+						ingredientID={ingredient.ingredientID}
+						ingredientName={ingredient.name}
+					/>
 				</>
 			)}
 		</BackBottomBtnLayout>

@@ -1,12 +1,19 @@
 import { RecipeDetail } from "@/types";
 import Stars from "../Stars/Stars";
 import styles from "./RecipeInfo.module.scss";
+import { BookmarkIcon } from "./BookmarkIcon";
+import { useEffect, useState } from "react";
+import { getBookmarkIDs } from "@/api";
 
 type RecipeDescriptionProps = {
 	recipe: RecipeDetail;
+	setRecipe: Function;
 };
 
-export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
+export default function RecipeDescription({
+	recipe,
+	setRecipe,
+}: RecipeDescriptionProps) {
 	const recipeExtraInfo = [
 		["난이도", recipe.difficulty],
 		["조리시간", recipe.cookingTime],
@@ -22,6 +29,12 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 			<div className={styles.recipeNameInbun}>
 				<div className={styles.recipeName}>{recipe.recipeName} </div>
 				<div className={styles.recipeInbun}>{recipe.servings}</div>
+				<span />
+				<BookmarkIcon
+					recipeID={recipe.recipeID}
+					isBookmarked={recipe.isBookmarked}
+					setRecipe={setRecipe}
+				/>
 			</div>
 
 			<div className={styles.recipeDescription}>{recipe.description}</div>
@@ -32,7 +45,9 @@ export default function RecipeDescription({ recipe }: RecipeDescriptionProps) {
 					.map(([key, value]) => (
 						<div key={key}>
 							<div className={styles.recipeInfoKey}>{key}</div>
-							{key === "별점" && <Stars score={Number(value)} />}
+							{key === "별점" && (
+								<Stars id={recipe.recipeID} score={Number(value)} />
+							)}
 							<div className={styles.recipeInfoValue}>
 								{key === "별점" && value ? Number(value).toFixed(1) : value}
 							</div>

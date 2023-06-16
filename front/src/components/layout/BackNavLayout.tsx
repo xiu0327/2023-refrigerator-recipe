@@ -1,26 +1,26 @@
 import AppBar from "./AppBar/AppBar";
-import { BackIcon } from "./AppBar/AppBarIcons";
 import styles from "./Layout.module.scss";
+import { BackIcon } from "./AppBar/AppBarIcons";
 import NavBar from "./NavBar/NavBar";
 
 type layoutProps = {
-	recipeName: string;
+	title?: string;
+	activeTab: string;
 	children: React.ReactNode;
-	isAppbarAboveImg?: boolean;
 };
 
-export default function RecipeInfoLayout({
-	recipeName,
+export default function BackNavLayout({
+	title,
+	activeTab,
 	children,
-	isAppbarAboveImg,
 }: layoutProps) {
 	return (
 		<div className={styles.layoutContainer}>
-			<AppBar title={recipeName} isAboveImg={true}>
+			<AppBar title={title}>
 				<BackIcon />
 			</AppBar>
 			<div className={styles.layoutContentWithAppNav}>{children}</div>
-			<NavBar activeLabel="레시피" />
+			<NavBar activeLabel={activeTab} />
 		</div>
 	);
 }

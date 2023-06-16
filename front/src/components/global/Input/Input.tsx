@@ -7,7 +7,7 @@ type InputType = {
 	setValue?: Function;
 	valueType?: "text" | "number";
 	placeholder?: string;
-	usage?: "info" | "search" | "add";
+	usage?: "info" | "search" | "add" | "modal";
 	focus?: boolean;
 	disabled?: boolean;
 };
