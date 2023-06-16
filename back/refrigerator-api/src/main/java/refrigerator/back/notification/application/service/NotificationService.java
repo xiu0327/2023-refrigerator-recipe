@@ -3,7 +3,7 @@ package refrigerator.back.notification.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
+import refrigerator.back.notification.application.dto.NotificationDTO;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 import refrigerator.back.notification.application.port.in.FindNotificationListUseCase;
@@ -23,15 +23,15 @@ public class NotificationService implements FindNotificationListUseCase, ReadNot
 
     @Override
     @Transactional(readOnly = true)
-    public List<NotificationResponseDTO> getNotificationList(String email, int page, int size) {
+    public List<NotificationDTO> getNotificationList(String email, int page, int size) {
         List<Notification> notifications = findNotificationListPort.findNotificationList(email, page, size);
         return notifications.stream()
                 .map(this::mapping)
                 .collect(Collectors.toList());
     }
 
-    private NotificationResponseDTO mapping(Notification notification) {
-        return NotificationResponseDTO.builder()
+    private NotificationDTO mapping(Notification notification) {
+        return NotificationDTO.builder()
                 .id(notification.getId())
                 .path(notification.getPath())
                 .message(notification.getMessage())

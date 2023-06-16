@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.member.application.domain.Member;

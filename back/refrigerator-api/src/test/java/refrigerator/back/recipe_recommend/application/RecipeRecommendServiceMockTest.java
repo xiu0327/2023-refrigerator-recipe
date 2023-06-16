@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe_recommend.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe_recommend.application.domain.RecipeIngredientTuple;
 import refrigerator.back.recipe_recommend.application.port.out.GetMyIngredientNameDataPort;

@@ -3,7 +3,7 @@ package refrigerator.back.recipe_searchword.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe_searchword.application.domain.SearchWordType;
 import refrigerator.back.recipe_searchword.application.port.in.AddSearchWordUseCase;
 import refrigerator.back.recipe_searchword.application.port.in.DeleteSearchWordUseCase;

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import javax.persistence.*;

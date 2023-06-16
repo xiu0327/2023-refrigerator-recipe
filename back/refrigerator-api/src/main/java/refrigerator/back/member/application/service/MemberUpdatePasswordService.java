@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.in.UpdatePasswordUseCase;
 import refrigerator.back.member.application.port.out.FindMemberPort;

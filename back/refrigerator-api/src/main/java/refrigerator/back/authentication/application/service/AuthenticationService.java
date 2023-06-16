@@ -12,7 +12,7 @@ import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.authentication.application.port.out.FindEmailByTokenPort;
 import refrigerator.back.authentication.application.port.out.ValidateTokenPort;
 import refrigerator.back.authentication.exception.JwtExceptionType;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import static refrigerator.back.authentication.infra.jwt.JsonWebTokenKey.*;
 

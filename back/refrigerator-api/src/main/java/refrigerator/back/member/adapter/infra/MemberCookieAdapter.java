@@ -1,6 +1,6 @@
 package refrigerator.back.member.adapter.infra;
 
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.servlet.http.Cookie;

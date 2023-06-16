@@ -2,7 +2,7 @@ package refrigerator.back.recipe.application.domain.value;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import java.util.Arrays;

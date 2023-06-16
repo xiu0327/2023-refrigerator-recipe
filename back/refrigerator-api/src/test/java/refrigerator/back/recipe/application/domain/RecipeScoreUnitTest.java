@@ -3,7 +3,7 @@ package refrigerator.back.recipe.application.domain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 

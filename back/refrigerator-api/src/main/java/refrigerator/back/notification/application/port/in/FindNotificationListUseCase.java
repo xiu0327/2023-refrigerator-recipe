@@ -1,10 +1,10 @@
 package refrigerator.back.notification.application.port.in;
 
 
-import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
+import refrigerator.back.notification.application.dto.NotificationDTO;
 
 import java.util.List;
 
 public interface FindNotificationListUseCase {
-    List<NotificationResponseDTO> getNotificationList(String email, int page, int size);
+    List<NotificationDTO> getNotificationList(String email, int page, int size);
 }

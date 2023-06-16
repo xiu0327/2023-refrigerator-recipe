@@ -2,7 +2,7 @@ package refrigerator.back.identification.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.identification.application.domain.IdentificationMethod;
 import refrigerator.back.identification.application.port.in.CheckNumberUseCase;
 import refrigerator.back.identification.application.port.in.SendNumberUseCase;

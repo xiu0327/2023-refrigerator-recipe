@@ -3,7 +3,7 @@ package refrigerator.back.member.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.common.InputDataFormatCheck;
+import refrigerator.back.global.common.api.InputDataFormatCheck;
 import refrigerator.back.member.application.domain.MemberProfileImage;
 import refrigerator.back.member.application.port.in.InitNicknameAndProfileUseCase;
 import refrigerator.back.member.application.port.in.UpdateNicknameUseCase;
@@ -13,8 +13,8 @@ import refrigerator.back.member.application.port.out.ModifyMemberNicknamePort;
 import refrigerator.back.member.application.port.out.ModifyMemberProfilePort;
 import refrigerator.back.member.exception.MemberExceptionType;
 
-import static refrigerator.back.global.common.InputDataFormatCheck.NICKNAME_REGEX;
-import static refrigerator.back.global.common.InputDataFormatCheck.inputCheck;
+import static refrigerator.back.global.common.api.InputDataFormatCheck.NICKNAME_REGEX;
+import static refrigerator.back.global.common.api.InputDataFormatCheck.inputCheck;
 
 @Service
 @Transactional

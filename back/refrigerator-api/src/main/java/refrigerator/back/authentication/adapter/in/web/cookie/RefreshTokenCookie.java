@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.authentication.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
-import refrigerator.back.global.common.CustomCookie;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.common.api.CustomCookie;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;

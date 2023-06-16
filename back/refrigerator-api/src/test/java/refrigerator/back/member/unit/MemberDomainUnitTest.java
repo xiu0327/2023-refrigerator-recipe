@@ -2,7 +2,7 @@ package refrigerator.back.member.unit;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.exception.MemberExceptionType;
 

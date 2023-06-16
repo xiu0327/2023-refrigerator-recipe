@@ -17,7 +17,7 @@ import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.validation.Valid;
 
-import static refrigerator.back.global.exception.ValidationExceptionHandler.*;
+import static refrigerator.back.global.exception.api.ValidationExceptionHandler.*;
 
 @RestController
 @RequiredArgsConstructor

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.TestData;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import javax.persistence.EntityManager;
 

@@ -3,7 +3,7 @@ package refrigerator.back.recipe_recommend.adapter.in.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.global.common.BasicListResponseDTO;
+import refrigerator.back.global.common.api.BasicListResponseDTO;
 import refrigerator.back.global.image.ImageGenerator;
 import refrigerator.back.recipe_recommend.adapter.in.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe_recommend.application.port.in.RecommendRecipeUseCase;
@@ -11,7 +11,7 @@ import refrigerator.back.recipe_recommend.application.port.in.RecommendRecipeUse
 
 import java.util.List;
 
-import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
 
 @RestController
 @RequiredArgsConstructor

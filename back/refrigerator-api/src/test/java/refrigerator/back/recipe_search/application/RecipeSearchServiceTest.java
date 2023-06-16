@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe_search.adapter.in.dto.InRecipeSearchDto;
 import refrigerator.back.recipe_search.application.domain.RecipeSearchCondition;
 import refrigerator.back.recipe.application.domain.value.RecipeType;

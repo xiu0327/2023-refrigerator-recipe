@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
+import refrigerator.back.ingredient.application.dto.IngredientRegisterDTO;
 import refrigerator.back.ingredient.application.port.in.ModifyIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
@@ -25,11 +26,12 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     private final ReadIngredientPort readIngredientPort;
 
     @Override
-    public Long registerIngredient(String name, LocalDate expirationDate, Double capacity,
-                                   String capacityUnit, IngredientStorageType storageMethod, Integer image, String email) {
+    public IngredientRegisterDTO registerIngredient(String name, LocalDate expirationDate, Double capacity,
+                                                    String capacityUnit, IngredientStorageType storageMethod, Integer image, String email) {
 
-        return writeIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, capacity,
-                                    capacityUnit, storageMethod, image, email));
+        return IngredientRegisterDTO.builder()
+                .ingredientID(writeIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, capacity,
+                                    capacityUnit, storageMethod, image, email))).build();
     }
 
     @Override

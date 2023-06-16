@@ -3,7 +3,7 @@ package refrigerator.back.notification.adapter.out;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.notification.adapter.mapper.NotificationMapper;
+import refrigerator.back.notification.adapter.out.mapper.NotificationMapper;
 import refrigerator.back.notification.adapter.out.dto.OutCommentDetailsDTO;
 import refrigerator.back.notification.adapter.out.dto.QOutCommentDetailsDTO;
 import refrigerator.back.notification.application.domain.CommentNotificationDetails;

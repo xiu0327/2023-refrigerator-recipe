@@ -2,6 +2,7 @@ package refrigerator.back.notification.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import refrigerator.back.notification.application.dto.NotificationSignDTO;
 import refrigerator.back.notification.application.port.in.CreateMemberNotificationUseCase;
 import refrigerator.back.notification.application.port.in.GetMemberNotificationSignUseCase;
 import refrigerator.back.notification.application.port.in.UpdateMemberNotificationSignUseCase;
@@ -24,13 +25,13 @@ public class MemberNotificationService implements
     }
 
     @Override
-    public Boolean getSign(String memberId) {
+    public NotificationSignDTO getSign(String memberId) {
         Boolean result = findMemberNotificationSignPort.getSign(memberId);
         if (result == null){
             createMemberNotification(memberId);
-            return false;
+            return NotificationSignDTO.builder().sign(false).build();
         }
-        return result;
+        return NotificationSignDTO.builder().sign(result).build();
     }
 
     @Override

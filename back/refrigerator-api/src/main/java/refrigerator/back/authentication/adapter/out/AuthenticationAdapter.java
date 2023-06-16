@@ -9,7 +9,7 @@ import refrigerator.back.authentication.application.port.out.CreateAuthenticatio
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.authentication.infra.security.token.EmailAuthenticationToken;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 
 import java.util.Objects;

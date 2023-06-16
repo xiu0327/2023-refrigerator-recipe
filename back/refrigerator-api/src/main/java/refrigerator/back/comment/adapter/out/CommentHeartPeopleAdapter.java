@@ -8,7 +8,7 @@ import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
 import refrigerator.back.comment.application.port.out.WriteCommentHeartPeoplePort;
 import refrigerator.back.comment.exception.CommentExceptionType;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 
 import java.util.List;

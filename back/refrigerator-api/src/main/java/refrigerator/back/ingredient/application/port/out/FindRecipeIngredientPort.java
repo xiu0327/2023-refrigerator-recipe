@@ -1,10 +1,10 @@
 package refrigerator.back.ingredient.application.port.out;
 
 
-import refrigerator.back.ingredient.application.domain.RecipeIngredientDto;
+import refrigerator.back.ingredient.application.dto.RecipeIngredientDto;
 
 import java.util.List;
 
 public interface FindRecipeIngredientPort {
-    List<RecipeIngredientDto> getData(Long recipeId);
+    List<RecipeIngredientDto> getRecipeIngredient(Long recipeId);
 }

@@ -8,7 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.adapter.out.dto.QOutIngredientDTO;
@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-import static org.springframework.util.StringUtils.*;
 import static refrigerator.back.ingredient.application.domain.QIngredient.*;
 import static refrigerator.back.ingredient.application.domain.QIngredientImage.*;
 

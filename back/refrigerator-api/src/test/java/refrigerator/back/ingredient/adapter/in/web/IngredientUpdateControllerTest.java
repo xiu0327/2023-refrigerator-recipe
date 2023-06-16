@@ -12,10 +12,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
-import refrigerator.back.ingredient.adapter.in.dto.request.IngredientListRemoveRequestDTO;
-import refrigerator.back.ingredient.adapter.in.dto.request.IngredientProposeRequestDTO;
-import refrigerator.back.ingredient.adapter.in.dto.request.IngredientRegisterRequestDTO;
-import refrigerator.back.ingredient.adapter.in.dto.request.IngredientUpdateRequestDTO;
+import refrigerator.back.global.common.api.BasicListRequestDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientProposeRequestDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientRegisterRequestDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientUpdateRequestDTO;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;
@@ -388,8 +388,8 @@ class IngredientUpdateControllerTest {
             ids.add(testData.createIngredient(ingredient, "email123@gmail.com"));
         }
 
-        IngredientListRemoveRequestDTO request = IngredientListRemoveRequestDTO.builder()
-                .removeIds(ids)
+        BasicListRequestDTO<Long> request = BasicListRequestDTO.<Long>builder()
+                .data(ids)
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(request);
@@ -408,8 +408,8 @@ class IngredientUpdateControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
-        IngredientListRemoveRequestDTO request = IngredientListRemoveRequestDTO.builder()
-                .removeIds(null)
+        BasicListRequestDTO<Long> request = BasicListRequestDTO.<Long>builder()
+                .data(null)
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(request);
@@ -428,7 +428,7 @@ class IngredientUpdateControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
-        IngredientListRemoveRequestDTO request = IngredientListRemoveRequestDTO.builder()
+        BasicListRequestDTO<Long> request = BasicListRequestDTO.<Long>builder()
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(request);
@@ -447,8 +447,8 @@ class IngredientUpdateControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
-        IngredientListRemoveRequestDTO request = IngredientListRemoveRequestDTO.builder()
-                .removeIds(new ArrayList<>())
+        BasicListRequestDTO<Long> request = BasicListRequestDTO.<Long>builder()
+                .data(new ArrayList<>())
                 .build();
 
         String content = new ObjectMapper().writeValueAsString(request);

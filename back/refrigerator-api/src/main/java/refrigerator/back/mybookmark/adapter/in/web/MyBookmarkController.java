@@ -3,7 +3,7 @@ package refrigerator.back.mybookmark.adapter.in.web;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.global.common.BasicListResponseDTO;
+import refrigerator.back.global.common.api.BasicListResponseDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.BookmarkIdResponseDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkListDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewListDTO;
@@ -12,7 +12,7 @@ import refrigerator.back.mybookmark.application.port.in.*;
 
 import java.util.List;
 
-import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
 
 @RestController
 @RequiredArgsConstructor

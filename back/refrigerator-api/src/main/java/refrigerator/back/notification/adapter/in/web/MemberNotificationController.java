@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.global.common.MemberInformation;
-import refrigerator.back.notification.adapter.in.dto.NotificationSignDTO;
+import refrigerator.back.global.common.api.MemberInformation;
+import refrigerator.back.notification.application.dto.NotificationSignDTO;
 import refrigerator.back.notification.application.port.in.GetMemberNotificationSignUseCase;
 import refrigerator.back.notification.application.port.in.UpdateMemberNotificationSignUseCase;
 
@@ -20,9 +20,7 @@ public class MemberNotificationController {
 
     @GetMapping("/api/notifications/sign")
     public NotificationSignDTO getNotificationSign(){
-        return NotificationSignDTO.builder()
-                .sign(getMemberNotificationSignUseCase.getSign(MemberInformation.getMemberEmail()))
-                .build();
+        return getMemberNotificationSignUseCase.getSign(MemberInformation.getMemberEmail());
     }
 
     @PutMapping("/api/notification/sign")

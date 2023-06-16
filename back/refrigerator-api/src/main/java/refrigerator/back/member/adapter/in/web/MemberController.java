@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.global.common.BasicListResponseDTO;
-import refrigerator.back.global.exception.ValidationExceptionHandler;
+import refrigerator.back.global.common.api.BasicListResponseDTO;
+import refrigerator.back.global.exception.api.ValidationExceptionHandler;
 import refrigerator.back.member.adapter.in.dto.request.MemberInitNicknameAndProfileRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberNicknameUpdateRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberProfileUpdateRequestDTO;
@@ -19,8 +19,8 @@ import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.validation.Valid;
 
-import static refrigerator.back.global.common.MemberInformation.*;
-import static refrigerator.back.global.exception.ValidationExceptionHandler.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
+import static refrigerator.back.global.exception.api.ValidationExceptionHandler.*;
 
 @RestController
 @RequiredArgsConstructor

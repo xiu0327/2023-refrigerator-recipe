@@ -3,7 +3,7 @@ package refrigerator.back.recipe_searchword.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import refrigerator.back.global.exception.BasicExceptionType;
+import refrigerator.back.global.exception.domain.BasicExceptionType;
 
 @AllArgsConstructor
 @Getter

@@ -6,7 +6,6 @@ import refrigerator.back.ingredient.adapter.out.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

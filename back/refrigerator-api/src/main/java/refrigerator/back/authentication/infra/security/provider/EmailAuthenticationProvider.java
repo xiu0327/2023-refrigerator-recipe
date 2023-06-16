@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.authentication.infra.security.token.EmailAuthenticationToken;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 
 @Component

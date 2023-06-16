@@ -1,7 +1,7 @@
 package refrigerator.back.authentication.infra.security.handler;
 
 
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -2,8 +2,8 @@ package refrigerator.back.recipe_search.adapter.in.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.global.common.MemberInformation;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.common.api.MemberInformation;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.global.image.ImageGenerator;
 import refrigerator.back.recipe.adapter.in.dto.InRecipeBasicListDTO;
 import refrigerator.back.recipe_search.adapter.RecipeSearchDataMapper;

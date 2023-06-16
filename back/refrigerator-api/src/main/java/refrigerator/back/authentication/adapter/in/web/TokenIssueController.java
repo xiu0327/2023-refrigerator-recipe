@@ -14,13 +14,13 @@ import refrigerator.back.authentication.adapter.in.dto.TemporaryAccessTokenRespo
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.IssueTemporaryAccessTokenUseCase;
 import refrigerator.back.authentication.application.port.in.TokenReissueUseCase;
-import refrigerator.back.global.common.CustomCookie;
+import refrigerator.back.global.common.api.CustomCookie;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static refrigerator.back.global.exception.ValidationExceptionHandler.check;
+import static refrigerator.back.global.exception.api.ValidationExceptionHandler.check;
 
 @RestController
 @Slf4j

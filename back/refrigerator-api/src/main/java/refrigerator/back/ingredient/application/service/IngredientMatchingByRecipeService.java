@@ -3,7 +3,7 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.ingredient.application.domain.RecipeIngredientDto;
+import refrigerator.back.ingredient.application.dto.RecipeIngredientDto;
 import refrigerator.back.ingredient.application.port.in.MatchIngredientByRecipeUseCase;
 import refrigerator.back.ingredient.application.port.out.FindRecipeIngredientPort;
 import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
@@ -24,10 +24,12 @@ public class IngredientMatchingByRecipeService implements MatchIngredientByRecip
 
     @Override
     public List<Long> getData(String memberId, Long recipeId) {
+
         Map<String, Boolean> nameMap = new HashMap<>();
         readIngredientPort.getIngredientListOfAll(memberId)
                 .forEach(item -> nameMap.put(item.getName(), true));
-        return findRecipeIngredientPort.getData(recipeId).stream()
+
+        return findRecipeIngredientPort.getRecipeIngredient(recipeId).stream()
                 .filter(item -> nameMap.getOrDefault(item.getName(), false))
                 .map(RecipeIngredientDto::getIngredientId)
                 .collect(Collectors.toList());

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewDTO;
 import refrigerator.back.mybookmark.adapter.in.dto.InBookmarkPreviewListDTO;

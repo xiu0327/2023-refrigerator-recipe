@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.authentication.application.port.in.LogoutUseCase;
-import refrigerator.back.global.common.CustomCookie;
+import refrigerator.back.global.common.api.CustomCookie;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

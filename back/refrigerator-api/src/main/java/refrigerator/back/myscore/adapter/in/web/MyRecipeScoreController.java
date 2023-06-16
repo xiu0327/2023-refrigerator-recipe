@@ -13,7 +13,7 @@ import refrigerator.back.myscore.application.port.in.FindMyScoreListUseCase;
 import refrigerator.back.myscore.application.port.in.FindMyScorePreviewUseCase;
 import refrigerator.back.myscore.application.port.in.ModifyMyScoreUseCase;
 
-import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
 
 
 @RestController

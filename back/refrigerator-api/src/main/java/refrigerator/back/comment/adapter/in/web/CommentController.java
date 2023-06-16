@@ -11,7 +11,7 @@ import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCas
 import refrigerator.back.comment.application.port.in.comment.EditCommentUseCase;
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 
-import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
 
 
 @RestController

@@ -1,5 +1,7 @@
 package refrigerator.back.notification.application.port.in;
 
+import refrigerator.back.notification.application.dto.NotificationSignDTO;
+
 public interface GetMemberNotificationSignUseCase {
-    Boolean getSign(String memberId);
+    NotificationSignDTO getSign(String memberId);
 }

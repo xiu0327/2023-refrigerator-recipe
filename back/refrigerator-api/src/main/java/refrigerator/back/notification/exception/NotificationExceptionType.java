@@ -2,7 +2,7 @@ package refrigerator.back.notification.exception;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import refrigerator.back.global.exception.BasicExceptionType;
+import refrigerator.back.global.exception.domain.BasicExceptionType;
 
 @AllArgsConstructor
 public enum NotificationExceptionType implements BasicExceptionType {

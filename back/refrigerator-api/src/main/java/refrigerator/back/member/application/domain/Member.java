@@ -2,7 +2,7 @@ package refrigerator.back.member.application.domain;
 
 
 import lombok.*;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.persistence.*;

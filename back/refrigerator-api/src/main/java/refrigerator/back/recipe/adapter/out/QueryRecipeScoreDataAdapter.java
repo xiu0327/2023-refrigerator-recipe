@@ -2,7 +2,7 @@ package refrigerator.back.recipe.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe.adapter.out.repository.RecipePersistenceRepository;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 import refrigerator.back.recipe.application.port.out.GetRecipeScoreDataPort;

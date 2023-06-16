@@ -13,7 +13,7 @@ import refrigerator.back.comment.application.port.out.CreateCommentHeartPort;
 import refrigerator.back.comment.application.port.out.DeleteCommentHeartPort;
 import refrigerator.back.comment.application.port.out.FindOneCommentPort;
 import refrigerator.back.comment.exception.CommentExceptionType;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 
 @Service

@@ -3,7 +3,7 @@ package refrigerator.back.myscore.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.myscore.adapter.in.dto.response.InCookingResponseDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreDTO;
 import refrigerator.back.myscore.adapter.in.dto.response.InMyScoreListDTO;

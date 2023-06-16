@@ -1,6 +1,6 @@
 package refrigerator.back.recipe_recommend.application.domain;
 
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import java.util.List;

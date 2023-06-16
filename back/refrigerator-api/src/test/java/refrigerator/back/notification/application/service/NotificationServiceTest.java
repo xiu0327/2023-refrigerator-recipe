@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.TestData;
-import refrigerator.back.notification.adapter.in.dto.NotificationResponseDTO;
+import refrigerator.back.notification.application.dto.NotificationDTO;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
 import refrigerator.back.notification.application.port.out.read.FindNotificationPort;
 
@@ -32,8 +32,8 @@ class NotificationServiceTest {
         // when
         createCommentHeartNotificationUseCase.createCommentHeartNotification(senderId, commentId);
         // then
-        List<NotificationResponseDTO> result = notificationService.getNotificationList(memberId, 0, 10);
-        for (NotificationResponseDTO dto : result) {
+        List<NotificationDTO> result = notificationService.getNotificationList(memberId, 0, 10);
+        for (NotificationDTO dto : result) {
             Assertions.assertNotNull(dto.getMessage());
             Assertions.assertNotNull(dto.getPath());
             Assertions.assertNotNull(dto.getType());
@@ -53,7 +53,7 @@ class NotificationServiceTest {
         Thread.sleep(5000);
         createCommentHeartNotificationUseCase.createCommentHeartNotification(senderId, commentId);
         // then
-        List<NotificationResponseDTO> result = notificationService.getNotificationList(memberId, 0, 10);
+        List<NotificationDTO> result = notificationService.getNotificationList(memberId, 0, 10);
         int first = Integer.parseInt(result.get(0).getRegisterTime().split(" ")[0]);
         int second = Integer.parseInt(result.get(1).getRegisterTime().split(" ")[0]);
         assertThat(first < second).isTrue();

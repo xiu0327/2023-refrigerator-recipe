@@ -11,7 +11,7 @@ import refrigerator.back.authentication.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
 import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
 import refrigerator.back.authentication.exception.JwtExceptionType;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;

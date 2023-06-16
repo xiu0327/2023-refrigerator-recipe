@@ -6,7 +6,6 @@ import refrigerator.back.ingredient.adapter.out.repository.query.IngredientQuery
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 
-
 import java.util.List;
 import java.util.Optional;
 

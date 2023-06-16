@@ -16,7 +16,7 @@ import refrigerator.back.authentication.infra.jwt.TokenStatus;
 import refrigerator.back.authentication.infra.jwt.provider.JsonWebTokenProvider;
 import refrigerator.back.authentication.infra.security.handler.MakeResponseMessageHandler;
 import refrigerator.back.authentication.infra.security.token.EmailAuthenticationToken;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 
 import javax.servlet.*;

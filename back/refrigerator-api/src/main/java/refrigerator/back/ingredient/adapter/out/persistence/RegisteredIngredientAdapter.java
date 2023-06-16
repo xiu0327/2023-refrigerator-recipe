@@ -2,7 +2,7 @@ package refrigerator.back.ingredient.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.ingredient.adapter.out.repository.module.RegisteredIngredientInit;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.out.FindRegisteredIngredientPort;

@@ -10,7 +10,7 @@ import refrigerator.back.comment.application.port.in.comment.FindCommentListUseC
 import refrigerator.back.comment.application.port.in.comment.FindCommentPreviewListUseCase;
 import refrigerator.back.comment.application.port.in.comment.FindMyCommentsUseCase;
 
-import static refrigerator.back.global.common.MemberInformation.getMemberEmail;
+import static refrigerator.back.global.common.api.MemberInformation.getMemberEmail;
 
 
 @RestController

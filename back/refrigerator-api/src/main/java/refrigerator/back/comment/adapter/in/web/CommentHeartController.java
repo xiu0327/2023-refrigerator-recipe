@@ -7,10 +7,10 @@ import refrigerator.back.comment.adapter.in.dto.response.CommentBasicResponseDTO
 import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.people.FindLikedPeopleListUseCase;
-import refrigerator.back.global.common.BasicListResponseDTO;
+import refrigerator.back.global.common.api.BasicListResponseDTO;
 import refrigerator.back.notification.application.port.in.CreateCommentHeartNotificationUseCase;
 
-import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
 
 
 @RestController

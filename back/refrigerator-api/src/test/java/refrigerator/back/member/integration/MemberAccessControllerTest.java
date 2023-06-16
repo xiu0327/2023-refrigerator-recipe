@@ -8,20 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.annotation.RedisFlushAll;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
-import refrigerator.back.global.common.CustomCookie;
+import refrigerator.back.global.common.api.CustomCookie;
 import refrigerator.back.member.adapter.in.dto.request.MemberEmailParameterRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberJoinRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberUpdatePasswordRequestDTO;
 import refrigerator.back.member.adapter.in.dto.request.MemberWithdrawRequestDTO;
-
-import javax.servlet.http.Cookie;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

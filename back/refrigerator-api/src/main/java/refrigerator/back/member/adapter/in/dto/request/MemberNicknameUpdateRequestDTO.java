@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import refrigerator.back.global.common.InputDataFormatCheck;
+import refrigerator.back.global.common.api.InputDataFormatCheck;
 
 import javax.validation.constraints.Pattern;
 

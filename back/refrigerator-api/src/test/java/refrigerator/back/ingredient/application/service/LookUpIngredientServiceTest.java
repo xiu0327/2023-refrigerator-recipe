@@ -6,16 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.response.IngredientResponseDTO;
-import refrigerator.back.ingredient.adapter.in.dto.response.IngredientDetailResponseDTO;
+import refrigerator.back.global.exception.domain.BusinessException;
+import refrigerator.back.ingredient.application.dto.IngredientDTO;
+import refrigerator.back.ingredient.application.dto.IngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.in.RegisterIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.RemoveIngredientUseCase;
 import refrigerator.back.ingredient.application.port.out.ReadIngredientPort;
-import refrigerator.back.ingredient.application.service.IngredientLookUpService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -67,11 +66,11 @@ class LookUpIngredientServiceTest {
         Integer count1 = 0;
 
         for (int i = 0; i < 3; i++) {
-            List<IngredientResponseDTO> ingredientList = ingredientLookUpService.getIngredientList(
+            List<IngredientDTO> ingredientList = ingredientLookUpService.getIngredientList(
                     new IngredientSearchCondition(IngredientStorageType.FRIDGE, false, "asd123@naver.com"), i, 5);
 
             count1 += ingredientList.size();
-            for (IngredientResponseDTO dto : ingredientList) {
+            for (IngredientDTO dto : ingredientList) {
                 log.info(dto.toString());
                 assertThat(dto.getIngredientID()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
@@ -85,11 +84,11 @@ class LookUpIngredientServiceTest {
         Integer count2 = 0;
 
         for (int i = 0; i < 3; i++) {
-            List<IngredientResponseDTO> ingredientList = ingredientLookUpService.getIngredientList(
+            List<IngredientDTO> ingredientList = ingredientLookUpService.getIngredientList(
                     new IngredientSearchCondition(IngredientStorageType.FRIDGE, true, "asd123@naver.com"), i, 5);
 
             count2 += ingredientList.size();
-            for (IngredientResponseDTO dto : ingredientList) {
+            for (IngredientDTO dto : ingredientList) {
                 log.info(dto.toString());
                 assertThat(dto.getIngredientID()).isNotNull();
                 assertThat(dto.getName()).isNotNull();
@@ -110,10 +109,10 @@ class LookUpIngredientServiceTest {
             idList.add(setIngredient(name, LocalDate.now().plusDays(5), 30.0, "g", IngredientStorageType.FREEZER, 1, "asd123@naver.com"));
         }
 
-        List<IngredientResponseDTO> list2 = ingredientLookUpService.getIngredientList(
+        List<IngredientDTO> list2 = ingredientLookUpService.getIngredientList(
                 new IngredientSearchCondition(IngredientStorageType.FREEZER, false, "asd123@naver.com"), 0, 15);
 
-        for (IngredientResponseDTO dto : list2) {
+        for (IngredientDTO dto : list2) {
             log.info(dto.toString());
             assertThat(dto.getIngredientID()).isNotNull();
             assertThat(dto.getName()).isNotNull();
@@ -146,9 +145,9 @@ class LookUpIngredientServiceTest {
         removeIngredientUseCase.removeIngredient(readIngredientPort.getIngredientById(ids.get(1)).getId());
         removeIngredientUseCase.removeIngredient(readIngredientPort.getIngredientById(ids.get(2)).getId());
 
-        List<IngredientResponseDTO> ingredientNotDeleted = ingredientLookUpService.getIngredientListOfAll("asd123@naver.com");
+        List<IngredientDTO> ingredientNotDeleted = ingredientLookUpService.getIngredientListOfAll("asd123@naver.com");
 
-        for (IngredientResponseDTO dto : ingredientNotDeleted) {
+        for (IngredientDTO dto : ingredientNotDeleted) {
             log.info(dto.toString());
             assertThat(dto.getIngredientID()).isNotNull();
             assertThat(dto.getName()).isNotNull();
@@ -166,7 +165,7 @@ class LookUpIngredientServiceTest {
         Long id = setIngredient("돼지고기", LocalDate.now().plusDays(5),
                 70.0, "g", IngredientStorageType.FREEZER, 1,"asd123@naver.com");
 
-        IngredientDetailResponseDTO responseDTO = ingredientLookUpService.getIngredient(id);
+        IngredientDetailDTO responseDTO = ingredientLookUpService.getIngredient(id);
 
         log.info(responseDTO.toString());
         assertThat(responseDTO.getIngredientID()).isEqualTo(id);
@@ -202,7 +201,7 @@ class LookUpIngredientServiceTest {
         List<Long> ids2 = setIngredientList(arrayList2, LocalDate.now().plusDays(3), 20.0, "개", 1, "asd123@naver.com");
         List<Long> ids3 = setIngredientList(arrayList3, LocalDate.now().plusDays(5), 20.0, "개", 1, "asd123@naver.com");
 
-        List<List<IngredientResponseDTO>> ingredientListByDeadline = new ArrayList<>();
+        List<List<IngredientDTO>> ingredientListByDeadline = new ArrayList<>();
 
         removeIngredientUseCase.removeIngredient(ids1.get(1));
         removeIngredientUseCase.removeIngredient(ids2.get(1));
@@ -212,8 +211,8 @@ class LookUpIngredientServiceTest {
         ingredientListByDeadline.add(ingredientLookUpService.getIngredientListByDeadline(3L, "asd123@naver.com"));
         ingredientListByDeadline.add(ingredientLookUpService.getIngredientListByDeadline(5L, "asd123@naver.com"));
 
-        for (List<IngredientResponseDTO> ingredientResponseDTOS : ingredientListByDeadline) {
-            for (IngredientResponseDTO dto : ingredientResponseDTOS) {
+        for (List<IngredientDTO> ingredientResponseDTOS : ingredientListByDeadline) {
+            for (IngredientDTO dto : ingredientResponseDTOS) {
                 log.info(dto.toString());
                 assertThat(dto.getIngredientID()).isNotNull();
                 assertThat(dto.getName()).isNotNull();

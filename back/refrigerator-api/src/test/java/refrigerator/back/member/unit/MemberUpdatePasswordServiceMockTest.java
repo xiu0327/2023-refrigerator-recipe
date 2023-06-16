@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import refrigerator.back.authentication.application.port.out.EncryptPasswordPort;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.service.MemberUpdatePasswordService;

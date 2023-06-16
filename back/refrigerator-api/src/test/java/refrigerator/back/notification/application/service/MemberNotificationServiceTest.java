@@ -34,10 +34,10 @@ class MemberNotificationServiceTest {
         Long commentId = testData.createComment(memberId).getCommentID();
         // when
         memberNotificationService.createMemberNotification(memberId);
-        Assertions.assertThat(memberNotificationService.getSign(memberId)).isFalse();
+        Assertions.assertThat(memberNotificationService.getSign(memberId).getSign()).isFalse();
         createCommentHeartNotificationUseCase.createCommentHeartNotification(senderId, commentId);
         // then
-        Assertions.assertThat(memberNotificationService.getSign(memberId)).isTrue();
+        Assertions.assertThat(memberNotificationService.getSign(memberId).getSign()).isTrue();
     }
 
     @Test
@@ -52,11 +52,11 @@ class MemberNotificationServiceTest {
             Long result = createCommentHeartNotificationUseCase.createCommentHeartNotification(senderId, commentId);
             ids.add(result);
         }
-        Boolean before = memberNotificationService.getSign(memberId);
+        Boolean before = memberNotificationService.getSign(memberId).getSign();
         // when
         updateMemberNotificationSignUseCase.updateNotification(memberId);
         // then
-        Boolean after = memberNotificationService.getSign(memberId);
+        Boolean after = memberNotificationService.getSign(memberId).getSign();
         Assertions.assertThat(before).isTrue();
         Assertions.assertThat(after).isFalse();
     }

@@ -3,9 +3,9 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.application.dto.IngredientDeductionDTO;
 import refrigerator.back.ingredient.application.port.in.DeductionIngredientVolumeUseCase;
 import refrigerator.back.ingredient.application.port.out.FindPersistenceIngredientListPort;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
@@ -25,7 +25,7 @@ public class IngredientDeductionService implements DeductionIngredientVolumeUseC
     private final FindPersistenceIngredientListPort findPersistenceIngredientListPort;
 
     @Override
-    public void deduction(String memberId, List<RecipeIngredientVolumeDTO> ingredients) {
+    public void deduction(String memberId, List<IngredientDeductionDTO> ingredients) {
         List<Ingredient> ingredientList = isNotEmptyIngredients(memberId);
         Map<String, Double> ingredientsMap = toIngredientsMap(ingredients);
         for (Ingredient ingredient : extractNotExpired(ingredientList, ingredientsMap)) {
@@ -34,6 +34,22 @@ public class IngredientDeductionService implements DeductionIngredientVolumeUseC
                 ingredient.deductionVolume(volume);
             }
         }
+    }
+
+    private List<Ingredient> isNotEmptyIngredients(String memberId) {
+        List<Ingredient> ingredientList = findPersistenceIngredientListPort.getIngredients(memberId);
+        if (ingredientList.size() == 0){
+            throw new BusinessException(IngredientExceptionType.EMPTY_INGREDIENT_LIST);
+        }
+        return ingredientList;
+    }
+
+    private Map<String, Double> toIngredientsMap(List<IngredientDeductionDTO> ingredients){
+        Map<String, Double> result = new HashMap<>();
+        for (IngredientDeductionDTO ingredient : ingredients) {
+            result.put(ingredient.getName(), ingredient.getVolume());
+        }
+        return result;
     }
 
     private List<Ingredient> extractNotExpired(List<Ingredient> ingredientList, Map<String, Double> ingredientsMap) {
@@ -52,22 +68,6 @@ public class IngredientDeductionService implements DeductionIngredientVolumeUseC
         }
 
         return ingredients;
-    }
-
-    private List<Ingredient> isNotEmptyIngredients(String memberId) {
-        List<Ingredient> ingredientList = findPersistenceIngredientListPort.getIngredients(memberId);
-        if (ingredientList.size() == 0){
-            throw new BusinessException(IngredientExceptionType.EMPTY_INGREDIENT_LIST);
-        }
-        return ingredientList;
-    }
-
-    private Map<String, Double> toIngredientsMap(List<RecipeIngredientVolumeDTO> ingredients){
-        Map<String, Double> result = new HashMap<>();
-        for (RecipeIngredientVolumeDTO ingredient : ingredients) {
-            result.put(ingredient.getName(), ingredient.getVolume());
-        }
-        return result;
     }
 
     private boolean calculationDDay(LocalDate now, LocalDate expirationDate) {

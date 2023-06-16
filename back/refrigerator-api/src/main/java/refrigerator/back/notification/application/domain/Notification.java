@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import refrigerator.back.global.common.BaseTimeEntity;
+import refrigerator.back.global.common.domain.BaseTimeEntity;
 
 import javax.persistence.*;
 

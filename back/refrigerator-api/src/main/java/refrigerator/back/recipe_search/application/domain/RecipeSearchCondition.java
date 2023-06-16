@@ -2,7 +2,7 @@ package refrigerator.back.recipe_search.application.domain;
 
 import lombok.Builder;
 import lombok.Getter;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 @Getter

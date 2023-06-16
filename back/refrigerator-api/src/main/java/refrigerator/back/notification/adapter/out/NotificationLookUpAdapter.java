@@ -8,7 +8,6 @@ import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.port.out.read.FindNotificationListPort;
 import refrigerator.back.notification.application.port.out.read.FindNotificationPort;
 
-
 import java.util.List;
 
 @Repository

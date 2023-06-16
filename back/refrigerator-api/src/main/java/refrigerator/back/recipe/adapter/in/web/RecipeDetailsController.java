@@ -12,7 +12,7 @@ import refrigerator.back.recipe.application.port.in.FindRecipeDetailsUseCase;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static refrigerator.back.global.common.MemberInformation.*;
+import static refrigerator.back.global.common.api.MemberInformation.*;
 
 @RestController
 @RequiredArgsConstructor

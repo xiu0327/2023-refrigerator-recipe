@@ -11,7 +11,7 @@ import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCas
 import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.TestData;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import javax.persistence.EntityManager;
 

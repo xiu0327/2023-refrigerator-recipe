@@ -11,8 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
 import refrigerator.back.global.TestData;
-import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
-import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeRequestDTO;
+import refrigerator.back.ingredient.adapter.in.dto.IngredientDeductionRequestDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ class IngredientDeductionControllerTest {
         testData.createIngredient("콩나물", "email123@gmail.com");
         testData.createIngredient("안심", "email123@gmail.com");
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", 60.0, "g"));
         list.add(createRecipeIngredient("안심", 60.0, "g"));
 
@@ -65,7 +64,7 @@ class IngredientDeductionControllerTest {
         String email = testData.createMemberByEmail("email123@gmail.com");
         String token = createTokenPort.createTokenWithDuration(email, "ROLE_STEADY_STATUS", 3000);
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", 60.0, "g"));
         list.add(createRecipeIngredient("안심", 60.0, "g"));
 
@@ -135,7 +134,7 @@ class IngredientDeductionControllerTest {
         testData.createIngredient("콩나물", "email123@gmail.com");
         testData.createIngredient("안심", "email123@gmail.com");
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient(null, null, null));
         list.add(createRecipeIngredient("안심", 60.0, "g"));
 
@@ -161,7 +160,7 @@ class IngredientDeductionControllerTest {
         testData.createIngredient("콩나물", "email123@gmail.com");
         testData.createIngredient("안심", "email123@gmail.com");
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("파워에이드", 60.0, "g"));
         list.add(createRecipeIngredient("안심", 60.0, "g"));
 
@@ -187,7 +186,7 @@ class IngredientDeductionControllerTest {
         testData.createIngredient("콩나물", "email123@gmail.com");
         testData.createIngredient("안심", "email123@gmail.com");
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", -60.0, "g"));
         list.add(createRecipeIngredient("안심", 60.0, "g"));
 
@@ -213,7 +212,7 @@ class IngredientDeductionControllerTest {
         testData.createIngredient("콩나물", "email123@gmail.com");
         testData.createIngredient("안심", "email123@gmail.com");
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", 10000.0, "g"));
         list.add(createRecipeIngredient("안심", 60.0, "g"));
 
@@ -239,9 +238,9 @@ class IngredientDeductionControllerTest {
         testData.createIngredient("콩나물", "email123@gmail.com");
         testData.createIngredient("안심", "email123@gmail.com");
 
-        List<RecipeIngredientVolumeDTO> list = new ArrayList<>();
+        List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", 60.0, "g"));
-        list.add(RecipeIngredientVolumeDTO.builder().name("안심").build());
+        list.add(IngredientDeductionRequestDTO.builder().name("안심").build());
 
         RecipeIngredientVolumeRequestDTO dto = RecipeIngredientVolumeRequestDTO.builder()
                 .ingredients(list)
@@ -257,8 +256,8 @@ class IngredientDeductionControllerTest {
         ).andDo(print());
     }
 
-    private RecipeIngredientVolumeDTO createRecipeIngredient(String name, Double volume, String unit) {
-        return RecipeIngredientVolumeDTO.builder()
+    private IngredientDeductionRequestDTO createRecipeIngredient(String name, Double volume, String unit) {
+        return IngredientDeductionRequestDTO.builder()
                 .name(name)
                 .volume(volume)
                 .unit(unit).build();

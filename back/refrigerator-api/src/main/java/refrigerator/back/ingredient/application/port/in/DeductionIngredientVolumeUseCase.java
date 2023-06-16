@@ -1,10 +1,10 @@
 package refrigerator.back.ingredient.application.port.in;
 
 
-import refrigerator.back.ingredient.adapter.in.dto.request.RecipeIngredientVolumeDTO;
+import refrigerator.back.ingredient.application.dto.IngredientDeductionDTO;
 
 import java.util.List;
 
 public interface DeductionIngredientVolumeUseCase {
-    void deduction(String memberId, List<RecipeIngredientVolumeDTO> ingredients);
+    void deduction(String memberId, List<IngredientDeductionDTO> ingredients);
 }

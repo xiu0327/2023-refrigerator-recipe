@@ -4,8 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.comment.exception.CommentExceptionType;
-import refrigerator.back.global.common.BaseTimeEntityWithModify;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.common.domain.BaseTimeEntityWithModify;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 import javax.persistence.*;
 

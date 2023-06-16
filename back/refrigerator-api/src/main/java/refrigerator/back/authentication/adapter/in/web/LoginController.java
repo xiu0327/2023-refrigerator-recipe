@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import refrigerator.back.authentication.adapter.in.dto.LoginRequestDTO;
 import refrigerator.back.authentication.adapter.in.dto.TokenDTO;
 import refrigerator.back.authentication.application.port.in.LoginUseCase;
-import refrigerator.back.global.common.CustomCookie;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.common.api.CustomCookie;
+import refrigerator.back.global.exception.domain.BusinessException;
 
 
 import javax.servlet.http.HttpServletResponse;

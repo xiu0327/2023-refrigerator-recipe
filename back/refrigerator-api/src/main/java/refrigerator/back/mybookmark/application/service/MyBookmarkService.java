@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.mybookmark.application.domain.MyBookmark;
 import refrigerator.back.mybookmark.application.port.in.AddBookmarkUseCase;
 import refrigerator.back.mybookmark.application.port.in.RemoveBookmarkUseCase;

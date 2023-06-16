@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.application.port.in.IssueTemporaryAccessTokenUseCase;
 import refrigerator.back.authentication.application.port.out.CreateTokenPort;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.domain.BusinessException;
 import refrigerator.back.member.application.domain.Member;
 import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.exception.MemberExceptionType;
