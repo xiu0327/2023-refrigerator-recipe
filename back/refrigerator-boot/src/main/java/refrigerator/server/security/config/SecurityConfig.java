@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.config;
+package refrigerator.server.security.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ import refrigerator.back.authentication.application.port.out.CheckContainBlackLi
 import refrigerator.server.security.oauth.PrincipalOAuth2DetailsService;
 import refrigerator.server.security.oauth.Oauth2FailureHandler;
 import refrigerator.server.security.oauth.Oauth2SuccessHandler;
-import refrigerator.server.security.security.filter.JwtAuthenticationFilter;
+import refrigerator.server.security.filter.JwtAuthenticationFilter;
 
 import java.util.Collections;
 

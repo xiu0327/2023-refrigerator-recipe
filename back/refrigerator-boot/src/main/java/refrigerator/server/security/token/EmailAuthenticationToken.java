@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.token;
+package refrigerator.server.security.token;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

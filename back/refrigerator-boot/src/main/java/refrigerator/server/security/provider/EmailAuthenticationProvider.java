@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.provider;
+package refrigerator.server.security.provider;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.server.security.security.token.EmailAuthenticationToken;
+import refrigerator.server.security.token.EmailAuthenticationToken;
 
 
 @Component

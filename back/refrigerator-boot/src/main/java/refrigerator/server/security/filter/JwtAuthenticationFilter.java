@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.filter;
+package refrigerator.server.security.filter;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,8 @@ import refrigerator.back.authentication.exception.JwtExceptionType;
 import refrigerator.back.global.exception.BusinessException;
 
 import refrigerator.back.authentication.adapter.out.JsonWebTokenKey;
-import refrigerator.server.security.security.handler.MakeResponseMessageHandler;
-import refrigerator.server.security.security.token.EmailAuthenticationToken;
+import refrigerator.server.security.handler.MakeResponseMessageHandler;
+import refrigerator.server.security.token.EmailAuthenticationToken;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

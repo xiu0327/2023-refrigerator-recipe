@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.user;
+package refrigerator.server.security.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

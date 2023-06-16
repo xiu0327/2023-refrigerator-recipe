@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.adapter;
+package refrigerator.server.security.adapter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

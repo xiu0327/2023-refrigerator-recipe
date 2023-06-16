@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.handler;
+package refrigerator.server.security.handler;
 
 
 import refrigerator.back.global.exception.BusinessException;

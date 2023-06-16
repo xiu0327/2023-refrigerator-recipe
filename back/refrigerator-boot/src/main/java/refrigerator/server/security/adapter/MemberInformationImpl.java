@@ -1,4 +1,4 @@
-package refrigerator.server.security.security.adapter;
+package refrigerator.server.security.adapter;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
