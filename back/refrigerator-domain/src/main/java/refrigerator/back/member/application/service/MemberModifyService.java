@@ -1,0 +1,46 @@
+package refrigerator.back.member.application.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.member.application.domain.MemberProfileImage;
+import refrigerator.back.member.application.port.in.InitNicknameAndProfileUseCase;
+import refrigerator.back.member.application.port.in.UpdateNicknameUseCase;
+import refrigerator.back.member.application.port.in.UpdateProfileUseCase;
+import refrigerator.back.member.application.port.out.InitMemberProfileAndNicknamePort;
+import refrigerator.back.member.application.port.out.ModifyMemberNicknamePort;
+import refrigerator.back.member.application.port.out.ModifyMemberProfilePort;
+import refrigerator.back.member.exception.MemberExceptionType;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class MemberModifyService implements UpdateNicknameUseCase, UpdateProfileUseCase, InitNicknameAndProfileUseCase {
+
+    private final ModifyMemberNicknamePort modifyMemberNicknamePort;
+    private final ModifyMemberProfilePort modifyMemberProfilePort;
+    private final InitMemberProfileAndNicknamePort initMemberProfileAndNicknamePort;
+
+
+    @Override
+    public void updateNickname(String email, String newNickname) {
+
+        modifyMemberNicknamePort.modifyNickname(email, newNickname);
+    }
+
+    @Override
+    public void updateProfile(String email, String newProfileName) {
+        modifyMemberProfilePort.modifyProfile(email, MemberProfileImage.findImageByName(newProfileName));
+    }
+
+    @Override
+    public void initNicknameAndProfile(String email, String nickname, String imageFileName) {
+        initMemberProfileAndNicknamePort.initNicknameAndProfile(
+                email,
+                nickname,
+                MemberProfileImage.findImageByName(imageFileName));
+    }
+
+
+
+}

@@ -1,0 +1,15 @@
+package refrigerator.back.comment.application.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
+import lombok.Getter;
+
+import java.util.List;
+
+@Getter
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CommentListAndCountDTO<T> {
+    private List<T> comments;
+    private Integer count;
+}

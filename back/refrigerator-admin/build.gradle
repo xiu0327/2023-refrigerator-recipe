@@ -1,0 +1,12 @@
+
+group = 'refrigerator-admin'
+version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation project(':refrigerator-domain')
+
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+}
