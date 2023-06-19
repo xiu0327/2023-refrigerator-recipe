@@ -14,6 +14,7 @@ import VolumeInputForm from "@/components/refrigerator/IngredientInputForm/Volum
 import BottomBtn from "@/components/global/BottomBtn/BottomBtn";
 
 import styles from "@/scss/pages.module.scss";
+import { useSelector } from "react-redux";
 
 type pageProps = {
 	name: string;
@@ -21,9 +22,12 @@ type pageProps = {
 
 export default function AddIngredientInfoPage({ name }: pageProps) {
 	const router = useRouter();
+	const { storage } = useSelector(
+		({ ingredientData }) => ingredientData.settings,
+	);
 	const [ingredient, setIngredient] = useState({
 		name: name,
-		storage: "냉장",
+		storage: storage,
 		expirationDate: moment().format("YYYY-MM-DD"),
 		volume: "",
 	});
@@ -35,6 +39,7 @@ export default function AddIngredientInfoPage({ name }: pageProps) {
 			const data = await getIngredientUnit(name);
 			setUnit(data);
 		})();
+		console.log(storage);
 	}, []);
 
 	const updateIngredient = (key: string, value: string | number) => {
