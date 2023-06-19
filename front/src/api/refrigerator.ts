@@ -1,20 +1,5 @@
 import instance from "./interceptors";
 
-export const getIngredients = async (
-	page: number,
-	storage: string,
-	isExpired: boolean,
-) => {
-	const url = `/api/ingredients?page=${page}&storage=${storage}&deadline=${isExpired}`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
-	} catch (error) {
-		console.log(error);
-		throw error;
-	}
-};
-
 export const getIngredientInfo = async (ingredientID: number) => {
 	const url = `/api/ingredients/${ingredientID}`;
 	try {

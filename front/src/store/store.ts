@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ingredientSettings from "./refrigerator/ingredientSettings";
+import ingredientData from "./refrigerator/ingredientData";
 
 export const store = configureStore({
 	reducer: {
-		ingredientSettings,
+		ingredientData,
 	},
 });

@@ -1,1 +1,1 @@
-export * from "./ingredientSettings";
+export * from "./ingredientData";
