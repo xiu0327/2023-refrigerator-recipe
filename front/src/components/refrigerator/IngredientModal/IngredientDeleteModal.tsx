@@ -1,7 +1,10 @@
+import router from "next/router";
+import { useDispatch } from "react-redux";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
+import { deleteIngredient } from "@/api";
+import { removeIngredient } from "@/store";
 import Modal from "@/components/global/Modal/Modal";
 import styles from "./IngredientModal.module.scss";
-import { deleteIngredient } from "@/api";
-import router from "next/router";
 
 type modalProps = {
 	show: boolean;
@@ -16,7 +19,10 @@ export default function IngredientDeleteModal({
 	ingredientID,
 	ingredientName,
 }: modalProps) {
+	const dispatch: ThunkDispatch<any, undefined, AnyAction> = useDispatch();
+
 	const onDeleteIngredientClick = async () => {
+		dispatch(removeIngredient(ingredientID));
 		await deleteIngredient(ingredientID);
 		router.back();
 	};

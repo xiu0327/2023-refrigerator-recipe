@@ -16,6 +16,12 @@ export const AddIngredientIcon = () => (
 	</Link>
 );
 
-export const BackIcon = () => (
-	<ChevronLeft className={styles.appbarIcon} onClick={() => router.back()} />
-);
+export const BackIcon = ({ onBackClick }: { onBackClick: Function }) => {
+	const handleBackClick = () => {
+		if (onBackClick) onBackClick();
+		router.back();
+	};
+	return (
+		<ChevronLeft className={styles.appbarIcon} onClick={handleBackClick} />
+	);
+};

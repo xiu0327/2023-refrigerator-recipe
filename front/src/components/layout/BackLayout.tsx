@@ -4,14 +4,23 @@ import { BackIcon } from "./AppBar/AppBarIcons";
 
 type layoutProps = {
 	title?: string;
+	onBackClick?: Function;
 	children: React.ReactNode;
 };
 
-export default function BackLayout({ title, children }: layoutProps) {
+export default function BackLayout({
+	title,
+	onBackClick,
+	children,
+}: layoutProps) {
+	const handleBackClick = () => {
+		onBackClick && onBackClick();
+	};
+
 	return (
 		<div className={styles.layoutContainer}>
 			<AppBar title={title}>
-				<BackIcon />
+				<BackIcon onBackClick={handleBackClick} />
 			</AppBar>
 			<div className={styles.layoutContentWithApp}>{children}</div>
 		</div>

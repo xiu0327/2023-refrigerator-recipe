@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import router from "next/router";
 
-import { calcDday } from "@/utils";
-import { putIngredientInfo } from "@/store";
-import { Storage } from "@/types";
+import { calcDday, getDday } from "@/utils";
+import { modifyExpirationDate, putIngredientInfo } from "@/store";
+import { IngredientDetail, Storage } from "@/types";
 import { useValidateIngredient } from "@/hooks";
 
 import BackBottomBtnLayout from "@/components/layout/BackBottomBtnLayout";
@@ -35,10 +35,14 @@ export default function ModifyIngredientPage() {
 	}, [modifiedIngredient]);
 
 	const modifyIngredient = (key: string, value: Storage | string | number) => {
-		setModifiedIngredient((prev: any) => ({ ...prev, [key]: value }));
+		setModifiedIngredient((prev: IngredientDetail) => ({
+			...prev,
+			[key]: value,
+		}));
 	};
 
 	const onModifyIngredientClick = async () => {
+		dispatch(modifyExpirationDate(modifiedIngredient));
 		await dispatch(putIngredientInfo(modifiedIngredient));
 		router.back();
 	};
@@ -68,13 +72,14 @@ export default function ModifyIngredientPage() {
 
 					<FormLabel
 						label="유통기한"
-						subLabel={calcDday(modifiedIngredient.expirationDate)}
+						subLabel={getDday(calcDday(modifiedIngredient.expirationDate))}
 					>
 						<DateInputForm
 							date={modifiedIngredient.expirationDate}
-							setDate={(value: string) =>
-								modifyIngredient("expirationDate", value)
-							}
+							setDate={(value: string) => {
+								modifyIngredient("expirationDate", value);
+								modifyIngredient("remainDays", calcDday(value));
+							}}
 						/>
 					</FormLabel>
 

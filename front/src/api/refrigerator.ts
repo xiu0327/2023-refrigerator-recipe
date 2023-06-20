@@ -1,16 +1,5 @@
 import instance from "./interceptors";
 
-export const getAllIngredients = async () => {
-	const url = `/api/ingredients/search`;
-	try {
-		const response = await instance.get(url);
-		return response.data.data;
-	} catch (error) {
-		console.log(error);
-		throw error;
-	}
-};
-
 export const getMatchedIngredients = async (keyword: string) => {
 	const url = `/api/word-completion/ingredient?keyword=${keyword}`;
 	try {

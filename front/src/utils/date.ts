@@ -8,8 +8,8 @@ export const calcDday = (date: string) => {
 	const today = moment();
 	const diffDays = moment(date).diff(today, "days");
 	return diffDays == 0
-		? "오늘"
+		? "0"
 		: diffDays < 0
-		? `D+${diffDays * -1}`
-		: `D-${diffDays}`;
+		? `+${diffDays * -1}`
+		: `-${diffDays + 1}`;
 };

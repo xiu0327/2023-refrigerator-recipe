@@ -1,7 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
 
-import { getAllIngredients } from "@/api";
+import { IngredientBrief } from "@/types";
 import { toPhoneme } from "@/utils";
+import { getIngredientSearchData, setKeyword } from "@/store";
 
 import BackLayout from "@/components/layout/BackLayout";
 import SearchBar from "@/components/global/SearchBar/SearchBar";
@@ -9,44 +12,38 @@ import IngredientGrid from "@/components/refrigerator/IngredientGrid/IngredientG
 import NoSearchResult from "@/components/global/NoResult/NoSearchResult";
 
 import styles from "@/scss/pages.module.scss";
-import { IngredientBrief } from "@/types";
 
 export default function SearchIngredientPage() {
-	const [keyword, setKeyword] = useState<string>("");
-	const [ingredientData, setIngredientData] = useState<IngredientBrief[]>([]);
-	const [myIngredients, setMyIngredients] = useState<IngredientBrief[]>([]);
+	const { ingredientData, keyword } = useSelector(
+		({ ingredientSearch }) => ingredientSearch,
+	);
+
+	const dispatch: ThunkDispatch<any, undefined, AnyAction> = useDispatch();
+	const onKeywordChange = (payload: string) => dispatch(setKeyword(payload));
 
 	useEffect(() => {
-		(async () => {
-			const data = await getAllIngredients();
-			setIngredientData(data);
-		})();
-	}, []);
-
-	useEffect(() => {
-		if (ingredientData) {
-			const myIngredientsWithPhoneme = ingredientData.map((ingredient) => ({
-				...ingredient,
-				phoneme: toPhoneme(ingredient.name),
-			}));
-			setMyIngredients(myIngredientsWithPhoneme);
+		if (ingredientData.length === 0) {
+			dispatch(getIngredientSearchData());
 		}
-	}, [ingredientData]);
+	}, []);
 
 	const filteredIngredients = useMemo(() => {
 		const keywordPhoneme = toPhoneme(keyword);
-		return myIngredients.filter(
-			(ingredient) =>
-				ingredient.phoneme && ingredient.phoneme.includes(keywordPhoneme),
+		return ingredientData.filter((ingredient: IngredientBrief) =>
+			ingredient.phoneme?.includes(keywordPhoneme),
 		);
-	}, [myIngredients, keyword]);
+	}, [keyword]);
+
+	const onBackClick = () => {
+		dispatch(setKeyword(""));
+	};
 
 	return (
-		<BackLayout>
+		<BackLayout onBackClick={onBackClick}>
 			<div className={styles.fixedContainer}>
 				<SearchBar
 					keyword={keyword}
-					setKeyword={setKeyword}
+					setKeyword={onKeywordChange}
 					placeholder="궁금한 식재료를 검색해보세요!"
 					focus
 				/>
