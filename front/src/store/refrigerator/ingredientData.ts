@@ -60,5 +60,6 @@ const ingredientDataSlice = createSlice({
 	},
 });
 
-export const { setInit, setStorage, setIsExpired, setPage } = ingredientDataSlice.actions;
+export const { setInit, setStorage, setIsExpired, setPage } =
+	ingredientDataSlice.actions;
 export default ingredientDataSlice.reducer;

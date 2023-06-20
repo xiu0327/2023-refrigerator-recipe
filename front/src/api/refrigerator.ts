@@ -1,16 +1,5 @@
 import instance from "./interceptors";
 
-export const getIngredientInfo = async (ingredientID: number) => {
-	const url = `/api/ingredients/${ingredientID}`;
-	try {
-		const response = await instance.get(url);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-		throw error;
-	}
-};
-
 export const getAllIngredients = async () => {
 	const url = `/api/ingredients/search`;
 	try {
@@ -79,16 +68,6 @@ export const deleteIngredient = async (ingredientID: number) => {
 	const url = `/api/ingredients/${ingredientID}`;
 	try {
 		await instance.delete(url);
-	} catch (error) {
-		console.log(error);
-		throw error;
-	}
-};
-
-export const modifyIngredient = async (ingredientID: number, body: Object) => {
-	const url = `/api/ingredients/${ingredientID}`;
-	try {
-		await instance.put(url, body);
 	} catch (error) {
 		console.log(error);
 		throw error;
