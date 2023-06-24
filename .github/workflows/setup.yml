@@ -60,6 +60,6 @@ jobs:
                 script: |
                   cd app
                   docker compose rm app -f
-                  docker rmi xiu0327/refrigerator-application:centos
-                  docker pull xiu0327/refrigerator-application:centos
+                  docker rmi xiu0327/refrigerator-application:tmp
+                  docker pull xiu0327/refrigerator-application:tmp
                   docker compose up app -d
