@@ -46,10 +46,11 @@ jobs:
           - name: Docker Image Build
             run: |
                 cd back/refrigerator-api
-                docker build -t xiu0327/refrigerator-application:centos .
+                docker build -t xiu0327/refrigerator-application:tmp .
           
           - name: Docker Image push
             run: docker push xiu0327/refrigerator-application:tmp
+            
           - name: connect ssh
             uses: appleboy/ssh-action@master
             with:
