@@ -1,10 +1,11 @@
 package refrigerator.server.api.authentication.cookie;
 
-import refrigerator.back.authentication.application.domain.TokenStatus;
-import refrigerator.back.authentication.application.port.external.JsonWebTokenProvider;
+import refrigerator.server.security.authentication.application.TokenStatus;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.server.api.global.common.CustomCookie;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
+import refrigerator.server.security.exception.JsonWebTokenException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -38,18 +39,18 @@ public class RefreshTokenCookie implements CustomCookie {
     @Override
     public Cookie get(Cookie[] cookies) {
         if (cookies == null){
-            throw new BusinessException(AuthenticationExceptionType.NOT_FOUND_COOKIE);
+            throw new JsonWebTokenException(AuthenticationExceptionType.NOT_FOUND_COOKIE);
         }
         return Arrays.stream(cookies)
                 .filter(cookie -> cookie.getName().equals(NAME))
                 .findAny()
-                .orElseThrow(() -> new BusinessException(AuthenticationExceptionType.NOT_FOUND_TOKEN));
+                .orElseThrow(() -> new JsonWebTokenException(AuthenticationExceptionType.NOT_FOUND_TOKEN));
     }
 
     @Override
-    public boolean isValid(JsonWebTokenProvider provider, Cookie target) {
+    public boolean isValid(JsonWebTokenUseCase provider, Cookie target) {
         return target.getName().equals(NAME) &&
-                provider.validateToken(target.getValue()).equals(TokenStatus.PASS);
+                provider.getTokenStatus(target.getValue()).equals(TokenStatus.PASS);
     }
 
 }

@@ -9,7 +9,8 @@ public class EmailAuthenticationToken implements Authentication {
 
     private final String username;
     private final String password;
-    private final Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
+    private boolean isAuthenticated;
 
     public EmailAuthenticationToken(String username, String password,
                                     Collection<? extends GrantedAuthority> authorities) {
@@ -22,7 +23,6 @@ public class EmailAuthenticationToken implements Authentication {
     public EmailAuthenticationToken(String username, String password) {
         this.username = username;
         this.password = password;
-        this.authorities = null;
         setAuthenticated(false);
     }
 
@@ -48,12 +48,12 @@ public class EmailAuthenticationToken implements Authentication {
 
     @Override
     public boolean isAuthenticated() {
-        return false;
+        return this.isAuthenticated;
     }
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
+        this.isAuthenticated = isAuthenticated;
     }
 
     @Override
