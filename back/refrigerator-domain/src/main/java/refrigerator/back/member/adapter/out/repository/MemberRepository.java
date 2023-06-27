@@ -12,13 +12,17 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByEmail(String email);
-    @Modifying
+
+    // TODO : modifying 옵션 설정
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("update Member m set m.nickname= :nickname where m.email= :email")
     void updateNickname(@Param("email") String memberId, @Param("nickname") String nickname);
-    @Modifying
+
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("update Member m set m.profile= :profile where m.email= :email")
     void updateProfile(@Param("email") String memberId, @Param("profile") MemberProfileImage profile);
-    @Modifying
+
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("update Member m set m.profile= :profile, m.nickname= :nickname where m.email= :email")
     void initNicknameAndProfile(@Param("email") String memberId,
                                 @Param("nickname") String nickname,

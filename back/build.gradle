@@ -48,9 +48,9 @@ subprojects {
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		testImplementation 'io.projectreactor:reactor-test'
 		testImplementation 'com.navercorp.fixturemonkey:fixture-monkey-starter:0.5.2'
-
-		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'	// 굳이 있어야 하는가..
-		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'	// 22
+		testImplementation 'it.ozimov:embedded-redis:0.7.2'
+		testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
+		testImplementation 'com.h2database:h2'
 
 		// etc
 		implementation 'org.springframework.boot:spring-boot-starter-aop'

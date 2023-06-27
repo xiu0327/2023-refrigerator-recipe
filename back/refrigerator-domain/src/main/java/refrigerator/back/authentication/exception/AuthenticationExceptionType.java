@@ -15,6 +15,7 @@ public enum AuthenticationExceptionType implements BasicExceptionType {
     NOT_EQUAL_PASSWORD("NOT_EQUAL_PASSWORD", "비밀번호가 일치하지 않습니다.", BAD_REQUEST),
     ALREADY_LOGIN_MEMBER("WRONG_REQUEST", "잘못된 요청입니다.", BAD_REQUEST),
     ALREADY_LOGOUT_MEMBER("ALREADY_LOGOUT_MEMBER", "이미 로그아웃된 사용자 입니다.", BAD_REQUEST),
+    FAIL_ACCESS_BY_TOKEN("FAIL_ACCESS_BY_TOKEN", "접근이 불가능한 사용자입니다.", BAD_REQUEST),
     NOT_INIT_PROFILE_AND_NICKNAME("NOT_INIT_PROFILE_AND_NICKNAME", "프로필과 닉네임이 초기화되지 않았습니다.", BAD_REQUEST),
     NOT_FOUND_TOKEN("NOT_FOUND_TOKEN", "토큰을 찾을 수 없습니다.", BAD_REQUEST),
     NOT_FOUND_COOKIE("NOT_FOUND_COOKIE", "쿠키가 존재하지 않습니다.", BAD_REQUEST),

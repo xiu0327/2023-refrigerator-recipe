@@ -14,6 +14,8 @@ public enum MemberExceptionType implements BasicExceptionType {
     INCORRECT_NICKNAME_FORMAT("INCORRECT_NICKNAME_FORMAT", "허용하지 않는 닉네임 형식입니다.", BAD_REQUEST),
     DUPLICATE_EMAIL("DUPLICATE_EMAIL", "중복된 이메일 입니다.", BAD_REQUEST),
     NOT_FOUND_MEMBER("NOT_FOUND_MEMBER", "회원을 찾을 수 없습니다.", NOT_FOUND),
+    BLOCKED_MEMBER("BLOCKED_MEMBER", "차단된 회원입니다.", NOT_FOUND),
+    DORMANT_MEMBER("DORMANT_MEMBER", "휴면 계정으로 전환된 회원입니다.", NOT_FOUND),
     NOT_FOUND_MEMBER_ROLE("NOT_FOUND_MEMBER_ROLE", "해당 접근 권한이 존재하지 않습니다.", FORBIDDEN),
     NOT_FOUND_MEMBER_STATUS("NOT_FOUND_MEMBER_STATUS", "해당 회원 상태가 없습니다.", NOT_FOUND),
     NOT_FOUND_PROFILE_IMAGE("NOT_FOUND_PROFILE_IMAGE", "해당 이미지를 찾을 수 없습니다.", NOT_FOUND),

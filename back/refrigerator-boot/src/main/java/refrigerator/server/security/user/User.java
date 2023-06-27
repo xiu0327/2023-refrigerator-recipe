@@ -1,36 +1,34 @@
 package refrigerator.server.security.user;
 
-import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.application.domain.MemberStatus;
-import refrigerator.back.member.exception.MemberExceptionType;
+import refrigerator.back.authentication.application.dto.UserDto;
 
 import java.util.Collection;
 import java.util.Set;
 
-@Builder
 public class User implements UserDetails {
 
-    private final String username;
-    private final String password;
-    private final String authority;
+    private final UserDto user;
+
+    public User(UserDto user) {
+        this.user = user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Set.of(new SimpleGrantedAuthority(authority));
+        return Set.of(new SimpleGrantedAuthority(user.getStatus()));
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     @Override
@@ -39,9 +37,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    public boolean isAccountNonLocked() {return true;}
 
     @Override
     public boolean isCredentialsNonExpired() {
@@ -50,9 +46,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (authority.equals(MemberStatus.LEAVE_STATUS.getStatusCode())){
-            throw new BusinessException(MemberExceptionType.WITHDRAWN_MEMBER);
-        }
-        return true;
+        return user.isEnable();
     }
 }

@@ -1,7 +1,10 @@
 package refrigerator.back.authentication.adapter.out.repository;
 
-public interface RefreshTokenRepository {
-    String getData(String key);
-    void setData(String key, String value, long duration);
-    void removeData(String key);
+import org.springframework.data.repository.CrudRepository;
+import refrigerator.back.authentication.application.dto.RefreshToken;
+
+import java.util.Optional;
+
+public interface RefreshTokenRepository extends CrudRepository<RefreshToken, String> {
+    Optional<RefreshToken> findRefreshTokenByToken(String token);
 }

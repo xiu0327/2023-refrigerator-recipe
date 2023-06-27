@@ -1,13 +1,11 @@
 package refrigerator.server.security.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,40 +15,24 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import refrigerator.back.authentication.application.port.external.JsonWebTokenProvider;
-import refrigerator.back.authentication.application.port.out.CheckContainBlackListPort;
-import refrigerator.server.security.oauth.PrincipalOAuth2DetailsService;
-import refrigerator.server.security.oauth.Oauth2FailureHandler;
-import refrigerator.server.security.oauth.Oauth2SuccessHandler;
+import refrigerator.server.security.config.AuthenticationManagerConfig;
 import refrigerator.server.security.filter.JwtAuthenticationFilter;
-
-import java.util.Collections;
+import refrigerator.server.security.user.OAuth2DetailsServiceImpl;
+import refrigerator.server.security.handler.Oauth2FailureHandler;
+import refrigerator.server.security.handler.Oauth2SuccessHandler;
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Import(AuthenticationManagerConfig.class)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JsonWebTokenProvider jsonWebTokenProvider;
-    private final AuthenticationProvider authenticationProvider;
-    private final CheckContainBlackListPort checkContainBlackListPort;
-    private final PrincipalOAuth2DetailsService principalOAuth2DetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final OAuth2DetailsServiceImpl principalOAuth2DetailsService;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
     private final Oauth2FailureHandler oauth2FailureHandler;
-    
-    @Value("${jwt.tokenPassword}")
-    private String tokenPassword;
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/test/**");
-    }
-    @Bean
-    public AuthenticationManager authenticationManager(){
-        return new ProviderManager(Collections.singletonList(authenticationProvider));
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -65,6 +47,14 @@ public class SecurityConfig {
         setJwtFilter(http);
         return http.build();
     }
+
+    private void setJwtFilter(HttpSecurity http) {
+        http.addFilterBefore(
+                new JwtAuthenticationFilter(authenticationManager),
+                UsernamePasswordAuthenticationFilter.class);
+    }
+
+
     private SessionManagementConfigurer<HttpSecurity> setDefault(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()
@@ -77,13 +67,6 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
-
-    private void setJwtFilter(HttpSecurity http) {
-        http
-                .addFilterBefore(
-                        new JwtAuthenticationFilter(jsonWebTokenProvider, checkContainBlackListPort, tokenPassword),
-                        UsernamePasswordAuthenticationFilter.class);
     }
 
     private void setWordCompletion(HttpSecurity http) throws Exception {

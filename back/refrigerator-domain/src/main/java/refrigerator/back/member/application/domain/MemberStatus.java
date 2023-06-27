@@ -29,4 +29,9 @@ public enum MemberStatus {
                 .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_MEMBER_STATUS));
     }
 
+    public static boolean isValidByCode(String statusCode){
+        return Arrays.stream(MemberStatus.values())
+                .anyMatch(status -> status.toString().equals(statusCode));
+    }
+
 }
