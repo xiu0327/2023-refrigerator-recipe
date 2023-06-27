@@ -1,4 +1,4 @@
-package refrigerator.back.identification.adapter.persistence;
+package refrigerator.infra.identification.apdater;
 
 
 import lombok.RequiredArgsConstructor;

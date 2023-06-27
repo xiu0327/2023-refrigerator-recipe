@@ -2,21 +2,25 @@ package refrigerator.back.ingredient.adapter.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import refrigerator.back.global.time.ServiceDate;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @Getter
+@RequiredArgsConstructor
 public class OutIngredientDetailDTO {
 
     private Long ingredientID;
     private String name;
+    private IngredientStorageType storage;
     private LocalDate expirationDate;
     private LocalDate registrationDate;
     private Double volume;
     private String unit;
-    private IngredientStorageType storage;
+
     private String image;
 
     @QueryProjection
@@ -30,6 +34,8 @@ public class OutIngredientDetailDTO {
         this.storage = storage;
         this.image = image;
     }
+
+    // TODO : LocalData.now 빼기
 
     public String getRemainDays() {
         long between = ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());

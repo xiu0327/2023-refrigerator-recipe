@@ -1,4 +1,4 @@
-package refrigerator.back.identification.infra;
+package refrigerator.infra.config;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;

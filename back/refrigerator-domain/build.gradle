@@ -16,9 +16,6 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	implementation 'com.google.guava:guava:32.0.0-jre'
-
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 def querydslDir = "$buildDir/generated/querydsl"

@@ -33,17 +33,24 @@ public class CreateNotificationService implements CreateCommentHeartNotification
         
         String senderNickname = findSenderNicknamePort.getNickname(senderId);
         CommentNotificationDTO details = commentDetailsPort.getDetails(commentId);
+
+        Notification notification = madeNotification(commentId, details);
+
+        notification.createCommentHeartMessage(senderNickname);
         
+        modifyMemberNotificationPort.modify(details.getAuthorId(), true);
+        
+        return saveNotificationPort.saveNotification(notification);
+    }
+
+    private static Notification madeNotification(Long commentId, CommentNotificationDTO details) {
+
         Notification notification = Notification.create(
                 NotificationType.HEART,
                 "/recipe/comment?recipeId=" + details.getRecipeId() + "&commentID=" + commentId,
                 details.getAuthorId(),
                 "get"
         );
-        notification.createCommentHeartMessage(senderNickname);
-        
-        modifyMemberNotificationPort.modify(details.getAuthorId(), true);
-        
-        return saveNotificationPort.saveNotification(notification);
+        return notification;
     }
 }

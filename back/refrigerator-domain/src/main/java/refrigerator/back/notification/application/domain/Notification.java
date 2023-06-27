@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.global.common.BaseTimeEntity;
+import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.notification.exception.NotificationExceptionType;
 
 import javax.persistence.*;
 
@@ -53,6 +55,9 @@ public class Notification extends BaseTimeEntity {
     }
 
     public void createExpirationDateMessage(String name, Long count, Integer days){
+        if(count < 1)
+            throw new BusinessException(NotificationExceptionType.TEST_ERROR);
+
         if(count > 1)
             this.message = name + " 외 "+ (count - 1) + "개 식재료의 소비기한이 " + days + "일 남았습니다. 식재료 확인하러가기!";
         else
@@ -65,9 +70,5 @@ public class Notification extends BaseTimeEntity {
 
     public void createNoticeMessage(String title) {
         this.message = "공지사항이 추가되었어요! '" + title + "'";
-    }
-
-    public boolean isReadStatus() {
-        return readStatus;
     }
 }

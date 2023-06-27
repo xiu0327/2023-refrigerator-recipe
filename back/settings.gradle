@@ -3,6 +3,7 @@ include 'refrigerator-domain'
 include 'refrigerator-boot'
 include 'refrigerator-batch'
 include 'refrigerator-infra'
-include 'refrigerator-message-queue'
 include 'refrigerator-admin'
+include 'refrigerator-producer'
+include 'refrigerator-consumer'
 

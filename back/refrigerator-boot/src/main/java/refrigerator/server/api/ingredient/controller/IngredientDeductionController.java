@@ -45,7 +45,7 @@ public class IngredientDeductionController {
         deductionIngredientVolumeUseCase.deduction(memberInformation.getMemberEmail(), dtos);
     }
 
-    private void IngredientDtoCheck(List<IngredientDeductionDTO> data) {
+    public void IngredientDtoCheck(List<IngredientDeductionDTO> data) {
 
         List<RegisteredIngredient> ingredientList = findRegisteredIngredientUseCase.getIngredientList();
 

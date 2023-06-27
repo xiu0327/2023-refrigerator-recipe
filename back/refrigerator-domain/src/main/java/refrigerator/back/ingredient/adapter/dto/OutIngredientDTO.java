@@ -22,7 +22,7 @@ public class OutIngredientDTO {
         this.image = image;
     }
 
-
+    // TODO : LocalData.now 빼기
     public String getRemainDays() {
         long between = ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
 

@@ -2,14 +2,11 @@ package refrigerator.server.api.identification.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import refrigerator.back.identification.application.port.in.CheckNumberUseCase;
 import refrigerator.back.identification.application.port.in.SendNumberUseCase;
-import refrigerator.back.identification.exception.IdentificationExceptionType;
 import refrigerator.server.api.global.exception.ValidationExceptionHandler;
 import refrigerator.server.api.identification.dto.CheckNumberRequestDTO;
 import refrigerator.server.api.identification.dto.SendNumberRequestDTO;
