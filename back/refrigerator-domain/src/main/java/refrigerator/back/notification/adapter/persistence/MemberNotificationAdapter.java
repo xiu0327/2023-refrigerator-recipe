@@ -2,6 +2,7 @@ package refrigerator.back.notification.adapter.persistence;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.notification.application.port.out.memberNotification.FindMemberNotificationSignPort;
 import refrigerator.back.notification.application.port.out.memberNotification.CreateMemberNotificationPort;
@@ -10,7 +11,7 @@ import refrigerator.back.notification.application.port.out.memberNotification.Mo
 import java.util.Optional;
 
 
-@Repository
+@Component
 public class MemberNotificationAdapter implements CreateMemberNotificationPort, ModifyMemberNotificationPort, FindMemberNotificationSignPort {
 
     private final RedisTemplate<String, Boolean> repository;

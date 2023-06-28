@@ -3,6 +3,7 @@ package refrigerator.back.myscore.adapter.out;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.myscore.application.dto.InMyScoreDTO;
 import refrigerator.back.myscore.application.dto.InMyScoreListDTO;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class QueryMyScoreDataAdapter implements MyScoreReadPort, MyScoreWritePort {
 

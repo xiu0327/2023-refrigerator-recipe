@@ -40,6 +40,17 @@ class JwtAuthenticationProviderTest {
     }
 
     @Test
+    @DisplayName("인증 논리 실패 후 null 반환")
+    void authenticateFailTest() {
+        /* JwtAuthenticationFilter 에서 넘어온 Authentication 객체로 provider 인증 진행 */
+        Authentication fromFilter = new JwtAuthenticationToken(null);
+        Assertions.assertFalse(fromFilter.isAuthenticated());
+
+        Authentication result = provider.authenticate(fromFilter);
+        Assertions.assertNull(result);
+    }
+
+    @Test
     @DisplayName("provider 인증 객체 클래스 타입 확인")
     void supports() {
         Authentication fromFilter = new JwtAuthenticationToken("token");

@@ -10,8 +10,8 @@ import refrigerator.back.comment.application.mapper.CommentMapper;
 import refrigerator.back.comment.application.port.in.comment.FindCommentListUseCase;
 import refrigerator.back.comment.application.port.in.comment.FindCommentPreviewListUseCase;
 import refrigerator.back.comment.application.port.in.comment.FindMyCommentsUseCase;
-import refrigerator.back.comment.application.port.out.CommentReadPort;
-import refrigerator.back.comment.application.port.out.FindMyCommentListPort;
+import refrigerator.back.comment.application.port.out.trash.CommentReadPort;
+import refrigerator.back.comment.application.port.out.trash.FindMyCommentListPort;
 
 
 import java.util.List;

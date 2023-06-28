@@ -1,6 +1,7 @@
 package refrigerator.back.ingredient.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.repository.IngredientQuerySubRepository;
@@ -11,7 +12,7 @@ import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import java.util.List;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RegisteredIngredientAdapter implements FindRegisteredIngredientPort {
 

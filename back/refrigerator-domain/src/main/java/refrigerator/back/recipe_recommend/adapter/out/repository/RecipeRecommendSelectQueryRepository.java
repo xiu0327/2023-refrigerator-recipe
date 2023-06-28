@@ -2,6 +2,7 @@ package refrigerator.back.recipe_recommend.adapter.out.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe_recommend.adapter.out.dto.OutRecipeIngredientNameDTO;
 import refrigerator.back.recipe_recommend.adapter.out.dto.OutRecipeRecommendDTO;
@@ -16,7 +17,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeIngredient.recipeIngredient;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.recipeScore;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeRecommendSelectQueryRepository {
 

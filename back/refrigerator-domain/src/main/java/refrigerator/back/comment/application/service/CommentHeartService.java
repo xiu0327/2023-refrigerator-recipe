@@ -8,9 +8,9 @@ import refrigerator.back.comment.application.domain.CommentHeartPeople;
 import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.people.FindLikedPeopleListUseCase;
-import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
-import refrigerator.back.comment.application.port.out.UpdateCommentHeartPort;
-import refrigerator.back.comment.application.port.out.WriteCommentHeartPeoplePort;
+import refrigerator.back.comment.application.port.out.trash.FindCommentHeartPeoplePort;
+import refrigerator.back.comment.application.port.out.trash.UpdateCommentHeartPort;
+import refrigerator.back.comment.application.port.out.trash.WriteCommentHeartPeoplePort;
 
 
 import java.util.List;

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.member.adapter.out.cache.MemberCacheKey;
 import refrigerator.back.member.adapter.out.mapper.MemberDtoMapper;
@@ -13,7 +14,7 @@ import refrigerator.back.member.application.domain.Member;
 
 import java.util.Optional;
 
-@Repository
+@Component
 @Slf4j
 public class MemberCacheRepository {
 

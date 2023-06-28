@@ -3,6 +3,7 @@ package refrigerator.back.ingredient.adapter.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.ingredient.adapter.dto.OutRecipeIngredientDTO;
 import refrigerator.back.ingredient.adapter.dto.QOutRecipeIngredientDTO;
@@ -17,7 +18,7 @@ import java.util.List;
 import static refrigerator.back.ingredient.application.domain.QRegisteredIngredient.registeredIngredient;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeIngredient.recipeIngredient;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class IngredientQuerySubRepository {
 

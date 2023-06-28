@@ -3,6 +3,7 @@ package refrigerator.back.recipe.adapter.out.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.adapter.out.dto.*;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourse;
@@ -24,7 +25,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.re
 /**
  * 레시피 도메인과 관련된 쿼리문을 모아둔 Repository
  */
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeSelectQueryRepository {
 

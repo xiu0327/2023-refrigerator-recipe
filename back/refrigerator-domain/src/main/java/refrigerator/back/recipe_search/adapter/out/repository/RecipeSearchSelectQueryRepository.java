@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.application.domain.entity.RecipeCategory;
 import refrigerator.back.recipe.application.domain.entity.RecipeFoodType;
@@ -27,7 +28,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipeIngredie
 import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.recipeScore;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeSearchSelectQueryRepository {
 

@@ -1,13 +1,14 @@
 package refrigerator.back.recipe.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.adapter.out.dto.OutRecipeOtherDto;
 import refrigerator.back.recipe.adapter.out.repository.RecipeSelectQueryRepository;
 import refrigerator.back.recipe.application.domain.RecipeIngredientAndCourseCollection;
 import refrigerator.back.recipe.application.port.out.GetRecipeIngredientAndCourseDataPort;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class QueryRecipeIngredientAndCourseAdapter implements GetRecipeIngredientAndCourseDataPort {
 

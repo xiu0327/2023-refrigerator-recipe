@@ -1,6 +1,7 @@
 package refrigerator.back.notification.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.notification.adapter.repository.NotificationBatchQueryRepository;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 import static refrigerator.back.notification.application.domain.QNotification.notification;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class NotificationBatchAdapter implements DeleteNotificationBatchPort {
 

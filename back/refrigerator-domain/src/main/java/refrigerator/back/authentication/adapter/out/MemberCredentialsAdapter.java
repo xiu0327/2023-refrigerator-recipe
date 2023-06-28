@@ -1,6 +1,7 @@
 package refrigerator.back.authentication.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.authentication.adapter.out.repository.UserSelectQueryRepository;
@@ -9,7 +10,7 @@ import refrigerator.back.authentication.application.port.out.GetMemberCredential
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.exception.MemberExceptionType;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class MemberCredentialsAdapter implements GetMemberCredentialsPort {
 

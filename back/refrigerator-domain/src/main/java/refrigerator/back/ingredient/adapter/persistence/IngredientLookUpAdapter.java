@@ -3,6 +3,7 @@ package refrigerator.back.ingredient.adapter.persistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 
 @Slf4j
-@Repository
+@Component
 @RequiredArgsConstructor
 public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngredientPort {
 

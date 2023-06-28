@@ -3,6 +3,7 @@ package refrigerator.back.word_completion.adapter.out;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.ingredient.infra.redis.IngredientCacheKey;
 import refrigerator.back.recipe.infra.redis.config.RecipeCacheKey;
@@ -15,7 +16,7 @@ import static refrigerator.back.ingredient.application.domain.QRegisteredIngredi
 import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeWordCompletionAdapter implements FindIngredientNamesPort {
 

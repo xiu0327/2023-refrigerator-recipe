@@ -1,13 +1,14 @@
 package refrigerator.back.recipe.adapter.out.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipePersistenceRepository {
 

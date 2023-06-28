@@ -1,4 +1,4 @@
-package refrigerator.back.comment.application.port.out;
+package refrigerator.back.comment.application.port.out.trash;
 
 
 import refrigerator.back.comment.application.domain.CommentHeart;

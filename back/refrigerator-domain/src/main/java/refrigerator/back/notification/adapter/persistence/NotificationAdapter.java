@@ -3,6 +3,7 @@ package refrigerator.back.notification.adapter.persistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.notification.adapter.repository.NotificationPersistenceRepository;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static refrigerator.back.notification.exception.NotificationExceptionType.NOTIFICATION_READ_FAIL;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationAdapter implements UpdateNotificationReadStatusPort, SaveNotificationPort, FindNotificationListPort, FindNotificationPort {

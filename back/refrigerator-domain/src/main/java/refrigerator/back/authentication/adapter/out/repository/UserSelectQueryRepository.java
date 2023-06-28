@@ -3,6 +3,7 @@ package refrigerator.back.authentication.adapter.out.repository;
 import com.querydsl.core.NonUniqueResultException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.authentication.adapter.out.dto.OutUserDto;
 import refrigerator.back.authentication.adapter.out.dto.QOutUserDto;

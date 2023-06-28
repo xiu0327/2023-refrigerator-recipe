@@ -3,6 +3,7 @@ package refrigerator.back.mybookmark.adapter.out.persistence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.mybookmark.application.dto.InBookmarkDTO;
 import refrigerator.back.mybookmark.application.dto.InBookmarkPreviewDTO;
@@ -18,7 +19,7 @@ import refrigerator.back.mybookmark.application.port.out.FindRecipeIdAddedBookma
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class BookmarkInQueryAdapter implements FindBookmarkListPort, FindBookmarkPreviewListPort, FindRecipeIdAddedBookmarkPort {
 

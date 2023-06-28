@@ -2,6 +2,7 @@ package refrigerator.back.ingredient.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.ingredient.adapter.repository.IngredientQueryRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
@@ -11,7 +12,7 @@ import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveI
 
 import java.util.List;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class IngredientUpdateAdapter implements DeleteIngredientPort, SaveIngredientPort {

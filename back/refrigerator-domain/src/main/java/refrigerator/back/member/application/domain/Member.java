@@ -43,7 +43,7 @@ public class Member {
     @Column(name = "create_date", nullable = false)
     private LocalDateTime joinDateTime;
 
-    private Member(String email, String password, String nickname) {
+    public Member(String email, String password, String nickname) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;

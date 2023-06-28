@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import refrigerator.back.global.exception.BusinessException;
@@ -27,7 +28,7 @@ import static refrigerator.back.ingredient.application.domain.QIngredient.ingred
 import static refrigerator.back.ingredient.application.domain.QIngredientImage.ingredientImage;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class IngredientQueryRepository {
 

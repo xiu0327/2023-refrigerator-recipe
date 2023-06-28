@@ -1,6 +1,7 @@
 package refrigerator.back.member.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.member.adapter.out.mapper.MemberDtoMapper;
 import refrigerator.back.member.adapter.out.dto.MemberCacheDTO;
@@ -12,7 +13,7 @@ import refrigerator.back.member.application.port.out.FindMemberPort;
 import refrigerator.back.member.application.port.out.PersistMemberPort;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class MemberAdapter implements FindMemberPort, CreateMemberPort, PersistMemberPort {
 

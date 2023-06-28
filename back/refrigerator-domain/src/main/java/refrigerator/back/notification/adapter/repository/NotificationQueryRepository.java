@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.notification.adapter.dto.OutCommentNotificationDTO;
 import refrigerator.back.notification.adapter.dto.QOutCommentNotificationDTO;
@@ -20,8 +21,7 @@ import static refrigerator.back.comment.application.domain.QComment.comment;
 import static refrigerator.back.member.application.domain.QMember.member;
 import static refrigerator.back.notification.application.domain.QNotification.*;
 
-
-@Repository
+@Component
 @RequiredArgsConstructor
 public class NotificationQueryRepository {
 
@@ -71,9 +71,9 @@ public class NotificationQueryRepository {
 
         return Optional.ofNullable(
                 jpaQueryFactory
-                .select(new QOutCommentNotificationDTO(comment.memberID, comment.recipeID))
+                .select(new QOutCommentNotificationDTO(comment.writerId, comment.recipeId))
                 .from(comment)
-                .where(comment.commentID.eq(commentId))
+                .where(comment.commentId.eq(commentId))
                 .fetchOne());
     }
 }

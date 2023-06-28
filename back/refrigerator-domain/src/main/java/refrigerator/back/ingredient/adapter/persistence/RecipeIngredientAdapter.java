@@ -1,6 +1,7 @@
 package refrigerator.back.ingredient.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.ingredient.adapter.mapper.OutRecipeIngredientMapper;
 import refrigerator.back.ingredient.adapter.repository.IngredientQuerySubRepository;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeIngredientAdapter implements FindRecipeIngredientPort {
 

@@ -30,8 +30,8 @@ public class CommentHeart {
         this.deleteStatus = false;
     }
 
-    /* 비즈니스 로직 */
-    public void add(){
-        this.count++;
+    public boolean isDeleted(){
+        return deleteStatus;
     }
+
 }

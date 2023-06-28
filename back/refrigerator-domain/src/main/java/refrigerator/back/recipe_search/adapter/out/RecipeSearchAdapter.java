@@ -2,6 +2,7 @@ package refrigerator.back.recipe_search.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe_search.adapter.out.dto.OutRecipeDto;
 import refrigerator.back.recipe_search.adapter.out.repository.RecipeSearchSelectQueryRepository;
@@ -11,7 +12,7 @@ import refrigerator.back.recipe_search.application.port.out.GetRecipeSearchDataP
 
 import java.util.List;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeSearchAdapter implements GetRecipeSearchDataPort {
 

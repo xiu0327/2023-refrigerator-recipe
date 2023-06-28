@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-@Repository
+@Component
 @Slf4j
 public class LastSearchWordAdapter implements
         AddSearchWordPort, DeleteOldSearchWordPort, DeleteSearchWordPort,

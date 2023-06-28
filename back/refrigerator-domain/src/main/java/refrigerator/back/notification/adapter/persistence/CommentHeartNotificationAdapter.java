@@ -1,6 +1,7 @@
 package refrigerator.back.notification.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.notification.adapter.mapper.OutNotificationMapper;
@@ -10,8 +11,7 @@ import refrigerator.back.notification.application.port.out.commentHeart.FindComm
 import refrigerator.back.notification.application.port.out.commentHeart.FindSenderNicknamePort;
 import refrigerator.back.notification.exception.NotificationExceptionType;
 
-
-@Repository
+@Component
 @RequiredArgsConstructor
 public class CommentHeartNotificationAdapter implements FindSenderNicknamePort, FindCommentDetailsPort {
 

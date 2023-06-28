@@ -2,6 +2,7 @@ package refrigerator.back.mybookmark.adapter.out.repository.query;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,7 +10,7 @@ import javax.persistence.EntityManager;
 import static refrigerator.back.mybookmark.application.domain.QMyBookmark.myBookmark;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class BookmarkUpdateQueryRepositoryImpl implements BookmarkUpdateQueryRepository {
 

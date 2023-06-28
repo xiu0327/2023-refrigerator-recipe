@@ -1,72 +1,57 @@
 package refrigerator.back.comment.application.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import refrigerator.back.comment.exception.CommentExceptionType;
-import refrigerator.back.global.common.BaseTimeEntityWithModify;
-import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.comment.application.port.out.CreateCommentPort;
 
 import javax.persistence.*;
 
-import static refrigerator.back.comment.exception.CommentExceptionType.*;
+import java.time.LocalDateTime;
 
 
 @Entity
 @Table(name = "recipe_comment")
 @Getter
 @NoArgsConstructor
-public class Comment extends BaseTimeEntityWithModify {
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_comment_id")
-    private Long commentID;
+    private Long commentId;
 
     @Column(name = "recipe_id", nullable = false)
-    private Long recipeID;
+    private Long recipeId;
 
     @Column(name = "member_email", nullable = false)
-    private String memberID;
+    private String writerId;
 
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "modified_state", nullable = false)
-    private Boolean modifiedState;
+    @Embedded
+    private CommentRecord commentRecord;
 
-    @Column(name = "deleted_state")
-    private Boolean deletedState;
-
-    @Builder
-    public Comment(Long recipeID, String memberID, String content) {
-        this.recipeID = recipeID;
+    public Comment(Long recipeId, String writerId, String content, LocalDateTime createDateTime) {
+        this.recipeId = recipeId;
         this.content = content;
-        this.memberID = memberID;
-        this.modifiedState = false;
-        this.deletedState = false;
+        this.writerId = writerId;
+        this.commentRecord = new CommentRecord(createDateTime);
     }
 
-    /* 비즈니스 로직 */
-    public static Comment write(Long recipeID, String memberID, String content){
-        return Comment.builder()
-                .recipeID(recipeID)
-                .memberID(memberID)
-                .content(content)
-                .build();
+    public boolean isDeleted(){
+        return commentRecord.deletedState;
     }
 
-    public void edit(String content){
+    public Long edit(String content, LocalDateTime now){
         this.content = content;
-        this.modifiedState = true;
+        commentRecord.renew(now);
+        return commentId;
     }
 
-    public void delete(){
-        this.deletedState = true;
+    public Long delete(){
+        commentRecord.enableDeleteStatus();
+        return commentId;
     }
 
-    public void isEqualsAuthor(String memberId){
-        if (!memberID.equals(memberId)){
-            throw new BusinessException(NO_EDIT_RIGHTS);
-        }
-    }
 }

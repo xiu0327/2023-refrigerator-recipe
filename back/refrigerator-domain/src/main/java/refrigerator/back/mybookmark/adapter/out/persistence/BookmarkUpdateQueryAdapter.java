@@ -1,12 +1,13 @@
 package refrigerator.back.mybookmark.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.mybookmark.adapter.out.repository.BookmarkRepository;
 import refrigerator.back.mybookmark.application.port.out.RemoveBookmarkByRecipeIdPort;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class BookmarkUpdateQueryAdapter implements RemoveBookmarkByRecipeIdPort {
 

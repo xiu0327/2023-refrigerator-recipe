@@ -1,6 +1,7 @@
 package refrigerator.back.mybookmark.adapter.out.persistence;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.mybookmark.adapter.out.repository.BookmarkRepository;
 import refrigerator.back.mybookmark.application.domain.MyBookmark;
@@ -10,7 +11,7 @@ import refrigerator.back.mybookmark.application.port.out.BookmarkWritePort;
 
 import java.util.Optional;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class BookmarkPersistenceAdapter implements BookmarkReadPort, BookmarkWritePort {
 

@@ -1,6 +1,7 @@
 package refrigerator.back.recipe.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe.adapter.out.mapper.OutRecipeBasicDataMapper;
 import refrigerator.back.recipe.adapter.out.repository.RecipeSelectQueryRepository;
@@ -8,7 +9,7 @@ import refrigerator.back.recipe.application.domain.dto.RecipeDomainDto;
 import refrigerator.back.recipe.application.port.out.CheckMemberBookmarkedStatusPort;
 import refrigerator.back.recipe.application.port.out.GetRecipeBasicsDataPort;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class QueryRecipeBasicDataAdapter implements GetRecipeBasicsDataPort, CheckMemberBookmarkedStatusPort {
 

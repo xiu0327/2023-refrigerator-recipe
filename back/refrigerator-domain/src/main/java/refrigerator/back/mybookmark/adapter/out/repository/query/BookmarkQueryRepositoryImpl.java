@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.mybookmark.adapter.out.dto.OutBookmarkDTO;
 import refrigerator.back.mybookmark.adapter.out.dto.OutBookmarkPreviewDTO;
@@ -19,7 +20,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipe.recipe;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.recipeScore;
 import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class BookmarkQueryRepositoryImpl implements BookmarkQueryRepository{
 

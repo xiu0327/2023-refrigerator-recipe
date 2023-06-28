@@ -1,7 +1,8 @@
-package refrigerator.back.comment.adapter.repository;
+package refrigerator.back.comment.adapter.repository.query;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static refrigerator.back.comment.application.domain.QCommentHeart.commentHeart;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class CommentBatchQueryRepository {
 

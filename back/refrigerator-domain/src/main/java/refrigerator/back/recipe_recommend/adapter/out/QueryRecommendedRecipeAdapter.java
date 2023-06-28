@@ -1,6 +1,7 @@
 package refrigerator.back.recipe_recommend.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import refrigerator.back.recipe_recommend.adapter.RecipeRecommendDataMapper;
@@ -16,7 +17,7 @@ import refrigerator.back.recipe_recommend.application.port.out.GetRecipeRecommen
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class QueryRecommendedRecipeAdapter implements GetMyIngredientNameDataPort, GetRecipeRecommendInfoDataPort {
 

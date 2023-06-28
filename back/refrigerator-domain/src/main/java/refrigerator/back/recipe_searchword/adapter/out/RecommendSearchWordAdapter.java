@@ -3,6 +3,7 @@ package refrigerator.back.recipe_searchword.adapter.out;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.recipe_searchword.adapter.out.dto.OutIngredientDTO;
 import refrigerator.back.recipe_searchword.adapter.out.dto.QOutIngredientDTO;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 import static refrigerator.back.ingredient.application.domain.QIngredient.ingredient;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecommendSearchWordAdapter implements FindIngredientsByMemberPort {
 

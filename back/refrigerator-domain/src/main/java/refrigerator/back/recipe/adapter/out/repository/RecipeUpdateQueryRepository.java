@@ -2,6 +2,7 @@ package refrigerator.back.recipe.adapter.out.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.re
 import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class RecipeUpdateQueryRepository {
 

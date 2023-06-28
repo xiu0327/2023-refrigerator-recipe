@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.myscore.adapter.out.dto.OutMyScoreDTO;
 import refrigerator.back.myscore.adapter.out.dto.OutMyScorePreviewDTO;
@@ -21,7 +22,7 @@ import static refrigerator.back.recipe.application.domain.entity.QRecipeScore.re
 import static refrigerator.back.recipe.application.domain.entity.QRecipeViews.recipeViews;
 
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class MyScoreSelectQueryRepository {
 

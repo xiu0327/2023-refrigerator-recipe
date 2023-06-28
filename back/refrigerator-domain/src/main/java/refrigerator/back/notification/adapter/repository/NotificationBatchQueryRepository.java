@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
 import static refrigerator.back.notification.application.domain.QNotification.notification;
 import static refrigerator.back.notification.exception.NotificationExceptionType.*;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class NotificationBatchQueryRepository {
 

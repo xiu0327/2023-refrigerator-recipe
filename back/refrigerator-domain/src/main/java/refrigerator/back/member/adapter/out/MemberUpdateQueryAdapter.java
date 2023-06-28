@@ -2,6 +2,7 @@ package refrigerator.back.member.adapter.out;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.member.adapter.out.repository.MemberCacheRepository;
 import refrigerator.back.member.application.domain.MemberProfileImage;
@@ -14,7 +15,7 @@ import javax.persistence.EntityManager;
 
 import static refrigerator.back.member.application.domain.QMember.member;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class MemberUpdateQueryAdapter implements InitMemberProfileAndNicknamePort, ModifyMemberNicknamePort, ModifyMemberProfilePort {
 

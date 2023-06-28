@@ -42,4 +42,8 @@ public class CommentHeartPeople {
         String result = String.valueOf(31 * commentHash * commentId * memberId.hashCode());
         return result;
     }
+
+    public boolean isDeleted(){
+        return deleteStatus;
+    }
 }
