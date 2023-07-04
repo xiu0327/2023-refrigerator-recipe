@@ -3,8 +3,8 @@ package refrigerator.server.api.comment.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.comment.application.port.in.heart.AddCommentHeartUseCase;
-import refrigerator.back.comment.application.port.in.heart.ReduceCommentHeartUseCase;
+import refrigerator.back.comment.application.port.in.AddCommentHeartUseCase;
+import refrigerator.back.comment.application.port.in.ReduceCommentHeartUseCase;
 import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 
 

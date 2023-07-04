@@ -1,4 +1,4 @@
-package refrigerator.back.comment.application.port.in.comment;
+package refrigerator.back.comment.application.port.in;
 
 
 import refrigerator.back.comment.application.domain.CommentSortCondition;

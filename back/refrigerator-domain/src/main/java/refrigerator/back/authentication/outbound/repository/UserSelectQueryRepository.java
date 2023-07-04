@@ -5,8 +5,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.authentication.outbound.dto.OutUserDto;
-import refrigerator.back.authentication.outbound.out.dto.QOutUserDto;
 import refrigerator.back.authentication.exception.UserRepositoryException;
+import refrigerator.back.authentication.outbound.dto.QOutUserDto;
 import refrigerator.back.member.exception.MemberExceptionType;
 
 import java.util.Optional;

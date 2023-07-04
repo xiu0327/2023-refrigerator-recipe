@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @EqualsAndHashCode
-public class OutCommentDTO {
+public class OutCommentDto {
     private Long commentId;
     private String nickname;
     private Integer heart;
@@ -22,7 +22,7 @@ public class OutCommentDTO {
     private String memberId;
 
     @QueryProjection
-    public OutCommentDTO(Long commentId, String nickname, Integer heart, LocalDateTime createDate, Boolean modifiedState, String content, String memberId) {
+    public OutCommentDto(Long commentId, String nickname, Integer heart, LocalDateTime createDate, Boolean modifiedState, String content, String memberId) {
         this.commentId = commentId;
         this.nickname = nickname;
         this.heart = heart;

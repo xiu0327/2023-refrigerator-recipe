@@ -3,7 +3,7 @@ package refrigerator.back.comment.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.comment.application.port.in.comment.DeleteCommentUseCase;
+import refrigerator.back.comment.application.port.in.DeleteCommentUseCase;
 import refrigerator.back.comment.application.port.out.DeleteCommentPort;
 
 @Service

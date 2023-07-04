@@ -33,7 +33,7 @@ class CommentHeartPeopleLookUpAdapterTest {
         String memberId = "mstest102@gmail.com";
         saveTestData(memberId);
         // when
-        Map<Long, Long> peoples = commentHeartPeoplePort.findPeopleMap(memberId);
+        Map<Long, Object> peoples = commentHeartPeoplePort.findPeopleMap(memberId);
         // then
         List<Long> expectedIds = Arrays.asList(1L, 2L, 3L);
         expectedIds.forEach(expectedId -> assertNotNull(peoples.getOrDefault(expectedId, null)));

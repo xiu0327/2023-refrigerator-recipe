@@ -3,7 +3,7 @@ package refrigerator.back.comment.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.comment.application.port.in.comment.EditCommentUseCase;
+import refrigerator.back.comment.application.port.in.EditCommentUseCase;
 import refrigerator.back.comment.application.port.out.ModifyCommentPort;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.exception.BusinessException;

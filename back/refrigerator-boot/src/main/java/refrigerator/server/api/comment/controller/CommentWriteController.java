@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.server.api.comment.dto.InCommentIdResponseDto;
-import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
+import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
 import refrigerator.server.api.comment.dto.InCommentWriteRequestDto;
 import refrigerator.server.api.global.exception.ValidationExceptionHandler;
 
