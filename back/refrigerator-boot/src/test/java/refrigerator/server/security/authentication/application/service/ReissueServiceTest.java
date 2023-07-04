@@ -6,17 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
-import refrigerator.back.authentication.application.dto.RefreshToken;
-import refrigerator.back.authentication.application.port.out.RefreshTokenPort;
+import refrigerator.back.authentication.outbound.repository.RefreshTokenRepository;
+import refrigerator.back.authentication.application.domain.RefreshToken;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.server.security.authentication.application.TokenDto;
 import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
 import refrigerator.server.security.authentication.application.usecase.ReissueUseCase;
 import refrigerator.server.security.exception.JsonWebTokenException;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

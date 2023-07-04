@@ -2,7 +2,7 @@ package refrigerator.back.comment.application.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import refrigerator.back.comment.application.port.out.CreateCommentPort;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 
@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "recipe_comment")
 @Getter
 @NoArgsConstructor
+@Slf4j
 public class Comment {
 
     @Id
@@ -37,6 +38,13 @@ public class Comment {
         this.content = content;
         this.writerId = writerId;
         this.commentRecord = new CommentRecord(createDateTime);
+    }
+
+    public CommentHeart createCommentHeart(){
+        if (commentId != null){
+            return new CommentHeart(commentId);
+        }
+        throw new RuntimeException("commentId 가 비어있습니다.");
     }
 
     public boolean isDeleted(){
