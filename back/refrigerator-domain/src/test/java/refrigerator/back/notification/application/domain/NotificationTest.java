@@ -1,7 +1,9 @@
 package refrigerator.back.notification.application.domain;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import refrigerator.back.global.exception.BasicHttpMethod;
+import refrigerator.back.global.exception.BusinessException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -9,7 +11,30 @@ import static org.assertj.core.api.Assertions.*;
 class NotificationTest {
 
     @Test
-    void create() {
+    @DisplayName("알림 도메인 테스트")
+    void notificationTest() {
+        Notification notification = Notification.builder()
+                .id(1L)
+                .message("test message")
+                .type(NotificationType.HEART)
+                .path("/")
+                .readStatus(false)
+                .memberId("email123@gmail.com")
+                .method(BasicHttpMethod.GET.name())
+                .build();
+
+        assertThat(notification.getId()).isEqualTo(1L);
+        assertThat(notification.getMessage()).isEqualTo("test message");
+        assertThat(notification.getType()).isEqualTo(NotificationType.HEART);
+        assertThat(notification.getPath()).isEqualTo("/");
+        assertThat(notification.isReadStatus()).isEqualTo(false);
+        assertThat(notification.getMemberId()).isEqualTo("email123@gmail.com");
+        assertThat(notification.getMethod()).isEqualTo(BasicHttpMethod.GET.name());
+    }
+
+    @Test
+    @DisplayName("알림 도메인 생성 테스트")
+    void createNotificationTest() {
         Notification notification = Notification.create(
                 NotificationType.HEART,
                 "/recipe/comment?recipeId=1&commentID=1",
@@ -17,8 +42,6 @@ class NotificationTest {
                 BasicHttpMethod.GET.name()
         );
 
-        //CreateDate
-        //id
         assertThat(notification.getType()).isEqualTo(NotificationType.HEART);
         assertThat(notification.getPath()).isEqualTo("/recipe/comment?recipeId=1&commentID=1");
         assertThat(notification.getMemberId()).isEqualTo("email123@gmain.com");
@@ -26,7 +49,8 @@ class NotificationTest {
     }
 
     @Test
-    void createCommentHeartMessage() {
+    @DisplayName("댓글 좋아요 알림 메시지 테스트")
+    void createCommentHeartMessageTest() {
         Notification notification = new Notification();
         notification.createCommentHeartMessage("email123@gmain.com");
 
@@ -34,7 +58,8 @@ class NotificationTest {
     }
 
     @Test
-    void createExpirationDateMessage() {
+    @DisplayName("유통기한 임박 알림 메시지 테스트")
+    void createExpirationDateMessageTest() {
         Notification notification = new Notification();
         notification.createExpirationDateMessage("사과", 2l, 3);
         assertThat(notification.getMessage()).isEqualTo("사과 외 1개 식재료의 소비기한이 3일 남았습니다. 식재료 확인하러가기!");
@@ -42,11 +67,12 @@ class NotificationTest {
         notification.createExpirationDateMessage("사과", 1l, 3);
         assertThat(notification.getMessage()).isEqualTo("사과의 소비기한이 3일 남았습니다. 식재료 확인하러가기!");
 
-        notification.createExpirationDateMessage("사과", 1l, 3);
-        assertThat(notification.getMessage()).isEqualTo("사과의 소비기한이 3일 남았습니다. 식재료 확인하러가기!");
+        assertThatThrownBy(() -> notification.createExpirationDateMessage("사과", 0L, 3))
+                .isInstanceOf(BusinessException.class);
     }
 
     @Test
+    @DisplayName("요청 식재료 추가 가능 알림 메시지 테스트")
     void createIngredientMessage() {
         Notification notification = new Notification();
         notification.createIngredientMessage("사과");
@@ -54,6 +80,7 @@ class NotificationTest {
     }
 
     @Test
+    @DisplayName("공지사항 알림 메시지 테스트")
     void createNoticeMessage() {
         Notification notification = new Notification();
         notification.createNoticeMessage("안녕하세요");

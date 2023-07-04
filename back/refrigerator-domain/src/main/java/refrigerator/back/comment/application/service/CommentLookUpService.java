@@ -12,6 +12,7 @@ import refrigerator.back.comment.application.port.in.comment.FindCommentPreviewL
 import refrigerator.back.comment.application.port.in.comment.FindMyCommentsUseCase;
 import refrigerator.back.comment.application.port.out.trash.CommentReadPort;
 import refrigerator.back.comment.application.port.out.trash.FindMyCommentListPort;
+import refrigerator.back.global.time.CurrentTime;
 
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class CommentLookUpService implements FindCommentListUseCase, FindComment
     private final FindMyCommentListPort findMyCommentListPort;
     private final CommentTimeService commentTimeService;
     private final CommentMapper mapper;
+    private final CurrentTime currentTime;
 
     @Override
     public CommentListAndCountDTO<InCommentDTO> findCommentPreviews(Long recipeId, String memberId, int size) {
@@ -77,7 +79,7 @@ public class CommentLookUpService implements FindCommentListUseCase, FindComment
     private InCommentDTO mapping(CommentDTO comment, Boolean isMyComment){
 
         return mapper.toInCommentDto(comment,
-                commentTimeService.replace(comment.getCreateDate()),
+                commentTimeService.replace(comment.getCreateDate(), currentTime.now()),
                 isMyComment);
     }
 

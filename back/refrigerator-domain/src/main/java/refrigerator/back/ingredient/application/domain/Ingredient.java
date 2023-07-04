@@ -7,7 +7,8 @@ import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+
+import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 
 @Entity
 @Table(name = "ingredient")
@@ -59,24 +60,30 @@ public class Ingredient {
         this.deleted = false;
     }
 
-    public Long getRemainDays() {
-        return ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
-    }
-
-    public Ingredient(String name, LocalDate expirationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
+    public Ingredient(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;
         this.capacityUnit = capacityUnit;
         this.storageMethod = storageMethod;
-        this.registrationDate = LocalDate.now();
+        this.registrationDate = registrationDate;
         this.image = imageId;
         this.email = email;
     }
 
-    public static Ingredient create(String name, LocalDate expirationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
+    public static Ingredient create(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
         capacityCheck(capacity);
-        Ingredient ingredient = new Ingredient(name, expirationDate, capacity, capacityUnit, storageMethod, imageId, email);
+        Ingredient ingredient = Ingredient.builder()
+                .name(name)
+                .expirationDate(expirationDate)
+                .registrationDate(registrationDate)
+                .capacity(capacity)
+                .capacityUnit(capacityUnit)
+                .storageMethod(storageMethod)
+                .image(imageId)
+                .email(email)
+                .build();
+
         ingredient.undelete();
         return ingredient;
     }
@@ -88,9 +95,9 @@ public class Ingredient {
         this.storageMethod = storageMethod;
     }
 
-    private static void capacityCheck(Double capacity) {
-        if(capacity > 9999.9) {
-            throw new BusinessException(IngredientExceptionType.EXCEEDED_CAPACITY_RANGE);
+    public static void capacityCheck(Double capacity) {
+        if(capacity > 9999.9 || capacity <= 0.0) {
+            throw new BusinessException(EXCEEDED_CAPACITY_RANGE);
         }
     }
 

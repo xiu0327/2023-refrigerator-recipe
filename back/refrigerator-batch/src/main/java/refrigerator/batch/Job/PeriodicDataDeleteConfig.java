@@ -42,7 +42,7 @@ public class PeriodicDataDeleteConfig {
     public Step deleteCommentStep() {
         return stepBuilderFactory.get("deleteCommentStep")
                 .tasklet((contribution, chunkContext) -> {
-                    commentRepository.delete();
+//                    commentRepository;
 //                    commentRepository.deleteCommentHeart();
 //                    commentRepository.delete();
 

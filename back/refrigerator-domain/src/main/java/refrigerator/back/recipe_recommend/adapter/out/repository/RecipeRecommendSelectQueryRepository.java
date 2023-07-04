@@ -33,8 +33,9 @@ public class RecipeRecommendSelectQueryRepository {
                 .fetch();
     }
 
-    public Set<String> selectMyIngredientNames(String memberId) {
-        LocalDate startDate = LocalDate.now();
+    // TODO : LocalDate.now() 수정. 인자로 받아오고 service에서 currentDate를 주입해서 하는 방식
+
+    public Set<String> selectMyIngredientNames(LocalDate startDate, String memberId) {
         LocalDate endDate = LocalDate.of(2200, 1, 1);
         List<String> data = jpaQueryFactory.select(ingredient.name)
                 .from(ingredient)

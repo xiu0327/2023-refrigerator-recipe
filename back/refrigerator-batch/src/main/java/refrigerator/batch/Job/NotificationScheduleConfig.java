@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import refrigerator.back.global.exception.BasicHttpMethod;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationType;
@@ -48,6 +49,8 @@ public class NotificationScheduleConfig {
     private final DeleteNotificationBatchPort deleteNotificationBatchPort;
     private final ModifyMemberNotificationPort modifyMemberNotificationPort;
 
+    private final CurrentTime currentTime;
+
     @Value("${chunkSize:1000}")
     private int chunkSize = 1000;
 
@@ -69,8 +72,8 @@ public class NotificationScheduleConfig {
         return stepBuilderFactory.get("deleteNotificationStep")
                 .tasklet((contribution, chunkContext) -> {
 
-                    deleteNotificationBatchPort.deleteNotification(LocalDateTime.now());
-                    deleteNotificationBatchPort.deleteDeadlineNotification(LocalDateTime.now().minusDays(14));
+                    deleteNotificationBatchPort.deleteNotification(currentTime.now());
+                    deleteNotificationBatchPort.deleteDeadlineNotification(currentTime.now().minusDays(14));
                     
                     return RepeatStatus.FINISHED;
                 })

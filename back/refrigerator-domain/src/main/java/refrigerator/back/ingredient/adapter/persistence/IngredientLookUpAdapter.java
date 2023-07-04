@@ -4,15 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
+import refrigerator.back.ingredient.adapter.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.adapter.repository.IngredientQueryRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
+import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.dto.IngredientDetailDTO;
 import refrigerator.back.ingredient.application.dto.IngredientDTO;
 import refrigerator.back.ingredient.adapter.mapper.OutIngredientMapper;
-import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientPort;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientListPort;
@@ -32,6 +33,7 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
     private final IngredientPersistenceRepository ingredientPersistenceRepository;
     private final IngredientQueryRepository ingredientQueryRepository;
     private final OutIngredientMapper mapper;
+    private final CurrentDate currentDate;
 
     @Override
     public Ingredient getIngredient(Long id) {
@@ -41,8 +43,10 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
 
     @Override
     public IngredientDetailDTO getIngredientDetail(Long id) {
-        return mapper.toIngredientDetailDto(ingredientQueryRepository.findIngredient(id)
-                .orElseThrow(() -> new BusinessException(NOT_FOUND_INGREDIENT)));
+        OutIngredientDetailDTO dto = ingredientQueryRepository.findIngredient(id)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_INGREDIENT));
+
+        return mapper.toIngredientDetailDto(dto, dto.getRemainDays(currentDate.now()));
     }
 
     @Override
@@ -51,8 +55,8 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
     }
 
     @Override
-    public List<IngredientDTO> getIngredientList(IngredientSearchCondition condition, int page, int size) {
-       return mapper(ingredientQueryRepository.findIngredientList(condition, PageRequest.of(page, size)));
+    public List<IngredientDTO> getIngredientList(LocalDate now, IngredientSearchCondition condition, int page, int size) {
+       return mapper(ingredientQueryRepository.findIngredientList(now, condition, PageRequest.of(page, size)));
     }
 
     @Override
@@ -67,7 +71,7 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
 
     private List<IngredientDTO> mapper(List<OutIngredientDTO> ingredientListByDeadline) {
         return ingredientListByDeadline.stream()
-                .map(mapper::toIngredientDto)
+                .map(dto -> mapper.toIngredientDto(dto, dto.getRemainDays(currentDate.now())))
                 .collect(Collectors.toList());
     }
 }

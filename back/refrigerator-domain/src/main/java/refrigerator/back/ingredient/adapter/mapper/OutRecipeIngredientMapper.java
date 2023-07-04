@@ -10,5 +10,6 @@ import refrigerator.back.ingredient.application.dto.RecipeIngredientDto;
 public interface OutRecipeIngredientMapper {
 
     OutRecipeIngredientMapper INSTANCE = Mappers.getMapper(OutRecipeIngredientMapper.class);
+
     RecipeIngredientDto toRecipeIngredientDto(OutRecipeIngredientDTO dto);
 }

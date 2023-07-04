@@ -14,7 +14,6 @@ public class IngredientImageGenerator implements ImageGenerator {
             @Value("${s3.image.route}") String route,
             @Value("${s3.image.ingredient.path}") String path) {
 
-
         this.route = route;
         this.path = path;
     }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.exception.BasicHttpMethod;
 import refrigerator.back.notification.application.dto.CommentNotificationDTO;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationType;
@@ -43,13 +44,13 @@ public class CreateNotificationService implements CreateCommentHeartNotification
         return saveNotificationPort.saveNotification(notification);
     }
 
-    private static Notification madeNotification(Long commentId, CommentNotificationDTO details) {
+    public Notification madeNotification(Long commentId, CommentNotificationDTO details) {
 
         Notification notification = Notification.create(
                 NotificationType.HEART,
                 "/recipe/comment?recipeId=" + details.getRecipeId() + "&commentID=" + commentId,
                 details.getAuthorId(),
-                "get"
+                BasicHttpMethod.GET.name()
         );
         return notification;
     }

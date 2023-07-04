@@ -14,6 +14,7 @@ import refrigerator.back.recipe_recommend.application.port.out.GetMyIngredientNa
 import refrigerator.back.recipe_recommend.application.port.out.GetRecipeRecommendInfoDataPort;
 
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,8 +45,8 @@ public class QueryRecommendedRecipeAdapter implements GetMyIngredientNameDataPor
     }
 
     @Override
-    public Set<String> findMyIngredientNames(String memberId) {
-        return repository.selectMyIngredientNames(memberId);
+    public Set<String> findMyIngredientNames(LocalDate now, String memberId) {
+        return repository.selectMyIngredientNames(now, memberId);
     }
 
     @Override

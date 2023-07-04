@@ -36,8 +36,9 @@ public class IngredientQuerySubRepository {
                 .fetch();
     }
 
-    public void saveSuggestIngredient(SuggestedIngredient ingredient) {
+    public Long saveSuggestIngredient(SuggestedIngredient ingredient) {
         em.persist(ingredient);
+        return ingredient.getId();
     }
 
     public List<OutRecipeIngredientDTO> getRecipeIngredient(Long recipeId) {

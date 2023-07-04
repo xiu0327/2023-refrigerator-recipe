@@ -3,6 +3,7 @@ package refrigerator.back.recipe_recommend.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.recipe_recommend.application.dto.InRecipeRecommendDTO;
 import refrigerator.back.recipe_recommend.application.domain.RecommendMatchPercent;
 import refrigerator.back.recipe_recommend.application.domain.RecipeRecommendDomainService;
@@ -23,6 +24,7 @@ public class RecipeRecommendService implements RecommendRecipeUseCase {
 
     private final GetMyIngredientNameDataPort findMyIngredientNames;
     private final GetRecipeRecommendInfoDataPort findRecipeRecommendInfo;
+    private final CurrentDate currentDate;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,6 +42,6 @@ public class RecipeRecommendService implements RecommendRecipeUseCase {
         findRecipeRecommendInfo.findRecipeIngredientNames().forEach((key, value) ->
                 result.put(key, new RecommendMatchPercent(value))
         );
-        return new RecipeRecommendDomainService(result, findMyIngredientNames.findMyIngredientNames(memberId));
+        return new RecipeRecommendDomainService(result, findMyIngredientNames.findMyIngredientNames(currentDate.now(), memberId));
     }
 }

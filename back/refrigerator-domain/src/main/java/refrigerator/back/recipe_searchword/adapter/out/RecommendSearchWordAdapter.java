@@ -23,13 +23,15 @@ public class RecommendSearchWordAdapter implements FindIngredientsByMemberPort {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    // TODO : LocalDate.now() 수정. 인자로 받아오고 service에서 currentDate를 주입해서 하는 방식
+
     @Cacheable(
             value = SearchWordRedisKey.RECOMMEND_SEARCH_WORD,
             key = "#memberId",
             cacheManager = "searchWordsCacheManager"
     )
     @Override
-    public List<String> getIngredients(String memberId) {
+    public List<String> getIngredients(LocalDate now, String memberId) {
         return jpaQueryFactory
                 .select(new QOutIngredientDTO(
                         ingredient.name,
@@ -37,7 +39,7 @@ public class RecommendSearchWordAdapter implements FindIngredientsByMemberPort {
                 .from(ingredient)
                 .where(
                         ingredient.email.eq(memberId),
-                        ingredient.expirationDate.goe(LocalDate.now()),
+                        ingredient.expirationDate.goe(now),
                         ingredient.deleted.eq(false))
                 .orderBy(ingredient.expirationDate.asc())
                 .fetch()

@@ -8,7 +8,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
@@ -37,34 +36,35 @@ public class IngredientQueryRepository {
 
     /** set */
 
-    public void deleteIngredient(Long id) {
+    public Long updateIngredientDeleteStateTrue(Long id) {
 
-        jpaQueryFactory.update(ingredient)
+        long execute = jpaQueryFactory.update(ingredient)
                 .set(ingredient.deleted, true)
                 .where(ingredient.id.eq(id))
                 .execute();
 
         em.flush();
         em.clear();
+
+        return execute;
     }
 
-    public void deleteAllIngredients(List<Long> ids) {
+    public Long updateAllIngredientDeleteStateTrue(List<Long> ids) {
 
-        jpaQueryFactory.update(ingredient)
+        long execute = jpaQueryFactory.update(ingredient)
                 .set(ingredient.deleted, true)
                 .where(ingredient.id.in(ids))
                 .execute();
 
         em.flush();
         em.clear();
+
+        return execute;
     }
 
     /** get */
 
-    public List<OutIngredientDTO> findIngredientList(IngredientSearchCondition condition, Pageable pageable) {
-        NumberExpression<Integer> rankPath = new CaseBuilder()
-                .when(ingredient.expirationDate.goe(LocalDate.now())).then(2)
-                .otherwise(1);
+    public List<OutIngredientDTO> findIngredientList(LocalDate now, IngredientSearchCondition condition, Pageable pageable) {
 
         return jpaQueryFactory
                 .select(new QOutIngredientDTO(
@@ -75,12 +75,12 @@ public class IngredientQueryRepository {
                 .from(ingredient)
                 .where(
                         storageCheck(condition.getStorage()),
-                        deadlineCheck(condition.getDeadline()),
+                        deadlineCheck(now, condition.getDeadline()),    // true면 유통기한 지남, false면 오늘이거나 유통기한 남아있음
                         emailCheck(condition.getEmail()),
                         ingredient.deleted.eq(false)
                 )
                 .leftJoin(ingredientImage).on(ingredientImage.id.eq(ingredient.image))
-                .orderBy(rankPath.desc(), ingredient.expirationDate.asc(), ingredient.name.asc()) // 이어서 코딩
+                .orderBy(ingredient.expirationDate.asc(), ingredient.name.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -153,11 +153,11 @@ public class IngredientQueryRepository {
         return nullSafeBuilder(() -> ingredient.storageMethod.eq(storage));
     }
 
-    private BooleanExpression deadlineCheck(boolean deadline) {
-        return deadline ? ingredient.expirationDate.lt(LocalDate.now()) : ingredient.expirationDate.goe(LocalDate.now());
+    private BooleanExpression deadlineCheck(LocalDate now, boolean deadline) {
+        return deadline ? ingredient.expirationDate.lt(now) : ingredient.expirationDate.goe(now);
     }
 
-    public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
+    public BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
         try {
             return new BooleanBuilder(f.get());
         } catch (NullPointerException e) {

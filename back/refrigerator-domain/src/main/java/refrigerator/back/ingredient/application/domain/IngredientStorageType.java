@@ -7,6 +7,8 @@ import lombok.Getter;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
+import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
+
 
 @Getter
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public enum IngredientStorageType {
             }
         }
 
-        throw new BusinessException(IngredientExceptionType.CHECK_INGREDIENT_STORAGE_METHOD);
+        throw new BusinessException(CHECK_INGREDIENT_STORAGE_METHOD);
     }
 
     @JsonValue

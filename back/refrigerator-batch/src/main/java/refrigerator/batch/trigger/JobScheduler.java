@@ -28,6 +28,8 @@ public class JobScheduler {
     //@Autowired
     //private Job periodicDeleteScheduleJob;
 
+    // TODO: LocalDateTime.now()를 꼭 뺄 필요가 있을까?
+
     @Scheduled(cron = "0 0 0 * * *")
     public void jobScheduled() throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
                                 JobRestartException, JobInstanceAlreadyCompleteException {

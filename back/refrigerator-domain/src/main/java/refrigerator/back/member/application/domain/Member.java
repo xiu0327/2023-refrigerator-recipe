@@ -43,12 +43,12 @@ public class Member {
     @Column(name = "create_date", nullable = false)
     private LocalDateTime joinDateTime;
 
-    public Member(String email, String password, String nickname) {
+    public Member(String email, String password, String nickname, LocalDateTime now) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.memberStatus = MemberStatus.STEADY_STATUS;
-        this.joinDateTime = LocalDateTime.now();
+        this.joinDateTime = now;
         this.profile = MemberProfileImage.pickUp();
     }
 
@@ -66,8 +66,8 @@ public class Member {
     }
 
 
-    public static Member join(String email, String password, String nickname){
-        return new Member(email, password, nickname);
+    public static Member join(String email, String password, String nickname, LocalDateTime now){
+        return new Member(email, password, nickname, now);
     }
 
     public boolean isEqualPassword(String target){

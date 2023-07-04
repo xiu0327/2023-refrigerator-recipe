@@ -27,13 +27,13 @@ public class IngredientUpdateAdapter implements DeleteIngredientPort, SaveIngred
     }
 
     @Override
-    public void deleteIngredient(Long id) {
-        ingredientQueryRepository.deleteIngredient(id);
+    public Long deleteIngredient(Long id) {
+        return ingredientQueryRepository.updateIngredientDeleteStateTrue(id);
     }
 
     @Override
-    public void deleteAllIngredients(List<Long> ids) {
-        ingredientQueryRepository.deleteAllIngredients(ids);
+    public Long deleteAllIngredients(List<Long> ids) {
+        return ingredientQueryRepository.updateAllIngredientDeleteStateTrue(ids);
     }
 
 }

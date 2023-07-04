@@ -21,11 +21,12 @@ public class MemberNotificationService implements
 
     @Override
     public NotificationSignDTO getMemberNotificationSign(String memberId) {
-        return new NotificationSignDTO(findMemberNotificationSignPort.getSign(memberId)
-                .orElseGet(() -> {
-                    createMemberNotification(memberId);
-                    return false;
-                }));
+        return new NotificationSignDTO(
+                findMemberNotificationSignPort.getSign(memberId)
+                        .orElseGet(() -> {
+                            createMemberNotification(memberId);
+                            return false;
+                        }));
     }
 
     @Override

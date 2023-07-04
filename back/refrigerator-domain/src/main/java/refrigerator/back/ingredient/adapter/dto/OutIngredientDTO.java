@@ -1,12 +1,14 @@
 package refrigerator.back.ingredient.adapter.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 @Getter
+@Builder
 public class OutIngredientDTO {
 
     private Long ingredientID;
@@ -22,9 +24,8 @@ public class OutIngredientDTO {
         this.image = image;
     }
 
-    // TODO : LocalData.now 빼기
-    public String getRemainDays() {
-        long between = ChronoUnit.DAYS.between(this.expirationDate, LocalDate.now());
+    public String getRemainDays(LocalDate now) {
+        long between = ChronoUnit.DAYS.between(this.expirationDate, now);
 
         if(between > 0) {
             return "+" + Long.toString(between);

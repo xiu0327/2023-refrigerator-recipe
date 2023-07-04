@@ -1,7 +1,6 @@
 package refrigerator.back.ingredient.adapter.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDetailDTO;
@@ -14,7 +13,7 @@ public interface OutIngredientMapper {
 
     OutIngredientMapper INSTANCE = Mappers.getMapper(OutIngredientMapper.class);
 
-    IngredientDetailDTO toIngredientDetailDto(OutIngredientDetailDTO outIngredientDetailDTO);
+    IngredientDetailDTO toIngredientDetailDto(OutIngredientDetailDTO outIngredientDetailDTO, String remainDays);
 
-    IngredientDTO toIngredientDto(OutIngredientDTO outIngredientDTO);
+    IngredientDTO toIngredientDto(OutIngredientDTO outIngredientDTO, String remainDays);
 }

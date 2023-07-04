@@ -3,8 +3,11 @@ package refrigerator.back.comment.adapter.repository.query;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import refrigerator.back.comment.adapter.repository.dao.CommentHeartPeopleRepository;
 import refrigerator.back.comment.adapter.repository.dao.CommentHeartRepository;
 import refrigerator.back.comment.adapter.repository.dao.CommentRepository;
@@ -19,7 +22,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
+@ActiveProfiles("main")
 @Import({QuerydslConfig.class, CommentDeleteQueryRepository.class, CommentHeartRepository.class})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CommentDeleteQueryRepositoryTest {
 
     @Autowired CommentDeleteQueryRepository query;
@@ -27,6 +32,8 @@ class CommentDeleteQueryRepositoryTest {
     @Autowired CommentHeartRepository commentHeartDao;
     @Autowired CommentHeartPeopleRepository commentHeartPeopleDao;
 
+    // TODO : LocalDateTime.now()말고 동일한 시간을 주입해주길 바람.
+    
     @Test
     @DisplayName("댓글 삭제 쿼리 성공 테스트")
     void deleteCommentSuccessTest() {

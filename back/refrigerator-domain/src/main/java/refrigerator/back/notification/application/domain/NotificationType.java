@@ -1,5 +1,6 @@
 package refrigerator.back.notification.application.domain;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ public enum NotificationType {
     EXPIRATION_DATE("유통기한")
     ;
 
+    @JsonValue
     private final String typeName;
 
 }

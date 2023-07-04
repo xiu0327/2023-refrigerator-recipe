@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.notification.exception.NotificationExceptionType;
@@ -12,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "notification")
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

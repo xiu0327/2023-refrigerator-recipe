@@ -4,5 +4,5 @@ import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 
 public interface SaveSuggestedIngredientPort {
 
-    void proposeIngredient(SuggestedIngredient ingredient);
+    Long proposeIngredient(SuggestedIngredient ingredient);
 }

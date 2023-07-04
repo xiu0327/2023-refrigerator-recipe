@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface DeleteIngredientPort {
 
-    void deleteIngredient(Long id);
+    Long deleteIngredient(Long id);
 
-    void deleteAllIngredients(List<Long> ids);
+    Long deleteAllIngredients(List<Long> ids);
 }

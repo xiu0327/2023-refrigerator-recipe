@@ -3,6 +3,7 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.ingredient.application.dto.IngredientRegisterDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
@@ -25,13 +26,15 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     private final FindIngredientPort findIngredientPort;
     private final DeleteIngredientPort deleteIngredientPort;
     private final SaveIngredientPort saveIngredientPort;
+
+    private final CurrentDate currentDate;
     
     @Override
     public IngredientRegisterDTO registerIngredient(String name, LocalDate expirationDate, Double capacity,
                                                     String capacityUnit, IngredientStorageType storageMethod, Integer image, String email) {
 
         return IngredientRegisterDTO.builder()
-                .ingredientID(saveIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, capacity,
+                .ingredientID(saveIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, currentDate.now(), capacity,
                                     capacityUnit, storageMethod, image, email))).build();
     }
 
@@ -43,12 +46,12 @@ public class IngredientUpdateService implements RegisterIngredientUseCase, Modif
     }
 
     @Override
-    public void removeIngredient(Long id) {
-        deleteIngredientPort.deleteIngredient(id);
+    public Long removeIngredient(Long id) {
+        return deleteIngredientPort.deleteIngredient(id);
     }
 
     @Override
-    public void removeAllIngredients(List<Long> ids) {
-        deleteIngredientPort.deleteAllIngredients(ids);
+    public Long removeAllIngredients(List<Long> ids) {
+        return deleteIngredientPort.deleteAllIngredients(ids);
     }
 }

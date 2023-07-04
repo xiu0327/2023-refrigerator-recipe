@@ -15,8 +15,8 @@ public class SuggestIngredientService implements ProposeIngredientUseCase {
     private final SaveSuggestedIngredientPort saveSuggestedIngredientPort;
 
     @Override
-    public void proposeIngredient(String name, String capacityUnit, String email) {
-        saveSuggestedIngredientPort.proposeIngredient(
+    public Long proposeIngredient(String name, String capacityUnit, String email) {
+        return saveSuggestedIngredientPort.proposeIngredient(
                 SuggestedIngredient.builder()
                         .name(name)
                         .unit(capacityUnit)
