@@ -5,7 +5,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
-import refrigerator.back.authentication.application.dto.RefreshToken;
+import refrigerator.back.authentication.application.domain.RefreshToken;
 import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
 import refrigerator.server.security.authentication.application.usecase.LoginUseCase;
 import refrigerator.server.security.authentication.application.TokenDto;

@@ -9,14 +9,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import refrigerator.back.authentication.adapter.out.repository.RefreshTokenRepository;
-import refrigerator.back.authentication.application.dto.RefreshToken;
+import refrigerator.back.authentication.outbound.repository.RefreshTokenRepository;
+import refrigerator.back.authentication.application.domain.RefreshToken;
 import refrigerator.server.api.authentication.cookie.RefreshTokenCookie;
 import refrigerator.server.api.authentication.dto.TemporaryAccessTokenRequestDTO;
 import refrigerator.server.api.global.common.CustomCookie;
 import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

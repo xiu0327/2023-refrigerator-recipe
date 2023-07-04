@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         setOauth(http);
         setAuth(http);
-        setComment(http);
+//        setComment(http);
         setIdentification(http);
         setMember(http);
         setRecipe(http);
@@ -49,7 +49,7 @@ public class SecurityConfig {
     }
 
     private void setJwtFilter(HttpSecurity http) {
-        http.addFilterBefore(
+        http.addFilterAfter(
                 new JwtAuthenticationFilter(authenticationManager),
                 UsernamePasswordAuthenticationFilter.class);
     }
@@ -58,8 +58,7 @@ public class SecurityConfig {
     private SessionManagementConfigurer<HttpSecurity> setDefault(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()
-                .mvcMatchers("/api/**").hasRole("STEADY_STATUS")
-                .anyRequest().authenticated()
+                .mvcMatchers("/api/**").authenticated()
                 .and()
                 .csrf().disable()
                 .cors().disable()
@@ -108,10 +107,7 @@ public class SecurityConfig {
     private void setComment(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .mvcMatchers("/api/comments/heart/list").authenticated()
-                .mvcMatchers("/api/comments/heart/**").permitAll()
-                .mvcMatchers("/api/comments/date/**").permitAll()
-                .mvcMatchers("/api/comments/preview/**").permitAll();
+                .mvcMatchers("/api/comments/write").authenticated();
     }
 
     private void setAuth(HttpSecurity http) throws Exception {

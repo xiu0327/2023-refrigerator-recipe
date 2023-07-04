@@ -2,7 +2,7 @@ package refrigerator.server.security.authentication.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import refrigerator.back.authentication.application.dto.RefreshToken;
+import refrigerator.back.authentication.application.domain.RefreshToken;
 import refrigerator.back.authentication.application.port.out.RefreshTokenPort;
 import refrigerator.back.authentication.exception.AuthenticationExceptionType;
 import refrigerator.server.security.authentication.application.usecase.RestrictAccessUseCase;
