@@ -1,6 +1,6 @@
 package refrigerator.back.authentication.application.port.out;
 
-import refrigerator.back.authentication.application.dto.RefreshToken;
+import refrigerator.back.authentication.application.domain.RefreshToken;
 
 import java.util.Optional;
 

@@ -10,8 +10,8 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import refrigerator.back.comment.adapter.repository.query.CommentBatchQueryRepository;
-import refrigerator.back.comment.adapter.repository.dao.CommentRepository;
+import refrigerator.back.comment.outbound.repository.query.CommentBatchQueryRepository;
+import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
 import refrigerator.back.mybookmark.adapter.out.repository.BookmarkRepository;
 
@@ -22,7 +22,7 @@ public class PeriodicDataDeleteConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final CommentRepository commentRepository;
+    private final CommentJpaRepository commentRepository;
     private final CommentBatchQueryRepository commentBatchQueryRepository;
     private final IngredientPersistenceRepository ingredientPersistenceRepository;
     private final BookmarkRepository bookmarkRepository;

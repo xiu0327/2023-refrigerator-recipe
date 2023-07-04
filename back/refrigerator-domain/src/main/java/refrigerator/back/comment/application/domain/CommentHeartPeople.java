@@ -1,49 +1,28 @@
 package refrigerator.back.comment.application.domain;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
-import javax.persistence.*;
+import javax.persistence.Id;
+import java.util.UUID;
 
-@Entity
-@Table(name = "comment_heart_people")
 @Getter
-@NoArgsConstructor
-@Slf4j
+@RedisHash
 public class CommentHeartPeople {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_heart_people_id")
-    private Long id;
+    private String id;
 
-    @Column(name = "member_email", nullable = false)
-    String memberId;
+    @Indexed
+    private Long commentId;
 
-    @Column(name = "comment_id", nullable = false)
-    Long commentId;
+    @Indexed
+    private String memberId;
 
-    @Column(name = "delete_status", nullable = false)
-    Boolean deleteStatus;
-
-    public CommentHeartPeople(String memberId, Long commentId) {
-        this.memberId = memberId;
+    public CommentHeartPeople(Long commentId, String memberId) {
+        this.id = UUID.randomUUID().toString().substring(0, 8);
         this.commentId = commentId;
-        this.deleteStatus = false;
-    }
-
-    public String getSubPeopleId(){
-        return makeSubPeopleId(memberId, commentId);
-    }
-
-    public static String makeSubPeopleId(String memberId, Long commentId){
-        int commentHash = 7;
-        String result = String.valueOf(31 * commentHash * commentId * memberId.hashCode());
-        return result;
-    }
-
-    public boolean isDeleted(){
-        return deleteStatus;
+        this.memberId = memberId;
     }
 }

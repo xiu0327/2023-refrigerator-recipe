@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import refrigerator.back.authentication.application.dto.RefreshToken;
+import refrigerator.back.authentication.application.domain.RefreshToken;
 import refrigerator.back.authentication.application.port.out.RefreshTokenPort;
 import refrigerator.server.security.authentication.application.TokenStatus;
 import refrigerator.server.security.authentication.application.ClaimsDto;
