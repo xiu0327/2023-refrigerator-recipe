@@ -13,7 +13,6 @@ import java.util.List;
 
 import static refrigerator.back.comment.application.domain.QComment.comment;
 import static refrigerator.back.comment.application.domain.QCommentHeart.commentHeart;
-import static refrigerator.back.comment.application.domain.QCommentHeartPeople.*;
 import static refrigerator.back.member.application.domain.QMember.member;
 
 @Repository
@@ -28,9 +27,9 @@ public class CommentSelectQueryRepository {
      * @param page 페이징 처리를 위한 값
      * @return 전체 댓글 개수 + 하트 수 상위 3개 댓글 반환
      */
-    public OutCommentDtoCollection selectPreviewComments(Long recipeId, Pageable page) {
-        List<OutCommentDTO> comments = jpaQueryFactory
-                .select(new QOutCommentDTO(
+    public List<OutCommentDto> selectPreviewComments(Long recipeId, Pageable page) {
+        return jpaQueryFactory
+                .select(new QOutCommentDto(
                         comment.commentId,
                         member.nickname,
                         commentHeart.count,
@@ -46,7 +45,6 @@ public class CommentSelectQueryRepository {
                 .where(recipeIdEq(recipeId), notDeleted())
                 .orderBy(commentHeart.count.desc())
                 .fetch();
-        return new OutCommentDtoCollection(comments);
     }
 
     /**
@@ -70,9 +68,9 @@ public class CommentSelectQueryRepository {
      * @param sortCondition 정렬 조건 (좋아요 순 or 최신 순)
      * @return 정렬 조건에 맞는 상위 11개 댓글 추출
      */
-    public OutCommentDtoCollection selectComments(Long recipeId, String memberId, Pageable page, CommentSortCondition sortCondition) {
-        List<OutCommentDTO> comments = jpaQueryFactory
-                .select(new QOutCommentDTO(
+    public List<OutCommentDto> selectComments(Long recipeId, String memberId, Pageable page, CommentSortCondition sortCondition) {
+        return jpaQueryFactory
+                .select(new QOutCommentDto(
                         comment.commentId,
                         member.nickname,
                         commentHeart.count,
@@ -88,7 +86,6 @@ public class CommentSelectQueryRepository {
                 .where(recipeIdEq(recipeId), notDeleted(), member.email.ne(memberId))
                 .orderBy(conditionEq(sortCondition))
                 .fetch();
-        return new OutCommentDtoCollection(comments);
     }
 
     /**
@@ -97,9 +94,9 @@ public class CommentSelectQueryRepository {
      * @param recipeId 레시피 식별자값
      * @return
      */
-    public OutCommentDtoCollection selectMyComments(String memberId, Long recipeId) {
-        List<OutCommentDTO> comments = jpaQueryFactory
-                .select(new QOutCommentDTO(
+    public List<OutCommentDto> selectMyComments(String memberId, Long recipeId) {
+        return jpaQueryFactory
+                .select(new QOutCommentDto(
                         comment.commentId,
                         member.nickname,
                         commentHeart.count,
@@ -113,7 +110,6 @@ public class CommentSelectQueryRepository {
                 .where(member.email.eq(memberId), notDeleted(), recipeIdEq(recipeId))
                 .orderBy(comment.commentRecord.createDateTime.desc())
                 .fetch();
-        return new OutCommentDtoCollection(comments);
     }
 
     private BooleanExpression notDeleted() {

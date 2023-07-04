@@ -7,7 +7,7 @@ import refrigerator.back.comment.application.domain.CommentSortCondition;
 import refrigerator.back.comment.application.dto.CommentDto;
 import refrigerator.back.comment.application.dto.InCommentDto;
 import refrigerator.back.comment.application.mapper.CommentMapper;
-import refrigerator.back.comment.application.port.in.comment.FindCommentsUseCase;
+import refrigerator.back.comment.application.port.in.FindCommentsUseCase;
 import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
 import refrigerator.back.comment.application.port.out.FindCommentPort;
 import refrigerator.back.global.common.TimeService;

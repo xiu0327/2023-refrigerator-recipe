@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
-import refrigerator.back.comment.application.port.in.comment.EditCommentUseCase;
+import refrigerator.back.comment.application.port.in.EditCommentUseCase;
 import refrigerator.server.api.comment.dto.InCommentEditRequestDto;
 import refrigerator.server.api.global.exception.ValidationExceptionHandler;
 

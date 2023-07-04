@@ -2,7 +2,7 @@ package refrigerator.back.comment.application.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import refrigerator.back.comment.application.port.in.comment.FindNumberOfCommentsUseCase;
+import refrigerator.back.comment.application.port.in.FindNumberOfCommentsUseCase;
 import refrigerator.back.comment.application.port.out.FindNumberOfCommentsPort;
 
 @Service

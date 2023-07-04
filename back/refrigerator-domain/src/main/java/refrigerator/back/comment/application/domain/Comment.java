@@ -51,15 +51,4 @@ public class Comment {
         return commentRecord.deletedState;
     }
 
-    public Long edit(String content, LocalDateTime now){
-        this.content = content;
-        commentRecord.renew(now);
-        return commentId;
-    }
-
-    public Long delete(){
-        commentRecord.enableDeleteStatus();
-        return commentId;
-    }
-
 }
