@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import refrigerator.back.annotation.TestDataInit;
-import refrigerator.back.comment.outbound.adapter.CommentLookUpAdapter;
-import refrigerator.back.comment.outbound.dto.OutCommentDTO;
+import refrigerator.back.comment.outbound.dto.OutCommentDto;
 import refrigerator.back.comment.outbound.mapper.OutCommentMapper;
 import refrigerator.back.comment.outbound.repository.query.CommentSelectQueryRepository;
 import refrigerator.back.comment.application.domain.CommentSortCondition;
@@ -69,7 +68,7 @@ class CommentLookUpAdapterTest {
         LocalDateTime preCreateDate = LocalDateTime.of(2024, 1, 1, 1, 1);
         comments.forEach(comment -> assertNotEquals(comment, CommentDto.builder().build()));
         for (CommentDto comment : comments) {
-            assertNotEquals(comment, OutCommentDTO.builder().build());
+            assertNotEquals(comment, OutCommentDto.builder().build());
             assertNotEquals(memberId, comment.getMemberId());
             assertTrue(preCreateDate.compareTo(comment.getCreateDate()) >= 0);
             preCreateDate = comment.getCreateDate();

@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 
 import static refrigerator.back.comment.application.domain.QComment.comment;
 import static refrigerator.back.comment.application.domain.QCommentHeart.commentHeart;
-import static refrigerator.back.comment.application.domain.QCommentHeartPeople.commentHeartPeople;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,23 +44,6 @@ public class CommentDeleteQueryRepository {
                 .set(commentHeart.deleteStatus, true)
                 .where(commentHeart.commentId.eq(id),
                         commentHeart.deleteStatus.eq(false))
-                .execute();
-        em.flush();
-        em.clear();
-        return result;
-    }
-
-    /**
-     * 좋아요를 누른 회원 삭제 쿼리
-     * @param id 삭제할 좋아요를 누른 회원의 식별자
-     * @return 성공 -> 1 반환, 실패 -> 0 또는 2 이상
-     */
-    public long deleteCommentHeartPeople(Long id){
-        long result = jpaQueryFactory
-                .update(commentHeartPeople)
-                .set(commentHeartPeople.deleteStatus, true)
-                .where(commentHeartPeople.commentId.eq(id),
-                        commentHeartPeople.deleteStatus.eq(false))
                 .execute();
         em.flush();
         em.clear();

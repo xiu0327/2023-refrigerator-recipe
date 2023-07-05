@@ -4,19 +4,23 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.redis.AutoConfigureDataRedis;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import refrigerator.back.annotation.TestDataInit;
 import refrigerator.back.comment.application.domain.CommentSortCondition;
 import refrigerator.back.comment.application.dto.InCommentDto;
-import refrigerator.back.comment.application.port.in.comment.FindCommentsUseCase;
+import refrigerator.back.comment.application.port.in.FindCommentsUseCase;
 import refrigerator.back.global.config.QuerydslConfig;
 
 import java.util.List;
 
 @ContextConfiguration(classes = CommentLookUpTestConfiguration.class)
 @DataJpaTest
+@AutoConfigureDataRedis
 @Import(QuerydslConfig.class)
 @TestDataInit(value = {"/comment.sql", "/member.sql"})
 class CommentLookUpServiceTest {

@@ -1,6 +1,7 @@
 package refrigerator.back.comment.application.domain;
 
 import lombok.NoArgsConstructor;
+import org.eclipse.jdt.internal.compiler.env.IModule;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -27,15 +28,6 @@ public class CommentRecord {
         this.lastModifiedDateTime = createDateTime;
         this.deletedState = false;
         this.modifiedState = false;
-    }
-
-    public void renew(LocalDateTime lastModifiedDateTime){
-        this.lastModifiedDateTime = lastModifiedDateTime;
-        this.modifiedState = true;
-    }
-
-    public void enableDeleteStatus(){
-        this.deletedState = true;
     }
 
     public LocalDateTime isModified(){

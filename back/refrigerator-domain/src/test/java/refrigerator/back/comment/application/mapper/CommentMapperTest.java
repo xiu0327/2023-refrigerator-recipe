@@ -3,7 +3,7 @@ package refrigerator.back.comment.application.mapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.comment.outbound.dto.OutCommentDTO;
+import refrigerator.back.comment.outbound.dto.OutCommentDto;
 import refrigerator.back.comment.outbound.mapper.OutCommentMapper;
 import refrigerator.back.comment.application.dto.CommentDto;
 import refrigerator.back.comment.application.dto.InCommentDto;
@@ -22,7 +22,7 @@ class CommentMapperTest {
     void toInCommentDtoByLikedPeople() {
         // given
         LocalDateTime createDateTime = LocalDateTime.of(2024, 1, 1, 1, 1);
-        OutCommentDTO outCommentDTO = new OutCommentDTO(
+        OutCommentDto outCommentDTO = new OutCommentDto(
                 1L,
                 "nickname",
                 2,
@@ -32,11 +32,11 @@ class CommentMapperTest {
                 "email");
         // when
         CommentDto commentDTO = outCommentMapper.toCommentDto(outCommentDTO);
-        InCommentDto inCommentDTO = commentMapper.toInCommentDto(commentDTO, "2시간 전", 1L);
+        InCommentDto inCommentDTO = commentMapper.toInCommentDto(commentDTO, "2시간 전", "peopleId");
         // then
         assertNotNull(inCommentDTO.getLikedPeopleInfo());
         assertTrue(inCommentDTO.getLikedPeopleInfo().getIsLiked());
-        assertEquals(1L, inCommentDTO.getLikedPeopleInfo().getPeopleNo());
+        assertEquals("peopleId", inCommentDTO.getLikedPeopleInfo().getPeopleNo());
     }
 
     @Test
@@ -44,7 +44,7 @@ class CommentMapperTest {
     void toInCommentDtoByNotLikedPeople() {
         // given
         LocalDateTime createDateTime = LocalDateTime.of(2024, 1, 1, 1, 1);
-        OutCommentDTO outCommentDTO = new OutCommentDTO(
+        OutCommentDto outCommentDTO = new OutCommentDto(
                 1L,
                 "nickname",
                 2,

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.comment.application.domain.Comment;
-import refrigerator.back.comment.application.port.in.comment.WriteCommentUseCase;
+import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
 import refrigerator.back.comment.application.port.out.CreateCommentPort;
 
 import java.time.LocalDateTime;
