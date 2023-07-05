@@ -3,6 +3,7 @@ package refrigerator.back.ingredient.adapter.dto;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;
@@ -37,9 +38,8 @@ public class OutIngredientDetailDTO {
 
     public String getRemainDays(LocalDate now) {
         long between = ChronoUnit.DAYS.between(this.expirationDate, now);
-
         if(between > 0) {
-            return "+" + Long.toString(between);
+            return "+" + between;
         } else {
             return Long.toString(between);
         }

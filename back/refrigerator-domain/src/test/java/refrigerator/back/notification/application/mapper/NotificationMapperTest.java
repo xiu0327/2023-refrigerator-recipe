@@ -3,9 +3,8 @@ package refrigerator.back.notification.application.mapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.global.common.TimeService;
+import refrigerator.back.global.time.TimeService;
 import refrigerator.back.global.exception.BasicHttpMethod;
-import refrigerator.back.ingredient.adapter.mapper.OutIngredientMapper;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 import refrigerator.back.notification.application.domain.NotificationType;
@@ -14,7 +13,6 @@ import refrigerator.back.notification.application.dto.NotificationDTO;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class NotificationMapperTest {
 
@@ -37,8 +35,8 @@ class NotificationMapperTest {
         NotificationTimeService timeService = new TimeService();
 
         NotificationDTO dto = notificationMapper.toNotificationDTO(notification, timeService.replace(
-                LocalDateTime.of(2023, 1, 1, 0, 0, 0),
-                LocalDateTime.of(2023, 1, 1, 0, 0, 1)));
+                LocalDateTime.of(2023, 1, 1, 0, 0, 0)
+        ));
 
         assertThat(dto.getId()).isEqualTo(1L);
         assertThat(dto.getMessage()).isEqualTo("test message");

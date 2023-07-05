@@ -1,6 +1,5 @@
 package refrigerator.back.ingredient.adapter.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import refrigerator.back.global.config.QuerydslConfig;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.global.time.CurrentDate;
-import refrigerator.back.global.time.TestCurrentDate;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientImage;

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.global.time.CurrentDate;
 import refrigerator.server.api.global.common.BasicListRequestDTO;
 import refrigerator.server.api.ingredient.dto.IngredientDeductionRequestDTO;
 import refrigerator.server.api.ingredient.mapper.InIngredientMapper;

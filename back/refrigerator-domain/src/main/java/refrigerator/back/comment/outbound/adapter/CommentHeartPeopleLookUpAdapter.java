@@ -29,4 +29,9 @@ public class CommentHeartPeopleLookUpAdapter implements FindCommentHeartPeoplePo
     public Optional<CommentHeartPeople> findPeopleOne(Long commentId, String memberId) {
         return redisRepository.findByCommentIdAndMemberId(commentId, memberId);
     }
+
+    @Override
+    public Optional<CommentHeartPeople> findPeopleOneById(String peopleId) {
+        return redisRepository.findById(peopleId);
+    }
 }

@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface FindCommentHeartPeoplePort {
     Map<Long, Object> findPeopleMap(String memberId);
     Optional<CommentHeartPeople> findPeopleOne(Long commentId, String memberId);
+    Optional<CommentHeartPeople> findPeopleOneById(String peopleId);
 }

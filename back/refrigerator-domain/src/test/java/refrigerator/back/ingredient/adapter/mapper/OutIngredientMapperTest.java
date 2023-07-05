@@ -3,8 +3,6 @@ package refrigerator.back.ingredient.adapter.mapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.global.time.CurrentDate;
-import refrigerator.back.global.time.TestCurrentDate;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;

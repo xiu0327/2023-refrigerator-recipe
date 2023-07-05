@@ -12,6 +12,8 @@ import refrigerator.back.comment.application.port.out.ChangeCommentHeartCountPor
 import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
 import refrigerator.back.comment.application.port.out.RemoveCommentHeartPeoplePort;
 import refrigerator.back.comment.application.port.out.SaveCommentHeartPeoplePort;
+import refrigerator.back.comment.exception.CommentExceptionType;
+import refrigerator.back.global.exception.BusinessException;
 
 import java.util.Optional;
 
@@ -31,7 +33,7 @@ public class CommentHeartChangeService implements AddCommentHeartUseCase, Reduce
         Optional<CommentHeartPeople> findPeople = findCommentHeartPeoplePort.findPeopleOne(commentId, memberId);
         if (findPeople.isPresent()){
             log.info("사용자가 중복된 하트 수 증가 요청을 보냈습니다.");
-            return ;
+            throw new BusinessException(CommentExceptionType.DUPLICATE_HEART_REQUEST);
         }
         changeCommentHeartCountPort.change(commentId, CommentHeartValue.ADD);
         CommentHeartPeople people = new CommentHeartPeople(commentId, memberId);
@@ -40,6 +42,11 @@ public class CommentHeartChangeService implements AddCommentHeartUseCase, Reduce
 
     @Override
     public void reduceHeart(Long commentId, String peopleId) {
+        Optional<CommentHeartPeople> findPeople = findCommentHeartPeoplePort.findPeopleOneById(peopleId);
+        if (findPeople.isEmpty()){
+            log.info("사용자가 중복된 하트 수 감소 요청을 보냈습니다.");
+            throw new BusinessException(CommentExceptionType.DUPLICATE_HEART_REQUEST);
+        }
         changeCommentHeartCountPort.change(commentId, CommentHeartValue.REDUCE);
         removeCommentHeartPeoplePort.remove(peopleId);
     }

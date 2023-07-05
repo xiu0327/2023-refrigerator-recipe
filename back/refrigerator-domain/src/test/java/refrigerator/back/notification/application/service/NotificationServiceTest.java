@@ -1,10 +1,8 @@
 package refrigerator.back.notification.application.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -77,7 +74,7 @@ class NotificationServiceTest {
         given(currentTime.now())
                 .willReturn(time.plusMinutes(1L));
 
-        given(notificationTimeService.replace(time, time.plusMinutes(1L)))
+        given(notificationTimeService.replace(time))
                 .willReturn("1 분 전");
 
         given(mapper.toNotificationDTO(notification, "1 분 전"))

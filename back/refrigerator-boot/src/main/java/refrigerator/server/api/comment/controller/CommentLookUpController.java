@@ -31,10 +31,11 @@ public class CommentLookUpController {
             @RequestParam("page") int page,
             @RequestParam(value = "size", defaultValue = "11") int size){
         String memberId = memberInformation.getMemberEmail();
+        CommentSortCondition condition = CommentSortCondition.valueOf(sortCondition);
         List<InCommentDto> comments = findCommentListUseCase.findComments(
                 recipeId,
                 memberId,
-                CommentSortCondition.valueOf(sortCondition),
+                condition,
                 page,
                 size);
         List<InCommentDto> myComments = findCommentListUseCase.findMyComments(memberId, recipeId);

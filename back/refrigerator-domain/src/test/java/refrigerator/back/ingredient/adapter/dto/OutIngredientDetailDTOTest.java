@@ -2,8 +2,6 @@ package refrigerator.back.ingredient.adapter.dto;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import refrigerator.back.global.time.CurrentDate;
-import refrigerator.back.global.time.TestCurrentDate;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;

@@ -10,7 +10,6 @@ import refrigerator.back.comment.application.mapper.CommentMapper;
 import refrigerator.back.comment.application.port.in.FindCommentsUseCase;
 import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort;
 import refrigerator.back.comment.application.port.out.FindCommentPort;
-import refrigerator.back.global.common.TimeService;
 
 import java.util.List;
 import java.util.Map;
@@ -24,35 +23,31 @@ public class CommentLookUpService implements FindCommentsUseCase {
     private final FindCommentPort findCommentPort;
     private final FindCommentHeartPeoplePort commentHeartPeoplePort;
     private final CommentMapper mapper;
-    private final CommentTimeService commentTimeService = new TimeService();
+    private final CommentTimeService commentTimeService;
 
     @Override
     public List<InCommentDto> findComments(Long recipeId, String memberId, CommentSortCondition sortCondition, int page, int size) {
-        return mapping(memberId, () -> findCommentPort.findComments(recipeId, memberId, sortCondition, page, size));
+        return mapping(memberId, findCommentPort.findComments(recipeId, memberId, sortCondition, page, size));
     }
 
     @Override
     public List<InCommentDto> findCommentsPreview(Long recipeId, String memberId, int size) {
-        return mapping(memberId, () -> findCommentPort.findPreviewComments(recipeId, memberId, size));
+        return mapping(memberId, findCommentPort.findPreviewComments(recipeId, memberId, size));
     }
 
     @Override
     public List<InCommentDto> findMyComments(String memberId, Long recipeId) {
-        return mapping(memberId, () -> findCommentPort.findMyComments(memberId, recipeId));
+        return mapping(memberId, findCommentPort.findMyComments(memberId, recipeId));
     }
 
     private List<InCommentDto> mapping(String memberId,
-                                       FindCommentQueryCall findCommentQueryCall){
-        List<CommentDto> comments = findCommentQueryCall.call();
+                                       List<CommentDto> comments){
         Map<Long, Object> peoples = commentHeartPeoplePort.findPeopleMap(memberId);
         return comments.stream().map(comment -> comment.mapping(
                         mapper,
-                        commentTimeService,
+                        commentTimeService.replace(comment.getCreateDate()),
                         peoples.getOrDefault(comment.getCommentId(), null)))
                 .collect(Collectors.toList());
     }
 
-    interface FindCommentQueryCall{
-        List<CommentDto> call();
-    }
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.time.CurrentTime;
-import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 import refrigerator.back.notification.application.dto.NotificationDTO;
 import refrigerator.back.notification.application.mapper.NotificationMapper;
@@ -33,7 +32,7 @@ public class NotificationService implements FindNotificationListUseCase, ModifyN
         return findNotificationListPort.findNotificationList(email, page, size)
                 .stream()
                 .map(notification -> mapper.toNotificationDTO(notification,
-                                notificationTimeService.replace(notification.getCreateDate(), currentTime.now())))
+                                notificationTimeService.replace(notification.getCreateDate())))
                 .collect(Collectors.toList());
     }
 
