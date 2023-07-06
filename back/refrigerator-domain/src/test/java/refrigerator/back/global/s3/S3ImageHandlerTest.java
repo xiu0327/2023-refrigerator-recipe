@@ -8,8 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import refrigerator.back.global.config.S3Config;
@@ -25,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class S3ImageHandlerTest {
 
     @Autowired S3ImageHandler s3ImageHandler;
+    @Value("${cloud.aws.bucket.root}") String bucketName;
 
     @Test
     @DisplayName("이미지 url 생성 성공 테스트")
@@ -32,7 +35,7 @@ class S3ImageHandlerTest {
         // given
         String fileName = "FXh69KNUUAE06-5.jpeg";
         // when
-        URL url = s3ImageHandler.getUrl(fileName);
+        URL url = s3ImageHandler.getUrl(bucketName, fileName);
         // then
         assertEquals("/test_image/" + fileName, url.getFile());
     }
@@ -45,7 +48,7 @@ class S3ImageHandlerTest {
         // when
         assertThrows(S3Exception.class, () -> {
             try{
-                s3ImageHandler.getUrl(fileName);
+                s3ImageHandler.getUrl(bucketName, fileName);
             }catch (S3Exception e){
                 assertEquals(S3ExceptionType.DUPLICATE_FILE_NAME, e.getBasicExceptionType());
                 throw e;
