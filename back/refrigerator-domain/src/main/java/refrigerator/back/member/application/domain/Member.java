@@ -8,14 +8,13 @@ import refrigerator.back.member.exception.MemberExceptionType;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Random;
 
 @Entity
 @Table(name = "member")
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@ToString
+@EqualsAndHashCode
 public class Member {
 
     @Id
@@ -43,52 +42,30 @@ public class Member {
     @Column(name = "create_date", nullable = false)
     private LocalDateTime joinDateTime;
 
-    public Member(String email, String password, String nickname, LocalDateTime now) {
+    @Builder
+    public Member(String email, String password, String nickname,
+                  MemberStatus memberStatus, MemberProfileImage profile,
+                  LocalDateTime joinDateTime) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.memberStatus = MemberStatus.STEADY_STATUS;
-        this.joinDateTime = now;
-        this.profile = MemberProfileImage.pickUp();
+        this.memberStatus = memberStatus;
+        this.profile = profile;
+        this.joinDateTime = joinDateTime;
     }
 
-    /* 비즈니스 로직 */
-
-    public void changePassword(String newPassword){
-        if (isEqualPassword(newPassword)){
-            throw new BusinessException(MemberExceptionType.EQUAL_OLD_PASSWORD);
-        }
-        this.password = newPassword;
+    public static Member join(String email,
+                              String password,
+                              String nickname,
+                              MemberProfileImage profile,
+                              LocalDateTime joinDateTime){
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .memberStatus(MemberStatus.STEADY_STATUS)
+                .profile(profile)
+                .joinDateTime(joinDateTime)
+                .build();
     }
-
-    public void withdraw(){
-        memberStatus = MemberStatus.LEAVE_STATUS;
-    }
-
-
-    public static Member join(String email, String password, String nickname, LocalDateTime now){
-        return new Member(email, password, nickname, now);
-    }
-
-    public boolean isEqualPassword(String target){
-        return password.equals(target);
-    }
-
-    public boolean isWithdrawMember(){
-        return memberStatus.equals(MemberStatus.LEAVE_STATUS);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Member member = (Member) o;
-        return Objects.equals(id, member.id) && Objects.equals(email, member.email) && Objects.equals(password, member.password) && Objects.equals(nickname, member.nickname) && memberStatus == member.memberStatus && profile == member.profile;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, password, nickname, memberStatus, profile);
-    }
-
 }

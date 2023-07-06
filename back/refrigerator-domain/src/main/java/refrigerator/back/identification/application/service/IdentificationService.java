@@ -3,14 +3,13 @@ package refrigerator.back.identification.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.identification.application.port.out.IdentificationMailSendPort;
 import refrigerator.back.identification.application.port.in.CheckNumberUseCase;
 import refrigerator.back.identification.application.port.in.SendNumberUseCase;
+import refrigerator.back.identification.application.port.out.IdentificationMailSendPort;
 import refrigerator.back.identification.application.port.out.IdentificationRedisPort;
+import refrigerator.back.identification.exception.IdentificationExceptionType;
 
 import java.util.UUID;
-
-import static refrigerator.back.identification.exception.IdentificationExceptionType.*;
 
 @Service
 @RequiredArgsConstructor
@@ -36,12 +35,12 @@ public class IdentificationService implements SendNumberUseCase, CheckNumberUseC
     public Boolean checkAuthenticationNumber(String inputCode, String email) {
         String findEmail = identificationRedisPort.getData(inputCode);
         if(findEmail == null){
-            throw new BusinessException(TIME_OUT_CODE);
+            throw new BusinessException(IdentificationExceptionType.TIME_OUT_CODE);
         }
         if (findEmail.equals(email)){
             identificationRedisPort.deleteData(inputCode);
             return true;
         }
-        throw new BusinessException(INCORRECT_CODE);
+        throw new BusinessException(IdentificationExceptionType.INCORRECT_CODE);
     }
 }

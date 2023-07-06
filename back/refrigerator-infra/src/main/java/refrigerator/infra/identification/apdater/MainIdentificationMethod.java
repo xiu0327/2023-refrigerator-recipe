@@ -14,8 +14,6 @@ import refrigerator.back.identification.application.port.out.IdentificationMailS
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import static refrigerator.back.identification.exception.IdentificationExceptionType.*;
-
 @Component
 @RequiredArgsConstructor
 public class MainIdentificationMethod implements IdentificationMailSendPort {

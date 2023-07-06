@@ -45,6 +45,7 @@ class CommentWriteControllerTest {
         String json = objectMapper.writeValueAsString(requestDto);
         BDDMockito.given(memberInformation.getMemberEmail())
                         .willReturn(memberId);
+        // TODO : CurrentTime 필드 주입
         BDDMockito.given(writeCommentUseCase.write(recipeId, memberId, content, any()))
                         .willReturn(1L);
         mvc.perform(post("/api/comments/write")
