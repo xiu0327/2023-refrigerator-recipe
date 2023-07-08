@@ -54,6 +54,7 @@ class IngredientDeductionServiceTest {
 
         given(findIngredientListPort.getIngredients(memberId))
                 .willReturn(ingredients);
+
         given(currentDate.now())
                 .willReturn(LocalDate.of(2022, 12, 31));
 
@@ -94,6 +95,7 @@ class IngredientDeductionServiceTest {
 
         given(findIngredientListPort.getIngredients(memberId))
                 .willReturn(ingredients);
+
         given(currentDate.now())
                 .willReturn(LocalDate.of(2022, 12, 31));    // 2023.1.1 이전
 
@@ -162,7 +164,6 @@ class IngredientDeductionServiceTest {
         assertThatThrownBy(() -> ingredientDeductionService
                 .IngredientsEmptyCheck(findIngredientListPort.getIngredients(memberId)))
                 .isInstanceOf(BusinessException.class);
-
     }
 
     @Test

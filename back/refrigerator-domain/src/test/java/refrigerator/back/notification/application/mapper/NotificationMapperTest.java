@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import refrigerator.back.global.common.TimeService;
 import refrigerator.back.global.exception.BasicHttpMethod;
+import refrigerator.back.global.time.TestCurrentTime;
 import refrigerator.back.ingredient.adapter.mapper.OutIngredientMapper;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationTimeService;

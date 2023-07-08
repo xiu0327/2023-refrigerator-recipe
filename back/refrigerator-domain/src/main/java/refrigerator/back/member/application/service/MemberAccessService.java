@@ -23,8 +23,6 @@ public class MemberAccessService implements JoinUseCase, DuplicateCheckEmailUseC
     private final FindMemberPort findMemberPort;
     private final EncryptPasswordPort encryptPasswordPort;
     private final CurrentTime currentTime;
-
-    // TODO : Member 내부에서 LocalDateTime.now()로 가입시간을 넣었는데 밖으로 빼고 service에서 currentTime을 주입해서 처리함
     
     @Override
     @Transactional

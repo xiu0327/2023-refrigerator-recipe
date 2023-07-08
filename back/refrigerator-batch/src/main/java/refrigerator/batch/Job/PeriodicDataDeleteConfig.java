@@ -10,10 +10,10 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import refrigerator.back.comment.outbound.repository.query.CommentBatchQueryRepository;
-import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
-import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
+import refrigerator.back.comment.application.port.batch.DeleteCommentBatchPort;
+import refrigerator.back.ingredient.application.port.batch.DeleteIngredientBatchPort;
 import refrigerator.back.mybookmark.adapter.out.repository.BookmarkRepository;
+import refrigerator.back.mybookmark.application.port.batch.DeleteBookmarkBatchPort;
 
 @RequiredArgsConstructor
 @Configuration
@@ -22,10 +22,9 @@ public class PeriodicDataDeleteConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final CommentJpaRepository commentRepository;
-    private final CommentBatchQueryRepository commentBatchQueryRepository;
-    private final IngredientPersistenceRepository ingredientPersistenceRepository;
-    private final BookmarkRepository bookmarkRepository;
+    private final DeleteIngredientBatchPort deleteIngredientBatchPort;
+    private final DeleteCommentBatchPort deleteCommentBatchPort;
+    private final DeleteBookmarkBatchPort deleteBookmarkBatchPort;
 
     @Bean
     public Job periodicDeleteScheduleJob() {
@@ -42,9 +41,6 @@ public class PeriodicDataDeleteConfig {
     public Step deleteCommentStep() {
         return stepBuilderFactory.get("deleteCommentStep")
                 .tasklet((contribution, chunkContext) -> {
-//                    commentRepository;
-//                    commentRepository.deleteCommentHeart();
-//                    commentRepository.delete();
 
                     return RepeatStatus.FINISHED;
                 })
@@ -56,7 +52,6 @@ public class PeriodicDataDeleteConfig {
     public Step deleteIngredientStep() {
         return stepBuilderFactory.get("deleteIngredientStep")
                 .tasklet((contribution, chunkContext) -> {
-                    ingredientPersistenceRepository.deleteIngredient();
 
                     return RepeatStatus.FINISHED;
                 })
@@ -68,7 +63,6 @@ public class PeriodicDataDeleteConfig {
     public Step deleteBookmarkStep() {
         return stepBuilderFactory.get("deleteBookmarkStep")
                 .tasklet((contribution, chunkContext) -> {
-                    bookmarkRepository.deleteMyBookmark();
 
                     return RepeatStatus.FINISHED;
                 })

@@ -27,7 +27,7 @@ public class IngredientDetailDTO extends Image {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년 MM월 dd일", timezone = "Asia/Seoul")
     private LocalDate registrationDate;
 
-    private String remainDays;
+    private Integer remainDays;
 
     private Double volume;
 

@@ -2,9 +2,8 @@ package refrigerator.back.ingredient.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.adapter.repository.IngredientQuerySubRepository;
+import refrigerator.back.ingredient.adapter.repository.SubIngredientQueryRepository;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.out.registeredIngredient.FindRegisteredIngredientPort;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
@@ -16,16 +15,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegisteredIngredientAdapter implements FindRegisteredIngredientPort {
 
-    private final IngredientQuerySubRepository IngredientSubQueryRepository;
+    private final SubIngredientQueryRepository subIngredientQueryRepository;
 
     @Override
     public List<RegisteredIngredient> findIngredientList() {
-        return IngredientSubQueryRepository.getIngredientList();
+        return subIngredientQueryRepository.getRegisteredIngredientList();
     }
 
     @Override
     public RegisteredIngredient findIngredient(String name) {
-        return IngredientSubQueryRepository.getIngredientList()
+        return subIngredientQueryRepository.getRegisteredIngredientList()
                 .stream()
                 .filter(ingredient -> ingredient.getName().equals(name))
                 .findFirst()

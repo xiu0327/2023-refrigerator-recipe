@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import refrigerator.back.global.common.TimeService;
+import refrigerator.back.global.time.TestCurrentTime;
 
 import java.time.LocalDateTime;
 
@@ -17,13 +18,13 @@ class NotificationTimeServiceTest {
     void notificationTimeServiceTest() {
         NotificationTimeService service = new TimeService();
 
-        LocalDateTime time = LocalDateTime.of(2023,1, 1, 0, 0, 0);
+        LocalDateTime now = LocalDateTime.of(2023,1, 1, 0, 0, 0);
 
-        assertThat(service.replace(time, time.plusSeconds(1))).isEqualTo("1 초 전");
-        assertThat(service.replace(time, time.plusMinutes(1))).isEqualTo("1 분 전");
-        assertThat(service.replace(time, time.plusHours(1))).isEqualTo("1 시간 전");
-        assertThat(service.replace(time, time.plusDays(1))).isEqualTo("1 일 전");
-        assertThat(service.replace(time, time.plusMonths(1))).isEqualTo("1 달 전");
-        assertThat(service.replace(time, time.plusYears(1))).isEqualTo("1 년 전");
+        assertThat(service.replace(now.minusSeconds(1), now)).isEqualTo("1 초 전");
+        assertThat(service.replace(now.minusMinutes(1), now)).isEqualTo("1 분 전");
+        assertThat(service.replace(now.minusHours(1), now)).isEqualTo("1 시간 전");
+        assertThat(service.replace(now.minusDays(1), now)).isEqualTo("1 일 전");
+        assertThat(service.replace(now.minusMonths(1), now)).isEqualTo("1 달 전");
+        assertThat(service.replace(now.minusYears(1), now)).isEqualTo("1 년 전");
     }
 }

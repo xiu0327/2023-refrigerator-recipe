@@ -35,7 +35,7 @@ class IngredientDetailDTOTest {
                 .storage(IngredientStorageType.FRIDGE)
                 .registrationDate(LocalDate.of(2023, 1, 1))
                 .expirationDate(LocalDate.of(2023, 1, 1))
-                .remainDays("0")
+                .remainDays(0)
                 .volume(30.0)
                 .unit("g")
                 .image("test.png")
@@ -47,7 +47,7 @@ class IngredientDetailDTOTest {
         assertThat(dto.getStorage()).isEqualTo(IngredientStorageType.FRIDGE);
         assertThat(dto.getRegistrationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
         assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
-        assertThat(dto.getRemainDays()).isEqualTo("0");
+        assertThat(dto.getRemainDays()).isEqualTo(0);
         assertThat(dto.getVolume()).isEqualTo(30.0);
         assertThat(dto.getUnit()).isEqualTo("g");
         assertThat(dto.getImage()).isEqualTo("test.png");

@@ -1,7 +1,9 @@
 package refrigerator.back.global.common;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import refrigerator.back.comment.application.service.CommentTimeService;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 
 
@@ -11,11 +13,9 @@ import java.time.Period;
 import java.time.temporal.ChronoUnit;
 
 @Component
+@RequiredArgsConstructor
 public class TimeService implements CommentTimeService, NotificationTimeService {
 
-    // TODO: replce 내부 LocalDateTime.now() 가 있어서 밖에서 주입 받는 걸로 바꾸고 Service 영역에서 받는걸로 바꿈 
-    // TODO : 로직 수정 period에 문제가 있음. period는 duration 처럼 걸러주는 게 아님 // period -> chronoUnit으로 변경
-    
     @Override
     public String replace(LocalDateTime date, LocalDateTime now){
         Duration duration = Duration.between(date, now);

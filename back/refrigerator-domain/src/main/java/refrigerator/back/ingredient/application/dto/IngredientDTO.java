@@ -15,7 +15,7 @@ public class IngredientDTO extends Image {
 
     private Long ingredientID;
     private String name;
-    private String remainDays;
+    private Integer remainDays;
     private String image;
 
     @Override

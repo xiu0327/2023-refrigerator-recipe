@@ -21,22 +21,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class IngredientUpdateService implements RegisterIngredientUseCase, ModifyIngredientUseCase, RemoveIngredientUseCase {
+public class IngredientUpdateService implements ModifyIngredientUseCase, RemoveIngredientUseCase {
 
     private final FindIngredientPort findIngredientPort;
     private final DeleteIngredientPort deleteIngredientPort;
     private final SaveIngredientPort saveIngredientPort;
-
-    private final CurrentDate currentDate;
-    
-    @Override
-    public IngredientRegisterDTO registerIngredient(String name, LocalDate expirationDate, Double capacity,
-                                                    String capacityUnit, IngredientStorageType storageMethod, Integer image, String email) {
-
-        return IngredientRegisterDTO.builder()
-                .ingredientID(saveIngredientPort.saveIngredient(Ingredient.create(name, expirationDate, currentDate.now(), capacity,
-                                    capacityUnit, storageMethod, image, email))).build();
-    }
 
     @Override
     public void modifyIngredient(Long id, LocalDate expirationDate, Double capacity, IngredientStorageType storageMethod) {

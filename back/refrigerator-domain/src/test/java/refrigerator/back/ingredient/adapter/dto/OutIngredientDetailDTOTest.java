@@ -37,6 +37,6 @@ class OutIngredientDetailDTOTest {
 
         CurrentDate currentDate = TestCurrentDate.of(2023,1,1);
 
-        assertThat(dto.getRemainDays(currentDate.now())).isEqualTo("0");
+        assertThat(dto.getRemainDays()).isEqualTo("0");
     }
 }

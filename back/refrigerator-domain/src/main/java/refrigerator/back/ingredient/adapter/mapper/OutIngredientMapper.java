@@ -13,7 +13,7 @@ public interface OutIngredientMapper {
 
     OutIngredientMapper INSTANCE = Mappers.getMapper(OutIngredientMapper.class);
 
-    IngredientDetailDTO toIngredientDetailDto(OutIngredientDetailDTO outIngredientDetailDTO, String remainDays);
+    IngredientDetailDTO toIngredientDetailDto(OutIngredientDetailDTO outIngredientDetailDTO);
 
-    IngredientDTO toIngredientDto(OutIngredientDTO outIngredientDTO, String remainDays);
+    IngredientDTO toIngredientDto(OutIngredientDTO outIngredientDTO);
 }

@@ -32,34 +32,6 @@ class IngredientUpdateServiceTest {
 
     @Mock SaveIngredientPort saveIngredientPort;
 
-    @Mock CurrentDate currentDate;
-
-    @Test
-    @DisplayName("식재료 등록")
-    void registerIngredientTest() {
-
-        // TODO : 찜찜하다.. given과 when 시 스터빙 되는 객체가 달라서 any()로 바꿈.. 이게 맞나?
-
-        // given
-        given(currentDate.now())
-                .willReturn(LocalDate.of(2023,1,1));
-        given(saveIngredientPort.saveIngredient(any()))
-                .willReturn(1L);
-
-        // when
-        IngredientRegisterDTO dto = ingredientUpdateService.registerIngredient(
-                "감자",
-                LocalDate.of(2023,1,1),
-                30.0,
-                "g",
-                IngredientStorageType.FRIDGE,
-                1,
-                "email123@gmail.com");
-
-        //then
-        assertThat(dto.getIngredientID()).isEqualTo(1L);
-    }
-
     @Test
     @DisplayName("식재료 수정")
     void modifyIngredientTest() {
@@ -80,6 +52,7 @@ class IngredientUpdateServiceTest {
 
         given(findIngredientPort.getIngredient(1L))
                 .willReturn(ingredient);
+
         given(saveIngredientPort.saveIngredient(ingredient))
                 .willReturn(1L);
 

@@ -5,10 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDetailDTO;
-import refrigerator.back.ingredient.adapter.repository.IngredientQueryRepository;
+import refrigerator.back.ingredient.adapter.repository.IngredientLookUpQueryRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.dto.IngredientDetailDTO;
@@ -31,9 +30,8 @@ import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngredientPort {
 
     private final IngredientPersistenceRepository ingredientPersistenceRepository;
-    private final IngredientQueryRepository ingredientQueryRepository;
+    private final IngredientLookUpQueryRepository ingredientLookUpQueryRepository;
     private final OutIngredientMapper mapper;
-    private final CurrentDate currentDate;
 
     @Override
     public Ingredient getIngredient(Long id) {
@@ -42,36 +40,39 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
     }
 
     @Override
-    public IngredientDetailDTO getIngredientDetail(Long id) {
-        OutIngredientDetailDTO dto = ingredientQueryRepository.findIngredient(id)
-                .orElseThrow(() -> new BusinessException(NOT_FOUND_INGREDIENT));
-
-        return mapper.toIngredientDetailDto(dto, dto.getRemainDays(currentDate.now()));
-    }
-
-    @Override
     public List<Ingredient> getIngredients(String email) {
         return ingredientPersistenceRepository.findByEmailAndDeletedFalse(email);
     }
 
     @Override
+    public IngredientDetailDTO getIngredientDetail(LocalDate now, Long id) {
+        OutIngredientDetailDTO dto = ingredientLookUpQueryRepository.findIngredient(now, id)
+                .orElseThrow(() -> new BusinessException(NOT_FOUND_INGREDIENT));
+
+        return mapper.toIngredientDetailDto(dto);
+    }
+
+    @Override
     public List<IngredientDTO> getIngredientList(LocalDate now, IngredientSearchCondition condition, int page, int size) {
-       return mapper(ingredientQueryRepository.findIngredientList(now, condition, PageRequest.of(page, size)));
+       return mapper(ingredientLookUpQueryRepository
+               .findIngredientList(now, condition, PageRequest.of(page, size)));
     }
 
     @Override
-    public List<IngredientDTO> getIngredientListOfAll(String email) {
-        return mapper(ingredientQueryRepository.findIngredientListOfAll(email));
+    public List<IngredientDTO> getIngredientListOfAll(LocalDate now, String email) {
+        return mapper(ingredientLookUpQueryRepository
+                .findIngredientListOfAll(now, email));
     }
 
     @Override
-    public List<IngredientDTO> getIngredientListByDeadline(LocalDate date, String email) {
-        return mapper(ingredientQueryRepository.findIngredientListByDeadline(date, email));
+    public List<IngredientDTO> getIngredientListByDeadline(LocalDate now, Long days, String email) {
+        return mapper(ingredientLookUpQueryRepository
+                .findIngredientListByDeadline(now, days, email));
     }
 
     private List<IngredientDTO> mapper(List<OutIngredientDTO> ingredientListByDeadline) {
         return ingredientListByDeadline.stream()
-                .map(dto -> mapper.toIngredientDto(dto, dto.getRemainDays(currentDate.now())))
+                .map(dto -> mapper.toIngredientDto(dto))
                 .collect(Collectors.toList());
     }
 }

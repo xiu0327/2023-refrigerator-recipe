@@ -32,7 +32,7 @@ class IngredientDTOTest {
         IngredientDTO dto = IngredientDTO.builder()
                 .ingredientID(1L)
                 .name("감자")
-                .remainDays("0")
+                .remainDays(0)
                 .image("test.png")
                 .build();
 

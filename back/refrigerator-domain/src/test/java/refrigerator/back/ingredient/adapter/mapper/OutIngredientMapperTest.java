@@ -36,7 +36,7 @@ class OutIngredientMapperTest {
 
         CurrentDate currentDate = TestCurrentDate.of(2023, 1, 1);
 
-        IngredientDetailDTO dto = outIngredientMapper.toIngredientDetailDto(outDto, outDto.getRemainDays(currentDate.now()));
+        IngredientDetailDTO dto = outIngredientMapper.toIngredientDetailDto(outDto);
 
         assertThat(dto.getIngredientID()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("감자");
@@ -62,7 +62,7 @@ class OutIngredientMapperTest {
 
         CurrentDate currentDate = TestCurrentDate.of(2023, 1, 1);
 
-        IngredientDTO dto = outIngredientMapper.toIngredientDto(outDto, outDto.getRemainDays(currentDate.now()));
+        IngredientDTO dto = outIngredientMapper.toIngredientDto(outDto);
 
         assertThat(dto.getIngredientID()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("감자");
