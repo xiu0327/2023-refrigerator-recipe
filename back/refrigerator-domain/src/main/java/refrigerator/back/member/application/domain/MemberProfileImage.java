@@ -21,10 +21,11 @@ public enum MemberProfileImage {
 
     private String name;
 
-    protected static MemberProfileImage pickUp(){
-        int random = new Random().nextInt(5);
-        MemberProfileImage[] result = MemberProfileImage.values();
-        return result[random];
+    public static MemberProfileImage pickUp(int number){
+        if (number < 0 || number >= MemberProfileImage.values().length){
+            throw new BusinessException(MemberExceptionType.NOT_FOUND_PROFILE_IMAGE);
+        }
+        return MemberProfileImage.values()[number];
     }
 
     public static MemberProfileImage findImageByName(String name){

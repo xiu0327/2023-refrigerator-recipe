@@ -26,7 +26,6 @@ import refrigerator.batch.common.querydsl.options.QuerydslNoOffsetStringOptions;
 import refrigerator.batch.common.querydsl.reader.QuerydslNoOffsetPagingItemReader;
 import refrigerator.batch.common.querydsl.reader.QuerydslPagingItemReader;
 import refrigerator.batch.dto.OutIngredientGroupDTO;
-import refrigerator.batch.dto.QOutIngredientGroupDTO;
 
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;

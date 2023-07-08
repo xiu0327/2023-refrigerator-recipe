@@ -7,6 +7,7 @@ import refrigerator.back.comment.application.port.in.EditCommentUseCase;
 import refrigerator.back.comment.application.port.out.ModifyCommentPort;
 import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.time.CurrentTime;
 
 import java.time.LocalDateTime;
 
@@ -16,13 +17,14 @@ import java.time.LocalDateTime;
 public class CommentEditService implements EditCommentUseCase {
 
     private final ModifyCommentPort modifyCommentPort;
+    private final CurrentTime<LocalDateTime> currentTime;
 
     @Override
     public void edit(String memberId, Long commentId, String content) {
-        Long result = modifyCommentPort.modifyContent(commentId, content, LocalDateTime.now());
+        LocalDateTime now = currentTime.now();
+        Long result = modifyCommentPort.modifyContent(commentId, content, now);
         if (result != 1){
             throw new BusinessException(CommentExceptionType.FAIL_MODIFY_COMMENT);
         }
     }
-
 }

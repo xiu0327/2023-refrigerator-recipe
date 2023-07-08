@@ -32,7 +32,7 @@ public class NotificationService implements FindNotificationListUseCase, ModifyN
         return findNotificationListPort.findNotificationList(email, page, size)
                 .stream()
                 .map(notification -> mapper.toNotificationDTO(notification,
-                                notificationTimeService.replace(notification.getCreateDate(), currentTime.now())))
+                                notificationTimeService.replace(notification.getCreateDate())))
                 .collect(Collectors.toList());
     }
 

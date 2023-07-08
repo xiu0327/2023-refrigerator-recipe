@@ -29,11 +29,8 @@ public class MemberController {
 
     private final UpdateNicknameUseCase updateNicknameUseCase;
     private final UpdateProfileUseCase updateProfileUseCase;
-    private final MakeProfileUrlUseCase makeProfileUrlUseCase;
-    private final FindMemberInfoUseCase findMemberInfoUseCase;
     private final GetProfileListUseCase getProfileListUseCase;
     private final UpdatePasswordUseCase updatePasswordUseCase;
-    private final InitNicknameAndProfileUseCase initNicknameAndProfileUseCase;
     private final GetMemberEmailUseCase memberInformation;
 
 
@@ -51,13 +48,6 @@ public class MemberController {
         updateProfileUseCase.updateProfile(memberInformation.getMemberEmail(), request.getImageName());
     }
 
-    @GetMapping("/api/members")
-    public MemberDTO findMember(){
-        Member member = findMemberInfoUseCase.findMember(memberInformation.getMemberEmail());
-        return new MemberDTO(
-                makeProfileUrlUseCase.createURL(member.getProfile().getName()),
-                member.getNickname());
-    }
 
     @PutMapping("/api/members/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -73,13 +63,4 @@ public class MemberController {
         return new BasicListResponseDTO<>(getProfileListUseCase.getProfileList());
     }
 
-    @PutMapping("/api/members/init")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void initNicknameAndProfile(@RequestBody @Valid MemberInitNicknameAndProfileRequestDTO request, BindingResult result){
-        ValidationExceptionHandler.check(result, MemberExceptionType.EMPTY_INPUT_DATA);
-
-        inputCheck(NICKNAME_REGEX, request.getNickname(), MemberExceptionType.INCORRECT_NICKNAME_FORMAT);
-
-        initNicknameAndProfileUseCase.initNicknameAndProfile(memberInformation.getMemberEmail(), request.getNickname(), request.getImageName());
-    }
 }

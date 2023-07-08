@@ -18,8 +18,6 @@ public class ServerApplication {
     @PostConstruct
     public void started(){
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        log.info("LocalDate 현재시각 : {}", LocalDateTime.now());
-        log.info("Date 현재시각: {}", new Date());
     }
 
     public static void main(String[] args) {

@@ -6,7 +6,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-@Getter
 public class RecipeViewsCookie {
 
     private final Cookie[] cookies;

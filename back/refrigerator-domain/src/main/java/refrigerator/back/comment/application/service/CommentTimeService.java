@@ -3,5 +3,5 @@ package refrigerator.back.comment.application.service;
 import java.time.LocalDateTime;
 
 public interface CommentTimeService {
-    String replace(LocalDateTime date, LocalDateTime now);
+    String replace(LocalDateTime date);
 }

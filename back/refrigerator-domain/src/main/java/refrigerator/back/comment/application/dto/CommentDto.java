@@ -21,9 +21,8 @@ public class CommentDto {
     private String memberId;
 
     public InCommentDto mapping(CommentMapper mapper,
-                                CommentTimeService timeService,
-                                Object likedPeopleId,
-                                LocalDateTime now){
-        return mapper.toInCommentDto(this, timeService.replace(createDate, now), likedPeopleId);
+                                String date,
+                                Object likedPeopleId){
+        return mapper.toInCommentDto(this, date, likedPeopleId);
     }
 }
