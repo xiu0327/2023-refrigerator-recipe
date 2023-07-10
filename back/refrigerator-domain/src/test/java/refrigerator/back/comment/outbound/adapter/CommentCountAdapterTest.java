@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import refrigerator.back.annotation.TestDataInit;
 import refrigerator.back.comment.application.port.out.FindNumberOfCommentsPort;
 import refrigerator.back.comment.outbound.repository.query.CommentSelectQueryRepository;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 

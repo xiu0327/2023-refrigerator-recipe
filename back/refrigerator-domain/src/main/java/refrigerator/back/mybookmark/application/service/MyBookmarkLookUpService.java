@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.mybookmark.adapter.out.cache.MyBookmarkCacheKey;
-import refrigerator.back.mybookmark.application.dto.InBookmarkDTO;
+import refrigerator.back.mybookmark.outbound.cache.MyBookmarkCacheKey;
+import refrigerator.back.mybookmark.application.dto.BookmarkDto;
 import refrigerator.back.mybookmark.application.dto.InBookmarkPreviewListDTO;
 import refrigerator.back.mybookmark.application.port.in.FindBookmarkListUseCase;
 import refrigerator.back.mybookmark.application.port.in.FindBookmarkPreviewUseCase;
@@ -27,7 +27,7 @@ public class MyBookmarkLookUpService implements FindBookmarkPreviewUseCase, Find
 
     @Override
     @Transactional(readOnly = true)
-    public List<InBookmarkDTO> findBookmarks(String memberId, int page, int size) {
+    public List<BookmarkDto> findBookmarks(String memberId, int page, int size) {
         return findBookmarkListPort.findBookmarkList(memberId, page, size);
     }
 

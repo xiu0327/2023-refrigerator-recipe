@@ -1,7 +1,7 @@
 package refrigerator.back.recipe.application.domain;
 
-import refrigerator.back.recipe.application.domain.dto.RecipeCourseDto;
-import refrigerator.back.recipe.application.domain.dto.RecipeIngredientDto;
+import refrigerator.back.recipe.application.dto.RecipeCourseDto;
+import refrigerator.back.recipe.application.dto.RecipeIngredientDto;
 import refrigerator.back.recipe.application.mapper.RecipeCourseDataMapper;
 import refrigerator.back.recipe.application.mapper.RecipeIngredientDataMapper;
 import refrigerator.back.recipe.application.domain.entity.RecipeCourse;
@@ -15,7 +15,6 @@ public class RecipeIngredientAndCourseCollection {
 
     private final Set<RecipeIngredient> ingredients;
     private final Set<RecipeCourse> courses;
-
 
     public RecipeIngredientAndCourseCollection(
             Set<RecipeIngredient> ingredients,

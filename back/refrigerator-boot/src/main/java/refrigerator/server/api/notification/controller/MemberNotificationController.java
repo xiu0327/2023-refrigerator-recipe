@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.notification.application.dto.NotificationSignDTO;
 import refrigerator.back.notification.application.port.in.memberNotification.FindMemberNotificationSignUseCase;
 import refrigerator.back.notification.application.port.in.memberNotification.TurnOffMemberNotificationSignUseCase;

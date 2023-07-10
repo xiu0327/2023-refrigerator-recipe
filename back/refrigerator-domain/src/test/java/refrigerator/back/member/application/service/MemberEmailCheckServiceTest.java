@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.application.port.out.FindMemberCountPort;
@@ -28,7 +27,7 @@ class MemberEmailCheckServiceTest {
         BDDMockito.given(findMemberCountPort.countByEmail(email))
                 .willReturn(0);
         // when & then
-        assertDoesNotThrow(() -> service.duplicateCheck(email));
+        assertDoesNotThrow(() -> service.isDuplicated(email));
     }
 
     @Test
@@ -41,7 +40,7 @@ class MemberEmailCheckServiceTest {
         // when & then
         assertThrows(BusinessException.class, () -> {
             try{
-                service.duplicateCheck(email);
+                service.isDuplicated(email);
             } catch (BusinessException e){
                 assertEquals(MemberExceptionType.DUPLICATE_EMAIL, e.getBasicExceptionType());
                 throw e;

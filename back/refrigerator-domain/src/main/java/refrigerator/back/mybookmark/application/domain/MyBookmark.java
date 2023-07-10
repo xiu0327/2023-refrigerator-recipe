@@ -1,16 +1,19 @@
 package refrigerator.back.mybookmark.application.domain;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.global.common.BaseTimeEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "recipe_bookmark_member")
 @NoArgsConstructor
-public class MyBookmark extends BaseTimeEntity {
+public class MyBookmark{
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bookmark_id")
     private Long bookmarkId;
@@ -24,41 +27,25 @@ public class MyBookmark extends BaseTimeEntity {
     @Column(name = "deleted")
     private Boolean deleted;
 
-    public MyBookmark(String memberId, Long recipeId) {
+    @Column(name = "create_date")
+    private LocalDateTime createDateTime;
+
+    private MyBookmark(String memberId, Long recipeId, LocalDateTime createDateTime) {
         this.memberId = memberId;
         this.recipeId = recipeId;
-    }
-
-    /* 비즈니스 로직 */
-
-    public static MyBookmark create(String memberId, Long recipeId){
-        MyBookmark newBookmark = new MyBookmark(memberId, recipeId);
-        newBookmark.undeleted();
-        return newBookmark;
-    }
-
-    public void delete(){
-        this.deleted = true;
-    }
-
-    public void undeleted(){
+        this.createDateTime = createDateTime;
         this.deleted = false;
     }
 
-    public boolean isDeleted(){
-        return this.deleted;
+    public MyBookmark(String memberId, Long recipeId, Boolean deleted, LocalDateTime createDateTime) {
+        this.memberId = memberId;
+        this.recipeId = recipeId;
+        this.deleted = deleted;
+        this.createDateTime = createDateTime;
     }
 
-    /* getter */
-    public Long getBookmarkId() {
-        return bookmarkId;
+    public static MyBookmark create(String memberId, Long recipeId, LocalDateTime createDateTime){
+        return new MyBookmark(memberId, recipeId, createDateTime);
     }
 
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public Long getRecipeId() {
-        return recipeId;
-    }
 }

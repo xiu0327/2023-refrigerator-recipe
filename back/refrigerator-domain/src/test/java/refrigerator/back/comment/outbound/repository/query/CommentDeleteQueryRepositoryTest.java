@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import refrigerator.back.comment.outbound.repository.jpa.CommentHeartJpaRepository;
-import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
 import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeart;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

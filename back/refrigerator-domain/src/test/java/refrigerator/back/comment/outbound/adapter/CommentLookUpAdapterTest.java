@@ -14,7 +14,7 @@ import refrigerator.back.comment.outbound.repository.query.CommentSelectQueryRep
 import refrigerator.back.comment.application.domain.CommentSortCondition;
 import refrigerator.back.comment.application.dto.CommentDto;
 import refrigerator.back.comment.application.port.out.FindCommentPort;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import java.time.LocalDateTime;
 import java.util.*;

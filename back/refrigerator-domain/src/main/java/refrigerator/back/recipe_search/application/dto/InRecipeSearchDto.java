@@ -1,9 +1,6 @@
 package refrigerator.back.recipe_search.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import refrigerator.back.global.image.Image;
-import refrigerator.back.global.image.ImageGenerator;
 
 import java.lang.reflect.Field;
 
@@ -11,7 +8,7 @@ import java.lang.reflect.Field;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class InRecipeSearchDto extends Image {
+public class InRecipeSearchDto {
     private Long recipeID;
     private String recipeName;
     private String image;
@@ -29,10 +26,5 @@ public class InRecipeSearchDto extends Image {
         } catch (IllegalAccessException e) {
             return false;
         }
-    }
-
-    @Override
-    public void generateImageUrl(ImageGenerator generator) {
-        this.image = generator.getUrl(image);
     }
 }

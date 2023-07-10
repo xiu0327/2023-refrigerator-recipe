@@ -19,7 +19,6 @@ import java.io.IOException;
 public class LoginController {
 
     private final LoginUseCase loginUseCase;
-    private final CustomCookie refreshTokenCookie = new RefreshTokenCookie();
     private final String oauthPassword;
     private final String frontDomain;
 
@@ -51,6 +50,7 @@ public class LoginController {
     }
 
     private TokenDto login(String email, String password, HttpServletResponse response) {
+        RefreshTokenCookie refreshTokenCookie = new RefreshTokenCookie();
         TokenDto token = loginUseCase.login(email, password);
         response.addCookie(refreshTokenCookie.create(token.getRefreshToken()));
         token.removeRefreshToken();

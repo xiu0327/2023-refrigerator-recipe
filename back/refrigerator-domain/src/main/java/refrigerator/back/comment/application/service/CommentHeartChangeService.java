@@ -13,6 +13,7 @@ import refrigerator.back.comment.application.port.out.FindCommentHeartPeoplePort
 import refrigerator.back.comment.application.port.out.RemoveCommentHeartPeoplePort;
 import refrigerator.back.comment.application.port.out.SaveCommentHeartPeoplePort;
 import refrigerator.back.comment.exception.CommentExceptionType;
+import refrigerator.back.global.common.RandomUUID;
 import refrigerator.back.global.exception.BusinessException;
 
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class CommentHeartChangeService implements AddCommentHeartUseCase, Reduce
     private final FindCommentHeartPeoplePort findCommentHeartPeoplePort;
     private final SaveCommentHeartPeoplePort saveCommentHeartPeoplePort;
     private final RemoveCommentHeartPeoplePort removeCommentHeartPeoplePort;
+    private final RandomUUID randomUUID;
 
     @Override
     public void addHeart(Long commentId, String memberId) {
@@ -36,7 +38,7 @@ public class CommentHeartChangeService implements AddCommentHeartUseCase, Reduce
             throw new BusinessException(CommentExceptionType.DUPLICATE_HEART_REQUEST);
         }
         changeCommentHeartCountPort.change(commentId, CommentHeartValue.ADD);
-        CommentHeartPeople people = new CommentHeartPeople(commentId, memberId);
+        CommentHeartPeople people = new CommentHeartPeople(randomUUID.getUUID().substring(0, 8), commentId, memberId);
         saveCommentHeartPeoplePort.save(people);
     }
 

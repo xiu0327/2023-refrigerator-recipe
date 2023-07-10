@@ -1,7 +1,6 @@
 package refrigerator.back.global.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
@@ -13,7 +12,7 @@ import org.springframework.boot.test.context.ConfigDataApplicationContextInitial
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import refrigerator.back.global.config.S3Config;
+import refrigerator.back.global.s3.config.S3Config;
 
 import java.util.List;
 

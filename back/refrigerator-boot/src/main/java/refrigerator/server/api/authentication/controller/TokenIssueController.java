@@ -29,7 +29,6 @@ public class TokenIssueController {
 
     private final ReissueUseCase tokenReissueUseCase;
     private final IssueTemporaryTokenUseCase issueTemporaryAccessToken;
-    private final CustomCookie refreshTokenCookie = new RefreshTokenCookie();
     private final String grantType;
 
     public TokenIssueController(ReissueUseCase tokenReissueUseCase,
@@ -43,6 +42,7 @@ public class TokenIssueController {
     @PostMapping("/api/auth/reissue")
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDto reissue(HttpServletRequest request){
+        RefreshTokenCookie refreshTokenCookie = new RefreshTokenCookie();
         String refreshToken = refreshTokenCookie.get(request.getCookies()).getValue();
         TokenDto token = tokenReissueUseCase.reissue(refreshToken);
         token.removeRefreshToken();

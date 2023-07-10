@@ -13,7 +13,7 @@ public interface RecipeRecommendDataMapper {
     RecipeRecommendDataMapper INSTANCE = Mappers.getMapper(RecipeRecommendDataMapper.class);
 
     @Mappings({
-            @Mapping(source = "dto.score", target = "scoreAvg"),
+//            @Mapping(source = "dto.myScore", target = "scoreAvg"),
             @Mapping(source = "dto.recipeId", target = "recipeID"),
             @Mapping(source = "dto.recipeImage", target = "image")
     })

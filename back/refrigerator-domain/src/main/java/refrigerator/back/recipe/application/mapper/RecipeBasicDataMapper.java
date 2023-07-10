@@ -5,10 +5,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.recipe.application.domain.dto.RecipeCourseDto;
-import refrigerator.back.recipe.application.domain.dto.RecipeDomainDto;
-import refrigerator.back.recipe.application.domain.dto.RecipeDto;
-import refrigerator.back.recipe.application.domain.dto.RecipeIngredientDto;
+import refrigerator.back.recipe.application.dto.RecipeCourseDto;
+import refrigerator.back.recipe.application.dto.RecipeDomainDto;
+import refrigerator.back.recipe.application.dto.RecipeDto;
+import refrigerator.back.recipe.application.dto.RecipeIngredientDto;
 
 import java.util.List;
 

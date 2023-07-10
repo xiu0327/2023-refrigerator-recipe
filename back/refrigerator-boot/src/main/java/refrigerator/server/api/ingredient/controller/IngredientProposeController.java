@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.ingredient.application.port.in.suggestIngredient.ProposeIngredientUseCase;
 import refrigerator.server.api.ingredient.dto.IngredientProposeRequestDTO;
 

@@ -4,29 +4,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.member.application.domain.MemberProfileImage;
-import refrigerator.back.member.application.port.in.UpdateNicknameUseCase;
-import refrigerator.back.member.application.port.in.UpdateProfileUseCase;
-import refrigerator.back.member.application.port.out.ModifyMemberNicknamePort;
-import refrigerator.back.member.application.port.out.ModifyMemberProfilePort;
+import refrigerator.back.member.application.port.in.ModifyMemberUseCase;
+import refrigerator.back.member.application.port.out.UpdateMemberPort;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberModifyService implements UpdateNicknameUseCase, UpdateProfileUseCase {
+public class MemberModifyService implements ModifyMemberUseCase {
 
-    private final ModifyMemberNicknamePort modifyMemberNicknamePort;
-    private final ModifyMemberProfilePort modifyMemberProfilePort;
-
+    private final UpdateMemberPort updateMemberPort;
 
     @Override
-    public void updateNickname(String email, String newNickname) {
-
-        modifyMemberNicknamePort.modifyNickname(email, newNickname);
+    public void modifyNickname(String email, String nickname) {
+        updateMemberPort.updateToNickname(email, nickname);
     }
 
     @Override
-    public void updateProfile(String email, String newProfileName) {
-        modifyMemberProfilePort.modifyProfile(email, MemberProfileImage.findImageByName(newProfileName));
+    public void modifyPassword(String email, String password) {
+        updateMemberPort.updateToPassword(email, password);
     }
 
+    @Override
+    public void modifyProfileImage(String email, Integer imageNo) {
+        updateMemberPort.updateToProfile(email, MemberProfileImage.pickUp(imageNo));
+    }
 }

@@ -9,7 +9,7 @@ import refrigerator.back.comment.outbound.repository.jpa.CommentHeartJpaReposito
 import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
 import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeart;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

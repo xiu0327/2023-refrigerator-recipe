@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.server.api.global.common.BasicListRequestDTO;
 import refrigerator.server.api.ingredient.dto.IngredientDeductionRequestDTO;

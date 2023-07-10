@@ -38,10 +38,10 @@ public class RecipeSearchSelectQueryRepository {
         return jpaQueryFactory
                 .select(new QOutRecipeDto(
                         recipe.recipeID, recipe.recipeName, recipe.image,
-                        recipeScore.score,
+                        recipeScore.scoreAvg,
                         recipeViews.views))
                 .from(recipe)
-                .leftJoin(recipeScore).on(recipeScore.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeID))
                 .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeFoodType).on(recipeFoodType.typeID.eq(recipe.recipeFoodType))
@@ -68,10 +68,10 @@ public class RecipeSearchSelectQueryRepository {
         return jpaQueryFactory
                 .select(new QOutRecipeDto(
                         recipe.recipeID, recipe.recipeName, recipe.image,
-                        recipeScore.score,
+                        recipeScore.scoreAvg,
                         recipeViews.views))
                 .from(recipe)
-                .leftJoin(recipeScore).on(recipeScore.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeID))
                 .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
                 .leftJoin(recipeFoodType).on(recipeFoodType.typeID.eq(recipe.recipeFoodType))
@@ -111,7 +111,7 @@ public class RecipeSearchSelectQueryRepository {
     }
 
     private BooleanExpression recipeScoreGoe(Double score) {
-        return score != null ? recipeScore.score.goe(score) : null;
+        return score != null ? recipeScore.scoreAvg.goe(score) : null;
     }
 
     private BooleanExpression recipeDifficultyEq(String difficulty) {

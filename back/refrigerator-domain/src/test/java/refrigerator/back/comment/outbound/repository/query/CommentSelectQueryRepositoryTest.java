@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import refrigerator.back.annotation.TestDataInit;
 import refrigerator.back.comment.outbound.dto.OutCommentDto;
 import refrigerator.back.comment.application.domain.CommentSortCondition;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import java.util.List;
 

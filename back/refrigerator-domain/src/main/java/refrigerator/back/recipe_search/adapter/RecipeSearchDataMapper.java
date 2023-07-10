@@ -12,6 +12,6 @@ public interface RecipeSearchDataMapper {
     RecipeSearchDataMapper INSTANCE = Mappers.getMapper(RecipeSearchDataMapper.class);
 
     /* outbound adapter -> inbound adapter */
-    @Mapping(source = "dto.score", target = "scoreAvg")
+//    @Mapping(source = "dto.myScore", target = "scoreAvg")
     InRecipeSearchDto toInRecipeSearchDto(OutRecipeDto dto);
 }

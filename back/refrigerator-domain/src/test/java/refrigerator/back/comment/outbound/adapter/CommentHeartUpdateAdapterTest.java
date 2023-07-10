@@ -9,7 +9,7 @@ import refrigerator.back.comment.application.domain.CommentHeart;
 import refrigerator.back.comment.application.domain.CommentHeartValue;
 import refrigerator.back.comment.outbound.repository.jpa.CommentHeartJpaRepository;
 import refrigerator.back.comment.outbound.repository.query.CommentUpdateQueryRepository;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import static org.junit.jupiter.api.Assertions.*;
 

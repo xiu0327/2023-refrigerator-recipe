@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import refrigerator.back.global.config.redis.BusinessRedisLettuceConnectionConfig;
+import refrigerator.back.global.redis.config.BusinessRedisLettuceConnectionConfig;
 
 @Configuration
 @Import(BusinessRedisLettuceConnectionConfig.class)

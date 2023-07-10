@@ -5,7 +5,6 @@ import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 import javax.persistence.Id;
-import java.util.UUID;
 
 @Getter
 @RedisHash
@@ -20,8 +19,8 @@ public class CommentHeartPeople {
     @Indexed
     private String memberId;
 
-    public CommentHeartPeople(Long commentId, String memberId) {
-        this.id = UUID.randomUUID().toString().substring(0, 8);
+    public CommentHeartPeople(String id, Long commentId, String memberId) {
+        this.id = id;
         this.commentId = commentId;
         this.memberId = memberId;
     }

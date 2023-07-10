@@ -5,8 +5,6 @@ import refrigerator.back.annotation.IntegrationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@IntegrationTest
-
 class CommentWriteServiceTest {
 
     @Test

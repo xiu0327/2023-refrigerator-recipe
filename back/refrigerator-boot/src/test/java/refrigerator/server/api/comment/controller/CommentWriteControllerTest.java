@@ -1,25 +1,20 @@
 package refrigerator.server.api.comment.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
 import refrigerator.server.api.comment.dto.InCommentWriteRequestDto;
 import refrigerator.server.config.ExcludeSecurityConfiguration;
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

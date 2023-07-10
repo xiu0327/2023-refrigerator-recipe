@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
-import refrigerator.back.global.image.ImageGenerator;
-import refrigerator.back.recipe.application.domain.dto.RecipeDto;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
+import refrigerator.back.recipe.application.dto.RecipeDto;
 import refrigerator.back.recipe.application.port.in.FindRecipeDetailsUseCase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 public class RecipeDetailsController {
 
     private final FindRecipeDetailsUseCase recipeUseCase;
-    private final ImageGenerator recipeImageGenerator;
     private final GetMemberEmailUseCase memberInformation;
 
     @GetMapping("/api/recipe/{recipeId}/details")
@@ -30,7 +28,6 @@ public class RecipeDetailsController {
             cookie.addViewCookie(recipeId, response);
         }
         RecipeDto dto = recipeUseCase.findRecipeDetails(recipeId, memberInformation.getMemberEmail(), isViewed);
-        dto.generateImageUrl(recipeImageGenerator);
         return dto;
     }
 }

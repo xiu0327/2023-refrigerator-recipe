@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import refrigerator.back.comment.application.domain.CommentSortCondition;
 import refrigerator.back.comment.application.dto.InCommentDto;
 import refrigerator.back.comment.application.port.in.FindCommentsUseCase;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.comment.application.port.in.FindNumberOfCommentsUseCase;
 import refrigerator.server.api.comment.dto.InCommentsPreviewResponseDto;
 import refrigerator.server.api.comment.dto.InCommentsResponseDto;

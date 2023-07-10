@@ -50,9 +50,9 @@ public class RecipeRecommendSelectQueryRepository {
                         recipe.recipeID,
                         recipe.recipeName,
                         recipe.image,
-                        recipeScore.score))
+                        recipeScore.scoreAvg))
                 .from(recipe)
-                .innerJoin(recipeScore).on(recipeScore.recipeID.eq(recipe.recipeID))
+                .innerJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeID))
                 .where(recipe.recipeID.in(ids))
                 .fetch();
     }

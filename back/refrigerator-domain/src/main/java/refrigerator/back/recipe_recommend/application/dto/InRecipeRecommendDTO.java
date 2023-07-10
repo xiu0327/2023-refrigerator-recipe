@@ -1,15 +1,13 @@
 package refrigerator.back.recipe_recommend.application.dto;
 
 import lombok.*;
-import refrigerator.back.global.image.Image;
-import refrigerator.back.global.image.ImageGenerator;
 
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class InRecipeRecommendDTO extends Image {
+public class InRecipeRecommendDTO {
 
     private Long recipeID;
 
@@ -21,14 +19,9 @@ public class InRecipeRecommendDTO extends Image {
 
     private Double match;
 
-
     public InRecipeRecommendDTO calculateMatchRate(Double match){
         this.match = match;
         return this;
     }
 
-    @Override
-    public void generateImageUrl(ImageGenerator generator) {
-        this.image = generator.getUrl(image);
-    }
 }

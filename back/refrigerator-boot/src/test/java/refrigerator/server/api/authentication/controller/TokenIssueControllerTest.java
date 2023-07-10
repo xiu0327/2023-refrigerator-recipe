@@ -37,7 +37,7 @@ class TokenIssueControllerTest {
     @Test
     @DisplayName("토큰 재발급 성공 테스트")
     void reissueSuccessTest() throws Exception {
-        CustomCookie refreshTokenCookie = new RefreshTokenCookie();
+        RefreshTokenCookie refreshTokenCookie = new RefreshTokenCookie();
         String email = "mstest102@gmail.com";
         String token = jsonWebTokenUseCase.createToken(email, "STEADY_STATUS", 1000 * 60);
         refreshTokenRepository.save(new RefreshToken(email, token, true));
@@ -51,7 +51,7 @@ class TokenIssueControllerTest {
     @Test
     @DisplayName("토큰 재발급 실패 테스트 -> 무효화된 토큰일 경우")
     void reissueFailTest() throws Exception {
-        CustomCookie refreshTokenCookie = new RefreshTokenCookie();
+        RefreshTokenCookie refreshTokenCookie = new RefreshTokenCookie();
         String email = "mstest102@gmail.com";
         String token = jsonWebTokenUseCase.createToken(email, "STEADY_STATUS", 1000 * 60);
         refreshTokenRepository.save(new RefreshToken(email, token, false));

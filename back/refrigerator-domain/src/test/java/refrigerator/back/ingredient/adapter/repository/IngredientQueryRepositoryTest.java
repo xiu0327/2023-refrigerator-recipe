@@ -8,7 +8,7 @@
 //import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 //import org.springframework.context.annotation.Import;
 //import org.springframework.data.domain.PageRequest;
-//import refrigerator.back.global.config.QuerydslConfig;
+//import refrigerator.back.global.config.jpa.QuerydslConfig;
 //import refrigerator.back.global.exception.BusinessException;
 //import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 //import refrigerator.back.ingredient.application.domain.Ingredient;
@@ -76,8 +76,8 @@
 //
 //        List<Long> ids = new ArrayList<>();
 //
-//        ids.add(em.persistAndGetId(ingredient1, Long.class));
-//        ids.add(em.persistAndGetId(ingredient2, Long.class));
+//        ids.addUp(em.persistAndGetId(ingredient1, Long.class));
+//        ids.addUp(em.persistAndGetId(ingredient2, Long.class));
 //
 //        Long count = ingredientQueryRepository.updateAllIngredientDeleteStateTrue(ids);
 //        assertThat(count).isEqualTo(2);

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.back.comment.application.port.in.AddCommentHeartUseCase;
 import refrigerator.back.comment.application.port.in.ReduceCommentHeartUseCase;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 
 
 @RestController
@@ -16,7 +16,7 @@ public class CommentHeartController {
     private final ReduceCommentHeartUseCase reduceCommentHeartUseCase;
     private final GetMemberEmailUseCase getMemberEmailUseCase;
 
-    @PutMapping("/api/comments/{commentId}/heart/add")
+    @PutMapping("/api/comments/{commentId}/heart/addUp")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addHeartCount(@PathVariable("commentId") Long commentId){
         String memberId = getMemberEmailUseCase.getMemberEmail();

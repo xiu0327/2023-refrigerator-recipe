@@ -1,10 +1,10 @@
 package refrigerator.back.mybookmark.application.port.out;
 
 
-import refrigerator.back.mybookmark.application.dto.InBookmarkDTO;
+import refrigerator.back.mybookmark.application.dto.BookmarkDto;
 
 import java.util.List;
 
 public interface FindBookmarkListPort {
-    List<InBookmarkDTO> findBookmarkList(String memberId, int page, int size);
+    List<BookmarkDto> findBookmarkList(String memberId, int page, int size);
 }

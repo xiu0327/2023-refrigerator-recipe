@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.server.api.global.common.BasicListResponseDTO;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.server.api.mybookmark.dto.BookmarkIdResponseDTO;
-import refrigerator.back.mybookmark.application.dto.InBookmarkDTO;
+import refrigerator.back.mybookmark.application.dto.BookmarkDto;
 import refrigerator.server.api.mybookmark.dto.InBookmarkListDTO;
 import refrigerator.back.mybookmark.application.dto.InBookmarkPreviewListDTO;
 import refrigerator.back.mybookmark.application.port.in.*;
@@ -26,7 +26,7 @@ public class MyBookmarkController {
     private final FindBookmarkPreviewUseCase findBookmarkPreviewUseCase;
     private final GetMemberEmailUseCase memberInformation;
 
-    @PostMapping("/api/my-bookmark/add/{recipeId}")
+    @PostMapping("/api/my-bookmark/addUp/{recipeId}")
     @ResponseStatus(HttpStatus.CREATED)
     public BookmarkIdResponseDTO addBookmark(@PathVariable("recipeId") Long recipeId){
         Long bookmarkId = addBookmarkUseCase.add(memberInformation.getMemberEmail(), recipeId);
@@ -54,7 +54,7 @@ public class MyBookmarkController {
     @GetMapping("/api/my-bookmark/list")
     public InBookmarkListDTO findMyBookmarkList(@RequestParam("page") int page,
                                                 @RequestParam(name = "size", defaultValue = "11") int size){
-        List<InBookmarkDTO> bookmarks = findBookmarkListUseCase.findBookmarks(memberInformation.getMemberEmail(), page, size);
+        List<BookmarkDto> bookmarks = findBookmarkListUseCase.findBookmarks(memberInformation.getMemberEmail(), page, size);
         return InBookmarkListDTO.builder().bookmarks(bookmarks).build();
     }
 

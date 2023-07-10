@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import refrigerator.back.comment.outbound.repository.query.CommentBatchQueryRepository;
 import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
-import refrigerator.back.mybookmark.adapter.out.repository.BookmarkRepository;
+import refrigerator.back.mybookmark.outbound.repository.jpa.BookmarkRepository;
 
 @RequiredArgsConstructor
 @Configuration
@@ -68,7 +68,7 @@ public class PeriodicDataDeleteConfig {
     public Step deleteBookmarkStep() {
         return stepBuilderFactory.get("deleteBookmarkStep")
                 .tasklet((contribution, chunkContext) -> {
-                    bookmarkRepository.deleteMyBookmark();
+//                    bookmarkRepository.deleteMyBookmark();
 
                     return RepeatStatus.FINISHED;
                 })

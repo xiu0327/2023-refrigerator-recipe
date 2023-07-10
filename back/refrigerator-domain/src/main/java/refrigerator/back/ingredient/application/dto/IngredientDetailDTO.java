@@ -2,8 +2,6 @@ package refrigerator.back.ingredient.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
-import refrigerator.back.global.image.Image;
-import refrigerator.back.global.image.ImageGenerator;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;
@@ -13,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientDetailDTO extends Image {
+public class IngredientDetailDTO {
 
     private Long ingredientID;
 
@@ -35,8 +33,4 @@ public class IngredientDetailDTO extends Image {
 
     private String image;
 
-    @Override
-    public void generateImageUrl(ImageGenerator generator) {
-        this.image = generator.getUrl(image);
-    }
 }

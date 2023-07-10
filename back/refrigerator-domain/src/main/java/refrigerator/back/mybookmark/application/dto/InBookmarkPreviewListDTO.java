@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Builder
 public class InBookmarkPreviewListDTO {
-    private List<InBookmarkPreviewDTO> bookmarks;
+    private List<BookmarkPreviewDto> bookmarks;
     private Integer count;
 }

@@ -53,9 +53,9 @@ class CommentHeartPeopleLookUpAdapterTest {
     }
 
     private void saveTestData(String memberId){
-        CommentHeartPeople people1 = new CommentHeartPeople(1L, memberId);
-        CommentHeartPeople people2 = new CommentHeartPeople(2L, memberId);
-        CommentHeartPeople people3 = new CommentHeartPeople(3L, memberId);
+        CommentHeartPeople people1 = new CommentHeartPeople("id1", 1L, memberId);
+        CommentHeartPeople people2 = new CommentHeartPeople("id2", 2L, memberId);
+        CommentHeartPeople people3 = new CommentHeartPeople("id3", 3L, memberId);
         redisRepository.saveAll(Arrays.asList(people1, people2, people3));
     }
 }
