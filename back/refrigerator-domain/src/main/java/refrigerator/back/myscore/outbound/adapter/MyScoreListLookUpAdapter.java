@@ -35,7 +35,7 @@ public class MyScoreListLookUpAdapter implements FindMyScoreListPort {
     @Override
     public InMyScorePreviewsDto findMyScorePreviews(String memberId, int page, int size) {
         List<OutMyScorePreviewDto> scores = queryRepository.selectMyScorePreviewDtos(memberId, PageRequest.of(page, size));
-        int previewSize = queryRepository.selectMyScoreCountByMemberId(memberId);
+        int previewSize = queryRepository.selectMyScoreCountByMemberId(memberId).getNumber();
         List<MyScorePreviewDto> previews = scores.stream()
                 .map(score -> score.mapping(mapper, imageUrlConvert))
                 .collect(Collectors.toList());

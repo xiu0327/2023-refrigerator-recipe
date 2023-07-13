@@ -49,7 +49,7 @@ public class MyScoreSelectQueryRepository {
                         myScore.score,
                         myScore.createDateTime))
                 .from(myScore)
-                .leftJoin(recipe).on(recipe.recipeID.eq(myScore.recipeId))
+                .leftJoin(recipe).on(recipe.recipeId.eq(myScore.recipeId))
                 .where(myScore.memberId.eq(memberId))
                 .offset(page.getOffset())
                 .limit(page.getPageSize())
@@ -71,7 +71,7 @@ public class MyScoreSelectQueryRepository {
                         recipe.recipeName,
                         myScore.createDateTime))
                 .from(myScore)
-                .leftJoin(recipe).on(recipe.recipeID.eq(myScore.recipeId))
+                .leftJoin(recipe).on(recipe.recipeId.eq(myScore.recipeId))
                 .where(myScore.memberId.eq(memberId))
                 .offset(page.getOffset())
                 .limit(page.getPageSize())
@@ -84,11 +84,27 @@ public class MyScoreSelectQueryRepository {
      * @param memberId 사용자 id (이메일)
      * @return 나의 별점 전체 개수
      */
-    public int selectMyScoreCountByMemberId(String memberId){
-        return Objects.requireNonNull(jpaQueryFactory.select(myScore.count())
+    public OutMyScoreNumberDto selectMyScoreCountByMemberId(String memberId){
+        Long number = jpaQueryFactory.select(myScore.count())
                 .from(myScore)
                 .where(myScore.memberId.eq(memberId))
-                .fetchOne()).intValue();
+                .fetchOne();
+        return new OutMyScoreNumberDto(number);
+    }
+
+    /**
+     * 나의 별점 개수 조회
+     * @param memberId 사용자 id (이메일)
+     * @param recipeId 레시피 id
+     * @return 나의 별점 개수
+     */
+    public OutMyScoreNumberDto selectMyScoreCountByMemberIdAndRecipeId(String memberId, Long recipeId){
+        Long number = jpaQueryFactory.select(myScore.count())
+                .from(myScore)
+                .where(myScore.memberId.eq(memberId),
+                        myScore.recipeId.eq(recipeId))
+                .fetchOne();
+        return new OutMyScoreNumberDto(number);
     }
 }
 

@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "notification")
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

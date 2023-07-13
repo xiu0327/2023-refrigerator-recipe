@@ -35,8 +35,7 @@ public class CommentSelectQueryRepository {
                         commentHeart.count,
                         comment.commentRecord.createDateTime,
                         comment.commentRecord.modifiedState,
-                        comment.content,
-                        member.email))
+                        comment.content))
                 .from(comment)
                 .leftJoin(member).on(member.email.eq(comment.writerId))
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentId))
@@ -50,14 +49,15 @@ public class CommentSelectQueryRepository {
     /**
      * 레시피 전체 댓글 개수 조회
      * @param recipeId 레시피 식별자
-     * @return 댓글 개수
+     * @return 댓글 개수 Dto
      */
-    public Long selectCommentsCount(Long recipeId){
-        return jpaQueryFactory
+    public OutCommentNumberDto selectCommentsCount(Long recipeId){
+        Long number = jpaQueryFactory
                 .select(comment.count())
                 .from(comment)
                 .where(recipeIdEq(recipeId))
                 .fetchOne();
+        return new OutCommentNumberDto(number);
     }
 
     /**
@@ -76,8 +76,7 @@ public class CommentSelectQueryRepository {
                         commentHeart.count,
                         comment.commentRecord.createDateTime,
                         comment.commentRecord.modifiedState,
-                        comment.content,
-                        member.email))
+                        comment.content))
                 .from(comment)
                 .leftJoin(member).on(member.email.eq(comment.writerId))
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentId))
@@ -102,8 +101,7 @@ public class CommentSelectQueryRepository {
                         commentHeart.count,
                         comment.commentRecord.createDateTime,
                         comment.commentRecord.modifiedState,
-                        comment.content,
-                        member.email))
+                        comment.content))
                 .from(comment)
                 .leftJoin(member).on(member.email.eq(comment.writerId))
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentId))

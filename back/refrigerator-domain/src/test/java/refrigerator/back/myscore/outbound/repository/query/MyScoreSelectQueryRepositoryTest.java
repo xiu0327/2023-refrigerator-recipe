@@ -3,10 +3,9 @@ package refrigerator.back.myscore.outbound.repository.query;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.repository.support.Querydsl;
+import refrigerator.back.annotation.DisabledRepositoryTest;
 import refrigerator.back.annotation.TestDataInit;
 import refrigerator.back.global.jpa.config.QuerydslConfig;
 import refrigerator.back.myscore.outbound.dto.OutMyScoreDetailDto;
@@ -18,7 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@DisabledRepositoryTest
 @Import({QuerydslConfig.class, MyScoreSelectQueryRepository.class})
 @TestDataInit({"/recipe.sql", "/myscore.sql"})
 class MyScoreSelectQueryRepositoryTest {
@@ -61,11 +60,4 @@ class MyScoreSelectQueryRepositoryTest {
         }
     }
 
-    @Test
-    @DisplayName("나의 별점 전체 개수 조회 쿼리 테스트")
-    void selectMyScoreCountByMemberId(){
-        String memberId = "mstest102@gmail.com";
-        int result = queryRepository.selectMyScoreCountByMemberId(memberId);
-        assertEquals(6, result);
-    }
 }

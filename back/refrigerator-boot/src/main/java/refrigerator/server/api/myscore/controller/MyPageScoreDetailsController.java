@@ -19,9 +19,10 @@ public class MyPageScoreDetailsController {
     private final GetMemberEmailUseCase getMemberEmailUseCase;
 
     @GetMapping("/api/my-page/scores")
-    public InMyScoreDetailsListDto findMyScores(@RequestParam("size") int size){
+    public InMyScoreDetailsListDto findMyScores(@RequestParam(value = "size", defaultValue = "11") int size,
+                                                @RequestParam("page") int page){
         String memberId = getMemberEmailUseCase.getMemberEmail();
-        List<MyScoreDetailDto> scores = findMyScoresUseCase.findMyScores(memberId, 0, size);
+        List<MyScoreDetailDto> scores = findMyScoresUseCase.findMyScores(memberId, page, size);
         return new InMyScoreDetailsListDto(scores);
     }
 

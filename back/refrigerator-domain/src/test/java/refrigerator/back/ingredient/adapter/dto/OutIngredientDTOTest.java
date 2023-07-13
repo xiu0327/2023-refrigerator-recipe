@@ -21,7 +21,7 @@
 //
 //        assertThat(dto.getIngredientID()).isEqualTo(1L);
 //        assertThat(dto.getName()).isEqualTo("감자");
-//        assertThat(dto.getImage()).isEqualTo("test.png");
+//        assertThat(dto.getRecipeImageName()).isEqualTo("test.png");
 //        assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
 //
 //        CurrentDate currentDate = TestCurrentDate.of(2023,1,1);

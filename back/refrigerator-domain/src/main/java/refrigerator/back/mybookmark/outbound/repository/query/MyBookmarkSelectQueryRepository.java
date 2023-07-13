@@ -4,10 +4,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import refrigerator.back.mybookmark.outbound.dto.OutBookmarkDto;
-import refrigerator.back.mybookmark.outbound.dto.OutBookmarkPreviewDto;
-import refrigerator.back.mybookmark.outbound.dto.QOutBookmarkDto;
-import refrigerator.back.mybookmark.outbound.dto.QOutBookmarkPreviewDto;
+import refrigerator.back.mybookmark.outbound.dto.*;
+
 
 import java.util.List;
 
@@ -28,16 +26,16 @@ public class MyBookmarkSelectQueryRepository {
      * @param pageable 페이징 처리 정보
      * @return 나의 북마크 목록
      */
-    public List<OutBookmarkPreviewDto> selectMyBookmarkPreviews(String memberId, Pageable pageable) {
+    public List<OutMyBookmarkPreviewDto> selectMyBookmarkPreviews(String memberId, Pageable pageable) {
         return jpaQueryFactory
-                .select(new QOutBookmarkPreviewDto(
+                .select(new QOutMyBookmarkPreviewDto(
                         myBookmark.bookmarkId,
                         myBookmark.recipeId,
                         recipe.image,
                         recipe.recipeName,
                         myBookmark.createDateTime))
                 .from(myBookmark)
-                .leftJoin(recipe).on(recipe.recipeID.eq(myBookmark.recipeId))
+                .leftJoin(recipe).on(recipe.recipeId.eq(myBookmark.recipeId))
                 .where(myBookmark.memberId.eq(memberId),
                         myBookmark.deleted.eq(false))
                 .orderBy(myBookmark.createDateTime.desc())
@@ -51,12 +49,13 @@ public class MyBookmarkSelectQueryRepository {
      * @param memberId 사용자 id (이메일)
      * @return 북마크 개수
      */
-    public Long selectNumberOfMyBookmarks(String memberId){
-        return jpaQueryFactory.select(myBookmark.count())
+    public OutMyBookmarkNumberDto selectNumberOfMyBookmarks(String memberId){
+        Long number = jpaQueryFactory.select(myBookmark.count())
                 .from(myBookmark)
                 .where(myBookmark.memberId.eq(memberId),
                         myBookmark.deleted.eq(false))
                 .fetchOne();
+        return new OutMyBookmarkNumberDto(number);
     }
 
     /**
@@ -65,9 +64,9 @@ public class MyBookmarkSelectQueryRepository {
      * @param pageable
      * @return
      */
-    public List<OutBookmarkDto> selectMyBookmarks(String memberId, Pageable pageable) {
+    public List<OutMyBookmarkDto> selectMyBookmarks(String memberId, Pageable pageable) {
         return jpaQueryFactory
-                .select(new QOutBookmarkDto(
+                .select(new QOutMyBookmarkDto(
                         myBookmark.bookmarkId,
                         myBookmark.recipeId,
                         recipe.image,
@@ -76,7 +75,7 @@ public class MyBookmarkSelectQueryRepository {
                         recipeViews.views,
                         myBookmark.createDateTime))
                 .from(myBookmark)
-                .leftJoin(recipe).on(recipe.recipeID.eq(myBookmark.recipeId))
+                .leftJoin(recipe).on(recipe.recipeId.eq(myBookmark.recipeId))
                 .leftJoin(recipeScore).on(recipeScore.recipeId.eq(myBookmark.recipeId))
                 .leftJoin(recipeViews).on(recipeViews.recipeID.eq(myBookmark.recipeId))
                 .where(myBookmark.memberId.eq(memberId),
@@ -88,18 +87,19 @@ public class MyBookmarkSelectQueryRepository {
     }
 
     /**
-     * 북마크 식별자값 조회
-     * @param recipeId 북마크를 남긴 레시피 Id
+     * 동일한 recipeId 와 memberId 북마크 개수 조회
+     * @param recipeId 레시피 id
      * @param memberId 사용자 id
-     * @return 북마크 id
+     * @return 북마크 개수
      */
-    public Long selectBookmarkIdByRecipeIdAndMemberId(Long recipeId, String memberId){
-        return jpaQueryFactory.select(myBookmark.bookmarkId)
+    public OutMyBookmarkNumberDto selectNumberOfMyBookmarkByRecipeIdAndMemberId(Long recipeId, String memberId){
+        Long number = jpaQueryFactory.select(myBookmark.count())
                 .from(myBookmark)
                 .where(myBookmark.memberId.eq(memberId),
                         myBookmark.recipeId.eq(recipeId),
                         myBookmark.deleted.eq(false))
                 .fetchOne();
+        return new OutMyBookmarkNumberDto(number);
     }
     
 }

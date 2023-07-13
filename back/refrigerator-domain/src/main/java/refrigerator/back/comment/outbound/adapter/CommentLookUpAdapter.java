@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.application.dto.CommentDto;
+import refrigerator.back.comment.application.service.CommentTimeService;
 import refrigerator.back.comment.outbound.dto.OutCommentDto;
 import refrigerator.back.comment.outbound.mapper.OutCommentMapper;
 import refrigerator.back.comment.outbound.repository.query.CommentSelectQueryRepository;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class CommentLookUpAdapter implements FindCommentPort {
 
     private final CommentSelectQueryRepository queryRepository;
+    private final CommentTimeService commentTimeService;
     private final OutCommentMapper mapper;
 
     @Override
@@ -38,8 +40,14 @@ public class CommentLookUpAdapter implements FindCommentPort {
         return mapping(queryRepository.selectMyComments(memberId, recipeId));
     }
 
+    @Override
+    public Integer findNumberOfComments(Long recipeId) {
+        return queryRepository.selectCommentsCount(recipeId).getNumber();
+    }
+
     private List<CommentDto> mapping(List<OutCommentDto> comments){
-        return comments.stream().map(comment -> comment.mapping(mapper))
+        return comments.stream()
+                .map(comment -> comment.mapping(mapper, commentTimeService))
                 .collect(Collectors.toList());
     }
 

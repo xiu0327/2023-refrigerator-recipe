@@ -20,10 +20,12 @@ public class CookingController {
         cookingUseCase.firstCooking(memberId, recipeId, score);
     }
 
-    @PutMapping("/api/recipe/cooking/retry")
+    @PutMapping("/api/recipe/{recipeId}/cooking/retry")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void retry(@RequestParam("scoreId") Long scoreId, @RequestParam("newScore") Double newScore){
-        cookingUseCase.retryCooking(scoreId, newScore);
+    public void retry(@PathVariable("recipeId") Long recipeId,
+                      @RequestParam("newScore") Double newScore){
+        String memberId = getMemberEmailUseCase.getMemberEmail();
+        cookingUseCase.retryCooking(memberId, recipeId, newScore);
     }
 
 }

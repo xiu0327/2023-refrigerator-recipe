@@ -2,7 +2,7 @@ package refrigerator.server.api.comment.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import refrigerator.back.comment.application.dto.InCommentDto;
+import refrigerator.back.comment.application.dto.CommentDto;
 
 import java.util.List;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class InCommentsResponseDto {
 
-    private List<InCommentDto> comments;
-    private List<InCommentDto> myComments;
+    private List<CommentDto> comments;
+    private List<CommentDto> myComments;
 
-    public InCommentsResponseDto(List<InCommentDto> comments, List<InCommentDto> myComments) {
+    public InCommentsResponseDto(List<CommentDto> comments, List<CommentDto> myComments) {
         this.comments = comments;
         this.myComments = myComments;
     }

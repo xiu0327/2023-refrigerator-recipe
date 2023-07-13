@@ -43,9 +43,9 @@ public class IngredientQuerySubRepository {
 
     public List<OutRecipeIngredientDTO> getRecipeIngredient(Long recipeId) {
         return jpaQueryFactory
-                .select(new QOutRecipeIngredientDTO(recipeIngredient.ingredientID, recipeIngredient.name))
+                .select(new QOutRecipeIngredientDTO(recipeIngredient.ingredientId, recipeIngredient.name))
                 .from(recipeIngredient)
-                .where(recipeIngredient.recipeID.eq(recipeId))
+                .where(recipeIngredient.recipeId.eq(recipeId))
                 .fetch();
     }
 }

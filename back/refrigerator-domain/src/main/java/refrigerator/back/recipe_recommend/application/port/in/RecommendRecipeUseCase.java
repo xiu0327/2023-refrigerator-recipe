@@ -1,10 +1,10 @@
 package refrigerator.back.recipe_recommend.application.port.in;
 
 
-import refrigerator.back.recipe_recommend.application.dto.InRecipeRecommendDTO;
+import refrigerator.back.recipe_recommend.application.dto.RecommendRecipeDto;
 
 import java.util.List;
 
 public interface RecommendRecipeUseCase {
-    List<InRecipeRecommendDTO> recommend(String memberId);
+    List<RecommendRecipeDto> recommend(String memberId);
 }

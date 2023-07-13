@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import refrigerator.back.comment.outbound.repository.query.CommentBatchQueryRepository;
 import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
-import refrigerator.back.mybookmark.outbound.repository.jpa.BookmarkRepository;
+import refrigerator.back.mybookmark.outbound.repository.jpa.MyBookmarkJpaRepository;
 
 @RequiredArgsConstructor
 @Configuration
@@ -25,7 +25,7 @@ public class PeriodicDataDeleteConfig {
     private final CommentJpaRepository commentRepository;
     private final CommentBatchQueryRepository commentBatchQueryRepository;
     private final IngredientPersistenceRepository ingredientPersistenceRepository;
-    private final BookmarkRepository bookmarkRepository;
+    private final MyBookmarkJpaRepository bookmarkRepository;
 
     @Bean
     public Job periodicDeleteScheduleJob() {

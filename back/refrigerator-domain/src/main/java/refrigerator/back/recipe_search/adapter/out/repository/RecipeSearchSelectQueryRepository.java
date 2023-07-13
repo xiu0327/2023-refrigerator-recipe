@@ -37,13 +37,13 @@ public class RecipeSearchSelectQueryRepository {
     public List<OutRecipeDto> searchRecipe(RecipeSearchCondition condition, Pageable pageable) {
         return jpaQueryFactory
                 .select(new QOutRecipeDto(
-                        recipe.recipeID, recipe.recipeName, recipe.image,
+                        recipe.recipeId, recipe.recipeName, recipe.image,
                         recipeScore.scoreAvg,
                         recipeViews.views))
                 .from(recipe)
-                .leftJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeID))
-                .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
-                .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeId))
+                .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeId))
+                .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeId))
                 .leftJoin(recipeFoodType).on(recipeFoodType.typeID.eq(recipe.recipeFoodType))
                 .leftJoin(recipeCategory).on(recipeCategory.categoryID.eq(recipe.recipeCategory))
                 .where(
@@ -67,13 +67,13 @@ public class RecipeSearchSelectQueryRepository {
         Pageable pageable = PageRequest.of(page, size);
         return jpaQueryFactory
                 .select(new QOutRecipeDto(
-                        recipe.recipeID, recipe.recipeName, recipe.image,
+                        recipe.recipeId, recipe.recipeName, recipe.image,
                         recipeScore.scoreAvg,
                         recipeViews.views))
                 .from(recipe)
-                .leftJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeID))
-                .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeID))
-                .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeID))
+                .leftJoin(recipeScore).on(recipeScore.recipeId.eq(recipe.recipeId))
+                .leftJoin(recipeViews).on(recipeViews.recipeID.eq(recipe.recipeId))
+                .leftJoin(recipeBookmark).on(recipeBookmark.recipeID.eq(recipe.recipeId))
                 .leftJoin(recipeFoodType).on(recipeFoodType.typeID.eq(recipe.recipeFoodType))
                 .leftJoin(recipeCategory).on(recipeCategory.categoryID.eq(recipe.recipeCategory))
                 .orderBy(recipeViews.views.desc(), recipeBookmark.count.desc(), recipe.recipeName.asc())
@@ -101,7 +101,7 @@ public class RecipeSearchSelectQueryRepository {
     }
 
     private BooleanExpression isKeywordInRecipeIngredient(String searchWord) {
-        return searchWord != null ? recipe.recipeID.in(JPAExpressions.select(recipeIngredient.recipeID)
+        return searchWord != null ? recipe.recipeId.in(JPAExpressions.select(recipeIngredient.recipeId)
                 .from(recipeIngredient)
                 .where(recipeIngredient.name.eq(searchWord))) : null;
     }

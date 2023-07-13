@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.member.application.dto.MemberDto;
+import refrigerator.back.mybookmark.application.dto.InMyBookmarkPreviewsDto;
 import refrigerator.back.myscore.application.dto.InMyScorePreviewsDto;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class MyPageDto {
 
     private MemberDto myProfile;
-    private InMyScorePreviewsDto myScore;
+    private InMyScorePreviewsDto myScores;
+    private InMyBookmarkPreviewsDto myBookmarks;
 
 }

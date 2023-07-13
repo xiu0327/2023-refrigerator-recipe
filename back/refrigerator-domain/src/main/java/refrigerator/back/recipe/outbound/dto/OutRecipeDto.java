@@ -1,17 +1,19 @@
 package refrigerator.back.recipe.outbound.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-import refrigerator.back.recipe.outbound.mapper.OutRecipeBasicDataMapper;
-import refrigerator.back.recipe.application.dto.RecipeDomainDto;
+import refrigerator.back.global.s3.ImageUrlConvert;
+import refrigerator.back.recipe.application.dto.RecipeDto;
+import refrigerator.back.recipe.outbound.mapper.OutRecipeDtoMapper;
 
 @Getter
-@ToString
+@Builder
 public class OutRecipeDto {
-    Long recipeID;
+    Long recipeId;
     String recipeName;
-    String image;
+    String recipeImageName;
     Double scoreAvg;
     String description;
     Integer cookingTime;
@@ -20,10 +22,10 @@ public class OutRecipeDto {
     String difficulty;
 
     @QueryProjection
-    public OutRecipeDto(Long recipeID, String recipeName, String image, Double scoreAvg, String description, Integer cookingTime, Integer kcal, Integer servings, String difficulty) {
-        this.recipeID = recipeID;
+    public OutRecipeDto(Long recipeId, String recipeName, String recipeImageName, Double scoreAvg, String description, Integer cookingTime, Integer kcal, Integer servings, String difficulty) {
+        this.recipeId = recipeId;
         this.recipeName = recipeName;
-        this.image = image;
+        this.recipeImageName = recipeImageName;
         this.scoreAvg = scoreAvg;
         this.description = description;
         this.cookingTime = cookingTime;
@@ -32,7 +34,8 @@ public class OutRecipeDto {
         this.difficulty = difficulty;
     }
 
-    public RecipeDomainDto mappingToDomainDto(OutRecipeBasicDataMapper mapper){
-        return mapper.toRecipeDomainDto(this);
+    public RecipeDto mapping(OutRecipeDtoMapper mapper, ImageUrlConvert imageUrlConvert){
+        return mapper.toRecipeDto(this, imageUrlConvert.getUrl(recipeImageName));
     }
+
 }

@@ -22,9 +22,9 @@ public class MyBookmarkUpdateQueryRepository {
      * @param bookmarkId 북마크 Id
      * @return 쿼리 실행 결과 타입
      */
-    public WriteQueryResultType updateMyBookmarkDeletedById(Long bookmarkId) {
+    public WriteQueryResultType updateMyBookmarkDeletedStatusById(Long bookmarkId, Boolean status) {
         long result = jpaQueryFactory.update(myBookmark)
-                .set(myBookmark.deleted, true)
+                .set(myBookmark.deleted, status)
                 .where(myBookmark.bookmarkId.eq(bookmarkId))
                 .execute();
         em.flush();

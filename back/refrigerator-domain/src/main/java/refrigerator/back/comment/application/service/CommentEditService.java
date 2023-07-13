@@ -21,10 +21,6 @@ public class CommentEditService implements EditCommentUseCase {
 
     @Override
     public void edit(String memberId, Long commentId, String content) {
-        LocalDateTime now = currentTime.now();
-        Long result = modifyCommentPort.modifyContent(commentId, content, now);
-        if (result != 1){
-            throw new BusinessException(CommentExceptionType.FAIL_MODIFY_COMMENT);
-        }
+        modifyCommentPort.modifyContent(commentId, content, currentTime.now());
     }
 }

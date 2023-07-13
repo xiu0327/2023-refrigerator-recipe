@@ -39,7 +39,7 @@
 //        assertThat(dto.getIngredientID()).isEqualTo(1L);
 //        assertThat(dto.getName()).isEqualTo("감자");
 //        assertThat(dto.getRemainDays()).isEqualTo("0");
-//        assertThat(dto.getImage()).isEqualTo("test.png");
+//        assertThat(dto.getRecipeImageName()).isEqualTo("test.png");
 //
 //        ImageGenerator imageGenerator = new TestImageGenerator(route, path);
 //
@@ -47,7 +47,7 @@
 //
 ////        assertThat(route).isNotNull();
 ////        assertThat(path).isNotNull();
-//        assertThat(dto.getImage()).isEqualTo(route + path + "test.png");
+//        assertThat(dto.getRecipeImageName()).isEqualTo(route + path + "test.png");
 //
 //    }
 //

@@ -20,10 +20,10 @@ public class RecipeIngredient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_ingredient_id")
-    private Long ingredientID;
+    private Long ingredientId;
 
     @Column(name = "recipe_id", nullable = false)
-    private Long recipeID;
+    private Long recipeId;
 
     @Column(name = "name", nullable = false, length = 30)
     private String name;
@@ -39,18 +39,5 @@ public class RecipeIngredient implements Serializable {
 
     @Column(name = "type", nullable = false, length = 30)
     private String type;
-
-    public boolean checkNotNull(){
-        try{
-            for (Field field : getClass().getDeclaredFields()){
-                if (field.get(this) == null){
-                    return false;
-                }
-            }
-            return true;
-        } catch (IllegalAccessException e) {
-            return false;
-        }
-    }
 
 }

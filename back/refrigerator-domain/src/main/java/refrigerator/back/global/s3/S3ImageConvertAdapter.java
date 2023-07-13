@@ -1,6 +1,7 @@
 package refrigerator.back.global.s3;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class S3ImageConvertAdapter implements ImageUrlConvert{
@@ -10,6 +11,9 @@ public class S3ImageConvertAdapter implements ImageUrlConvert{
 
     @Override
     public String getUrl(String fileName) {
-        return s3ImageHandler.getUrl(bucketName, fileName).toString();
+        if (StringUtils.hasText(fileName)){
+            return s3ImageHandler.getUrl(bucketName, fileName).toString();
+        }
+        return null;
     }
 }

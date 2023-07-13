@@ -122,12 +122,12 @@
 //
 //            modifyMemberNotificationPort.modify(dto.getEmail(), true);
 //
-//            Notification notification = Notification.create(
+//            Notification notification = Notification.saveComment(
 //                    NotificationType.EXPIRATION_DATE,
 //                    "/notification/exp?day=1",
 //                    dto.getEmail(),
 //                    "get");
-//            notification.createExpirationDateMessage(dto.getName(), dto.getCount(), 1);
+//            notification.createExpirationDateMessage(dto.getName(), dto.getNumber(), 1);
 //            return notification;
 //        };
 //    }
@@ -174,12 +174,12 @@
 //        return (dto) -> {
 //            modifyMemberNotificationPort.modify(dto.getEmail(), true);
 //
-//            Notification notification = Notification.create(
+//            Notification notification = Notification.saveComment(
 //                    NotificationType.EXPIRATION_DATE,
 //                    "/notification/exp?day=3",
 //                    dto.getEmail(),
 //                    BasicHttpMethod.GET.name());
-//            notification.createExpirationDateMessage(dto.getName(), dto.getCount() - 1, 3);
+//            notification.createExpirationDateMessage(dto.getName(), dto.getNumber() - 1, 3);
 //            return notification;
 //        };
 //    }

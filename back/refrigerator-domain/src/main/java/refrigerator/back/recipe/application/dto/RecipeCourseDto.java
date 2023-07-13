@@ -4,11 +4,9 @@ import lombok.*;
 
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode
 public class RecipeCourseDto {
-
     private String step;
     private String explanation;
-    private String image;
+    private String courseImage;
 }

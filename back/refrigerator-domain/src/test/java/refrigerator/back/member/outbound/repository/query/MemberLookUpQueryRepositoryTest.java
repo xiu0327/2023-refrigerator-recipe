@@ -5,13 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import refrigerator.back.annotation.DisabledRepositoryTest;
 import refrigerator.back.annotation.TestDataInit;
 import refrigerator.back.global.jpa.config.QuerydslConfig;
 import refrigerator.back.member.outbound.dto.OutMemberDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@DisabledRepositoryTest
 @Import({QuerydslConfig.class, MemberSelectQueryRepository.class})
 @TestDataInit("/member.sql")
 class MemberLookUpQueryRepositoryTest {

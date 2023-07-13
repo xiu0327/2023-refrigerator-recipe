@@ -26,8 +26,8 @@ public class OutMemberDto {
     }
 
     public MemberDto mapping(OutMemberMapper mapper, ImageUrlConvert imageUrlConvert){
-        String profileImage = imageUrlConvert.getUrl(getImageFileName(profileImageName));
-        return mapper.toMemberDto(this, profileImage);
+        String profileImageName = getImageFileName(this.profileImageName);
+        return mapper.toMemberDto(this, imageUrlConvert.getUrl(profileImageName));
     }
 
     private String getImageFileName(String profileImage){

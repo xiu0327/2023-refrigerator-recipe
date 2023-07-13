@@ -6,12 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import refrigerator.server.api.authentication.GetMemberEmailUseCase;
-import refrigerator.server.api.comment.dto.InCommentIdResponseDto;
 import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
 import refrigerator.server.api.comment.dto.InCommentWriteRequestDto;
 import refrigerator.server.api.global.exception.ValidationExceptionHandler;
 
-import java.time.LocalDateTime;
 
 import static refrigerator.back.comment.exception.CommentExceptionType.NOT_VALID_REQUEST_BODY;
 
@@ -25,16 +23,14 @@ public class CommentWriteController {
     private final GetMemberEmailUseCase memberInformation;
 
     @PostMapping("/api/comments/write")
-    @ResponseStatus(HttpStatus.CREATED)
-    public InCommentIdResponseDto write(@RequestBody InCommentWriteRequestDto request, BindingResult bindingResult){
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void write(@RequestBody InCommentWriteRequestDto request, BindingResult bindingResult){
         ValidationExceptionHandler.check(bindingResult, NOT_VALID_REQUEST_BODY);
         String memberId = memberInformation.getMemberEmail();
-        Long commentId = writeCommentUseCase.write(
+        writeCommentUseCase.write(
                 request.getRecipeId(),
                 memberId,
-                request.getContent(),
-                LocalDateTime.now());
-        return new InCommentIdResponseDto(commentId);
+                request.getContent());
     }
 
 }

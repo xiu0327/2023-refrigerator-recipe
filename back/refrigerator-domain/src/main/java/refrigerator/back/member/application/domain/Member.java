@@ -7,8 +7,6 @@ import refrigerator.back.member.exception.MemberExceptionType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Random;
 
 @Entity
 @Table(name = "member")
@@ -43,7 +41,7 @@ public class Member {
     private LocalDateTime joinDateTime;
 
     @Builder
-    public Member(String email, String password, String nickname,
+    private Member(String email, String password, String nickname,
                   MemberStatus memberStatus, MemberProfileImage profile,
                   LocalDateTime joinDateTime) {
         this.email = email;
@@ -54,18 +52,38 @@ public class Member {
         this.joinDateTime = joinDateTime;
     }
 
+    public static Member createForTest(String email, String password, String nickname,
+                                        MemberStatus memberStatus, MemberProfileImage profile,
+                                        LocalDateTime joinDateTime){
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .nickname(nickname)
+                .memberStatus(memberStatus)
+                .profile(profile)
+                .joinDateTime(joinDateTime)
+                .build();
+    }
+
     public static Member join(String email,
                               String password,
                               String nickname,
-                              MemberProfileImage profile,
+                              int profileImageRandomNumber,
                               LocalDateTime joinDateTime){
+        MemberProfileImage profileImage = MemberProfileImage.pickUp(profileImageRandomNumber);
         return Member.builder()
                 .email(email)
                 .password(password)
                 .nickname(nickname)
                 .memberStatus(MemberStatus.STEADY_STATUS)
-                .profile(profile)
+                .profile(profileImage)
                 .joinDateTime(joinDateTime)
                 .build();
+    }
+
+    public static void isDuplicatedByEmail(int number){
+        if (number != 0){
+            throw new BusinessException(MemberExceptionType.DUPLICATE_EMAIL);
+        }
     }
 }

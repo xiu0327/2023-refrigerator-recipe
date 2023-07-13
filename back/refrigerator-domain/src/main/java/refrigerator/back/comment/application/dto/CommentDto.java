@@ -1,28 +1,42 @@
 package refrigerator.back.comment.application.dto;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import refrigerator.back.comment.application.mapper.CommentMapper;
-import refrigerator.back.comment.application.service.CommentTimeService;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
-@Builder
 @EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentDto {
     private Long commentId;
     private String nickname;
     private Integer heart;
-    private LocalDateTime createDate;
+    private String createDate;
     private Boolean modifiedState;
     private String content;
-    private String memberId;
+    private Boolean likedState;
 
-    public InCommentDto mapping(CommentMapper mapper,
-                                String date,
-                                Object likedPeopleId){
-        return mapper.toInCommentDto(this, date, likedPeopleId);
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CommentHeartPeopleDto likedInfo;
+
+    @Builder
+    public CommentDto(Long commentId, String nickname, Integer heart, String createDate, Boolean modifiedState, String content, CommentHeartPeopleDto likedInfo) {
+        this.commentId = commentId;
+        this.nickname = nickname;
+        this.heart = heart;
+        this.createDate = createDate;
+        this.modifiedState = modifiedState;
+        this.content = content;
+        this.likedState = false;
+        this.likedInfo = likedInfo;
+    }
+
+    public void isLiked(Map<Long, CommentHeartPeopleDto> peoples){
+        CommentHeartPeopleDto people = peoples.getOrDefault(commentId, null);
+        if (people != null && people.getCommentId().equals(commentId)){
+            likedState = true;
+            likedInfo = people;
+        }
     }
 }

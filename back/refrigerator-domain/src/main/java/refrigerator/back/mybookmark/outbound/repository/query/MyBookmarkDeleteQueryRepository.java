@@ -21,7 +21,7 @@ public class MyBookmarkDeleteQueryRepository {
      * 북마크 삭제 쿼리, deleted 상태가 true 인 데이터 전체 삭제 됨
      * @return 쿼리 실행 결과 타입
      */
-    public WriteQueryResultType deleteMyBookmarkByDeleted(){
+    public WriteQueryResultType deleteMyBookmarkByDeletedStatus(){
         long result = jpaQueryFactory.delete(myBookmark)
                 .where(myBookmark.deleted.eq(true))
                 .execute();

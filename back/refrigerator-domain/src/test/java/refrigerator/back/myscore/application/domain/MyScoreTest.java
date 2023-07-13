@@ -7,7 +7,7 @@ import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.recipe.application.port.in.RecipeScoreModifyHandler;
+import refrigerator.back.myscore.application.service.RecipeScoreModifyHandler;
 
 import java.time.LocalDateTime;
 

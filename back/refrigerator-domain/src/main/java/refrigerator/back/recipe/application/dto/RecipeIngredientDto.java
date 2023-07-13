@@ -4,14 +4,23 @@ import lombok.*;
 
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class RecipeIngredientDto {
-    private Long ingredientID;
+
+    private Long ingredientId;
     private String name;
-    private String type;
     private String volume;
     private String transUnit;
     private String transVolume;
+    private String type;
     private Boolean isOwned;
+
+    public void match(MyIngredientDto dto){
+        if (dto != null){
+            if (name.equals(dto.getName()) && dto.getVolume() >= Double.parseDouble(volume) && transUnit.equals(dto.getUnit())){
+                isOwned = true;
+                return ;
+            }
+        }
+        isOwned = false;
+    }
 }

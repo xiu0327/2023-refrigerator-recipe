@@ -4,11 +4,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import refrigerator.back.comment.outbound.repository.jpa.CommentHeartJpaRepository;
 import refrigerator.back.comment.outbound.repository.jpa.CommentJpaRepository;
 import refrigerator.back.comment.application.domain.Comment;
 import refrigerator.back.comment.application.domain.CommentHeart;
+import refrigerator.back.global.jpa.WriteQueryResultType;
 import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import java.time.LocalDateTime;
@@ -21,10 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CommentUpdateQueryRepositoryTest {
 
     @Autowired CommentUpdateQueryRepository query;
-    @Autowired
-    CommentJpaRepository commentDao;
-    @Autowired
-    CommentHeartJpaRepository commentHeartDao;
+    @Autowired TestEntityManager em;
 
     @Test
     @DisplayName("댓글 내용 수정 쿼리 성공 테스트")
@@ -32,16 +31,16 @@ class CommentUpdateQueryRepositoryTest {
         // given
         LocalDateTime createDateTime = LocalDateTime.of(2023, 6, 27, 10, 59);
         Comment comment = new Comment(1L, "email", "content", createDateTime);
-        commentDao.save(comment);
+        Long commentId = em.persistAndGetId(comment, Long.class);
         // when
         LocalDateTime now = LocalDateTime.of(2023, 6, 27, 11, 59);
-        long result = query.updateCommentToContent(comment.getCommentId(), "update content", now);
+        String updateContent = "update content";
+        WriteQueryResultType result = query.updateCommentToContent(comment.getCommentId(), updateContent, now);
         // then
-        Optional<Comment> modifiedComment = commentDao.findById(comment.getCommentId());
-        assertEquals(1, result);
-        assertTrue(modifiedComment.isPresent());
-        assertEquals("update content", modifiedComment.get().getContent());
-        assertEquals(now, modifiedComment.get().getCommentRecord().isModified());
+        Comment expectedComment = em.find(Comment.class, commentId);
+        assertEquals(WriteQueryResultType.NORMAL, result);
+        assertEquals(updateContent, expectedComment.getContent());
+        assertEquals(now, expectedComment.getCommentRecord().isModified());
     }
 
     @Test
@@ -50,13 +49,11 @@ class CommentUpdateQueryRepositoryTest {
         // given
         long commentId = 1L;
         CommentHeart commentHeart = new CommentHeart(commentId);
-        commentHeartDao.save(commentHeart);
+        Long commentHeartId = em.persistAndGetId(commentHeart, Long.class);
         // when
-        long result = query.updateCommentToCount(commentId, 1);
-        Optional<CommentHeart> updateHeart = commentHeartDao.findById(commentId);
-        assertEquals(1, result);
-        assertTrue(updateHeart.isPresent());
-        assertEquals(1, updateHeart.get().getCount());
+        WriteQueryResultType result = query.updateCommentToCount(commentId, 1);
+        assertEquals(WriteQueryResultType.NORMAL, result);
+        assertEquals(1, em.find(CommentHeart.class, commentHeartId).getCount());
     }
 
     @Test
@@ -65,12 +62,10 @@ class CommentUpdateQueryRepositoryTest {
         // given
         long commentId = 1L;
         CommentHeart commentHeart = new CommentHeart(commentId);
-        commentHeartDao.save(commentHeart);
+        Long commentHeartId = em.persistAndGetId(commentHeart, Long.class);
         // when
-        long result = query.updateCommentToCount(commentId, -1);
-        Optional<CommentHeart> updateHeart = commentHeartDao.findById(commentId);
-        assertEquals(0, result);
-        assertTrue(updateHeart.isPresent());
-        assertEquals(0, updateHeart.get().getCount());
+        WriteQueryResultType result = query.updateCommentToCount(commentId, -1);
+        assertEquals(WriteQueryResultType.FAIL, result);
+        assertEquals(0, em.find(CommentHeart.class, commentHeartId).getCount());
     }
 }

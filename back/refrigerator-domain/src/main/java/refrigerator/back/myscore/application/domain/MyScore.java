@@ -3,7 +3,7 @@ package refrigerator.back.myscore.application.domain;
 
 import lombok.*;
 
-import refrigerator.back.recipe.application.port.in.RecipeScoreModifyHandler;
+import refrigerator.back.myscore.application.service.RecipeScoreModifyHandler;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -46,12 +46,23 @@ public class MyScore extends ScoreScope{
         recipeScoreHandler.renew(recipeId, oldScore, newScore);
     }
 
+    public static boolean isCooked(int number){
+        return number == 1;
+    }
+
     public static MyScore create(String memberId, Long recipeId,
                                  Double score, LocalDateTime createDateTime,
                                  RecipeScoreModifyHandler recipeScoreModifyHandler){
         MyScore myScore = new MyScore(memberId, recipeId, score, createDateTime);
         myScore.checkScoreScope(score);
         recipeScoreModifyHandler.addUp(recipeId, score);
+        return myScore;
+    }
+
+    public static MyScore createForTest(String memberId, Long recipeId,
+                                        Double score, LocalDateTime createDateTime){
+        MyScore myScore = new MyScore(memberId, recipeId, score, createDateTime);
+        myScore.checkScoreScope(score);
         return myScore;
     }
 }

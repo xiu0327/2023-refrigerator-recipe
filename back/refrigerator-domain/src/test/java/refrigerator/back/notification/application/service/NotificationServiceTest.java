@@ -51,7 +51,6 @@ class NotificationServiceTest {
                 .path("/")
                 .readStatus(false)
                 .memberId("email123@gmail.com")
-                .createDate(time)
                 .method(BasicHttpMethod.GET.name())
                 .build();
 

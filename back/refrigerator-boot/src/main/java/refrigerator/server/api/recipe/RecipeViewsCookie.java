@@ -1,41 +1,37 @@
 package refrigerator.server.api.recipe;
 
-import lombok.Getter;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 public class RecipeViewsCookie {
 
-    private final Cookie[] cookies;
+    private final int maxAge = 24 * 60 * 60;
+    private final String name = "Recipe-View";
+    private final String path = "/api/recipe";
 
-    public RecipeViewsCookie(Cookie[] cookies) {
-        this.cookies = cookies;
-    }
-
-    private final int validTime = 24 * 60 * 60;
-    private final String cookieName = "Recipe-View";
-
-
-    public boolean isViewed(Long recipeId){
+    public boolean isViewed(Long recipeId, Cookie[] cookies){
         if (cookies != null){
-            return Arrays.stream(cookies).anyMatch(cookie ->
-                    cookie.getName().equals(cookieName) && cookie.getValue().equals(String.valueOf(recipeId)));
+            String targetValue = String.valueOf(recipeId);
+            return Arrays.stream(cookies).anyMatch(target -> isEquals(targetValue, target));
         }
         return false;
     }
 
-    public void addViewCookie(Long recipeId, HttpServletResponse response){
-        response.addCookie(createCookie(recipeId));
-    }
-
-    private Cookie createCookie(Long recipeId){
-        Cookie cookie = new Cookie(cookieName, String.valueOf(recipeId));
-        cookie.setPath("/api/recipe");
-        cookie.setMaxAge(validTime);
+    public Cookie create(Long recipeId){
+        Cookie cookie = new Cookie(name, String.valueOf(recipeId));
+        cookie.setPath(path);
+        cookie.setMaxAge(maxAge);
         cookie.setHttpOnly(true);
         return cookie;
+    }
+
+    private boolean isEquals(String targetValue, Cookie target){
+        return target.getName().equals(name) &&
+                target.getPath().equals(path) &&
+                target.isHttpOnly() &&
+                target.getMaxAge() == maxAge &&
+                target.getValue().equals(targetValue);
     }
 
 }

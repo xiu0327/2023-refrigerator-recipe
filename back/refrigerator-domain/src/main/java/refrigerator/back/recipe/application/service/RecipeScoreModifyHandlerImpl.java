@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.recipe.application.domain.entity.RecipeScore;
-import refrigerator.back.recipe.application.port.in.RecipeScoreModifyHandler;
+import refrigerator.back.myscore.application.service.RecipeScoreModifyHandler;
 import refrigerator.back.recipe.application.port.out.FindRecipeScorePort;
 
 @Service

@@ -1,5 +1,6 @@
 package refrigerator.back.comment.application.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,15 +41,24 @@ public class Comment {
         this.commentRecord = new CommentRecord(createDateTime);
     }
 
-    public CommentHeart createCommentHeart(){
-        if (commentId != null){
-            return new CommentHeart(commentId);
-        }
-        throw new RuntimeException("commentId 가 비어있습니다.");
+    @Builder
+    public Comment(Long commentId, Long recipeId, String writerId, String content, CommentRecord commentRecord) {
+        this.commentId = commentId;
+        this.recipeId = recipeId;
+        this.writerId = writerId;
+        this.content = content;
+        this.commentRecord = commentRecord;
     }
 
-    public boolean isDeleted(){
-        return commentRecord.deletedState;
+    public static Comment createForTest(Long commentId, Long recipeId,
+                                        String writerId, String content,
+                                        LocalDateTime createDateTime){
+        return Comment.builder()
+                .commentId(commentId)
+                .recipeId(recipeId)
+                .writerId(writerId)
+                .content(content)
+                .commentRecord(new CommentRecord(createDateTime)).build();
     }
 
 }

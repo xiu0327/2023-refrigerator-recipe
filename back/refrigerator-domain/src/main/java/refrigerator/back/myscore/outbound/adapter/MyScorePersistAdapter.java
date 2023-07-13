@@ -21,8 +21,8 @@ public class MyScorePersistAdapter implements SaveMyScorePort, FindMyScorePort {
     }
 
     @Override
-    public MyScore findById(Long scoreId) {
-        return jpaRepository.findById(scoreId).orElseThrow(
+    public MyScore findByRecipeIdAndMemberId(Long recipeId, String memberId) {
+        return jpaRepository.findByRecipeIdAndMemberId(recipeId, memberId).orElseThrow(
                 () -> new BusinessException(MyScoreExceptionType.NOT_FOUND_SCORE)
         );
     }

@@ -27,7 +27,7 @@
 //        assertThat(dto.getIngredientID()).isEqualTo(1L);
 //        assertThat(dto.getName()).isEqualTo("감자");
 //        assertThat(dto.getVolume()).isEqualTo(30.0);
-//        assertThat(dto.getImage()).isEqualTo("test.png");
+//        assertThat(dto.getRecipeImageName()).isEqualTo("test.png");
 //        assertThat(dto.getUnit()).isEqualTo("g");
 //        assertThat(dto.getRegistrationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
 //        assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
