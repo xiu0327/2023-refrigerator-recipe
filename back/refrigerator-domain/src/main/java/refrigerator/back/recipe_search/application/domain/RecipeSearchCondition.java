@@ -3,11 +3,12 @@ package refrigerator.back.recipe_search.application.domain;
 import lombok.Builder;
 import lombok.Getter;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.myscore.application.domain.ScoreScope;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 @Getter
 @Builder
-public class RecipeSearchCondition {
+public class RecipeSearchCondition extends ScoreScope {
     private String searchWord;
     private String recipeType;
     private String recipeFoodType;
@@ -16,10 +17,6 @@ public class RecipeSearchCondition {
     private Double score;
 
     public void parameterCheck() {
-        if (score != null){
-            if (score < 0.0 || score > 5.0){
-                throw new BusinessException(RecipeExceptionType.NOT_ACCEPTABLE_RANGE);
-            }
-        }
+        checkScoreScope(score);
     }
 }

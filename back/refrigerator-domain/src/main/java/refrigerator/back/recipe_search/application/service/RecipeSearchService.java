@@ -3,11 +3,11 @@ package refrigerator.back.recipe_search.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.recipe_search.adapter.RecipeSearchDataMapper;
-import refrigerator.back.recipe_search.application.dto.InRecipeSearchDto;
+import refrigerator.back.recipe_search.application.dto.RecipeSearchDto;
+import refrigerator.back.recipe_search.outbound.mapper.OutRecipeSearchDtoMapper;
 import refrigerator.back.recipe_search.application.domain.RecipeSearchCondition;
 import refrigerator.back.recipe_search.application.port.in.SearchRecipeUseCase;
-import refrigerator.back.recipe_search.application.port.out.GetRecipeSearchDataPort;
+import refrigerator.back.recipe_search.application.port.out.FindRecipeSearchDtoPort;
 
 
 import java.util.List;
@@ -17,18 +17,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class RecipeSearchService implements SearchRecipeUseCase {
 
-    private final GetRecipeSearchDataPort port;
-    private final RecipeSearchDataMapper mapper;
+    private final FindRecipeSearchDtoPort findRecipeSearchDtoPort;
 
     @Override
-    public List<InRecipeSearchDto> search(RecipeSearchCondition condition, int page, int size) {
+    public List<RecipeSearchDto> search(RecipeSearchCondition condition, int page, int size) {
         condition.parameterCheck();
-        return port.search(condition, page, size).mappingToInRecipeSearchDto(mapper);
+        return findRecipeSearchDtoPort.search(condition, page, size);
     }
 
-    @Override
-    public List<InRecipeSearchDto> normalSearch(int page, int size) {
-        return port.normalSearch(page, size).mappingToInRecipeSearchDto(mapper);
-    }
 
 }
