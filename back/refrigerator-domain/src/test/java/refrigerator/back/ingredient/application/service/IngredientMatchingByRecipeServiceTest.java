@@ -8,11 +8,13 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.ingredient.application.dto.IngredientDTO;
 import refrigerator.back.ingredient.application.dto.RecipeIngredientDto;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientListPort;
 import refrigerator.back.ingredient.application.port.out.recipeIngredient.FindRecipeIngredientPort;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,14 +31,18 @@ class IngredientMatchingByRecipeServiceTest {
 
     @Mock FindIngredientListPort findIngredientListPort;
 
+    @Mock CurrentDate currentDate;
+
     @Test
     @DisplayName("레시피 식재료 ID 반환 테스트")
     void getIngredientIdsTest(){
         String memberId = "email123@gmail.com";
 
         IngredientDTO.IngredientDTOBuilder builder = IngredientDTO.builder()
-                .remainDays("0")
+                .remainDays(0)
                 .image("test.png");
+
+        LocalDate now = LocalDate.of(2023, 1,1);
 
         List<IngredientDTO> ingredientDTOList = new ArrayList<>();
         ingredientDTOList.add(builder.ingredientID(1L).name("감자").build());
@@ -44,7 +50,10 @@ class IngredientMatchingByRecipeServiceTest {
         ingredientDTOList.add(builder.ingredientID(3L).name("자색고구마").build());
         ingredientDTOList.add(builder.ingredientID(4L).name("옥수수").build());
 
-        given(findIngredientListPort.getIngredientListOfAll(memberId))
+        given(currentDate.now())
+                .willReturn(now);
+
+        given(findIngredientListPort.getIngredientListOfAll(now, memberId))
                 .willReturn(ingredientDTOList);
 
         List<RecipeIngredientDto> recipeIngredientDtos = new ArrayList<>();

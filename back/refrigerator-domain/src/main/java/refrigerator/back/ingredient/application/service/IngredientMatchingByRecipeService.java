@@ -3,6 +3,8 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.time.CurrentDate;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.application.dto.IngredientDTO;
 import refrigerator.back.ingredient.application.dto.RecipeIngredientDto;
 import refrigerator.back.ingredient.application.port.in.matchByRecipe.MatchIngredientByRecipeUseCase;
@@ -21,11 +23,12 @@ public class IngredientMatchingByRecipeService implements MatchIngredientByRecip
 
     private final FindRecipeIngredientPort findRecipeIngredientPort;
     private final FindIngredientListPort findIngredientListPort;
+    private final CurrentDate currentDate;
 
     @Override
     public List<Long> getIngredientIds(String memberId, Long recipeId) {
 
-        Map<String, Boolean> nameMap = findIngredientListPort.getIngredientListOfAll(memberId)
+        Map<String, Boolean> nameMap = findIngredientListPort.getIngredientListOfAll(currentDate.now(), memberId)
                 .stream().collect(Collectors.toMap(IngredientDTO::getName, ingredientDTO -> true));
 
         return findRecipeIngredientPort.getRecipeIngredient(recipeId).stream()

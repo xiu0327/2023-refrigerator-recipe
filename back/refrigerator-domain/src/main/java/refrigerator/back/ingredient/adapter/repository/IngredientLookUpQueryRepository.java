@@ -1,9 +1,8 @@
 package refrigerator.back.ingredient.adapter.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,46 +22,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static java.sql.Date.*;
 import static refrigerator.back.ingredient.application.domain.QIngredient.ingredient;
 import static refrigerator.back.ingredient.application.domain.QIngredientImage.ingredientImage;
 
 
 @Component
 @RequiredArgsConstructor
-public class IngredientQueryRepository {
+public class IngredientLookUpQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
-    private final EntityManager em;
-
-    /** set */
-
-    public Long updateIngredientDeleteStateTrue(Long id) {
-
-        long execute = jpaQueryFactory.update(ingredient)
-                .set(ingredient.deleted, true)
-                .where(ingredient.id.eq(id))
-                .execute();
-
-        em.flush();
-        em.clear();
-
-        return execute;
-    }
-
-    public Long updateAllIngredientDeleteStateTrue(List<Long> ids) {
-
-        long execute = jpaQueryFactory.update(ingredient)
-                .set(ingredient.deleted, true)
-                .where(ingredient.id.in(ids))
-                .execute();
-
-        em.flush();
-        em.clear();
-
-        return execute;
-    }
-
-    /** get */
 
     public List<OutIngredientDTO> findIngredientList(LocalDate now, IngredientSearchCondition condition, Pageable pageable) {
 
@@ -71,6 +40,7 @@ public class IngredientQueryRepository {
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
+                        getRemainDays(now),
                         ingredientImage.imageFileName))
                 .from(ingredient)
                 .where(
@@ -86,29 +56,31 @@ public class IngredientQueryRepository {
                 .fetch();
     }
 
-    public List<OutIngredientDTO> findIngredientListByDeadline(LocalDate expirationDate, String email) {
+    public List<OutIngredientDTO> findIngredientListByDeadline(LocalDate now, Long days, String email) {
         return jpaQueryFactory
                 .select(new QOutIngredientDTO(
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
+                        getRemainDays(now),
                         ingredientImage.imageFileName))
                 .from(ingredient)
                 .where(
                         emailCheck(email),
-                        ingredient.expirationDate.eq(expirationDate),
+                        ingredient.expirationDate.eq(now.plusDays(days)),
                         ingredient.deleted.eq(false)
                 )
                 .leftJoin(ingredientImage).on(ingredientImage.id.eq(ingredient.image))
                 .fetch();
     }
 
-    public List<OutIngredientDTO> findIngredientListOfAll(String email) {
+    public List<OutIngredientDTO> findIngredientListOfAll(LocalDate now, String email) {
         return jpaQueryFactory
                 .select(new QOutIngredientDTO(
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
+                        getRemainDays(now),
                         ingredientImage.imageFileName))
                 .from(ingredient)
                 .where(
@@ -120,13 +92,14 @@ public class IngredientQueryRepository {
                 .fetch();
     }
 
-    public Optional<OutIngredientDetailDTO> findIngredient(Long id) {
+    public Optional<OutIngredientDetailDTO> findIngredient(LocalDate now, Long id) {
         OutIngredientDetailDTO outIngredientDetailDTO = jpaQueryFactory
                 .select(new QOutIngredientDetailDTO(
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
                         ingredient.registrationDate,
+                        getRemainDays(now),
                         ingredient.capacity,
                         ingredient.capacityUnit,
                         ingredient.storageMethod,
@@ -141,6 +114,16 @@ public class IngredientQueryRepository {
                 .fetchOne();
 
         return Optional.ofNullable(outIngredientDetailDTO);
+    }
+
+    public NumberExpression<Integer> getRemainDays(LocalDate now) {
+        if(now == null)
+            throw new BusinessException(IngredientExceptionType.INVALID_DATE);
+
+        return Expressions.numberTemplate(Integer.class, "datediff({0}, {1})", valueOf(now), ingredient.expirationDate).as("remainDays");
+
+
+        //DateOperation<Integer> integerDateOperation = Expressions.dateOperation(Integer.class, Ops.DateTimeOps.DIFF_DAYS, Expressions.currentDate(), ingredient.expirationDate);
     }
 
     /** condition */

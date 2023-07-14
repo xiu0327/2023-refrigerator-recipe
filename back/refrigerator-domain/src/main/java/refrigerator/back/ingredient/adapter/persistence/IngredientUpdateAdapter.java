@@ -3,9 +3,9 @@ package refrigerator.back.ingredient.adapter.persistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import refrigerator.back.ingredient.adapter.repository.IngredientQueryRepository;
+import refrigerator.back.ingredient.adapter.repository.IngredientLookUpQueryRepository;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
+import refrigerator.back.ingredient.adapter.repository.IngredientUpdateQueryRepository;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.port.out.ingredient.update.DeleteIngredientPort;
 import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveIngredientPort;
@@ -18,7 +18,7 @@ import java.util.List;
 public class IngredientUpdateAdapter implements DeleteIngredientPort, SaveIngredientPort {
 
     private final IngredientPersistenceRepository ingredientRepository;
-    private final IngredientQueryRepository ingredientQueryRepository;
+    private final IngredientUpdateQueryRepository ingredientUpdateQueryRepository;
 
     @Override
     public Long saveIngredient(Ingredient ingredient) {
@@ -28,12 +28,12 @@ public class IngredientUpdateAdapter implements DeleteIngredientPort, SaveIngred
 
     @Override
     public Long deleteIngredient(Long id) {
-        return ingredientQueryRepository.updateIngredientDeleteStateTrue(id);
+        return ingredientUpdateQueryRepository.updateIngredientDeleteStateTrue(id);
     }
 
     @Override
     public Long deleteAllIngredients(List<Long> ids) {
-        return ingredientQueryRepository.updateAllIngredientDeleteStateTrue(ids);
+        return ingredientUpdateQueryRepository.updateAllIngredientDeleteStateTrue(ids);
     }
 
 }

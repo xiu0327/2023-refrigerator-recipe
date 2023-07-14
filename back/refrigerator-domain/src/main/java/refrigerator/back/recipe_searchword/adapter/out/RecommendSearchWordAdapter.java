@@ -23,8 +23,6 @@ public class RecommendSearchWordAdapter implements FindIngredientsByMemberPort {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    // TODO : LocalDate.now() 수정. 인자로 받아오고 service에서 currentDate를 주입해서 하는 방식
-
     @Cacheable(
             value = SearchWordRedisKey.RECOMMEND_SEARCH_WORD,
             key = "#memberId",

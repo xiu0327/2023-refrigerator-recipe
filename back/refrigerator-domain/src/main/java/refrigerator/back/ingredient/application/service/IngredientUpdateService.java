@@ -3,7 +3,7 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.time.CurrentTime;
+import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.ingredient.application.dto.IngredientRegisterDTO;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
@@ -21,22 +21,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class IngredientUpdateService implements RegisterIngredientUseCase, ModifyIngredientUseCase, RemoveIngredientUseCase {
+public class IngredientUpdateService implements ModifyIngredientUseCase, RemoveIngredientUseCase {
 
     private final FindIngredientPort findIngredientPort;
     private final DeleteIngredientPort deleteIngredientPort;
     private final SaveIngredientPort saveIngredientPort;
-    private final CurrentTime<LocalDate> currentTime;
-    
-    @Override
-    public IngredientRegisterDTO registerIngredient(String name, LocalDate expirationDate, Double capacity,
-                                                    String capacityUnit, IngredientStorageType storageMethod, Integer image, String email) {
-
-        return IngredientRegisterDTO.builder()
-                .ingredientID(saveIngredientPort.saveIngredient(
-                        Ingredient.create(name, expirationDate, currentTime.now(), capacity,
-                                    capacityUnit, storageMethod, image, email))).build();
-    }
 
     @Override
     public void modifyIngredient(Long id, LocalDate expirationDate, Double capacity, IngredientStorageType storageMethod) {

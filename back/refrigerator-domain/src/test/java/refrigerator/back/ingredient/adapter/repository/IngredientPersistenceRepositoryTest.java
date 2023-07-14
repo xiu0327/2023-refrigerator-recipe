@@ -146,49 +146,4 @@ class IngredientPersistenceRepositoryTest {
                 .isNull();
     }
 
-    @Test
-    @DisplayName("deleted 상태인 데이터 모두 삭제")
-    void deleteIngredientTest() {
-
-        Ingredient ingredient = Ingredient.create(
-                "감자",
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 1, 1),
-                30.0,
-                "g",
-                IngredientStorageType.FREEZER,
-                1,
-                "email123@gmail.com");
-
-        ingredient.delete();
-
-        Long id = em.persistAndGetId(ingredient, Long.class);
-
-        ingredientPersistenceRepository.deleteIngredient();
-
-        assertThat(em.find(Ingredient.class, id))
-                .isNull();
-    }
-
-    @Test
-    @DisplayName("파라미터(식재료명)과 동일한 데이터 모두 삭제")
-    void deleteSuggestedIngredientTest() {
-        String name = "감자";
-
-        SuggestedIngredient ingredient = SuggestedIngredient.builder()
-                .name(name)
-                .email("email123@gmail.com")
-                .unit("g")
-                .build();
-
-        Long id = em.persistAndGetId(ingredient, Long.class);
-
-        ingredientPersistenceRepository.deleteSuggestedIngredient("감자");
-
-        assertThat(em.find(SuggestedIngredient.class, id))
-                .isNull();
-    }
-
-
-
 }

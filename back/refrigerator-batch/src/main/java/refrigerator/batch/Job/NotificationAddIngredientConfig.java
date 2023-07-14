@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 import refrigerator.back.global.exception.BasicHttpMethod;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
+import refrigerator.back.ingredient.application.port.batch.DeleteIngredientBatchPort;
 import refrigerator.back.member.application.domain.MemberStatus;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationType;
@@ -39,8 +40,8 @@ public class NotificationAddIngredientConfig {
     private final EntityManagerFactory entityManagerFactory;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final IngredientPersistenceRepository ingredientPersistenceRepository;
-
+    
+    private final DeleteIngredientBatchPort deleteIngredientBatchPort;
     private final ModifyMemberNotificationPort modifyMemberNotificationPort;
 
     @Value("${chunkSize:1000}")
@@ -61,7 +62,7 @@ public class NotificationAddIngredientConfig {
     public Step deleteSuggestedIngredientStep(@Value("#{jobParameters['name']}") String name) {
         return stepBuilderFactory.get("deleteSuggestedIngredientStep")
                 .tasklet((contribution, chunkContext) -> {
-                    ingredientPersistenceRepository.deleteSuggestedIngredient(name);
+                    deleteIngredientBatchPort.deleteSuggestedIngredient(name);
                     return RepeatStatus.FINISHED;
                 })
                 .build();
