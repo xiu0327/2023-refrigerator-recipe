@@ -2,10 +2,9 @@ package refrigerator.back.notification.adapter.persistence;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.notification.adapter.mapper.OutNotificationMapper;
-import refrigerator.back.notification.adapter.repository.NotificationQueryRepository;
+import refrigerator.back.notification.adapter.repository.query.NotificationQueryRepository;
 import refrigerator.back.notification.application.dto.CommentNotificationDTO;
 import refrigerator.back.notification.application.port.out.commentHeart.FindCommentDetailsPort;
 import refrigerator.back.notification.application.port.out.commentHeart.FindSenderNicknamePort;

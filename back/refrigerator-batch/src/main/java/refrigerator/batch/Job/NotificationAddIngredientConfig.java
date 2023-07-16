@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import refrigerator.back.global.exception.BasicHttpMethod;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.application.port.batch.DeleteIngredientBatchPort;
@@ -28,6 +29,8 @@ import refrigerator.batch.common.querydsl.reader.QuerydslNoOffsetPagingItemReade
 
 import javax.persistence.EntityManagerFactory;
 
+import java.time.LocalDateTime;
+
 import static refrigerator.back.ingredient.application.domain.QSuggestedIngredient.suggestedIngredient;
 import static refrigerator.back.member.application.domain.QMember.member;
 
@@ -40,9 +43,11 @@ public class NotificationAddIngredientConfig {
     private final EntityManagerFactory entityManagerFactory;
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    
+
     private final DeleteIngredientBatchPort deleteIngredientBatchPort;
     private final ModifyMemberNotificationPort modifyMemberNotificationPort;
+
+    private final CurrentTime<LocalDateTime> currentTime;
 
     @Value("${chunkSize:1000}")
     private int chunkSize = 1000;
@@ -107,7 +112,9 @@ public class NotificationAddIngredientConfig {
                     NotificationType.INGREDIENT,
                     "/refrigerator/add/info?ingredient=" + name,
                     suggestedIngredient.getEmail(),
-                    BasicHttpMethod.GET.name());
+                    BasicHttpMethod.GET.name(),
+                    currentTime.now()
+            );
             notification.createIngredientMessage(name);
             return notification;
         };

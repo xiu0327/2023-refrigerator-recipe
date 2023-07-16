@@ -16,11 +16,11 @@ import java.util.List;
 public class RecommendSearchWordService implements FindRecommendSearchWordUseCase {
 
     private final FindIngredientsByMemberPort findIngredientsByMemberPort;
-    private final CurrentTime<LocalDate> currentDate;
+    private final CurrentTime<LocalDate> currentTime;
 
     @Override
     public List<String> getRecommendSearchWords(String memberId) {
-        List<String> recommendWords = findIngredientsByMemberPort.getIngredients(currentDate.now(), memberId);
+        List<String> recommendWords = findIngredientsByMemberPort.getIngredients(currentTime.now(), memberId);
         if (recommendWords.size() <= 0){
             return new ArrayList<>();
         }

@@ -45,8 +45,10 @@ class MemberNotificationServiceTest {
         String memberId = "email123@gmail.com";
 
         given(findMemberNotificationSignPort.getSign(memberId))
-                .willReturn(Optional.ofNullable(null));
-        willDoNothing().given(createMemberNotificationPort).create(memberId);
+                .willReturn(Optional.empty());
+
+        given(createMemberNotificationPort.create(memberId))
+                .willReturn("1");
 
         assertThat(memberNotificationService.getMemberNotificationSign(memberId).getSign())
                 .isEqualTo(false);
@@ -58,7 +60,9 @@ class MemberNotificationServiceTest {
     void createMemberNotificationTest() {
         String memberId = "email123@gmail.com";
 
-        willDoNothing().given(createMemberNotificationPort).create(memberId);
+        given(createMemberNotificationPort.create(memberId))
+                .willReturn("1");
+
         memberNotificationService.createMemberNotification(memberId);
 
         verify(createMemberNotificationPort, times(1)).create(memberId);
@@ -69,7 +73,9 @@ class MemberNotificationServiceTest {
     void turnOffMemberNotificationTest() {
         String memberId = "email123@gmail.com";
 
-        willDoNothing().given(modifyMemberNotificationPort).modify(memberId, false);
+        given(modifyMemberNotificationPort.modify(memberId, false))
+                .willReturn("1");
+
         memberNotificationService.turnOffMemberNotification(memberId);
 
         verify(modifyMemberNotificationPort, times(1)).modify(memberId,false);

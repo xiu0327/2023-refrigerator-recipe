@@ -13,7 +13,7 @@ public interface FindIngredientListPort {
 
     List<IngredientDTO> getIngredientList(LocalDate now, IngredientSearchCondition condition, int page, int size);
 
-    List<IngredientDTO> getIngredientListOfAll(LocalDate now,String email);
+    List<IngredientDTO> getIngredientListOfAll(String email);
 
     List<IngredientDTO> getIngredientListByDeadline(LocalDate now, Long days, String email);
 

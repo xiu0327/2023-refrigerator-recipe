@@ -4,6 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import refrigerator.back.global.exception.BasicHttpMethod;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.time.CurrentTime;
+
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -13,12 +16,16 @@ class NotificationTest {
     @Test
     @DisplayName("알림 도메인 테스트")
     void notificationTest() {
+
+        LocalDateTime now = LocalDateTime.of(2023,1,1,0,0,0);
+
         Notification notification = Notification.builder()
                 .id(1L)
                 .message("test message")
                 .type(NotificationType.HEART)
                 .path("/")
                 .readStatus(false)
+                .createDate(now)
                 .memberId("email123@gmail.com")
                 .method(BasicHttpMethod.GET.name())
                 .build();
@@ -28,6 +35,7 @@ class NotificationTest {
         assertThat(notification.getType()).isEqualTo(NotificationType.HEART);
         assertThat(notification.getPath()).isEqualTo("/");
         assertThat(notification.isReadStatus()).isEqualTo(false);
+        assertThat(notification.getCreateDate()).isEqualTo(now);
         assertThat(notification.getMemberId()).isEqualTo("email123@gmail.com");
         assertThat(notification.getMethod()).isEqualTo(BasicHttpMethod.GET.name());
     }
@@ -35,17 +43,22 @@ class NotificationTest {
     @Test
     @DisplayName("알림 도메인 생성 테스트")
     void createNotificationTest() {
+
+        CurrentTime<LocalDateTime> currentTime = () -> LocalDateTime.of(2023,1,1, 0, 0, 0);
+
         Notification notification = Notification.create(
                 NotificationType.HEART,
                 "/recipe/comment?recipeId=1&commentID=1",
                 "email123@gmain.com",
-                BasicHttpMethod.GET.name()
+                BasicHttpMethod.GET.name(),
+                currentTime.now()
         );
 
         assertThat(notification.getType()).isEqualTo(NotificationType.HEART);
         assertThat(notification.getPath()).isEqualTo("/recipe/comment?recipeId=1&commentID=1");
         assertThat(notification.getMemberId()).isEqualTo("email123@gmain.com");
         assertThat(notification.getMethod()).isEqualTo(BasicHttpMethod.GET.name());
+        assertThat(notification.getCreateDate()).isEqualTo(currentTime.now());
     }
 
     @Test

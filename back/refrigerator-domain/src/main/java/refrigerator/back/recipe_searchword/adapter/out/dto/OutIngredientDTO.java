@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Getter
 @Builder
 public class OutIngredientDTO {
+
     private String name;
     private LocalDate date;
 

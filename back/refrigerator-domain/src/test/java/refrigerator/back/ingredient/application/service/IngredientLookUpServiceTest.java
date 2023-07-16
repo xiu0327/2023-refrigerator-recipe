@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import refrigerator.back.global.time.CurrentDate;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.application.domain.IngredientSearchCondition;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.dto.IngredientDTO;
@@ -30,7 +30,7 @@ class IngredientLookUpServiceTest {
 
     @Mock FindIngredientPort findIngredientPort;
 
-    @Mock CurrentDate currentDate;
+    @Mock CurrentTime<LocalDate> currentTime;
 
     @Test
     @DisplayName("식재료 목록 조회 테스트")
@@ -45,24 +45,27 @@ class IngredientLookUpServiceTest {
                 .build();
 
         IngredientDTO.IngredientDTOBuilder builder = IngredientDTO.builder()
-                .remainDays(0)
-                .image("test.png");
+                .image("test.png")
+                .expirationDate(now);
 
-        IngredientDTO dto1 = builder.ingredientID(1L).name("감자").build();
-        IngredientDTO dto2 = builder.ingredientID(2L).name("고구마").build();
-        IngredientDTO dto3 = builder.ingredientID(3L).name("자색고구마").build();
-        IngredientDTO dto4 = builder.ingredientID(4L).name("옥수수").build();
+        List<IngredientDTO> ingredientDTOList = new ArrayList<>();
+        ingredientDTOList.add(builder.ingredientID(1L).name("감자").build());
+        ingredientDTOList.add(builder.ingredientID(2L).name("고구마").build());
+        ingredientDTOList.add(builder.ingredientID(3L).name("자색고구마").build());
+        ingredientDTOList.add(builder.ingredientID(4L).name("옥수수").build());
 
-        List<IngredientDTO> ingredientDTOList = new ArrayList<>(List.of(dto1, dto2, dto3, dto4));
-
-        given(currentDate.now())
+        given(currentTime.now())
                 .willReturn(now);
 
-        given(findIngredientListPort.getIngredientList(now, condition, 1, 10))
+        given(findIngredientListPort.getIngredientList(now, condition, 0, 10))
                 .willReturn(ingredientDTOList);
 
-        assertThat(ingredientLookUpService.getIngredientList(condition, 1, 10).size())
-                .isEqualTo(4);
+        List<IngredientDTO> ingredientList = ingredientLookUpService.getIngredientList(condition, 0, 10);
+        assertThat(ingredientList.size()).isEqualTo(4);
+        for (int i = 0; i < ingredientList.size(); i++) {
+            assertThat(ingredientList.get(i).getIngredientID()).isEqualTo(i + 1L);
+            assertThat(ingredientList.get(i).getRemainDays()).isEqualTo("0");
+        }
     }
 
     @Test
@@ -70,28 +73,32 @@ class IngredientLookUpServiceTest {
     void getIngredientListOfAllTest() {
 
         String memberID = "email123@gmail.com";
-
         LocalDate now = LocalDate.of(2023,1,1);
 
+        List<IngredientDTO> ingredientDTOList = new ArrayList<>();
+
         IngredientDTO.IngredientDTOBuilder builder = IngredientDTO.builder()
-                .remainDays(0)
+                .expirationDate(now)
                 .image("test.png");
 
-        IngredientDTO dto1 = builder.ingredientID(1L).name("감자").build();
-        IngredientDTO dto2 = builder.ingredientID(2L).name("고구마").build();
-        IngredientDTO dto3 = builder.ingredientID(3L).name("자색고구마").build();
-        IngredientDTO dto4 = builder.ingredientID(4L).name("옥수수").build();
+        ingredientDTOList.add(builder.ingredientID(1L).name("감자").build());
+        ingredientDTOList.add(builder.ingredientID(2L).name("고구마").build());
+        ingredientDTOList.add(builder.ingredientID(3L).name("자색고구마").build());
+        ingredientDTOList.add(builder.ingredientID(4L).name("옥수수").build());
 
-        List<IngredientDTO> ingredientDTOList = new ArrayList<>(List.of(dto1, dto2, dto3, dto4));
-
-        given(currentDate.now())
+        given(currentTime.now())
                 .willReturn(now);
 
-        given(findIngredientListPort.getIngredientListOfAll(now, memberID))
+        given(findIngredientListPort.getIngredientListOfAll(memberID))
                 .willReturn(ingredientDTOList);
 
-        assertThat(ingredientLookUpService.getIngredientListOfAll(memberID).size())
-                .isEqualTo(4);
+        List<IngredientDTO> ingredientListOfAll = ingredientLookUpService.getIngredientListOfAll(memberID);
+
+        assertThat(ingredientListOfAll.size()).isEqualTo(4);
+        for (int i = 0; i < ingredientListOfAll.size(); i++) {
+            assertThat(ingredientListOfAll.get(i).getIngredientID()).isEqualTo(i + 1L);
+            assertThat(ingredientListOfAll.get(i).getRemainDays()).isEqualTo("0");
+        }
     }
 
     @Test
@@ -101,50 +108,65 @@ class IngredientLookUpServiceTest {
         LocalDate now = LocalDate.of(2023,1,1);
         String memberID = "email123@gmail.com";
 
+        List<IngredientDTO> ingredientDTOList = new ArrayList<>();
+
         IngredientDTO.IngredientDTOBuilder builder = IngredientDTO.builder()
-                .remainDays(0)
+                .expirationDate(now.plusDays(1))
                 .image("test.png");
 
-        IngredientDTO dto1 = builder.ingredientID(1L).name("감자").build();
-        IngredientDTO dto2 = builder.ingredientID(2L).name("고구마").build();
-        IngredientDTO dto3 = builder.ingredientID(3L).name("자색고구마").build();
-        IngredientDTO dto4 = builder.ingredientID(4L).name("옥수수").build();
+        ingredientDTOList.add(builder.ingredientID(1L).name("감자").build());
+        ingredientDTOList.add(builder.ingredientID(2L).name("고구마").build());
+        ingredientDTOList.add(builder.ingredientID(3L).name("자색고구마").build());
+        ingredientDTOList.add(builder.ingredientID(4L).name("옥수수").build());
 
-        List<IngredientDTO> ingredientDTOList = new ArrayList<>(List.of(dto1, dto2, dto3, dto4));
-
-        given(currentDate.now()).willReturn(now);
+        given(currentTime.now())
+                .willReturn(now);
 
         given(findIngredientListPort.getIngredientListByDeadline(now, 1L, memberID))
                 .willReturn(ingredientDTOList);
 
-        assertThat(ingredientLookUpService.getIngredientListByDeadline(1L, memberID).size())
-                .isEqualTo(4);
+        List<IngredientDTO> ingredientListByDeadline = ingredientLookUpService.getIngredientListByDeadline(1L, memberID);
+
+        assertThat(ingredientListByDeadline.size()).isEqualTo(4);
+        for (int i = 0; i < ingredientListByDeadline.size(); i++) {
+            assertThat(ingredientListByDeadline.get(i).getIngredientID()).isEqualTo(i + 1L);
+            assertThat(ingredientListByDeadline.get(i).getRemainDays()).isEqualTo("-1");
+        }
     }
 
     @Test
     @DisplayName("식재료 단건 조회 테스트")
     void getIngredientTest() {
 
+        LocalDate now = LocalDate.of(2023,1,1);
+
         IngredientDetailDTO dto = IngredientDetailDTO.builder()
                 .ingredientID(1L)
                 .name("감자")
-                .registrationDate(LocalDate.of(2023,1,1))
-                .expirationDate(LocalDate.of(2023,1,1))
+                .registrationDate(now)
+                .expirationDate(now)
                 .storage(IngredientStorageType.FRIDGE)
                 .image("test.png")
                 .volume(30.0)
                 .unit("g")
-                .remainDays(0)
                 .build();
 
-        LocalDate now = LocalDate.of(2023,1,1);
-
-        given(currentDate.now())
-                .willReturn(now);
-
-        given(findIngredientPort.getIngredientDetail(now, 1L))
+        given(findIngredientPort.getIngredientDetail(1L))
                 .willReturn(dto);
 
-        assertThat(ingredientLookUpService.getIngredient(1L)).isEqualTo(dto);
+        given(currentTime.now())
+                .willReturn(now);
+
+        IngredientDetailDTO ingredientDetail = ingredientLookUpService.getIngredient(1L);
+
+        assertThat(ingredientDetail.getIngredientID()).isEqualTo(1L);
+        assertThat(ingredientDetail.getName()).isEqualTo("감자");
+        assertThat(ingredientDetail.getExpirationDate()).isEqualTo(now);
+        assertThat(ingredientDetail.getRegistrationDate()).isEqualTo(now);
+        assertThat(ingredientDetail.getVolume()).isEqualTo(30.0);
+        assertThat(ingredientDetail.getUnit()).isEqualTo("g");
+        assertThat(ingredientDetail.getStorage()).isEqualTo(IngredientStorageType.FRIDGE);
+        assertThat(ingredientDetail.getImage()).isEqualTo("test.png");
+        assertThat(ingredientDetail.getRemainDays()).isEqualTo("0");
     }
 }

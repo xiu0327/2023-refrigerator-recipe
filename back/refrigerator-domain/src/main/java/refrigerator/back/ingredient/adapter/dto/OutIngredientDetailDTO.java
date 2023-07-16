@@ -15,7 +15,6 @@ public class OutIngredientDetailDTO {
     private String name;
     private LocalDate expirationDate;
     private LocalDate registrationDate;
-    private Integer remainDays;
     private Double volume;
     private String unit;
     private IngredientStorageType storage;
@@ -24,13 +23,12 @@ public class OutIngredientDetailDTO {
 
     @QueryProjection
     public OutIngredientDetailDTO(Long ingredientID, String name, LocalDate expirationDate, LocalDate registrationDate,
-                                  Integer remainDays, Double volume, String unit, IngredientStorageType storage, String image) {
+                                  Double volume, String unit, IngredientStorageType storage, String image) {
 
         this.ingredientID = ingredientID;
         this.name = name;
         this.expirationDate = expirationDate;
         this.registrationDate = registrationDate;
-        this.remainDays = remainDays;
         this.volume = volume;
         this.unit = unit;
         this.storage = storage;

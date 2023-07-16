@@ -11,8 +11,8 @@ public enum NotificationType {
     HEART("좋아요"),
     NOTICE("공지사항"),
     INGREDIENT("식재료"),
-    EXPIRATION_DATE("유통기한")
-    ;
+    ONE_DAY_BEFORE_EXPIRATION("유통기한 1일 전"),
+    THREE_DAY_BEFORE_EXPIRATION("유통기한 3일 전");
 
     @JsonValue
     private final String typeName;

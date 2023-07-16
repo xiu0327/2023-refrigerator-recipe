@@ -24,7 +24,6 @@ import java.util.List;
 @Import(QuerydslConfig.class)
 @TestDataInit(value = {"/comment.sql", "/member.sql"})
 class CommentLookUpServiceTest {
-
     @Autowired FindCommentsUseCase findCommentsUseCase;
 
     @Test

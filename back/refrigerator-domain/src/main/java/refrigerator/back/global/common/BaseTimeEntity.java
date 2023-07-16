@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@SuperBuilder // TODO : 오류날 수도 있으니 혹시나 남겨둠 (사용처 : MyBookmark, MyScore, Notice, Notification)
 public abstract class BaseTimeEntity {
     @CreatedDate
     private LocalDateTime createDate;

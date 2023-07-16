@@ -1,13 +1,13 @@
 package refrigerator.back.ingredient.adapter.repository;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import refrigerator.back.comment.application.domain.CommentSortCondition;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDetailDTO;
@@ -16,13 +16,13 @@ import refrigerator.back.ingredient.adapter.dto.QOutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.*;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
-import static java.sql.Date.*;
+import static org.springframework.util.StringUtils.*;
+import static refrigerator.back.comment.application.domain.QComment.comment;
+import static refrigerator.back.comment.application.domain.QCommentHeart.commentHeart;
 import static refrigerator.back.ingredient.application.domain.QIngredient.ingredient;
 import static refrigerator.back.ingredient.application.domain.QIngredientImage.ingredientImage;
 
@@ -40,7 +40,6 @@ public class IngredientLookUpQueryRepository {
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
-                        getRemainDays(now),
                         ingredientImage.imageFileName))
                 .from(ingredient)
                 .where(
@@ -50,7 +49,7 @@ public class IngredientLookUpQueryRepository {
                         ingredient.deleted.eq(false)
                 )
                 .leftJoin(ingredientImage).on(ingredientImage.id.eq(ingredient.image))
-                .orderBy(ingredient.expirationDate.asc(), ingredient.name.asc())
+                .orderBy(orderByConditionallyByDeadline(condition.getDeadline()), ingredient.name.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -62,25 +61,23 @@ public class IngredientLookUpQueryRepository {
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
-                        getRemainDays(now),
                         ingredientImage.imageFileName))
                 .from(ingredient)
                 .where(
                         emailCheck(email),
-                        ingredient.expirationDate.eq(now.plusDays(days)),
+                        expirationDateCheck(now.plusDays(days)),
                         ingredient.deleted.eq(false)
                 )
                 .leftJoin(ingredientImage).on(ingredientImage.id.eq(ingredient.image))
                 .fetch();
     }
 
-    public List<OutIngredientDTO> findIngredientListOfAll(LocalDate now, String email) {
+    public List<OutIngredientDTO> findIngredientListOfAll(String email) {
         return jpaQueryFactory
                 .select(new QOutIngredientDTO(
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
-                        getRemainDays(now),
                         ingredientImage.imageFileName))
                 .from(ingredient)
                 .where(
@@ -92,14 +89,13 @@ public class IngredientLookUpQueryRepository {
                 .fetch();
     }
 
-    public Optional<OutIngredientDetailDTO> findIngredient(LocalDate now, Long id) {
+    public Optional<OutIngredientDetailDTO> findIngredient(Long id) {
         OutIngredientDetailDTO outIngredientDetailDTO = jpaQueryFactory
                 .select(new QOutIngredientDetailDTO(
                         ingredient.id,
                         ingredient.name,
                         ingredient.expirationDate,
                         ingredient.registrationDate,
-                        getRemainDays(now),
                         ingredient.capacity,
                         ingredient.capacityUnit,
                         ingredient.storageMethod,
@@ -107,7 +103,7 @@ public class IngredientLookUpQueryRepository {
                 ))
                 .from(ingredient)
                 .where(
-                        ingredient.id.eq(id),
+                        idCheck(id),
                         ingredient.deleted.eq(false)
                 )
                 .leftJoin(ingredientImage).on(ingredientImage.id.eq(ingredient.image))
@@ -116,35 +112,49 @@ public class IngredientLookUpQueryRepository {
         return Optional.ofNullable(outIngredientDetailDTO);
     }
 
-    public NumberExpression<Integer> getRemainDays(LocalDate now) {
-        if(now == null)
-            throw new BusinessException(IngredientExceptionType.INVALID_DATE);
-
-        return Expressions.numberTemplate(Integer.class, "datediff({0}, {1})", valueOf(now), ingredient.expirationDate).as("remainDays");
-
-
-        //DateOperation<Integer> integerDateOperation = Expressions.dateOperation(Integer.class, Ops.DateTimeOps.DIFF_DAYS, Expressions.currentDate(), ingredient.expirationDate);
-    }
-
     /** condition */
 
-    private BooleanBuilder emailCheck(String email) {
-        return nullSafeBuilder(() -> ingredient.email.eq(email));
+    private OrderSpecifier<?> orderByConditionallyByDeadline(Boolean deadline) {
+        if (deadline){
+            return ingredient.expirationDate.desc();
+        }
+        return ingredient.expirationDate.asc();
     }
 
-    private BooleanBuilder storageCheck(IngredientStorageType storage) {
-        return nullSafeBuilder(() -> ingredient.storageMethod.eq(storage));
+    public BooleanExpression expirationDateCheck(LocalDate expirationDate) {
+        if(expirationDate == null)
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+
+        return ingredient.expirationDate.eq(expirationDate);
     }
 
-    private BooleanExpression deadlineCheck(LocalDate now, boolean deadline) {
-        return deadline ? ingredient.expirationDate.lt(now) : ingredient.expirationDate.goe(now);
-    }
-
-    public BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
-        try {
-            return new BooleanBuilder(f.get());
-        } catch (NullPointerException e) {
+    public BooleanExpression emailCheck(String email) {
+        if(!hasText(email)) {
             throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
         }
+
+        return ingredient.email.eq(email);
+    }
+
+    public BooleanExpression idCheck(Long id) {
+        if(id == null) {
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+        }
+
+        return ingredient.id.eq(id);
+    }
+
+    public BooleanExpression storageCheck(IngredientStorageType storage) {
+        if(storage == null)
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+
+        return ingredient.storageMethod.eq(storage);
+    }
+
+    public BooleanExpression deadlineCheck(LocalDate now, boolean deadline) {
+        if(now == null)
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+
+        return deadline ? ingredient.expirationDate.lt(now) : ingredient.expirationDate.goe(now);
     }
 }

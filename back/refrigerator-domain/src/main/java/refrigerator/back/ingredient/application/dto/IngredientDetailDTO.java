@@ -7,6 +7,7 @@ import refrigerator.back.global.image.ImageGenerator;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @Builder
@@ -19,24 +20,30 @@ public class IngredientDetailDTO extends Image {
 
     private String name;
 
-    private IngredientStorageType storage;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate expirationDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy년 MM월 dd일", timezone = "Asia/Seoul")
     private LocalDate registrationDate;
 
-    private Integer remainDays;
-
     private Double volume;
 
     private String unit;
 
+    private IngredientStorageType storage;
+
     private String image;
+
+    private String remainDays;
 
     @Override
     public void generateImageUrl(ImageGenerator generator) {
         this.image = generator.getUrl(image);
+    }
+
+    public void calculateRemainDays(LocalDate now) {
+        long between = ChronoUnit.DAYS.between(this.expirationDate, now);
+
+        this.remainDays = (between > 0) ? "+" + between : Long.toString(between);
     }
 }

@@ -14,6 +14,8 @@ import refrigerator.back.identification.application.port.out.IdentificationMailS
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import static refrigerator.back.identification.exception.IdentificationExceptionType.*;
+
 @Component
 @RequiredArgsConstructor
 public class MainIdentificationMethod implements IdentificationMailSendPort {
@@ -30,6 +32,7 @@ public class MainIdentificationMethod implements IdentificationMailSendPort {
             message.setSubject("[냉장고를 부탁해] 인증코드를 보내드립니다.");
             message.setText(settingSendView(code), "utf-8", "html");
             mailSender.send(message);
+
         } catch (MessagingException e) {
             throw new BusinessException(FAIL_SEND_EMAIL);
         }

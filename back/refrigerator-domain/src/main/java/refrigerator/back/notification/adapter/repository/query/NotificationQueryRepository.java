@@ -1,4 +1,4 @@
-package refrigerator.back.notification.adapter.repository;
+package refrigerator.back.notification.adapter.repository.query;
 
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.NumberExpression;
@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import refrigerator.back.notification.adapter.dto.OutCommentNotificationDTO;
 import refrigerator.back.notification.adapter.dto.QOutCommentNotificationDTO;
 import refrigerator.back.notification.application.domain.Notification;
@@ -44,12 +43,13 @@ public class NotificationQueryRepository {
     public List<Notification> findNotificationList(String memberId, Pageable pageable) {
 
         NumberExpression<Integer> rankPath = new CaseBuilder()
-                .when(notification.type.eq(NotificationType.EXPIRATION_DATE)).then(2)
+                .when(notification.type.eq(NotificationType.ONE_DAY_BEFORE_EXPIRATION)).then(3)
+                .when(notification.type.eq(NotificationType.THREE_DAY_BEFORE_EXPIRATION)).then(2)
                 .otherwise(1);
 
         return jpaQueryFactory.selectFrom(notification)
                 .where(notification.memberId.eq(memberId))
-                .orderBy(rankPath.desc(), notification.createDate.desc())
+                .orderBy(rankPath.desc(), notification.createDate.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

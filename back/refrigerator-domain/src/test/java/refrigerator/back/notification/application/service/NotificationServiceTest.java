@@ -36,8 +36,6 @@ class NotificationServiceTest {
 
     @Mock NotificationMapper mapper;
 
-    @Mock CurrentTime currentTime;
-
     @Test
     @DisplayName("알림 조회 테스트")
     void getNotificationListTest() {
@@ -57,6 +55,9 @@ class NotificationServiceTest {
 
         List<Notification> notifications = new ArrayList<>(List.of(notification));
 
+        given(findNotificationListPort.findNotificationList(memberId, 1, 1))
+                .willReturn(notifications);
+
         NotificationDTO notificationDTO = NotificationDTO.builder()
                 .id(1L)
                 .message("test message")
@@ -68,12 +69,6 @@ class NotificationServiceTest {
 
         List<NotificationDTO> notificationDTOs = new ArrayList<>(List.of(notificationDTO));
 
-        given(findNotificationListPort.findNotificationList(memberId, 1, 1))
-                .willReturn(notifications);
-
-        given(currentTime.now())
-                .willReturn(time.plusMinutes(1L));
-
         given(notificationTimeService.replace(time))
                 .willReturn("1 분 전");
 
@@ -82,7 +77,6 @@ class NotificationServiceTest {
 
         assertThat(notificationService.getNotificationList(memberId, 1, 1))
                 .isEqualTo(notificationDTOs);
-
     }
 
     @Test

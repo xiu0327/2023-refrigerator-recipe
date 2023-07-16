@@ -1,38 +1,55 @@
 package refrigerator.back.notification.adapter.persistence;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.notification.adapter.repository.redis.MemberNotificationPersistenceRepository;
+import refrigerator.back.notification.application.domain.MemberNotification;
 import refrigerator.back.notification.application.port.out.memberNotification.FindMemberNotificationSignPort;
 import refrigerator.back.notification.application.port.out.memberNotification.CreateMemberNotificationPort;
 import refrigerator.back.notification.application.port.out.memberNotification.ModifyMemberNotificationPort;
+import refrigerator.back.notification.exception.NotificationExceptionType;
 
 import java.util.Optional;
 
 
 @Component
+@RequiredArgsConstructor
 public class MemberNotificationAdapter implements CreateMemberNotificationPort, ModifyMemberNotificationPort, FindMemberNotificationSignPort {
 
-    private final RedisTemplate<String, Boolean> repository;
+    private final MemberNotificationPersistenceRepository repository;
 
-    public MemberNotificationAdapter(
-            @Qualifier("notificationRedisTemplate") RedisTemplate<String, Boolean> repository) {
-        this.repository = repository;
+    @Override
+    public String create(String memberId) {
+
+        MemberNotification memberNotification = MemberNotification.builder()
+                .memberId(memberId)
+                .sign(false)
+                .build();
+
+        return repository.save(memberNotification).getId();
     }
 
     @Override
-    public void create(String memberId) {
-        repository.opsForValue().set(memberId, false);
-    }
+    public String modify(String memberId, boolean value) {
+        MemberNotification memberNotification = repository.findByMemberId(memberId)
+                .orElseThrow(() -> new BusinessException(NotificationExceptionType.TEST_ERROR));
 
-    @Override
-    public void modify(String memberId, boolean value) {
-        repository.opsForValue().set(memberId, value);
+        memberNotification.setSign(value);
+        return repository.save(memberNotification).getId();
     }
 
     @Override
     public Optional<Boolean> getSign(String memberId) {
-        return Optional.ofNullable(repository.opsForValue().get(memberId));
+
+        MemberNotification memberNotification = repository.findByMemberId(memberId).orElse(null);
+
+        if(memberNotification == null)
+            return Optional.empty();
+
+        return Optional.ofNullable(memberNotification.getSign());
     }
 }

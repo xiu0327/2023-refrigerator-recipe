@@ -1,5 +1,6 @@
 package refrigerator.back.ingredient.adapter.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 @DataJpaTest
 @Import({QuerydslConfig.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Slf4j
 class IngredientPersistenceRepositoryTest {
 
     @Autowired IngredientPersistenceRepository ingredientPersistenceRepository;
@@ -31,120 +33,130 @@ class IngredientPersistenceRepositoryTest {
     @DisplayName("식재료 추가 테스트")
     void addIngredientTest() {
 
+        // given
+        String email = "email123@gmail.com";
+        LocalDate now = LocalDate.of(2023, 1, 1);
+
         Ingredient ingredient = Ingredient.create(
                 "감자",
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 1, 1),
+                now,
+                now,
                 30.0,
                 "g",
                 IngredientStorageType.FREEZER,
                 1,
-                "email123@gmail.com");
+                email);
 
+        // when
         Ingredient saveIngredient = ingredientPersistenceRepository.save(ingredient);
 
+        // then
         assertThat(saveIngredient.getName()).isEqualTo("감자");
-        assertThat(saveIngredient.getRegistrationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
-        assertThat(saveIngredient.getExpirationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
+        assertThat(saveIngredient.getRegistrationDate()).isEqualTo(now);
+        assertThat(saveIngredient.getExpirationDate()).isEqualTo(now);
         assertThat(saveIngredient.getCapacity()).isEqualTo(30.0);
         assertThat(saveIngredient.getCapacityUnit()).isEqualTo("g");
         assertThat(saveIngredient.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
         assertThat(saveIngredient.getImage()).isEqualTo(1);
-        assertThat(saveIngredient.getEmail()).isEqualTo("email123@gmail.com");
+        assertThat(saveIngredient.getEmail()).isEqualTo(email);
+        assertThat(saveIngredient.isDeleted()).isFalse();
     }
 
     @Test
-    @DisplayName("이메일이 일치하는 식재료 리스트 조회 : 삭제 X")
-    void findByEmailAndDeletedFalseTest() {
-        String email = "email123@gmail.com";
-
-        Ingredient.IngredientBuilder builder = Ingredient.builder()
-                .expirationDate(LocalDate.of(2023, 1, 1))
-                .registrationDate(LocalDate.of(2023, 1, 1))
-                .email(email)
-                .capacity(30.0)
-                .storageMethod(IngredientStorageType.FREEZER)
-                .capacityUnit("g")
-                .image(1)
-                .deleted(false);
-
-        Ingredient ingredient1 = builder.name("감자").build();
-        Ingredient ingredient2 = builder.name("고구마").build();
-
-        em.persist(ingredient1);
-        em.persist(ingredient2);
-
-        assertThat(ingredientPersistenceRepository.findByEmailAndDeletedFalse(email).size())
-                .isEqualTo(2);
-    }
-
-    @Test
-    @DisplayName("이메일이 일치하는 식재료 리스트 조회 : 삭제 O")
+    @DisplayName("이메일이 일치하고 삭제 상태가 false인 식재료 리스트 조회")
     void findByEmailAndDeletedTrueTest() {
+
+        //given
         String email = "email123@gmail.com";
+        LocalDate now = LocalDate.of(2023, 1, 1);
 
         Ingredient.IngredientBuilder builder = Ingredient.builder()
-                .expirationDate(LocalDate.of(2023, 1, 1))
-                .registrationDate(LocalDate.of(2023, 1, 1))
-                .email(email)
+                .expirationDate(now)
+                .registrationDate(now)
                 .capacity(30.0)
                 .storageMethod(IngredientStorageType.FREEZER)
                 .capacityUnit("g")
                 .image(1)
                 .deleted(false);
 
-        Ingredient ingredient1 = builder.name("감자").build();
-        Ingredient ingredient2 = builder.name("고구마").build();
-
-        em.persist(ingredient1);
-        em.persist(ingredient2);
-
-        ingredient1.delete();
-
+        // 조회 O
+        Long id = em.persistAndGetId(builder.name("감자").email(email).deleted(false).build(), Long.class);
+        // 조회 X : 삭제 상태 true
+        em.persist(builder.name("고구마").email(email).deleted(true).build());
+        // 조회 X : email 불일치
+        em.persist(builder.name("양파").email("email456@gmail.com").deleted(false).build());
+        
+        // when
         List<Ingredient> ingredients = ingredientPersistenceRepository.findByEmailAndDeletedFalse(email);
 
+        // then
         assertThat(ingredients.size()).isEqualTo(1);
-        assertThat(ingredients.get(0)).isEqualTo(ingredient2);
+
+        Ingredient ingredient = ingredients.get(0);
+        assertThat(ingredient.getId()).isEqualTo(id);
+        assertThat(ingredient.getName()).isEqualTo("감자");
+        assertThat(ingredient.getExpirationDate()).isEqualTo(now);
+        assertThat(ingredient.getRegistrationDate()).isEqualTo(now);
+        assertThat(ingredient.getCapacity()).isEqualTo(30.0);
+        assertThat(ingredient.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
+        assertThat(ingredient.getCapacityUnit()).isEqualTo("g");
+        assertThat(ingredient.getImage()).isEqualTo(1);
+        assertThat(ingredient.getEmail()).isEqualTo(email);
+        assertThat(ingredient.isDeleted()).isEqualTo(false);
     }
 
     @Test
-    @DisplayName("id가 일치하는 식재료 리스트 조회 : 삭제 X")
+    @DisplayName("id가 일치하고 삭제 상태가 false인 식재료 리스트 조회")
     void findByIdAndDeletedFalseTest() {
+
+        // given
+        String email = "email123@gmail.com";
+        LocalDate now = LocalDate.of(2023, 1, 1);
+
         Ingredient ingredient = Ingredient.create(
                 "감자",
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 1, 1),
+                now,
+                now,
                 30.0,
                 "g",
                 IngredientStorageType.FREEZER,
                 1,
-                "email123@gmail.com");
+                "email123@gmail.com"
+                );
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        // when, then
 
-        assertThat(ingredientPersistenceRepository.findByIdAndDeletedFalse(id).orElse(null))
-                .isEqualTo(ingredient);
-    }
+        // case 1 : 정상
+        final Long id = em.persistAndGetId(ingredient, Long.class);
 
-    @Test
-    @DisplayName("id가 일치하는 식재료 리스트 조회 : 삭제 O")
-    void findByIdAndDeletedTrueTest() {
-        Ingredient ingredient = Ingredient.create(
-                "감자",
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 1, 1),
-                30.0,
-                "g",
-                IngredientStorageType.FREEZER,
-                1,
-                "email123@gmail.com");
+        ingredientPersistenceRepository.findByIdAndDeletedFalse(id).ifPresent(
+                ingredient1 -> {
+                    log.info("enter");
+                    assertThat(ingredient.getId()).isEqualTo(id);
+                    assertThat(ingredient.getName()).isEqualTo("감자");
+                    assertThat(ingredient.getExpirationDate()).isEqualTo(now);
+                    assertThat(ingredient.getRegistrationDate()).isEqualTo(now);
+                    assertThat(ingredient.getCapacity()).isEqualTo(30.0);
+                    assertThat(ingredient.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
+                    assertThat(ingredient.getCapacityUnit()).isEqualTo("g");
+                    assertThat(ingredient.getImage()).isEqualTo(1);
+                    assertThat(ingredient.getEmail()).isEqualTo(email);
+                    assertThat(ingredient.isDeleted()).isEqualTo(false);
+                }
+        );
 
+        // case 2 : id 불일치
+
+        assertThat(ingredientPersistenceRepository.findByIdAndDeletedFalse(-1L).orElse(null))
+                .isNull();
+        
+        // case 3 : 삭제 상태 true
+        
         ingredient.delete();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        em.flush();
 
         assertThat(ingredientPersistenceRepository.findByIdAndDeletedFalse(id).orElse(null))
                 .isNull();
     }
-
 }

@@ -1,23 +1,23 @@
 package refrigerator.back.notification.application.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import refrigerator.back.global.common.BaseTimeEntity;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.notification.exception.NotificationExceptionType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notification")
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Notification extends BaseTimeEntity {
+@ToString
+public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,12 +43,17 @@ public class Notification extends BaseTimeEntity {
     @Column(name = "method", nullable = false, length = 30)
     private String method;
 
-    public static Notification create(NotificationType type, String path, String memberId, String method){
+    @Column(name = "create_date", nullable = false, length = 30)
+    private LocalDateTime createDate;
+
+    public static Notification create(NotificationType type, String path, String memberId, String method, LocalDateTime createDate){
         return Notification.builder()
                 .type(type)
                 .path(path)
                 .method(method)
-                .memberId(memberId).build();
+                .memberId(memberId)
+                .createDate(createDate)
+                .build();
     }
 
     public void createCommentHeartMessage(String senderNickname){

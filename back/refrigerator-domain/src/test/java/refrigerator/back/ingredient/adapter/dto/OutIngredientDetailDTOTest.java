@@ -2,8 +2,6 @@ package refrigerator.back.ingredient.adapter.dto;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import refrigerator.back.global.time.CurrentDate;
-import refrigerator.back.global.time.TestCurrentDate;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 
 import java.time.LocalDate;
@@ -34,9 +32,5 @@ class OutIngredientDetailDTOTest {
         assertThat(dto.getRegistrationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
         assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023, 1, 1));
         assertThat(dto.getStorage()).isEqualTo(IngredientStorageType.FRIDGE);
-
-        CurrentDate currentDate = TestCurrentDate.of(2023,1,1);
-
-        assertThat(dto.getRemainDays()).isEqualTo("0");
     }
 }

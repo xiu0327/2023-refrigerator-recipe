@@ -6,10 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import refrigerator.back.global.time.CurrentDate;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
-import refrigerator.back.ingredient.application.dto.IngredientRegisterDTO;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientPort;
 import refrigerator.back.ingredient.application.port.out.ingredient.update.DeleteIngredientPort;
 import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveIngredientPort;
@@ -36,12 +34,14 @@ class IngredientUpdateServiceTest {
     @DisplayName("식재료 수정")
     void modifyIngredientTest() {
 
+        LocalDate now = LocalDate.of(2023,1,1);
+
         // given
         Ingredient ingredient = Ingredient.builder()
                 .id(1L)
                 .name("감자")
-                .registrationDate(LocalDate.of(2023,1,1))
-                .expirationDate(LocalDate.of(2023,1,1))
+                .registrationDate(now)
+                .expirationDate(now)
                 .capacity(30.0)
                 .capacityUnit("g")
                 .image(1)
@@ -56,13 +56,13 @@ class IngredientUpdateServiceTest {
         given(saveIngredientPort.saveIngredient(ingredient))
                 .willReturn(1L);
 
-        ingredientUpdateService.modifyIngredient(1L, LocalDate.of(2023, 1,2),
+        ingredientUpdateService.modifyIngredient(1L, now.plusDays(1),
                 40.0, IngredientStorageType.FREEZER);
 
         Ingredient findIngredient = findIngredientPort.getIngredient(1L);
 
         assertThat(findIngredient.getCapacity()).isEqualTo(40);
-        assertThat(findIngredient.getExpirationDate()).isEqualTo(LocalDate.of(2023, 1,2));
+        assertThat(findIngredient.getExpirationDate()).isEqualTo(now.plusDays(1));
         assertThat(findIngredient.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
     }
 

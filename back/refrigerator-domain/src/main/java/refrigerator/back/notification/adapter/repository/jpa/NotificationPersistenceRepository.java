@@ -1,4 +1,4 @@
-package refrigerator.back.notification.adapter.repository;
+package refrigerator.back.notification.adapter.repository.jpa;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

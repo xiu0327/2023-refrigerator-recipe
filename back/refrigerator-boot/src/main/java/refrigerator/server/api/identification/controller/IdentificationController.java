@@ -13,6 +13,8 @@ import refrigerator.server.api.identification.dto.SendNumberRequestDTO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import static refrigerator.back.comment.exception.CommentExceptionType.*;
+
 @RestController
 @RequiredArgsConstructor
 public class IdentificationController {

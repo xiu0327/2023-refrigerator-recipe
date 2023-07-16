@@ -45,8 +45,8 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
     }
 
     @Override
-    public IngredientDetailDTO getIngredientDetail(LocalDate now, Long id) {
-        OutIngredientDetailDTO dto = ingredientLookUpQueryRepository.findIngredient(now, id)
+    public IngredientDetailDTO getIngredientDetail(Long id) {
+        OutIngredientDetailDTO dto = ingredientLookUpQueryRepository.findIngredient(id)
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_INGREDIENT));
 
         return mapper.toIngredientDetailDto(dto);
@@ -59,9 +59,9 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
     }
 
     @Override
-    public List<IngredientDTO> getIngredientListOfAll(LocalDate now, String email) {
+    public List<IngredientDTO> getIngredientListOfAll(String email) {
         return mapper(ingredientLookUpQueryRepository
-                .findIngredientListOfAll(now, email));
+                .findIngredientListOfAll(email));
     }
 
     @Override
@@ -70,9 +70,9 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
                 .findIngredientListByDeadline(now, days, email));
     }
 
-    private List<IngredientDTO> mapper(List<OutIngredientDTO> ingredientListByDeadline) {
+    public List<IngredientDTO> mapper(List<OutIngredientDTO> ingredientListByDeadline) {
         return ingredientListByDeadline.stream()
-                .map(dto -> mapper.toIngredientDto(dto))
+                .map(mapper::toIngredientDto)
                 .collect(Collectors.toList());
     }
 }

@@ -1,15 +1,11 @@
 //package refrigerator.back.global.time;
 //
-//import com.querydsl.core.types.dsl.DateTimePath;
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
-//
 //import java.time.LocalDate;
 //import java.time.LocalDateTime;
-//
-//import static org.junit.jupiter.api.Assertions.*;
 //
 //@Slf4j
 //class CurrentTimeTest {
@@ -23,7 +19,6 @@
 //        );
 //
 //        log.info("time={}", timeService.now());
-//
 //    }
 //
 //    @Test

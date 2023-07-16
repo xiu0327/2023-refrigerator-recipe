@@ -3,8 +3,6 @@ package refrigerator.back.ingredient.adapter.mapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import refrigerator.back.global.time.CurrentDate;
-import refrigerator.back.global.time.TestCurrentDate;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.adapter.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
@@ -34,19 +32,17 @@ class OutIngredientMapperTest {
                 .image("test.png")
                 .build();
 
-        CurrentDate currentDate = TestCurrentDate.of(2023, 1, 1);
-
         IngredientDetailDTO dto = outIngredientMapper.toIngredientDetailDto(outDto);
 
         assertThat(dto.getIngredientID()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("감자");
         assertThat(dto.getStorage()).isEqualTo(IngredientStorageType.FRIDGE);
-        assertThat(dto.getImage()).isEqualTo("test.png");
         assertThat(dto.getRegistrationDate()).isEqualTo(LocalDate.of(2023,1,1));
         assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023,1,1));
         assertThat(dto.getUnit()).isEqualTo("g");
         assertThat(dto.getVolume()).isEqualTo(30.0);
-        assertThat(dto.getRemainDays()).isEqualTo("0");
+        assertThat(dto.getImage()).isEqualTo("test.png");
+        assertThat(dto.getRemainDays()).isNull();
     }
 
     @Test
@@ -60,13 +56,12 @@ class OutIngredientMapperTest {
                 .image("test.png")
                 .build();
 
-        CurrentDate currentDate = TestCurrentDate.of(2023, 1, 1);
-
         IngredientDTO dto = outIngredientMapper.toIngredientDto(outDto);
 
         assertThat(dto.getIngredientID()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("감자");
         assertThat(dto.getImage()).isEqualTo("test.png");
-        assertThat(dto.getRemainDays()).isEqualTo("0");
+        assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023,1,1));
+        assertThat(dto.getRemainDays()).isNull();
     }
 }

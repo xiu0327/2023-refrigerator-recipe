@@ -9,6 +9,6 @@ public interface FindIngredientPort {
 
     Ingredient getIngredient(Long id);
 
-    IngredientDetailDTO getIngredientDetail(LocalDate now, Long id);
+    IngredientDetailDTO getIngredientDetail(Long id);
 
 }

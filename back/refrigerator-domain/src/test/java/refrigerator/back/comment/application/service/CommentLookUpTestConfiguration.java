@@ -6,4 +6,5 @@ import org.springframework.context.annotation.ComponentScan;
 @TestConfiguration
 @ComponentScan(basePackages = "refrigerator.back.comment")
 public class CommentLookUpTestConfiguration {
+
 }

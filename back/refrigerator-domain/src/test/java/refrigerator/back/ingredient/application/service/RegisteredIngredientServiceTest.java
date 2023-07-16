@@ -39,7 +39,8 @@ class RegisteredIngredientServiceTest {
         given(findRegisteredIngredientPort.findIngredient("당근"))
                 .willReturn(ingredient);
 
-        assertThat(registeredIngredientService.getIngredient("당근")).isEqualTo(ingredient);
+        assertThat(registeredIngredientService.getIngredient("당근"))
+                .isEqualTo(ingredient);
     }
 
     @Test
@@ -59,6 +60,7 @@ class RegisteredIngredientServiceTest {
         given(findRegisteredIngredientPort.findIngredientList())
                 .willReturn(ingredients);
 
-        assertThat(registeredIngredientService.getIngredientList()).isEqualTo(ingredients);
+        assertThat(registeredIngredientService.getIngredientList())
+                .isEqualTo(ingredients);
     }
 }

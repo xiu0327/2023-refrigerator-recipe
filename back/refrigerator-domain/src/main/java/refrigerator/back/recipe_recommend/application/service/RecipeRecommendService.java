@@ -1,7 +1,6 @@
 package refrigerator.back.recipe_recommend.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.units.qual.Current;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.time.CurrentTime;

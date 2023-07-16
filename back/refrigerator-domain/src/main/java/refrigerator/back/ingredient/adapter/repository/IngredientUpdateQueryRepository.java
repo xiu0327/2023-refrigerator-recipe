@@ -1,13 +1,12 @@
 package refrigerator.back.ingredient.adapter.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.ingredient.application.domain.QSuggestedIngredient;
+import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -25,7 +24,7 @@ public class IngredientUpdateQueryRepository {
 
         long execute = jpaQueryFactory.update(ingredient)
                 .set(ingredient.deleted, true)
-                .where(ingredient.id.eq(id))
+                .where(idCheck(id))
                 .execute();
 
         em.flush();
@@ -38,7 +37,7 @@ public class IngredientUpdateQueryRepository {
 
         long execute = jpaQueryFactory.update(ingredient)
                 .set(ingredient.deleted, true)
-                .where(ingredient.id.in(ids))
+                .where(idListCheck(ids))
                 .execute();
 
         em.flush();
@@ -58,5 +57,27 @@ public class IngredientUpdateQueryRepository {
         em.clear();
 
         return execute;
+    }
+
+    public BooleanExpression idCheck(Long id) {
+        if(id == null) {
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+        }
+
+        return ingredient.id.eq(id);
+    }
+
+    public BooleanExpression idListCheck(List<Long> ids) {
+        if(ids == null) {
+            throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+        }
+
+        for (Long id : ids) {
+            if(id == null) {
+                throw new BusinessException(IngredientExceptionType.NOT_FOUND_INGREDIENT);
+            }
+        }
+
+        return ingredient.id.in(ids);
     }
 }

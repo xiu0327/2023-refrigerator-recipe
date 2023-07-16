@@ -48,7 +48,7 @@ public class NotificationScheduleConfig {
     private final DeleteNotificationBatchPort deleteNotificationBatchPort;
     private final ModifyMemberNotificationPort modifyMemberNotificationPort;
 
-    private final CurrentTime currentTime;
+    private final CurrentTime<LocalDateTime> currentTime;
 
     @Value("${chunkSize:1000}")
     private int chunkSize = 1000;
@@ -71,8 +71,8 @@ public class NotificationScheduleConfig {
         return stepBuilderFactory.get("deleteNotificationStep")
                 .tasklet((contribution, chunkContext) -> {
 
-                    deleteNotificationBatchPort.deleteNotification(currentTime.now());
-                    deleteNotificationBatchPort.deleteDeadlineNotification(currentTime.now().minusDays(14));
+                    deleteNotificationBatchPort.deleteNotification(true, currentTime.now());
+                    deleteNotificationBatchPort.deleteNotification(false, currentTime.now().minusDays(14));
                     
                     return RepeatStatus.FINISHED;
                 })
@@ -123,10 +123,12 @@ public class NotificationScheduleConfig {
             modifyMemberNotificationPort.modify(dto.getEmail(), true);
 
             Notification notification = Notification.create(
-                    NotificationType.EXPIRATION_DATE,
+                    NotificationType.ONE_DAY_BEFORE_EXPIRATION,
                     "/notification/exp?day=1",
                     dto.getEmail(),
-                    "get");
+                    BasicHttpMethod.GET.name(),
+                    currentTime.now()
+            );
             notification.createExpirationDateMessage(dto.getName(), dto.getCount(), 1);
             return notification;
         };
@@ -175,10 +177,12 @@ public class NotificationScheduleConfig {
             modifyMemberNotificationPort.modify(dto.getEmail(), true);
 
             Notification notification = Notification.create(
-                    NotificationType.EXPIRATION_DATE,
+                    NotificationType.THREE_DAY_BEFORE_EXPIRATION,
                     "/notification/exp?day=3",
                     dto.getEmail(),
-                    BasicHttpMethod.GET.name());
+                    BasicHttpMethod.GET.name(),
+                    currentTime.now()
+            );
             notification.createExpirationDateMessage(dto.getName(), dto.getCount() - 1, 3);
             return notification;
         };

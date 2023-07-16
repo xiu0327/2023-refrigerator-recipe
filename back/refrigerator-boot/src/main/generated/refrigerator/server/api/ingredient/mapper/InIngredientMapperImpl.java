@@ -11,8 +11,8 @@ import refrigerator.server.api.ingredient.dto.IngredientDeductionRequestDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-04T17:37:21+0900",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.15 (JetBrains s.r.o.)"
+    date = "2023-07-10T08:17:42+0900",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.19 (Amazon.com Inc.)"
 )
 @Component
 public class InIngredientMapperImpl implements InIngredientMapper {

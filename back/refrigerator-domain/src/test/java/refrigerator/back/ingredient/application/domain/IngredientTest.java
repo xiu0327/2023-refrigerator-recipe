@@ -14,12 +14,15 @@ class IngredientTest {
     @DisplayName("식재료 도메인 테스트")
     void ingredientTest() {
 
+        LocalDate now = LocalDate.of(2023,1,1);
+        String email = "email123@gmail.com";
+
         Ingredient domain = Ingredient.builder()
                 .id(1L)
                 .name("감자")
-                .expirationDate(LocalDate.of(2023,1,1))
-                .registrationDate(LocalDate.of(2023,1,1))
-                .email("email123@gmail.com")
+                .expirationDate(now)
+                .registrationDate(now)
+                .email(email)
                 .capacity(30.0)
                 .storageMethod(IngredientStorageType.FREEZER)
                 .capacityUnit("g")
@@ -29,10 +32,10 @@ class IngredientTest {
         
         assertThat(domain.getId()).isEqualTo(1L);
         assertThat(domain.getName()).isEqualTo("감자");
-        assertThat(domain.getExpirationDate()).isEqualTo(LocalDate.of(2023,1,1));
-        assertThat(domain.getRegistrationDate()).isEqualTo(LocalDate.of(2023,1,1));
+        assertThat(domain.getExpirationDate()).isEqualTo(now);
+        assertThat(domain.getRegistrationDate()).isEqualTo(now);
         assertThat(domain.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
-        assertThat(domain.getEmail()).isEqualTo("email123@gmail.com");
+        assertThat(domain.getEmail()).isEqualTo(email);
         assertThat(domain.getCapacityUnit()).isEqualTo("g");
         assertThat(domain.getCapacity()).isEqualTo(30.0);
         assertThat(domain.getImage()).isEqualTo(1);
@@ -48,21 +51,25 @@ class IngredientTest {
     @Test
     @DisplayName("식재료 도메인 생성 테스트")
     void ingredientCreateTest() {
+
+        LocalDate now = LocalDate.of(2023,1,1);
+        String email = "email123@gmail.com";
+
         Ingredient domain = Ingredient.create("감자",
-                LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 1, 1),
+                now,
+                now,
                 30.0,
                 "g",
                 IngredientStorageType.FREEZER,
                 1,
-                "email123@gmail.com");
+                email);
 
         assertThat(domain.getId()).isNull();
         assertThat(domain.getName()).isEqualTo("감자");
-        assertThat(domain.getExpirationDate()).isEqualTo(LocalDate.of(2023,1,1));
-        assertThat(domain.getRegistrationDate()).isEqualTo(LocalDate.of(2023,1,1));
+        assertThat(domain.getExpirationDate()).isEqualTo(now);
+        assertThat(domain.getRegistrationDate()).isEqualTo(now);
         assertThat(domain.getStorageMethod()).isEqualTo(IngredientStorageType.FREEZER);
-        assertThat(domain.getEmail()).isEqualTo("email123@gmail.com");
+        assertThat(domain.getEmail()).isEqualTo(email);
         assertThat(domain.getCapacityUnit()).isEqualTo("g");
         assertThat(domain.getCapacity()).isEqualTo(30.0);
         assertThat(domain.getImage()).isEqualTo(1);
@@ -73,11 +80,13 @@ class IngredientTest {
     @DisplayName("식재료 도메인 수정 테스트")
     void ingredientModifyTest() {
 
+        LocalDate now = LocalDate.of(2023,1,1);
+
         Ingredient domain = Ingredient.builder()
                 .id(1L)
                 .name("감자")
-                .expirationDate(LocalDate.of(2023,1,1))
-                .registrationDate(LocalDate.of(2023,1,1))
+                .expirationDate(now)
+                .registrationDate(now)
                 .email("email123@gmail.com")
                 .capacity(30.0)
                 .storageMethod(IngredientStorageType.FREEZER)
@@ -86,9 +95,9 @@ class IngredientTest {
                 .deleted(false)
                 .build();
 
-        domain.modify(LocalDate.of(2023, 1, 2), 60.0, IngredientStorageType.FRIDGE);
+        domain.modify(now.plusDays(1), 60.0, IngredientStorageType.FRIDGE);
         
-        assertThat(domain.getExpirationDate()).isEqualTo(LocalDate.of(2023,1,2));
+        assertThat(domain.getExpirationDate()).isEqualTo(now.plusDays(1));
         assertThat(domain.getStorageMethod()).isEqualTo(IngredientStorageType.FRIDGE);
         assertThat(domain.getCapacity()).isEqualTo(60.0);
     }
@@ -101,14 +110,16 @@ class IngredientTest {
     }
 
     @Test
-    @DisplayName("식재료 차감 테스트 1 : 차감하고자 하는 양이 더 적은 경우")
-    void ingredientDeductionVolumeTest1() {
+    @DisplayName("식재료 차감 테스트")
+    void ingredientDeductionVolumeTest() {
+
+        LocalDate now = LocalDate.of(2023,1,1);
 
         Ingredient domain = Ingredient.builder()
                 .id(1L)
                 .name("감자")
-                .expirationDate(LocalDate.of(2023,1,1))
-                .registrationDate(LocalDate.of(2023,1,1))
+                .expirationDate(now)
+                .registrationDate(now)
                 .email("email123@gmail.com")
                 .capacity(60.0)
                 .storageMethod(IngredientStorageType.FREEZER)
@@ -117,36 +128,21 @@ class IngredientTest {
                 .deleted(false)
                 .build();
         
+        // case 1 : 차감하고자 하는 양이 현재 양보다 더 적은 경우 (현재 : 60.0, 차감 : 30.0)
         domain.deductionVolume(30.0);
         
-        assertThat(domain.getCapacity()).isEqualTo(30.0);
-    }
+        assertThat(domain.getCapacity()).isEqualTo(30.0);   // 차감 후 30.0
 
-    @Test
-    @DisplayName("식재료 차감 테스트 2 : 차감하고자 하는 양이 같거나 더 많은 경우")
-    void ingredientDeductionVolumeTest2() {
+        // case 2 : 차감하고자 하는 양이 현재 양과 같은 경우 (현재 : 30.0, 차감 : 30.0)
+        domain.deductionVolume(30.0);
 
-        Ingredient domain = Ingredient.builder()
-                .id(1L)
-                .name("감자")
-                .expirationDate(LocalDate.of(2023,1,1))
-                .registrationDate(LocalDate.of(2023,1,1))
-                .email("email123@gmail.com")
-                .capacity(60.0)
-                .storageMethod(IngredientStorageType.FREEZER)
-                .capacityUnit("g")
-                .image(1)
-                .deleted(false)
-                .build();
+        assertThat(domain.getCapacity()).isEqualTo(0.0);    // 차감 후 0.0
 
-        domain.deductionVolume(60.0);
-
-        assertThat(domain.getCapacity()).isEqualTo(0.0);
-
-        domain.modify(LocalDate.of(2023,1,1), 60.0, IngredientStorageType.FREEZER);
+        // case 3 : 차감하고자 하는 양이 현재 양보다 많은 경우 (현재 : 60.0, 차감 90.0)
+        domain.modify(now, 60.0, IngredientStorageType.FREEZER);
 
         domain.deductionVolume(90.0);
 
-        assertThat(domain.getCapacity()).isEqualTo(0.0);
+        assertThat(domain.getCapacity()).isEqualTo(0.0);    // 차감 후 0.0
     }
 }

@@ -3,7 +3,6 @@ package refrigerator.back.notification.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.notification.application.domain.NotificationTimeService;
 import refrigerator.back.notification.application.dto.NotificationDTO;
 import refrigerator.back.notification.application.mapper.NotificationMapper;
@@ -24,7 +23,6 @@ public class NotificationService implements FindNotificationListUseCase, ModifyN
     private final FindNotificationListPort findNotificationListPort;
 
     private final NotificationMapper mapper;
-    private final CurrentTime currentTime;
 
     @Override
     @Transactional(readOnly = true)
