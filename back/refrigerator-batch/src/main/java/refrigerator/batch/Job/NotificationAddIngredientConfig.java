@@ -110,7 +110,7 @@ public class NotificationAddIngredientConfig {
 
             Notification notification = Notification.create(
                     NotificationType.INGREDIENT,
-                    "/refrigerator/add/info?ingredient=" + name,
+                    "/refrigerator/addUp/info?ingredient=" + name,
                     suggestedIngredient.getEmail(),
                     BasicHttpMethod.GET.name(),
                     currentTime.now()

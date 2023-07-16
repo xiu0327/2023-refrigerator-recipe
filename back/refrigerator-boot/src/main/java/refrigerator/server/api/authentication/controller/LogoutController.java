@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LogoutController {
     private final RestrictAccessUseCase restrictAccessUseCase;
-    private final CustomCookie refreshTokenCookie = new RefreshTokenCookie();
 
     public LogoutController(RestrictAccessUseCase restrictAccessUseCase) {
         this.restrictAccessUseCase = restrictAccessUseCase;
@@ -23,8 +22,9 @@ public class LogoutController {
     @GetMapping("/api/auth/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(HttpServletRequest request, HttpServletResponse response){
+        RefreshTokenCookie refreshTokenCookie = new RefreshTokenCookie();
         String refreshToken = refreshTokenCookie.get(request.getCookies()).getValue();
         restrictAccessUseCase.restrictAccessToTokens(refreshToken);
-        refreshTokenCookie.delete(response);
+        response.addCookie(refreshTokenCookie.delete());
     }
 }

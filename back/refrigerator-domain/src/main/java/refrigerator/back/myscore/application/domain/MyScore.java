@@ -1,53 +1,68 @@
 package refrigerator.back.myscore.application.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import refrigerator.back.global.common.BaseTimeEntity;
-import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.myscore.exception.MyRecipeScoreExceptionType;
+import lombok.*;
+
+import refrigerator.back.myscore.application.service.RecipeScoreModifyHandler;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "recipe_score_member")
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class MyScore extends BaseTimeEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MyScore extends ScoreScope{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "score_id")
-    private Long scoreID;
+    private Long scoreId;
 
     @Column(name = "member_email", nullable = false, length = 300)
-    private String memberID;
+    private String memberId;
 
     @Column(name = "recipe_id", nullable = false)
-    private Long recipeID;
+    private Long recipeId;
 
     @Column(name = "score")
     private Double score;
 
-    public void modify(double score){
+    @Column(name = "create_date")
+    private LocalDateTime createDateTime;
+
+    private MyScore(String memberId, Long recipeId, Double score, LocalDateTime createDateTime) {
+        checkScoreScope(score);
+        this.memberId = memberId;
+        this.recipeId = recipeId;
         this.score = score;
+        this.createDateTime = createDateTime;
     }
 
-    public static void checkScoreScope(Double score){
-        if (score <= 0.0 || score > 5.0){
-            throw new BusinessException(MyRecipeScoreExceptionType.WRONG_SCORE_SCOPE);
-        }
+    public void update(double newScore, RecipeScoreModifyHandler recipeScoreHandler){
+        checkScoreScope(newScore);
+        double oldScore = score;
+        score = newScore;
+        recipeScoreHandler.renew(recipeId, oldScore, newScore);
     }
 
-    public static MyScore create(String memberID, Long recipeID, Double score){
-        return MyScore.builder()
-                .memberID(memberID)
-                .recipeID(recipeID)
-                .score(score).build();
+    public static boolean isCooked(int number){
+        return number == 1;
     }
 
+    public static MyScore create(String memberId, Long recipeId,
+                                 Double score, LocalDateTime createDateTime,
+                                 RecipeScoreModifyHandler recipeScoreModifyHandler){
+        MyScore myScore = new MyScore(memberId, recipeId, score, createDateTime);
+        myScore.checkScoreScope(score);
+        recipeScoreModifyHandler.addUp(recipeId, score);
+        return myScore;
+    }
+
+    public static MyScore createForTest(String memberId, Long recipeId,
+                                        Double score, LocalDateTime createDateTime){
+        MyScore myScore = new MyScore(memberId, recipeId, score, createDateTime);
+        myScore.checkScoreScope(score);
+        return myScore;
+    }
 }

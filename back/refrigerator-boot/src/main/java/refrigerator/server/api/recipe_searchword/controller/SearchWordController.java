@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import refrigerator.server.api.global.common.BasicListResponseDTO;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.recipe_searchword.application.port.in.DeleteSearchWordUseCase;
 import refrigerator.back.recipe_searchword.application.port.in.FindLastSearchWordUseCase;
 import refrigerator.back.recipe_searchword.application.port.in.FindRecommendSearchWordUseCase;

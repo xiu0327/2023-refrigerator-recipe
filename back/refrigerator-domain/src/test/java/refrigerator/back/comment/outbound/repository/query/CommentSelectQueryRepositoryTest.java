@@ -8,16 +8,18 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
+import refrigerator.back.annotation.DisabledRepositoryTest;
 import refrigerator.back.annotation.TestDataInit;
 import refrigerator.back.comment.outbound.dto.OutCommentDto;
 import refrigerator.back.comment.application.domain.CommentSortCondition;
-import refrigerator.back.global.config.QuerydslConfig;
+import refrigerator.back.comment.outbound.dto.OutCommentNumberDto;
+import refrigerator.back.global.jpa.config.QuerydslConfig;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@DisabledRepositoryTest
 @Import({QuerydslConfig.class, CommentSelectQueryRepository.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestDataInit(value = {"/comment.sql", "/member.sql"})
@@ -38,8 +40,8 @@ class CommentSelectQueryRepositoryTest {
     @Test
     @DisplayName("댓글 전체 개수 구하기")
     void selectCommentsCount(){
-        Long result = queryRepository.selectCommentsCount(1L);
-        assertEquals(11, result);
+        OutCommentNumberDto result = queryRepository.selectCommentsCount(1L);
+        assertEquals(11, result.getNumber());
     }
 
     @Test

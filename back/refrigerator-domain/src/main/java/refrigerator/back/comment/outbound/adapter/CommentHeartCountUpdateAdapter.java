@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.application.domain.CommentHeartValue;
 import refrigerator.back.comment.application.port.out.ChangeCommentHeartCountPort;
+import refrigerator.back.comment.exception.CommentExceptionType;
 import refrigerator.back.comment.outbound.repository.query.CommentUpdateQueryRepository;
 
 @Repository
@@ -13,7 +14,8 @@ public class CommentHeartCountUpdateAdapter implements ChangeCommentHeartCountPo
     private final CommentUpdateQueryRepository commentQueryRepository;
 
     @Override
-    public Long change(Long commentId, CommentHeartValue value) {
-        return commentQueryRepository.updateCommentToCount(commentId, value.getValue());
+    public void change(Long commentId, CommentHeartValue value) {
+        commentQueryRepository.updateCommentToCount(commentId, value.getValue())
+                .throwExceptionWhenNotAllowDuplicationResource(CommentExceptionType.FAIL_MODIFY_COMMENT);
     }
 }

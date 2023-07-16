@@ -1,12 +1,11 @@
 package refrigerator.back.comment.application.port.out;
 
 import refrigerator.back.comment.application.domain.CommentHeartPeople;
+import refrigerator.back.comment.application.dto.CommentHeartPeopleDto;
 
 import java.util.Map;
 import java.util.Optional;
 
 public interface FindCommentHeartPeoplePort {
-    Map<Long, Object> findPeopleMap(String memberId);
-    Optional<CommentHeartPeople> findPeopleOne(Long commentId, String memberId);
-    Optional<CommentHeartPeople> findPeopleOneById(String peopleId);
+    Map<Long, CommentHeartPeopleDto> findPeopleMap(String memberId);
 }

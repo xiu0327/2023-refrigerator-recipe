@@ -12,8 +12,8 @@ public class CommentCountAdapter implements FindNumberOfCommentsPort {
     private final CommentSelectQueryRepository queryRepository;
 
     @Override
-    public Long getNumber(Long recipeId) {
-        return queryRepository.selectCommentsCount(recipeId);
+    public Integer getNumber(Long recipeId) {
+        return queryRepository.selectCommentsCount(recipeId).getNumber();
     }
 
 }

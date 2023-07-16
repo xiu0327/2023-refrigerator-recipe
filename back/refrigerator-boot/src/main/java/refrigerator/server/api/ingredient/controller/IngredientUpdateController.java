@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.ingredient.application.port.in.ingredient.update.ModifyIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.ingredient.update.RegisterIngredientUseCase;
 import refrigerator.back.ingredient.application.port.in.ingredient.update.RemoveIngredientUseCase;

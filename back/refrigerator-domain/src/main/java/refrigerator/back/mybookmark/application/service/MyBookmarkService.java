@@ -3,74 +3,43 @@ package refrigerator.back.mybookmark.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.mybookmark.application.domain.MyBookmark;
-import refrigerator.back.mybookmark.application.port.in.AddBookmarkUseCase;
-import refrigerator.back.mybookmark.application.port.in.RemoveBookmarkUseCase;
-import refrigerator.back.mybookmark.application.port.out.BookmarkReadPort;
-import refrigerator.back.mybookmark.application.port.out.BookmarkWritePort;
-import refrigerator.back.mybookmark.application.port.out.RemoveBookmarkByRecipeIdPort;
+import refrigerator.back.mybookmark.application.port.in.AddMyBookmarkUseCase;
+import refrigerator.back.mybookmark.application.port.in.DeleteMyBookmarkUseCase;
+import refrigerator.back.mybookmark.application.port.out.FindMyBookmarkPort;
+import refrigerator.back.mybookmark.application.port.out.SaveMyBookmarkPort;
 import refrigerator.back.mybookmark.exception.MyBookmarkExceptionType;
-import refrigerator.back.recipe.application.port.out.UpdateRecipeBookmarkPort;
 
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class MyBookmarkService implements AddBookmarkUseCase, RemoveBookmarkUseCase {
+@Transactional
+public class MyBookmarkService implements AddMyBookmarkUseCase, DeleteMyBookmarkUseCase {
 
-    private final BookmarkWritePort bookmarkWritePort;
-    private final BookmarkReadPort bookmarkReadPort;
-    private final UpdateRecipeBookmarkPort updateRecipeBookmarkPort;
-    private final RemoveBookmarkByRecipeIdPort removeBookmarkByRecipeIdPort;
+    private final FindMyBookmarkPort findMyBookmarkPort;
+    private final SaveMyBookmarkPort saveMyBookmarkPort;
+    private final RecipeBookmarkModifyHandler modifyHandler;
+    private final CurrentTime<LocalDateTime> currentTime;
 
     @Override
-    @Transactional
     public Long add(String memberId, Long recipeId) {
-        Optional<MyBookmark> findMyBookmark = bookmarkReadPort.findBookmarkByMemberIdAndRecipeId(memberId, recipeId);
-        if (findMyBookmark.isPresent()){
-            return renewalBookmark(recipeId, findMyBookmark.get());
+        MyBookmark myBookmark = findMyBookmarkPort.getMyBookmark(recipeId, memberId);
+        if (myBookmark == null){
+            MyBookmark newBookmark = MyBookmark.create(memberId, recipeId, currentTime.now(), modifyHandler);
+            return saveMyBookmarkPort.save(newBookmark);
         }
-        return createBookmark(memberId, recipeId);
-    }
-
-    private Long createBookmark(String memberId, Long recipeId) {
-        MyBookmark myBookmark = MyBookmark.create(memberId, recipeId);
-        bookmarkWritePort.save(myBookmark);
-        updateRecipeBookmarkPort.addBookmark(recipeId);
-        return myBookmark.getBookmarkId();
-    }
-
-    private Long renewalBookmark(Long recipeId, MyBookmark myBookmark) {
-        if (!myBookmark.isDeleted()){
-            throw new BusinessException(MyBookmarkExceptionType.ALREADY_ADD_BOOKMARK);
-        }
-        Long bookmarkId = myBookmark.getBookmarkId();
-        myBookmark.undeleted();
-        updateRecipeBookmarkPort.addBookmark(recipeId);
-        return bookmarkId;
+        return myBookmark.add(modifyHandler);
     }
 
     @Override
-    @Transactional
-    public void remove(Long bookmarkId) {
-        MyBookmark myBookmark = bookmarkReadPort.findBookmarkById(bookmarkId)
-                .orElseThrow(() -> new BusinessException(MyBookmarkExceptionType.ALREADY_DELETE_BOOKMARK));
-        myBookmark.delete();
-        updateRecipeBookmarkPort.removeBookmark(myBookmark.getRecipeId());
-    }
-
-    @Override
-    @Transactional
-    public void removeByRecipeId(Long recipeId, String memberId) {
-        MyBookmark myBookmark = bookmarkReadPort.findBookmarkByMemberIdAndRecipeId(memberId, recipeId)
-                .orElseThrow(() -> new BusinessException(MyBookmarkExceptionType.NOT_FOUND_BOOKMARK));
-        if (myBookmark.isDeleted()){
-            throw new BusinessException(MyBookmarkExceptionType.ALREADY_DELETE_BOOKMARK);
+    public Long delete(Long recipeId, String memberId) {
+        MyBookmark myBookmark = findMyBookmarkPort.getMyBookmark(recipeId, memberId);
+        if (myBookmark == null){
+            throw new BusinessException(MyBookmarkExceptionType.NOT_FOUND_BOOKMARK);
         }
-        myBookmark.delete();
-        updateRecipeBookmarkPort.removeBookmark(recipeId);
+        return myBookmark.deleted(modifyHandler);
     }
-
 }

@@ -1,45 +1,37 @@
 package refrigerator.back.mybookmark.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.back.mybookmark.adapter.out.cache.MyBookmarkCacheKey;
-import refrigerator.back.mybookmark.application.dto.InBookmarkDTO;
-import refrigerator.back.mybookmark.application.dto.InBookmarkPreviewListDTO;
-import refrigerator.back.mybookmark.application.port.in.FindBookmarkListUseCase;
-import refrigerator.back.mybookmark.application.port.in.FindBookmarkPreviewUseCase;
-import refrigerator.back.mybookmark.application.port.in.FindRecipeIdByAddedBookmarkUseCase;
-import refrigerator.back.mybookmark.application.port.out.FindBookmarkListPort;
-import refrigerator.back.mybookmark.application.port.out.FindBookmarkPreviewListPort;
-import refrigerator.back.mybookmark.application.port.out.FindRecipeIdAddedBookmarkPort;
+import refrigerator.back.mybookmark.application.dto.MyBookmarkDto;
+import refrigerator.back.mybookmark.application.dto.InMyBookmarkPreviewsDto;
+import refrigerator.back.mybookmark.application.dto.MyBookmarkPreviewDto;
+import refrigerator.back.mybookmark.application.port.in.FindMyBookmarksUseCase;
+import refrigerator.back.mybookmark.application.port.in.FindMyBookmarkPreviewUseCase;
+import refrigerator.back.mybookmark.application.port.out.FindMyBookmarksPort;
+import refrigerator.back.mybookmark.application.port.out.GetNumberOfMyBookmarkPort;
 
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MyBookmarkLookUpService implements FindBookmarkPreviewUseCase, FindBookmarkListUseCase, FindRecipeIdByAddedBookmarkUseCase {
+@Transactional(readOnly = true)
+public class MyBookmarkLookUpService implements FindMyBookmarkPreviewUseCase, FindMyBookmarksUseCase {
 
-    private final FindBookmarkListPort findBookmarkListPort;
-    private final FindBookmarkPreviewListPort findBookmarkPreviewListPort;
-    private final FindRecipeIdAddedBookmarkPort findRecipeIdAddedBookmarkPort;
+    private final FindMyBookmarksPort findBookmarkListPort;
+    private final GetNumberOfMyBookmarkPort getNumberOfMyBookmarkPort;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<InBookmarkDTO> findBookmarks(String memberId, int page, int size) {
-        return findBookmarkListPort.findBookmarkList(memberId, page, size);
+    public List<MyBookmarkDto> findBookmarks(String memberId, int page, int size) {
+        return findBookmarkListPort.findBookmarks(memberId, page, size);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public InBookmarkPreviewListDTO findPreviews(String memberId, int size) {
-        return findBookmarkPreviewListPort.findBookmarkPreviewList(memberId, 0, size);
+    public InMyBookmarkPreviewsDto findPreviews(String memberId, int size) {
+        List<MyBookmarkPreviewDto> bookmarks = findBookmarkListPort.findBookmarkPreviews(memberId, size);
+        Integer count = getNumberOfMyBookmarkPort.getByMemberId(memberId);
+        return new InMyBookmarkPreviewsDto(bookmarks, count);
     }
 
-    @Override
-    @Cacheable(value = MyBookmarkCacheKey.ADDED_MY_BOOKMARK, key = "'bookmark_' + #memberId", cacheManager = "addedMyBookmarkCacheManager")
-    public List<Long> findRecipeIdList(String memberId) {
-        return findRecipeIdAddedBookmarkPort.findRecipeIdByAddedBookmark(memberId);
-    }
 }

@@ -4,6 +4,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import refrigerator.back.comment.application.service.CommentTimeService;
 import refrigerator.back.comment.outbound.mapper.OutCommentMapper;
 import refrigerator.back.comment.application.dto.CommentDto;
 
@@ -19,21 +20,19 @@ public class OutCommentDto {
     private LocalDateTime createDate;
     private Boolean modifiedState;
     private String content;
-    private String memberId;
 
     @QueryProjection
-    public OutCommentDto(Long commentId, String nickname, Integer heart, LocalDateTime createDate, Boolean modifiedState, String content, String memberId) {
+    public OutCommentDto(Long commentId, String nickname, Integer heart, LocalDateTime createDate, Boolean modifiedState, String content) {
         this.commentId = commentId;
         this.nickname = nickname;
         this.heart = heart;
         this.createDate = createDate;
         this.modifiedState = modifiedState;
         this.content = content;
-        this.memberId = memberId;
     }
 
-    public CommentDto mapping(OutCommentMapper mapper){
-        return mapper.toCommentDto(this);
+    public CommentDto mapping(OutCommentMapper mapper, CommentTimeService timeHandler){
+        return mapper.toCommentDto(this, timeHandler.replace(createDate));
     }
 
 }

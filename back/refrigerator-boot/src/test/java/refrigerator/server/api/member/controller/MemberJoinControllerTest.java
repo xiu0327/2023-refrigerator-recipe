@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import refrigerator.back.member.application.port.in.JoinUseCase;
 import refrigerator.back.member.exception.MemberExceptionType;
 import refrigerator.server.api.member.cookie.MemberEmailCheckCookieAdapter;
-import refrigerator.server.api.member.dto.request.MemberJoinRequestDto;
+import refrigerator.server.api.member.dto.request.JoinRequestDto;
 import refrigerator.server.config.ExcludeSecurityConfiguration;
 
 import javax.servlet.http.Cookie;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(MemberJoinController.class)
+@WebMvcTest(JoinController.class)
 @Import(ExcludeSecurityConfiguration.class)
 class MemberJoinControllerTest {
 
@@ -44,7 +44,7 @@ class MemberJoinControllerTest {
         String password = "password123!";
         String nickname = "닉네임";
         Cookie cookie = new Cookie("cookieName", "cookieValue");
-        MemberJoinRequestDto requestDto = new MemberJoinRequestDto(email, password, nickname);
+        JoinRequestDto requestDto = new JoinRequestDto(email, password, nickname);
         String json = objectMapper.writeValueAsString(requestDto);
         BDDMockito.given(cookieAdapter.isExist(new Cookie[]{cookie}))
                 .willReturn(true);
@@ -73,7 +73,7 @@ class MemberJoinControllerTest {
         String password = "password";
         String nickname = "nickname";
         Cookie cookie = new Cookie("cookieName", "cookieValue");
-        MemberJoinRequestDto requestDto = new MemberJoinRequestDto(email, password, nickname);
+        JoinRequestDto requestDto = new JoinRequestDto(email, password, nickname);
         String json = objectMapper.writeValueAsString(requestDto);
         BDDMockito.given(cookieAdapter.isExist(new Cookie[]{cookie}))
                 .willReturn(true);
@@ -98,7 +98,7 @@ class MemberJoinControllerTest {
         String password = "password123!";
         String nickname = "닉네임";
         Cookie cookie = new Cookie("cookieName", "cookieValue");
-        MemberJoinRequestDto requestDto = new MemberJoinRequestDto(email, password, nickname);
+        JoinRequestDto requestDto = new JoinRequestDto(email, password, nickname);
         String json = objectMapper.writeValueAsString(requestDto);
         BDDMockito.given(cookieAdapter.isExist(new Cookie[]{cookie}))
                 .willReturn(false);

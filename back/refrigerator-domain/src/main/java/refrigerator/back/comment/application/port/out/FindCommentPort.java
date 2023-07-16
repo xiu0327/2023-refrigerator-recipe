@@ -9,4 +9,5 @@ public interface FindCommentPort {
     List<CommentDto> findComments(Long recipeId, String memberId, CommentSortCondition sortCondition, int page, int size);
     List<CommentDto> findPreviewComments(Long recipeId, String memberId, int size);
     List<CommentDto> findMyComments(String memberId, Long recipeId);
+    Integer findNumberOfComments(Long recipeId);
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import refrigerator.back.global.exception.BusinessException;
+import refrigerator.back.global.exception.MappingException;
 import refrigerator.back.recipe.exception.RecipeExceptionType;
 
 import java.util.Arrays;
@@ -13,17 +14,18 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum RecipeIngredientType {
 
-    MAIN("주재료"),
-    SUB("부재료"),
-    SEASONING("양념"),
+    MAIN("주재료", 3),
+    SUB("부재료", 2),
+    SEASONING("양념", 1),
     ;
 
     private String typeName;
+    private int weight;
 
-    public static RecipeIngredientType lookup(String name){
+    public static RecipeIngredientType getType(String name){
         return Arrays.stream(RecipeIngredientType.values())
                 .filter(type -> type.getTypeName().equals(name))
                 .findAny()
-                .orElseThrow(() -> new BusinessException(RecipeExceptionType.WRONG_INGREDIENT_TYPE));
+                .orElseThrow(() -> new MappingException(RecipeExceptionType.WRONG_INGREDIENT_TYPE));
     }
 }

@@ -3,7 +3,7 @@ package refrigerator.server.api.notification.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import refrigerator.back.authentication.application.port.in.GetMemberEmailUseCase;
+import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.server.api.global.common.BasicListResponseDTO;
 import refrigerator.back.notification.application.dto.NotificationDTO;
 import refrigerator.back.notification.application.port.in.notification.FindNotificationListUseCase;

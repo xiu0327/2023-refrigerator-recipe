@@ -30,8 +30,18 @@ public class CommentHeart {
         this.deleteStatus = false;
     }
 
-    public boolean isDeleted(){
-        return deleteStatus;
+    public CommentHeart(Long commentId, Integer count, Boolean deleteStatus) {
+        this.commentId = commentId;
+        this.count = count;
+        this.deleteStatus = deleteStatus;
+    }
+
+    public static CommentHeart create(Long commentId){
+        return new CommentHeart(commentId);
+    }
+
+    public static CommentHeart createForTest(Long commentId, Integer count, Boolean deleteStatus){
+        return new CommentHeart(commentId, count, deleteStatus);
     }
 
 }

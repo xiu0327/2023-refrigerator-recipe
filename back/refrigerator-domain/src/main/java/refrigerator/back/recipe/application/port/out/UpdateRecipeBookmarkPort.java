@@ -1,6 +1,6 @@
 package refrigerator.back.recipe.application.port.out;
 
 public interface UpdateRecipeBookmarkPort {
-    void addBookmark(Long recipeID);
-    void removeBookmark(Long recipeID);
+    void add(Long recipeId);
+    void delete(Long recipeId);
 }

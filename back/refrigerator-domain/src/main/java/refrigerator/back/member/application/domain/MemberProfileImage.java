@@ -5,9 +5,7 @@ import lombok.Getter;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.member.exception.MemberExceptionType;
 
-
 import java.util.Arrays;
-import java.util.Random;
 
 @Getter
 @AllArgsConstructor
@@ -19,7 +17,7 @@ public enum MemberProfileImage {
     PROFILE_IMAGE_FIVE("IMG_9705.JPG")
     ;
 
-    private String name;
+    private final String name;
 
     public static MemberProfileImage pickUp(int number){
         if (number < 0 || number >= MemberProfileImage.values().length){
@@ -34,4 +32,5 @@ public enum MemberProfileImage {
                 .findAny()
                 .orElseThrow(() -> new BusinessException(MemberExceptionType.NOT_FOUND_PROFILE_IMAGE));
     }
+
 }
