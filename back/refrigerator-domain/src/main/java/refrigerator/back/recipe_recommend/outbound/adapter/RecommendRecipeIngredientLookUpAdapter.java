@@ -22,4 +22,5 @@ public class RecommendRecipeIngredientLookUpAdapter implements FindRecipeIngredi
         OutRecipeIngredientDtoMappingCollection collection = new OutRecipeIngredientDtoMappingCollection(queryRepository.selectRecipeIngredientDtoList());
         return collection.getRecipeIngredientMap(mapper);
     }
+
 }
