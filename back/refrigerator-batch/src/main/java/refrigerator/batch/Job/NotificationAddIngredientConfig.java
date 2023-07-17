@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import refrigerator.back.global.exception.BasicHttpMethod;
 import refrigerator.back.global.time.CurrentTime;
-import refrigerator.back.ingredient.adapter.repository.IngredientPersistenceRepository;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
 import refrigerator.back.ingredient.application.port.batch.DeleteIngredientBatchPort;
 import refrigerator.back.member.application.domain.MemberStatus;

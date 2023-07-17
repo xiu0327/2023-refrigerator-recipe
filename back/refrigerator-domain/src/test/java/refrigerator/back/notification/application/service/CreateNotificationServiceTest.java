@@ -59,7 +59,8 @@ class CreateNotificationServiceTest {
         given(commentDetailsPort.getDetails(1L))
                 .willReturn(commentDto);
 
-        willDoNothing().given(modifyMemberNotificationPort).modify(commentDto.getAuthorId(), true);
+        given(modifyMemberNotificationPort.modify(commentDto.getAuthorId(), true))
+                .willReturn("1");
 
         given(saveNotificationPort.saveNotification(any()))
                 .willReturn(1L);

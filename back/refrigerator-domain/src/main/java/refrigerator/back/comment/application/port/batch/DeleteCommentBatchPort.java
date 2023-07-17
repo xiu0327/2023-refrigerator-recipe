@@ -1,5 +1,9 @@
 package refrigerator.back.comment.application.port.batch;
 
+import java.util.List;
+
 public interface DeleteCommentBatchPort {
-    // TODO : 구현
+
+    Long deleteCommentHeart(List<Long> ids);
+
 }

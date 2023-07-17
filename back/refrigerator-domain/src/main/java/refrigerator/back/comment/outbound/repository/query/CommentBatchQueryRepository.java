@@ -17,20 +17,16 @@ public class CommentBatchQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
     private final EntityManager em;
 
-    @Transactional
-    public void deleteCommentHeart(List<Long> ids) {
+    public Long deleteCommentHeart(List<Long> ids) {
 
-        jpaQueryFactory.delete(commentHeart)
+        long execute = jpaQueryFactory.delete(commentHeart)
                 .where(commentHeart.commentId.in(ids))
                 .execute();
 
         em.flush();
         em.clear();
-    }
 
-    @Transactional
-    public void deleteCommentHeartPeople(Long id) {
-
+        return execute;
     }
 }
 

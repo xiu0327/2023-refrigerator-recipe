@@ -2,25 +2,13 @@ package refrigerator.back.ingredient.application.dto;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import refrigerator.back.global.image.ImageGenerator;
-import refrigerator.back.global.image.TestImageGenerator;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@ExtendWith(SpringExtension.class)
-//@TestPropertySource(properties = {"spring.config.location = classpath:application.yml"})
 class IngredientDTOTest {
 
-//    @Value("${s3.image.route}")
-//    String route;
-//    @Value("${s3.image.ingredient.path}")
-//    String path;
 
     @Test
     @DisplayName("식재료 DTO 테스트")
@@ -54,15 +42,6 @@ class IngredientDTOTest {
         dto.calculateRemainDays(LocalDate.of(2023,1,2)); // now
 
         assertThat(dto.getRemainDays()).isEqualTo("+1");
-
-//        ImageGenerator imageGenerator = new TestImageGenerator(route, path);
-
-//        dto.generateImageUrl(imageGenerator);
-//
-//        assertThat(route).isNotNull();
-//        assertThat(path).isNotNull();
-//        assertThat(dto.getImage()).isEqualTo(route + path + "test.png");
-
     }
 
 }

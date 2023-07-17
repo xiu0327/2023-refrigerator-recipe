@@ -39,8 +39,9 @@ public class RecipeSearchController {
     }
 
     private InRecipeBasicListDTO<RecipeSearchDto> normalSearch(int page, int size) {
-        List<RecipeSearchDto> data = searchRecipeUseCase.normalSearch(page, size);
-        return new InRecipeBasicListDTO<>(data);
+//        List<RecipeSearchDto> data = searchRecipeUseCase.normalSearch(page, size);
+//        return new InRecipeBasicListDTO<>(data);
+        return null;
     }
 
     private InRecipeBasicListDTO<RecipeSearchDto> search(int page, int size, InRecipeSearchConditionDto requestDto) {
