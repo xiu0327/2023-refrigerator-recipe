@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
+import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveIngredientPort;
 import refrigerator.server.api.global.common.BasicListRequestDTO;
 import refrigerator.server.api.ingredient.dto.IngredientRegisterRequestDTO;
 import refrigerator.server.api.ingredient.dto.IngredientUpdateRequestDTO;
@@ -35,7 +36,9 @@ class IngredientUpdateControllerTest {
 
     @Autowired MockMvc mockMvc;
 
-    @Autowired TestEntityManager em;
+    @Autowired
+    SaveIngredientPort saveIngredientPort;
+
 
     @Test
     @DisplayName("식재료 등록")
@@ -212,7 +215,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
 
@@ -246,7 +249,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
 
@@ -278,7 +281,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
 
@@ -312,7 +315,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
 
@@ -346,7 +349,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(request);
 
@@ -373,7 +376,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = "{\"expirationDate\":\"2023-05-23\",\"volume\":30.0,\"storage\":\"방관\"}";
 
@@ -401,7 +404,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         String content = "{\"expirationDate\":\"2023/05/23\",\"volume\":30.0,\"storage\":\"냉동\"}";
 
@@ -429,7 +432,7 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         mockMvc.perform(
                 delete("/api/ingredients/" + id)
@@ -453,9 +456,9 @@ class IngredientUpdateControllerTest {
                 .capacityUnit("g");
 
         List<Long> ids = new ArrayList<>();
-        ids.add(em.persistAndGetId(builder.name("안심").build(), Long.class));
-        ids.add(em.persistAndGetId(builder.name("감자").build(), Long.class));
-        ids.add(em.persistAndGetId(builder.name("호박").build(), Long.class));
+        ids.add(saveIngredientPort.saveIngredient(builder.name("안심").build()));
+        ids.add(saveIngredientPort.saveIngredient(builder.name("감자").build()));
+        ids.add(saveIngredientPort.saveIngredient(builder.name("호박").build()));
 
         BasicListRequestDTO<Long> request = BasicListRequestDTO.<Long>builder()
                 .data(ids)

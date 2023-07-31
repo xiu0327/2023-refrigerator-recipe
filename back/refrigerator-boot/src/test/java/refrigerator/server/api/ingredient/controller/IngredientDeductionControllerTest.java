@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
+import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveIngredientPort;
 import refrigerator.server.api.global.common.BasicListRequestDTO;
 import refrigerator.server.api.ingredient.dto.IngredientDeductionRequestDTO;
 
@@ -32,7 +33,8 @@ class IngredientDeductionControllerTest {
 
     @Autowired MockMvc mockMvc;
 
-    @Autowired TestEntityManager em;
+    @Autowired
+    SaveIngredientPort saveIngredientPort;
 
     @Test
     @DisplayName("식재료 차감")
@@ -49,8 +51,8 @@ class IngredientDeductionControllerTest {
                 .image(1)
                 .capacityUnit("g");
 
-        em.persist(builder.name("콩나물").build());
-        em.persist(builder.name("안심").build());
+        saveIngredientPort.saveIngredient(builder.name("콩나물").build());
+        saveIngredientPort.saveIngredient(builder.name("안심").build());
 
         List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", 60.0, "g"));
@@ -208,8 +210,8 @@ class IngredientDeductionControllerTest {
                 .image(1)
                 .capacityUnit("g");
 
-        em.persist(builder.name("콩나물").build());
-        em.persist(builder.name("안심").build());
+        saveIngredientPort.saveIngredient(builder.name("콩나물").build());
+        saveIngredientPort.saveIngredient(builder.name("안심").build());
         
         List<IngredientDeductionRequestDTO> list = new ArrayList<>();
         list.add(createRecipeIngredient("콩나물", 10000.0, "g"));

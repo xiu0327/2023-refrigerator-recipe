@@ -11,6 +11,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
+import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveIngredientPort;
+import refrigerator.back.member.application.domain.Member;
+import refrigerator.back.member.application.port.out.SaveMemberPort;
 
 import java.time.LocalDate;
 
@@ -26,11 +29,14 @@ class IngredientLookUpControllerTest {
 
     @Autowired MockMvc mockMvc;
 
-    @Autowired TestEntityManager em;
+    @Autowired
+    SaveIngredientPort saveIngredientPort;
+
+    @Autowired
+    SaveMemberPort saveMemberPort;
 
     @Test
     @DisplayName("식재료 이름에 따른 용량단위 반환")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientUnitTest() throws Exception {
 
         String name = "감자";
@@ -71,7 +77,7 @@ class IngredientLookUpControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        em.persist(ingredient);
+        saveIngredientPort.saveIngredient(ingredient);
 
         String storage = "냉장";
         String deadline = "true";
@@ -99,7 +105,7 @@ class IngredientLookUpControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        em.persist(ingredient);
+        saveIngredientPort.saveIngredient(ingredient);
 
         String storage = "방관";
         String deadline = "false";
@@ -127,7 +133,7 @@ class IngredientLookUpControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        em.persist(ingredient);
+        saveIngredientPort.saveIngredient(ingredient);
 
         String storage = "냉장";
         String deadline = "test";
@@ -152,8 +158,8 @@ class IngredientLookUpControllerTest {
                 .image(1)
                 .capacityUnit("g");
 
-        em.persist(builder.name("콩나물").storageMethod(IngredientStorageType.FRIDGE).build());
-        em.persist(builder.name("안심").storageMethod(IngredientStorageType.FREEZER).build());
+        saveIngredientPort.saveIngredient(builder.name("콩나물").storageMethod(IngredientStorageType.FRIDGE).build());
+        saveIngredientPort.saveIngredient(builder.name("안심").storageMethod(IngredientStorageType.FREEZER).build());
 
         mockMvc.perform(
                 get("/api/ingredients/search")
@@ -178,7 +184,7 @@ class IngredientLookUpControllerTest {
                 .capacityUnit("g")
                 .build();
 
-        Long id = em.persistAndGetId(ingredient, Long.class);
+        Long id = saveIngredientPort.saveIngredient(ingredient);
 
         mockMvc.perform(
                 get("/api/ingredients/" + id)

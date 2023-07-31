@@ -24,9 +24,6 @@ class OwnedRecipeIngredientControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Autowired
-    TestEntityManager em;
-
     @Test
     @DisplayName("레시피 식재료 중 소유하고 있는 식재료 조회")
     @WithUserDetails("jktest101@gmail.com")

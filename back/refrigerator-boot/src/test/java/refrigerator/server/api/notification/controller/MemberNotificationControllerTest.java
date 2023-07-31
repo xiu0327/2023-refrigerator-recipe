@@ -30,9 +30,6 @@ class MemberNotificationControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-    @Autowired
-    TestEntityManager em;
-
     @Test
     @DisplayName("알림 신호 조회 => 종 버튼에 빨간점이 있는지 없는지 확인")
     @WithUserDetails("jktest101@gmail.com")

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BasicHttpMethod;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationType;
+import refrigerator.back.notification.application.port.out.notification.SaveNotificationPort;
 
 import java.time.LocalDateTime;
 
@@ -31,7 +32,7 @@ class NotificationControllerTest {
     MockMvc mockMvc;
 
     @Autowired
-    TestEntityManager em;
+    SaveNotificationPort saveNotificationPort;
 
     @Test
     @DisplayName("알림 목록 조회")
@@ -48,9 +49,10 @@ class NotificationControllerTest {
                 .memberId("jktest101@gmail.com")
                 .method(BasicHttpMethod.GET.name());
 
-        em.persist(builder.message("test message1").build());
-        em.persist(builder.message("test message2").build());
-        em.persist(builder.message("test message3").build());
+
+        saveNotificationPort.saveNotification(builder.message("test message1").build());
+        saveNotificationPort.saveNotification(builder.message("test message2").build());
+        saveNotificationPort.saveNotification(builder.message("test message3").build());
 
         mockMvc.perform(
                 get("/api/notifications?page=0")
@@ -76,7 +78,7 @@ class NotificationControllerTest {
                 .method(BasicHttpMethod.GET.name())
                 .build();
 
-        Long id = em.persistAndGetId(notification, Long.class);
+        Long id = saveNotificationPort.saveNotification(notification);
 
         mockMvc.perform(
                 get("/api/notifications/" + id)
