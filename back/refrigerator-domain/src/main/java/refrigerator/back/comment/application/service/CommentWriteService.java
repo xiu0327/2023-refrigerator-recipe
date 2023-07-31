@@ -20,11 +20,12 @@ public class CommentWriteService implements WriteCommentUseCase {
     private final CurrentTime<LocalDateTime> currentTime;
 
     @Override
-    public void write(Long recipeId, String memberId, String content) {
-        Comment comment = new Comment(recipeId, memberId, content, currentTime.now());
+    public Long write(Long recipeId, String memberId, String content) {
+        Comment comment = Comment.write(recipeId, memberId, content, currentTime.now());
         Long commentId = saveCommentPort.saveComment(comment);
         CommentHeart commentHeart = CommentHeart.create(commentId);
         saveCommentPort.saveCommentHeart(commentHeart);
+        return commentId;
     }
 
 }

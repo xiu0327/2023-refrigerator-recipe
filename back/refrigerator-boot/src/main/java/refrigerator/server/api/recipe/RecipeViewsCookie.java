@@ -27,11 +27,7 @@ public class RecipeViewsCookie {
     }
 
     private boolean isEquals(String targetValue, Cookie target){
-        return target.getName().equals(name) &&
-                target.getPath().equals(path) &&
-                target.isHttpOnly() &&
-                target.getMaxAge() == maxAge &&
-                target.getValue().equals(targetValue);
+        return target.getName().equals(name) && target.getValue().equals(targetValue);
     }
 
 }

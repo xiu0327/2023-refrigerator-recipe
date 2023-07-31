@@ -73,7 +73,7 @@ class CommentSelectQueryRepositoryTest {
         // given
         String memberId = "jktest101@gmail.com";
         // when
-        List<OutCommentDto> comments = queryRepository.selectMyComments(memberId, 1L);
+        List<OutCommentDto> comments = queryRepository.selectMyComments(memberId, 1L, PageRequest.of(0, 11));
         // then
         assertTrue(isExist(comments));
     }

@@ -5,7 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -23,14 +25,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(JoinController.class)
-@Import(ExcludeSecurityConfiguration.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class EmailCheckControllerTest {
 
     @Autowired MockMvc mvc;
-    @MockBean
-    CheckEmailUseCase duplicateCheckEmailUseCase;
-    @MockBean MemberEmailCheckCookieAdapter memberEmailCheckCookieAdapter;
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
@@ -42,8 +41,6 @@ class EmailCheckControllerTest {
         String json = objectMapper.writeValueAsString(requestDto);
         String cookieName = "cookieName";
         String cookieValue = "cookieValue";
-        BDDMockito.given(memberEmailCheckCookieAdapter.create())
-                        .willReturn(new Cookie(cookieName, cookieValue));
         // when & then
         mvc.perform(post("/api/members/email/duplicate")
                 .content(json)
@@ -62,10 +59,6 @@ class EmailCheckControllerTest {
         String json = objectMapper.writeValueAsString(requestDto);
         String cookieName = "cookieName";
         String cookieValue = "cookieValue";
-        BDDMockito.given(memberEmailCheckCookieAdapter.create())
-                .willReturn(new Cookie(cookieName, cookieValue));
-        BDDMockito.doThrow(new BusinessException(MemberExceptionType.DUPLICATE_EMAIL))
-                        .when(duplicateCheckEmailUseCase).isDuplicated(email);
         // when & then
         mvc.perform(post("/api/members/email/duplicate")
                 .content(json)

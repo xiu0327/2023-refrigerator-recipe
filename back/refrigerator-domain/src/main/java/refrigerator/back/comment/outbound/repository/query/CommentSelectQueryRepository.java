@@ -93,7 +93,7 @@ public class CommentSelectQueryRepository {
      * @param recipeId 레시피 식별자값
      * @return
      */
-    public List<OutCommentDto> selectMyComments(String memberId, Long recipeId) {
+    public List<OutCommentDto> selectMyComments(String memberId, Long recipeId, Pageable page) {
         return jpaQueryFactory
                 .select(new QOutCommentDto(
                         comment.commentId,
@@ -107,6 +107,8 @@ public class CommentSelectQueryRepository {
                 .leftJoin(commentHeart).on(commentHeart.commentId.eq(comment.commentId))
                 .where(member.email.eq(memberId), notDeleted(), recipeIdEq(recipeId))
                 .orderBy(comment.commentRecord.createDateTime.desc())
+                .offset(page.getOffset())
+                .limit(page.getPageSize())
                 .fetch();
     }
 

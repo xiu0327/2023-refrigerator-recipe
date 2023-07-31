@@ -7,10 +7,7 @@ import refrigerator.back.recipe_recommend.application.dto.MyIngredientDto;
 import refrigerator.back.recipe_recommend.application.domain.RecommendRecipeIngredient;
 import refrigerator.back.recipe_recommend.application.domain.RecommendRecipeIngredientMap;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,6 +54,18 @@ class RecommendRecipeMatchingServiceTest {
         assertEquals(0, result.size());
     }
 
+    @Test
+    @DisplayName("매칭률이 높은 상위 5개의 레시피 식별자 추출 -> 중복된 식재료가 있어도 결과가 잘 나와야 함, 중복 기준 = 식재료 이름")
+    void getMatchingRecipeIdsTest4(){
+        // given
+        RecommendRecipeMatchingService service = new RecommendRecipeMatchingService(getRecipeIngredients(), getDuplicatedMyIngredient());
+        // when
+        Map<Long, Double> result = service.getRecipeMatchingPercent();
+        // then
+        assertEquals(1, result.size());
+        assertEquals(60.0, result.get(1L));
+    }
+
     private Map<Long, RecommendRecipeIngredientMap> getRecipeIngredients(){
         RecommendRecipeIngredient item1 = getRecipeIngredientDto(1L, "name1", RecipeIngredientType.MAIN, 50.0, "unit1");
         RecommendRecipeIngredient item2 = getRecipeIngredientDto(1L, "name2", RecipeIngredientType.SUB, 51.0, "unit2");
@@ -83,12 +92,32 @@ class RecommendRecipeMatchingServiceTest {
                 .unit(unit).build();
     }
 
-    private List<MyIngredientDto> getMyIngredients(String name, String unit, double volume){
-        return Arrays.asList(
-                MyIngredientDto.builder()
-                        .name(name)
-                        .unit(unit)
-                        .volume(volume).build()
-        );
+    private Set<MyIngredientDto> getMyIngredients(String name, String unit, double volume){
+        Set<MyIngredientDto> result = new HashSet<>();
+        result.add(MyIngredientDto.builder()
+                .name(name)
+                .unit(unit)
+                .volume(volume).build());
+        return result;
+    }
+
+    private Set<MyIngredientDto> getDuplicatedMyIngredient(){
+        Set<MyIngredientDto> result = new HashSet<>();
+        MyIngredientDto ing1 = MyIngredientDto.builder()
+                .name("name1")
+                .unit("unit1")
+                .volume(62.0).build();
+        MyIngredientDto ing2 = MyIngredientDto.builder()
+                .name("name1")
+                .unit("unit1")
+                .volume(50.0).build();
+        MyIngredientDto ing3 = MyIngredientDto.builder()
+                .name("name2")
+                .unit("unit2")
+                .volume(10.0).build();
+        result.add(ing1);
+        result.add(ing2);
+        result.add(ing3);
+        return result;
     }
 }

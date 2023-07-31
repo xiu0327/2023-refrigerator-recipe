@@ -22,14 +22,14 @@ public class SearchWordController {
     private final GetMemberEmailUseCase memberInformation;
 
 
-    @GetMapping("/api/search-word/recommend")
+    @GetMapping("/api/recipe/search/words/recommend")
     public BasicListResponseDTO<String> getRecommendSearchWords(){
         String memberId = memberInformation.getMemberEmail();
         return new BasicListResponseDTO<>(
                 findRecommendSearchWordUseCase.getRecommendSearchWords(memberId));
     }
 
-    @GetMapping("/api/search-word/last")
+    @GetMapping("/api/recipe/search/words/last")
     public BasicListResponseDTO<String> getLastSearchWords(){
         String memberId = memberInformation.getMemberEmail();
         return new BasicListResponseDTO<>(
@@ -37,9 +37,9 @@ public class SearchWordController {
         );
     }
 
-    @DeleteMapping("/api/search-word")
-    public void deleteSearchWord(@RequestParam("word") String word){
-        deleteSearchWordUseCase.delete(memberInformation.getMemberEmail(), word);
+    @DeleteMapping("/api/recipe/search/words/delete")
+    public void deleteSearchWord(@RequestParam("searchWord") String searchWord){
+        deleteSearchWordUseCase.delete(memberInformation.getMemberEmail(), searchWord);
     }
 
 }

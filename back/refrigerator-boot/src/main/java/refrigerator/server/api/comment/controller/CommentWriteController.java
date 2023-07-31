@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.back.comment.application.port.in.WriteCommentUseCase;
 import refrigerator.server.api.comment.dto.InCommentWriteRequestDto;
+import refrigerator.server.api.comment.dto.InCommentWriteResponseDto;
 import refrigerator.server.api.global.exception.ValidationExceptionHandler;
 
 
@@ -22,15 +23,19 @@ public class CommentWriteController {
     private final WriteCommentUseCase writeCommentUseCase;
     private final GetMemberEmailUseCase memberInformation;
 
-    @PostMapping("/api/comments/write")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void write(@RequestBody InCommentWriteRequestDto request, BindingResult bindingResult){
+    @PostMapping("/api/recipe/{recipeId}/comments/write")
+    @ResponseStatus(HttpStatus.CREATED)
+    public InCommentWriteResponseDto write(
+            @PathVariable("recipeId") Long recipeId,
+            @RequestBody InCommentWriteRequestDto request,
+            BindingResult bindingResult){
         ValidationExceptionHandler.check(bindingResult, NOT_VALID_REQUEST_BODY);
         String memberId = memberInformation.getMemberEmail();
-        writeCommentUseCase.write(
-                request.getRecipeId(),
+        Long commentId = writeCommentUseCase.write(
+                recipeId,
                 memberId,
                 request.getContent());
+        return InCommentWriteResponseDto.builder().commentId(commentId).build();
     }
 
 }

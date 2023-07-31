@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import refrigerator.back.notification.outbound.dto.OutCommentNotificationDTO;
-import refrigerator.back.notification.outbound.dto.QOutCommentNotificationDTO;
 import refrigerator.back.notification.application.domain.Notification;
 import refrigerator.back.notification.application.domain.NotificationType;
+import refrigerator.back.notification.outbound.dto.QOutCommentNotificationDTO;
 
 import javax.persistence.EntityManager;
 

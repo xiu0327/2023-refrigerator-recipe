@@ -16,7 +16,8 @@ public class RecipeIngredientDto {
 
     public void match(MyIngredientDto dto){
         if (dto != null){
-            if (name.equals(dto.getName()) && dto.getVolume() >= Double.parseDouble(volume) && transUnit.equals(dto.getUnit())){
+            if (name.equals(dto.getName()) &&
+                    dto.getVolume() >= Double.parseDouble(transVolume) && transUnit.equals(dto.getUnit())){
                 isOwned = true;
                 return ;
             }

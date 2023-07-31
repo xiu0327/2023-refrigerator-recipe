@@ -4,10 +4,9 @@ import lombok.*;
 
 @Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class InRecipeSearchConditionDto {
-    private String searchWord;
     private String recipeType;
     private String recipeFoodType;
     private String category;

@@ -3,6 +3,7 @@ package refrigerator.back.myscore.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.myscore.application.domain.MyScore;
 import refrigerator.back.myscore.application.port.in.CookingUseCase;
@@ -22,15 +23,15 @@ public class MyScoreCookingService implements CookingUseCase {
     private final CurrentTime<LocalDateTime> currentTime;
 
     @Override
-    public Long firstCooking(String memberId, Long recipeId, Double score) {
-        MyScore myScore = MyScore.create(memberId, recipeId, score, currentTime.now(), handler);
-        return saveMyScorePort.save(myScore);
-    }
-
-    @Override
-    public void retryCooking(String memberId, Long recipeId, Double score) {
-        MyScore myScore = findMyScorePort.findByRecipeIdAndMemberId(recipeId, memberId);
-        myScore.update(score, handler);
+    public Long cooking(String memberId, Long recipeId, Double score) {
+        try{
+            MyScore myScore = findMyScorePort.findByRecipeIdAndMemberId(recipeId, memberId);
+            myScore.update(score, handler);
+            return myScore.getScoreId();
+        } catch(BusinessException e){
+            MyScore newScore = MyScore.create(memberId, recipeId, score, currentTime.now(), handler);
+            return saveMyScorePort.save(newScore);
+        }
     }
 
 }

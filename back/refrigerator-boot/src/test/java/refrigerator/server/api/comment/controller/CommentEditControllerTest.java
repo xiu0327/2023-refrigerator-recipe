@@ -1,44 +1,40 @@
 package refrigerator.server.api.comment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import refrigerator.server.api.comment.dto.InCommentWriteRequestDto;
+import refrigerator.server.api.comment.dto.InCommentEditRequestDto;
+import refrigerator.server.config.TestTokenService;
+import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class CommentControllerTest {
+class CommentEditControllerTest {
 
     @Autowired MockMvc mvc;
+    @Autowired JsonWebTokenUseCase jsonWebTokenUseCase;
     ObjectMapper objectMapper = new ObjectMapper();
 
-
     @Test
-    @DisplayName("댓글 작성 테스트")
-    @WithUserDetails("jktest101@gmail.com")
-    void write() throws Exception {
-        // given
-        long recipeId = 1L;
-        String memberId = "jktest101@gmail.com";
-        String content = "content";
-        InCommentWriteRequestDto requestDto = new InCommentWriteRequestDto(recipeId, content);
-        String json = objectMapper.writeValueAsString(requestDto);
-        mvc.perform(post("/api/comments/write")
+    void edit() throws Exception {
+        String json = objectMapper.writeValueAsString(new InCommentEditRequestDto("content"));
+        mvc.perform(put("/api/comments/1/edit")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
+                .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }

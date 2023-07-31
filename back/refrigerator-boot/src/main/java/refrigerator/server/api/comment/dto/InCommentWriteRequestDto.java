@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class InCommentWriteRequestDto {
 
-    @NotNull
-    private Long recipeId;
-
     @NotBlank
     private String content;
 }

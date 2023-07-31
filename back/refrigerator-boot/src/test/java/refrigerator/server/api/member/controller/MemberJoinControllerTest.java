@@ -6,7 +6,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -24,14 +26,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(JoinController.class)
-@Import(ExcludeSecurityConfiguration.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class MemberJoinControllerTest {
 
     @Autowired MockMvc mvc;
-    @MockBean JoinUseCase joinUseCase;
-    @MockBean PasswordEncoder passwordEncoder;
-    @MockBean MemberEmailCheckCookieAdapter cookieAdapter;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -46,14 +45,6 @@ class MemberJoinControllerTest {
         Cookie cookie = new Cookie("cookieName", "cookieValue");
         JoinRequestDto requestDto = new JoinRequestDto(email, password, nickname);
         String json = objectMapper.writeValueAsString(requestDto);
-        BDDMockito.given(cookieAdapter.isExist(new Cookie[]{cookie}))
-                .willReturn(true);
-        BDDMockito.given(passwordEncoder.encode(password))
-                .willReturn(encodePassword);
-        BDDMockito.given(joinUseCase.join(email, encodePassword, nickname))
-                .willReturn(1L);
-        BDDMockito.given(cookieAdapter.delete())
-                .willReturn(new Cookie("cookieName", "deleted"));
         // when
         mvc.perform(post("/api/members/join")
                 .cookie(cookie)
@@ -75,8 +66,6 @@ class MemberJoinControllerTest {
         Cookie cookie = new Cookie("cookieName", "cookieValue");
         JoinRequestDto requestDto = new JoinRequestDto(email, password, nickname);
         String json = objectMapper.writeValueAsString(requestDto);
-        BDDMockito.given(cookieAdapter.isExist(new Cookie[]{cookie}))
-                .willReturn(true);
         // when
         // TODO : 입력 유효성 검사 독립적인 에러를 발생시키도록 수정하기
         MemberExceptionType exceptionType = MemberExceptionType.INCORRECT_EMAIL_FORMAT;
@@ -100,8 +89,6 @@ class MemberJoinControllerTest {
         Cookie cookie = new Cookie("cookieName", "cookieValue");
         JoinRequestDto requestDto = new JoinRequestDto(email, password, nickname);
         String json = objectMapper.writeValueAsString(requestDto);
-        BDDMockito.given(cookieAdapter.isExist(new Cookie[]{cookie}))
-                .willReturn(false);
         // when
         MemberExceptionType exceptionType = MemberExceptionType.NOT_COMPLETED_EMAIL_DUPLICATION_CHECK;
         mvc.perform(post("/api/members/join")

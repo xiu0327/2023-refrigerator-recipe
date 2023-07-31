@@ -42,11 +42,7 @@ public class RefreshTokenCookie {
     }
 
     private boolean isValid(Cookie target){
-        return target.getName().equals(cookieName) &&
-                target.getPath().equals(cookiePath) &&
-                target.getSecure() &&
-                target.isHttpOnly() &&
-                target.getMaxAge() == cookieMaxAge;
+        return target.getName().equals(cookieName);
     }
 
 }

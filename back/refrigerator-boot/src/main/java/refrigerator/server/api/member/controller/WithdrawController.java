@@ -24,7 +24,7 @@ public class WithdrawController {
     private final RestrictAccessUseCase restrictAccessUseCase;
     private final GetMemberEmailUseCase memberInformation;
 
-    @DeleteMapping("/api/members")
+    @DeleteMapping("/api/members/withdraw")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void setWithdrawMemberUseCase(HttpServletRequest request,
                                          HttpServletResponse response){

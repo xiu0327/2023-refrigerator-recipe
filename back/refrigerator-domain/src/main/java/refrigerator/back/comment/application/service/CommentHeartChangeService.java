@@ -23,10 +23,12 @@ public class CommentHeartChangeService implements ChangeCommentHeartCountUseCase
     private final RandomUUID randomUUID;
 
     @Override
-    public void add(Long commentId, String memberId) {
+    public String add(Long commentId, String memberId) {
         Boolean isExistPeople = checkExistCommentHeartPeoplePort.checkByCommentIdAndMemberId(commentId, memberId);
         changeCommentHeartCountPort.change(commentId, CommentHeartValue.ADD);
-        saveCommentHeartPeoplePort.save(CommentHeartPeople.add(isExistPeople, randomUUID, commentId, memberId));
+        CommentHeartPeople commentHeartPeople = CommentHeartPeople.add(isExistPeople, randomUUID, commentId, memberId);
+        saveCommentHeartPeoplePort.save(commentHeartPeople);
+        return commentHeartPeople.getId();
     }
 
     @Override
