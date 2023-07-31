@@ -30,7 +30,7 @@ class CommentUpdateQueryRepositoryTest {
     void updateCommentToContentSuccessTest() {
         // given
         LocalDateTime createDateTime = LocalDateTime.of(2023, 6, 27, 10, 59);
-        Comment comment = new Comment(1L, "email", "content", createDateTime);
+        Comment comment = Comment.write(1L, "email", "content", createDateTime);
         Long commentId = em.persistAndGetId(comment, Long.class);
         // when
         LocalDateTime now = LocalDateTime.of(2023, 6, 27, 11, 59);

@@ -8,7 +8,7 @@ import refrigerator.back.recipe_recommend.outbound.mapper.OutRecommendRecipeDtoM
 import refrigerator.back.recipe_recommend.outbound.repository.RecipeRecommendSelectQueryRepository;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -19,9 +19,9 @@ public class RecommendMyIngredientLookUpAdapter implements FindMyIngredientsPort
     private final OutRecommendRecipeDtoMapper mapper;
 
     @Override
-    public List<MyIngredientDto> findMyIngredients(LocalDate startDate, String memberId) {
+    public Set<MyIngredientDto> findMyIngredients(LocalDate startDate, String memberId) {
         return queryRepository.selectMyIngredientNames(startDate, memberId).stream()
                 .map(myIngredient -> myIngredient.mapping(mapper))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

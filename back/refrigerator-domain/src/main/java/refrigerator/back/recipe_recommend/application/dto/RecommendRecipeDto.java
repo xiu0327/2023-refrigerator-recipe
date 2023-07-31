@@ -15,7 +15,7 @@ public class RecommendRecipeDto {
 
     private Double scoreAvg;
 
-    private Double percent;
+    private String percent;
 
 
 }

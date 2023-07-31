@@ -38,7 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         setOauth(http);
         setAuth(http);
-//        setComment(http);
+        setComment(http);
         setIdentification(http);
         setMember(http);
         setRecipe(http);
@@ -49,7 +49,7 @@ public class SecurityConfig {
     }
 
     private void setJwtFilter(HttpSecurity http) {
-        http.addFilterAfter(
+        http.addFilterBefore(
                 new JwtAuthenticationFilter(authenticationManager),
                 UsernamePasswordAuthenticationFilter.class);
     }
@@ -71,8 +71,8 @@ public class SecurityConfig {
     private void setWordCompletion(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .mvcMatchers("/api/word-completion/recipe").permitAll()
-                .mvcMatchers("/api/word-completion/ingredient").permitAll();
+                .mvcMatchers("/api/recipe/search/word-completion").permitAll()
+                .mvcMatchers("/api/ingredient/search/word-completion").permitAll();
     }
 
     private void setRecipe(HttpSecurity http) throws Exception {
@@ -94,7 +94,7 @@ public class SecurityConfig {
                 .mvcMatchers("/api/members/join").permitAll()
                 .mvcMatchers("/api/members/password/find").permitAll()
                 .mvcMatchers("/api/members/password").permitAll()
-                .mvcMatchers("/api/members/email/duplicate").permitAll()
+                .mvcMatchers("/api/members/email/check").permitAll()
                 .mvcMatchers("/api/members/profile/list").permitAll();
     }
 
@@ -107,7 +107,7 @@ public class SecurityConfig {
     private void setComment(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .mvcMatchers("/api/comments/write").authenticated();
+                .mvcMatchers("/api/comments/{commentId}/delete").permitAll();
     }
 
     private void setAuth(HttpSecurity http) throws Exception {

@@ -42,7 +42,7 @@ public class JoinController {
                 request.getEmail(),
                 MemberExceptionType.INCORRECT_EMAIL_FORMAT);
         duplicateCheckEmailUseCase.isDuplicated(request.getEmail());
-        response.addCookie(cookieAdapter.create());
+        response.addCookie(cookieAdapter.create(request.getEmail()));
     }
 
     @PostMapping("/api/members/join")
@@ -51,7 +51,7 @@ public class JoinController {
             @RequestBody JoinRequestDto requestDto,
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse){
-        if (!cookieAdapter.isExist(httpServletRequest.getCookies())){
+        if (!cookieAdapter.isExist(httpServletRequest.getCookies(), requestDto.getEmail())){
             throw new BusinessException(MemberExceptionType.NOT_COMPLETED_EMAIL_DUPLICATION_CHECK);
         }
         requestDto.check();

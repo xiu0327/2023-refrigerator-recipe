@@ -72,7 +72,7 @@ class OutRecommendRecipeDtoMapperTest {
                 .recipeId(recipeId)
                 .recipeName(recipeName)
                 .recipeImage(recipeImage)
-                .percent(percent)
+                .percent("60.00")
                 .scoreAvg(scoreAvg)
                 .build();
         assertEquals(expected, result);

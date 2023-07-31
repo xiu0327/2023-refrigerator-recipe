@@ -25,7 +25,7 @@ public class MyBookmarkController {
 
     @DeleteMapping("/api/recipe/{recipeId}/bookmark/deleted")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeBookmark(@RequestParam("recipeId") Long recipeId){
+    public void removeBookmark(@PathVariable("recipeId") Long recipeId){
         String email = memberInformation.getMemberEmail();
         deleteMyBookmarkUseCase.delete(recipeId, email);
     }

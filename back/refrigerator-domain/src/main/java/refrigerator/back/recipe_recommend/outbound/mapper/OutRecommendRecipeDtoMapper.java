@@ -22,7 +22,13 @@ public interface OutRecommendRecipeDtoMapper {
     @Mapping(target = "type", source = "dto.typeName", qualifiedByName = "getRecipeIngredientType")
     RecommendRecipeIngredient toRecipeIngredientDto(OutRecipeIngredientDto dto);
 
+    @Mapping(target = "percent", source = "percent", qualifiedByName = "toStringPercent")
     RecommendRecipeDto toRecommendRecipeDto(OutRecommendRecipeDto dto, String recipeImage, Double percent);
+
+    @Named("toStringPercent")
+    static String toStringPercent(Double percent){
+        return String.format("%.2f", percent);
+    }
 
     @Named("getRecipeIngredientType")
     static RecipeIngredientType getRecipeIngredientType(String typeName){

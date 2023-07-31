@@ -12,7 +12,7 @@ import java.util.*;
 public class RecommendRecipeMatchingService {
 
     private final Map<Long, RecommendRecipeIngredientMap> recipeIngredients;
-    private final List<MyIngredientDto> myIngredients;
+    private final Set<MyIngredientDto> myIngredients;
 
     public Map<Long, Double> getRecipeMatchingPercent(){
         List<MatchingPercentDto> result = new ArrayList<>();
@@ -27,14 +27,15 @@ public class RecommendRecipeMatchingService {
         Map<Long, Double> percentMap = new HashMap<>();
         percents.stream()
                 .sorted(Comparator.comparing(MatchingPercentDto::getMatchPercent).reversed())
-                .filter(tuple -> tuple.getMatchPercent() > 0)
+                .filter(tuple -> tuple.getMatchPercent() > 0 && tuple.getMatchPercent() <= 100)
                 .limit(11)
                 .forEach(percent -> percentMap.put(percent.getRecipeId(), percent.getMatchPercent()));
         return percentMap;
     }
 
     private double getMatchPercent(Long recipeId, double matchAmount) {
-        return (matchAmount / recipeIngredients.get(recipeId).getIngredientTypeWeightAmount()) * 100.0;
+        int recipeWeightAmount = recipeIngredients.get(recipeId).getIngredientTypeWeightAmount();
+        return (matchAmount / recipeWeightAmount) * 100.0;
     }
 
     private int getMatchAmount(Long recipeId) {

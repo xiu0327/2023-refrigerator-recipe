@@ -15,17 +15,9 @@ public class CookingController {
 
     @PostMapping("/api/recipe/{recipeId}/cooking/first")
     @ResponseStatus(HttpStatus.CREATED)
-    public void first(@PathVariable("recipeId") Long recipeId, @RequestParam("score") Double score){
+    public void cooking(@PathVariable("recipeId") Long recipeId, @RequestParam("score") Double score){
         String memberId = getMemberEmailUseCase.getMemberEmail();
-        cookingUseCase.firstCooking(memberId, recipeId, score);
-    }
-
-    @PutMapping("/api/recipe/{recipeId}/cooking/retry")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void retry(@PathVariable("recipeId") Long recipeId,
-                      @RequestParam("newScore") Double newScore){
-        String memberId = getMemberEmailUseCase.getMemberEmail();
-        cookingUseCase.retryCooking(memberId, recipeId, newScore);
+        cookingUseCase.cooking(memberId, recipeId, score);
     }
 
 }

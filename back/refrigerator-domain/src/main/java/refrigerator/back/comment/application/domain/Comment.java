@@ -34,7 +34,7 @@ public class Comment {
     @Embedded
     private CommentRecord commentRecord;
 
-    public Comment(Long recipeId, String writerId, String content, LocalDateTime createDateTime) {
+    private Comment(Long recipeId, String writerId, String content, LocalDateTime createDateTime) {
         this.recipeId = recipeId;
         this.content = content;
         this.writerId = writerId;
@@ -42,12 +42,16 @@ public class Comment {
     }
 
     @Builder
-    public Comment(Long commentId, Long recipeId, String writerId, String content, CommentRecord commentRecord) {
+    private Comment(Long commentId, Long recipeId, String writerId, String content, CommentRecord commentRecord) {
         this.commentId = commentId;
         this.recipeId = recipeId;
         this.writerId = writerId;
         this.content = content;
         this.commentRecord = commentRecord;
+    }
+
+    public static Comment write(Long recipeId, String writerId, String content, LocalDateTime createDateTime){
+        return new Comment(recipeId, writerId, content, createDateTime);
     }
 
     public static Comment createForTest(Long commentId, Long recipeId,

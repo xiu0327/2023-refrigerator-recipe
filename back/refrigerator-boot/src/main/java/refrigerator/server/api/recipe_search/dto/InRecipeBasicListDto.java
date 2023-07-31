@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.List;
 
 @Getter
-public class InRecipeBasicListDTO<T> implements Serializable {
+public class InRecipeBasicListDto<T> implements Serializable {
     List<T> data;
-    public InRecipeBasicListDTO(List<T> data) {
+    public InRecipeBasicListDto(List<T> data) {
         this.data = data;
     }
 }

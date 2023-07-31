@@ -20,38 +20,27 @@ class MemberEmailCheckCookieAdapterTest {
     }
 
     @Test
-    @DisplayName("쿠키 생성")
-    void create() {
-        Cookie cookie = adapter.create();
-        assertTrue(adapter.isValid(cookie));
-    }
-
-    @Test
     @DisplayName("중복 확인 쿠키가 존재하는 경우")
     void isExist() {
-        Cookie[] cookies = {adapter.create()};
-        assertDoesNotThrow(() -> adapter.isExist(cookies));
+        String email = "email";
+        Cookie[] cookies = {adapter.create(email)};
+        assertDoesNotThrow(() -> adapter.isExist(cookies, email));
     }
 
     @Test
     @DisplayName("중복 확인 쿠키가 존재하지 않는 경우")
     void isExistFailTest() {
+        String email = "email";
         Cookie[] cookies = {adapter.delete()};
         assertThrows(BusinessException.class,
                 () -> {
             try{
-                adapter.isExist(cookies);
+                adapter.isExist(cookies, email);
             } catch (BusinessException e){
                 assertEquals(e.getBasicExceptionType(), MemberExceptionType.NOT_COMPLETED_EMAIL_DUPLICATION_CHECK);
                 throw e;
             }
-                });
+        });
     }
 
-    @Test
-    @DisplayName("쿠키 제거")
-    void delete() {
-        Cookie cookie = adapter.delete();
-        assertFalse(adapter.isValid(cookie));
-    }
 }

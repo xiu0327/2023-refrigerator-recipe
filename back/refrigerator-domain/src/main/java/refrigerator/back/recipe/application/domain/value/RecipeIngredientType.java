@@ -17,6 +17,7 @@ public enum RecipeIngredientType {
     MAIN("주재료", 3),
     SUB("부재료", 2),
     SEASONING("양념", 1),
+    NO_TYPE("타입없음", 0)
     ;
 
     private String typeName;
@@ -26,6 +27,6 @@ public enum RecipeIngredientType {
         return Arrays.stream(RecipeIngredientType.values())
                 .filter(type -> type.getTypeName().equals(name))
                 .findAny()
-                .orElseThrow(() -> new MappingException(RecipeExceptionType.WRONG_INGREDIENT_TYPE));
+                .orElseGet(() -> NO_TYPE);
     }
 }

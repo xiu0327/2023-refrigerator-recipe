@@ -20,7 +20,8 @@ public class RecipeRecommendController {
 
     @GetMapping("/api/recipe/recommend")
     public BasicListResponseDTO<RecommendRecipeDto> recommend(){
-        List<RecommendRecipeDto> data = recommendRecipeUseCase.recommend(memberInformation.getMemberEmail());
+        String email = memberInformation.getMemberEmail();
+        List<RecommendRecipeDto> data = recommendRecipeUseCase.recommend(email);
         return new BasicListResponseDTO<>(data);
     }
 

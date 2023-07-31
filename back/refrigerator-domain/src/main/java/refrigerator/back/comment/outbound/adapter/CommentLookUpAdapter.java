@@ -2,6 +2,7 @@ package refrigerator.back.comment.outbound.adapter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import refrigerator.back.comment.application.dto.CommentDto;
 import refrigerator.back.comment.application.service.CommentTimeService;
@@ -37,7 +38,8 @@ public class CommentLookUpAdapter implements FindCommentPort {
 
     @Override
     public List<CommentDto> findMyComments(String memberId, Long recipeId) {
-        return mapping(queryRepository.selectMyComments(memberId, recipeId));
+        Pageable page = PageRequest.of(0, 11);
+        return mapping(queryRepository.selectMyComments(memberId, recipeId, page));
     }
 
     @Override

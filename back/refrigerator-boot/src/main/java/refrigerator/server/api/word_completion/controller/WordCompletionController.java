@@ -16,12 +16,12 @@ public class WordCompletionController {
     private final RecipeWordCompletionUseCase recipeWordCompletionUseCase;
     private final IngredientWordCompletionUseCase ingredientWordCompletionUseCase;
 
-    @GetMapping("/api/word-completion/recipe")
+    @GetMapping("/api/recipe/search/word-completion")
     public BasicListResponseDTO<String> getRecipeWordCompletion(@RequestParam("keyword") String keyword){
         return new BasicListResponseDTO<>(recipeWordCompletionUseCase.search(keyword));
     }
 
-    @GetMapping("/api/word-completion/ingredient")
+    @GetMapping("/api/ingredient/search/word-completion")
     public BasicListResponseDTO<String> getIngredientWordCompletion(@RequestParam("keyword") String keyword){
         return new BasicListResponseDTO<>(ingredientWordCompletionUseCase.search(keyword));
     }

@@ -10,6 +10,5 @@ public interface InRecipeSearchMapper {
 
     InRecipeSearchMapper INSTANCE = Mappers.getMapper(InRecipeSearchMapper.class);
 
-    /* inbound adapter -> domain */
-    RecipeSearchCondition toRecipeSearchCondition(InRecipeSearchConditionDto dto);
+    RecipeSearchCondition toRecipeSearchCondition(InRecipeSearchConditionDto dto, String searchWord);
 }

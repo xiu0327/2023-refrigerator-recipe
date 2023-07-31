@@ -31,7 +31,7 @@ class RefreshTokenCookieTest {
     @Test
     @DisplayName("refresh token cookie 찾기 실패 테스트")
     void getFailTest() {
-        Cookie[] cookies = {refreshTokenCookie.delete()};
+        Cookie[] cookies = {new Cookie("wrong", "deleted")};
         assertThrows(JsonWebTokenException.class, () -> {
             try{
                 refreshTokenCookie.get(cookies);

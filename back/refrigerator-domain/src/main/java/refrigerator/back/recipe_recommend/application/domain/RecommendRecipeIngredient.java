@@ -3,6 +3,7 @@ package refrigerator.back.recipe_recommend.application.domain;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import refrigerator.back.recipe.application.domain.value.RecipeIngredientType;
 import refrigerator.back.recipe_recommend.application.dto.MyIngredientDto;
 
@@ -10,6 +11,7 @@ import refrigerator.back.recipe_recommend.application.dto.MyIngredientDto;
 @Getter
 @Builder
 @EqualsAndHashCode
+@Slf4j
 public class RecommendRecipeIngredient {
 
     private Long recipeId;

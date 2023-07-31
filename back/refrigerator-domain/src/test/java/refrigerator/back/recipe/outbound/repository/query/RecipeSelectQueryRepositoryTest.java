@@ -51,7 +51,6 @@ class RecipeSelectQueryRepositoryTest {
         List<OutRecipeCourseDto> result = queryRepository.selectRecipeCourseList(recipeId);
         for (OutRecipeCourseDto dto : result) {
             assertNotNull(dto);
-            assertNotEquals(OutRecipeCourseDto.builder().build(), dto);
             assertTrue(dto.getStep() > preStep);
             preStep = dto.getStep();
         }

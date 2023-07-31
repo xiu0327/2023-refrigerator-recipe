@@ -2,8 +2,8 @@ package refrigerator.server.api.member.cookie;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.member.exception.MemberExceptionType;
+import refrigerator.back.authentication.exception.AuthenticationExceptionType;
+import refrigerator.server.security.exception.JsonWebTokenException;
 
 import javax.servlet.http.Cookie;
 import java.util.Arrays;
@@ -12,12 +12,11 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class MemberEmailCheckCookieAdapter {
     private final String cookieName = "Email-Check";
-    private final String cookieValue = "true";
     private final String cookiePath = "/api/members/join";
     private final int cookieMaxAge = 60 * 30;
 
-    public Cookie create(){
-        Cookie cookie = new Cookie(cookieName, cookieValue);
+    public Cookie create(String email){
+        Cookie cookie = new Cookie(cookieName, email);
         cookie.setPath(cookiePath);
         cookie.setMaxAge(cookieMaxAge); // 30분
         cookie.setHttpOnly(true);
@@ -25,12 +24,16 @@ public class MemberEmailCheckCookieAdapter {
         return cookie;
     }
 
-    public boolean isExist(Cookie[] cookies){
-        return Arrays.stream(cookies).anyMatch(this::isValid);
+    public boolean isExist(Cookie[] cookies, String value){
+        if (cookies == null){
+            throw new JsonWebTokenException(AuthenticationExceptionType.NOT_FOUND_COOKIE);
+        }
+        return Arrays.stream(cookies)
+                .anyMatch(cookie -> isValid(cookie, value));
     }
 
     public Cookie delete(){
-        Cookie cookie = new Cookie(cookieName, cookieValue);
+        Cookie cookie = new Cookie(cookieName, "delete");
         cookie.setPath("/api/members/join");
         cookie.setMaxAge(0); // 30분
         cookie.setHttpOnly(true);
@@ -38,12 +41,8 @@ public class MemberEmailCheckCookieAdapter {
         return cookie;
     }
 
-    public boolean isValid(Cookie cookie){
+    private boolean isValid(Cookie cookie, String email){
         return cookie.getName().equals(cookieName)
-                && cookie.getValue().equals(cookieValue)
-                && cookie.getSecure()
-                && cookie.getMaxAge() == cookieMaxAge
-                && cookie.getPath().equals(cookiePath)
-                && cookie.isHttpOnly();
+                && cookie.getValue().equals(email);
     }
 }
