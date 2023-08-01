@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.ingredient.application.domain.QRegisteredIngredient;
 import refrigerator.back.ingredient.outbound.dto.OutIngredientInRecipeDTO;
 import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.domain.SuggestedIngredient;
@@ -67,5 +68,14 @@ public class SubIngredientQueryRepository {
                 .from(recipeIngredient)
                 .where(recipeIngredient.recipeId.eq(recipeId))
                 .fetch();
+    }
+
+    public Long saveRegisteredIngredient(RegisteredIngredient ingredient) {
+        em.persist(ingredient);
+
+        em.flush();
+        em.clear();
+
+        return ingredient.getId();
     }
 }

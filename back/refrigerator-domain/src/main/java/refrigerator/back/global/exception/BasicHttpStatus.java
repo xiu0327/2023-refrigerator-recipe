@@ -11,7 +11,5 @@ public enum BasicHttpStatus {
     NOT_FOUND(404),
     FORBIDDEN(403);
 
-
     private Integer code;
-
 }

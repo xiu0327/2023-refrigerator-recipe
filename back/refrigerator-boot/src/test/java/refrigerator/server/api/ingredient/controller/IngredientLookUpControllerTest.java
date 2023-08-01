@@ -1,19 +1,23 @@
 package refrigerator.server.api.ingredient.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
+import refrigerator.back.ingredient.application.domain.RegisteredIngredient;
 import refrigerator.back.ingredient.application.port.out.ingredient.update.SaveIngredientPort;
-import refrigerator.back.member.application.domain.Member;
-import refrigerator.back.member.application.port.out.SaveMemberPort;
+import refrigerator.back.ingredient.application.port.out.registeredIngredient.SaveRegisteredIngredientPort;
+import refrigerator.server.config.TestTokenService;
+import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
 
 import java.time.LocalDate;
 
@@ -33,9 +37,23 @@ class IngredientLookUpControllerTest {
     SaveIngredientPort saveIngredientPort;
 
     @Autowired
-    SaveMemberPort saveMemberPort;
+    JsonWebTokenUseCase jsonWebTokenUseCase;
 
-    @Test
+    @Autowired
+    SaveRegisteredIngredientPort saveRegisteredIngredientPort;
+
+    @BeforeEach
+    void setUp() {
+        RegisteredIngredient.RegisteredIngredientBuilder builder = RegisteredIngredient.builder()
+                .image(1)
+                .unit("g");
+
+        saveRegisteredIngredientPort.saveRegisteredIngredient(builder.name("콩나물").build());
+        saveRegisteredIngredientPort.saveRegisteredIngredient(builder.name("안심").build());
+        saveRegisteredIngredientPort.saveRegisteredIngredient(builder.name("감자").build());
+    }
+
+//    @Test
     @DisplayName("식재료 이름에 따른 용량단위 반환")
     void findIngredientUnitTest() throws Exception {
 
@@ -43,32 +61,32 @@ class IngredientLookUpControllerTest {
 
         mockMvc.perform(
                 get("/api/ingredients/unit?name=" + name)
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 이름에 따른 용량단위 반환 실패 : 등록되지 않은 식재료")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientUnitTestFailUnregisteredIngredients() throws Exception {
 
         String name = "파워에이드";
 
         mockMvc.perform(
                 get("/api/ingredients/unit?name=" + name)
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 목록 조회")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientListTest() throws Exception {
 
         Ingredient ingredient = Ingredient.builder()
                 .name("안심")
                 .capacity(60.0)
-                .email("jktest101@gmail.com")
+                .email("mstest102@gmail.com")
                 .storageMethod(IngredientStorageType.FRIDGE)
                 .expirationDate(LocalDate.of(2023, 1, 1))
                 .registrationDate(LocalDate.of(2023, 1, 1))
@@ -84,19 +102,19 @@ class IngredientLookUpControllerTest {
 
         mockMvc.perform(
                 get("/api/ingredients?storage="+storage+"&deadline="+deadline+"&page=0")
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 목록 조회 실패 : 존재하지 않는 보관타입")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientListTestFailNotExistStorageType() throws Exception {
 
         Ingredient ingredient = Ingredient.builder()
                 .name("안심")
                 .capacity(60.0)
-                .email("jktest101@gmail.com")
+                .email("mstest102@gmail.com")
                 .storageMethod(IngredientStorageType.FRIDGE)
                 .expirationDate(LocalDate.of(2023, 1, 1))
                 .registrationDate(LocalDate.of(2023, 1, 1))
@@ -112,19 +130,19 @@ class IngredientLookUpControllerTest {
 
         mockMvc.perform(
                 get("/api/ingredients?storage="+storage+"&deadline="+deadline+"&page=0")
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 목록 조회 실패 : Boolean 타입 오류")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientListTestFailBooleanTypeError() throws Exception {
 
         Ingredient ingredient = Ingredient.builder()
                 .name("안심")
                 .capacity(60.0)
-                .email("jktest101@gmail.com")
+                .email("mstest102@gmail.com")
                 .storageMethod(IngredientStorageType.FRIDGE)
                 .expirationDate(LocalDate.of(2023, 1, 1))
                 .registrationDate(LocalDate.of(2023, 1, 1))
@@ -140,18 +158,18 @@ class IngredientLookUpControllerTest {
 
         mockMvc.perform(
                 get("/api/ingredients?storage="+storage+"&deadline="+deadline+"&page=0")
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 검색")
-    @WithUserDetails("jktest101@gmail.com")
     void searchIngredientListTest() throws Exception {
 
         Ingredient.IngredientBuilder builder = Ingredient.builder()
                 .capacity(60.0)
-                .email("jktest101@gmail.com")
+                .email("mstest102@gmail.com")
                 .expirationDate(LocalDate.of(2023, 1, 1))
                 .registrationDate(LocalDate.of(2023, 1, 1))
                 .deleted(false)
@@ -163,19 +181,19 @@ class IngredientLookUpControllerTest {
 
         mockMvc.perform(
                 get("/api/ingredients/search")
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 단건 조회")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientTest() throws Exception {
 
         Ingredient ingredient = Ingredient.builder()
                 .name("콩나물")
                 .capacity(60.0)
-                .email("jktest101@gmail.com")
+                .email("mstest102@gmail.com")
                 .storageMethod(IngredientStorageType.FRIDGE)
                 .expirationDate(LocalDate.of(2023, 1, 1))
                 .registrationDate(LocalDate.of(2023, 1, 1))
@@ -188,30 +206,47 @@ class IngredientLookUpControllerTest {
 
         mockMvc.perform(
                 get("/api/ingredients/" + id)
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 단건 조회_실패 : 알 수 없는 id")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientTestFail() throws Exception {
 
         mockMvc.perform(
                 get("/api/ingredients/51651656165")
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("임박 식재료 목록 조회")
-    @WithUserDetails("jktest101@gmail.com")
     void findIngredientListByDeadlineTest() throws Exception {
+
+        LocalDate expirationDate = LocalDate.now().plusDays(1);
+
+        Ingredient ingredient = Ingredient.builder()
+                .name("안심")
+                .capacity(60.0)
+                .email("mstest102@gmail.com")
+                .storageMethod(IngredientStorageType.FRIDGE)
+                .expirationDate(expirationDate)
+                .registrationDate(LocalDate.of(2023, 1, 1))
+                .deleted(false)
+                .image(1)
+                .capacityUnit("g")
+                .build();
+
+        saveIngredientPort.saveIngredient(ingredient);
 
         String days = "1";
 
         mockMvc.perform(
                 get("/api/ingredients/deadline/" + days)
+                        .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }

@@ -27,7 +27,7 @@ public class MemberNotificationController {
         return findMemberNotificationSignUseCase.getMemberNotificationSign(memberInformation.getMemberEmail());
     }
 
-    @PutMapping("/api/notification/sign")       // turn off sign
+    @PutMapping("/api/notifications/sign/off")       // turn off sign
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void TurnOffNotificationSign(){
         turnOffMemberNotificationSignUseCase.turnOffMemberNotification(memberInformation.getMemberEmail());
