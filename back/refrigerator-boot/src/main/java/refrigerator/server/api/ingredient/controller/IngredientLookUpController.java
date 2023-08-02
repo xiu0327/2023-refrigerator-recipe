@@ -1,10 +1,12 @@
 package refrigerator.server.api.ingredient.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import refrigerator.back.ingredient.exception.IngredientExceptionType;
 import refrigerator.server.api.authentication.GetMemberEmailUseCase;
 import refrigerator.server.api.global.common.BasicListResponseDTO;
 import refrigerator.server.api.ingredient.mapper.InIngredientMapper;
@@ -17,6 +19,9 @@ import refrigerator.back.ingredient.application.port.in.ingredient.lookUp.FindIn
 import refrigerator.back.ingredient.application.port.in.registeredIngredient.FindRegisteredIngredientUseCase;
 
 import java.util.List;
+
+import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
+import static refrigerator.server.api.global.exception.ValidationExceptionHandler.*;
 
 @RestController
 @RequiredArgsConstructor

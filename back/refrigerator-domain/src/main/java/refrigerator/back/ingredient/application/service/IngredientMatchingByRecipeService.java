@@ -3,6 +3,7 @@ package refrigerator.back.ingredient.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.dto.IngredientDTO;
@@ -10,6 +11,7 @@ import refrigerator.back.ingredient.application.dto.RecipeIngredientDto;
 import refrigerator.back.ingredient.application.port.in.matchByRecipe.MatchIngredientByRecipeUseCase;
 import refrigerator.back.ingredient.application.port.out.recipeIngredient.FindRecipeIngredientPort;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientListPort;
+import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 
 import java.time.LocalDate;
@@ -17,6 +19,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
+import static refrigerator.back.ingredient.exception.IngredientExceptionType.NOT_FOUND_INGREDIENT;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +38,13 @@ public class IngredientMatchingByRecipeService implements MatchIngredientByRecip
         Map<String, Boolean> nameMap = extractAvailableIngredientNames(
                 findIngredientListPort.getIngredients(memberId));
 
-        return findRecipeIngredientPort.getRecipeIngredient(recipeId).stream()
+        List<RecipeIngredientDto> recipeIngredient = findRecipeIngredientPort.getRecipeIngredient(recipeId);
+
+        if (recipeIngredient.isEmpty()){
+            throw new BusinessException(NOT_FOUND_REGISTERED_RECIPE);
+        }
+
+        return recipeIngredient.stream()
                 .filter(item -> nameMap.getOrDefault(item.getName(), false))
                 .map(RecipeIngredientDto::getIngredientId)
                 .collect(Collectors.toList());

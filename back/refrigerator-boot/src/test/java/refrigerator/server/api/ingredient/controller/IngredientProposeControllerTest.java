@@ -6,11 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import refrigerator.server.api.ingredient.dto.IngredientProposeRequestDTO;
+import refrigerator.server.config.TestTokenService;
+import refrigerator.server.security.authentication.application.usecase.JsonWebTokenUseCase;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -25,9 +27,11 @@ class IngredientProposeControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    JsonWebTokenUseCase jsonWebTokenUseCase;
+
     @Test
     @DisplayName("식재료 요청")
-    @WithUserDetails("jktest101@gmail.com")
     void proposeIngredientTest() throws Exception {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
@@ -40,13 +44,13 @@ class IngredientProposeControllerTest {
         mockMvc.perform(post("/api/ingredients/propose")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
+                .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is2xxSuccessful()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 요청 실패 : NULL")
-    @WithUserDetails("jktest101@gmail.com")
     void proposeIngredientTestFailNullValue() throws Exception {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
@@ -59,13 +63,13 @@ class IngredientProposeControllerTest {
         mockMvc.perform(post("/api/ingredients/propose")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
+                .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 요청 실패 : Blank")
-    @WithUserDetails("jktest101@gmail.com")
     void proposeIngredientTestFailBlankValue() throws Exception {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
@@ -78,13 +82,13 @@ class IngredientProposeControllerTest {
         mockMvc.perform(post("/api/ingredients/propose")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
+                .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }
 
     @Test
     @DisplayName("식재료 요청 실패 : DTO 값 누락")
-    @WithUserDetails("jktest101@gmail.com")
     void proposeIngredientTestFailOmissionDTOValue() throws Exception {
 
         IngredientProposeRequestDTO dto = IngredientProposeRequestDTO.builder()
@@ -96,6 +100,7 @@ class IngredientProposeControllerTest {
         mockMvc.perform(post("/api/ingredients/propose")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
+                .header(HttpHeaders.AUTHORIZATION, TestTokenService.getToken(jsonWebTokenUseCase))
         ).andExpect(status().is4xxClientError()
         ).andDo(print());
     }

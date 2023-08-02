@@ -49,10 +49,14 @@ public class IngredientDeductionController {
 
         List<RegisteredIngredient> ingredientList = findRegisteredIngredientUseCase.getIngredientList();
 
+        if(ingredientList.isEmpty()){
+            throw new BusinessException(NO_PREVIOUSLY_REGISTERED_INGREDIENTS);
+        }
+
         for (IngredientDeductionDTO dto : data) {
             if(ingredientList.stream().filter(i -> i.getName().equals(dto.getName()) && i.getUnit().equals(dto.getUnit()))
                     .collect(Collectors.toList()).size() != 1) {
-                throw new BusinessException(NOT_VALID_REQUEST_BODY);
+                throw new BusinessException(NOT_VALID_INGREDIENTS_TO_BE_DEDUCTED);
             }
         }
     }

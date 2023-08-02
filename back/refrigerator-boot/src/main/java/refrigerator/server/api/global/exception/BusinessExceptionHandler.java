@@ -23,12 +23,7 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<BasicExceptionFormat> businessException(BusinessException e){
 
-        HttpStatus code = HttpStatus.resolve(e.getBasicExceptionType().getHttpStatus().getCode());
-
-        if (code == null)
-            return new ResponseEntity<>(new BasicExceptionFormat("UNKNOWN_ERROR", "알 수 없는 오류가 발생하였습니다."), HttpStatus.NOT_FOUND);
-
-        return new ResponseEntity<>(create(e.getBasicExceptionType()), code);
+        return new ResponseEntity<>(create(e.getBasicExceptionType()), HttpStatus.valueOf(e.getBasicExceptionType().getHttpStatus().getCode()));
     }
 
     @ExceptionHandler(OAuth2AuthenticationException.class)
