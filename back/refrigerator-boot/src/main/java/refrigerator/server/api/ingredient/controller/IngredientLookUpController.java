@@ -34,13 +34,13 @@ public class IngredientLookUpController {
     private final GetMemberEmailUseCase memberInformation;
     private final InIngredientMapper mapper;
 
-    @GetMapping("/api/ingredients/unit")
+    @GetMapping("/api/ingredients/search/unit")
     public IngredientUnitDTO findIngredientUnit(@RequestParam(value = "name") String name) {
 
         return mapper.toIngredientUnitResponseDTO(findRegisteredIngredientUseCase.getIngredient(name));
     }
 
-    @GetMapping("/api/ingredients")
+    @GetMapping("/api/ingredients/search")
     public BasicListResponseDTO<IngredientDTO> findIngredientList(@RequestParam(value = "storage", defaultValue = "냉장") String storage,
                                                                   @RequestParam(value = "deadline", defaultValue = "false") boolean deadline,
                                                                   @RequestParam(value = "page") int page,
@@ -53,7 +53,7 @@ public class IngredientLookUpController {
         return new BasicListResponseDTO<>(ingredientList);
     }
 
-    @GetMapping("/api/ingredients/search")
+    @GetMapping("/api/ingredients/search/all")
     public BasicListResponseDTO<IngredientDTO> searchIngredientList() {
 
         List<IngredientDTO> ingredientList = findIngredientListUseCase
@@ -62,13 +62,13 @@ public class IngredientLookUpController {
         return new BasicListResponseDTO<>(ingredientList);
     }
 
-    @GetMapping("/api/ingredients/{ingredientId}")
+    @GetMapping("/api/ingredients/{ingredientId}/details")
     public IngredientDetailDTO findIngredient(@PathVariable("ingredientId") Long id) {
 
         return findIngredientDetailUseCase.getIngredient(id);
     }
 
-    @GetMapping("/api/ingredients/deadline/{days}")
+    @GetMapping("/api/ingredients/search/deadline/{days}")
     public BasicListResponseDTO<IngredientDTO> findIngredientListByDeadline(@PathVariable("days") Long days) {
 
         List<IngredientDTO> ingredientList = findIngredientListUseCase

@@ -1,6 +1,7 @@
 package refrigerator.server.api.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,6 +33,7 @@ public class WithdrawController {
         withdrawMemberUseCase.withdrawMember(memberInformation.getMemberEmail());
         String refreshToken = refreshTokenCookie.get(request.getCookies()).getValue();
         restrictAccessUseCase.restrictAccessToTokens(refreshToken);
+        response.setHeader(HttpHeaders.AUTHORIZATION, "");
         response.addCookie(refreshTokenCookie.delete());
     }
 }

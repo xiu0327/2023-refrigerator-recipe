@@ -6,9 +6,13 @@ import org.springframework.transaction.annotation.Transactional;
 import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.application.domain.Ingredient;
+import refrigerator.back.ingredient.application.domain.MyIngredientCollection;
 import refrigerator.back.ingredient.application.dto.IngredientDeductionDTO;
+import refrigerator.back.ingredient.application.dto.MyIngredientDto;
 import refrigerator.back.ingredient.application.port.in.ingredient.deducation.DeductionIngredientVolumeUseCase;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientListPort;
+import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindMyIngredientMapPort;
+import refrigerator.back.ingredient.application.port.out.ingredient.update.UpdateIngredientVolumePort;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -25,53 +29,14 @@ import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 @Transactional
 public class IngredientDeductionService implements DeductionIngredientVolumeUseCase {
 
-    private final FindIngredientListPort findIngredientListPort;
+    private final FindMyIngredientMapPort findMyIngredientMapPort;
+    private final UpdateIngredientVolumePort updateIngredientVolumePort;
     private final CurrentTime<LocalDate> currentTime;
 
     @Override
-    public void deduction(String memberId, List<IngredientDeductionDTO> ingredientDTOList) {
-
-        List<Ingredient> ingredientList = findIngredientListPort.getIngredients(memberId);
-
-        IngredientsEmptyCheck(ingredientList);
-
-        Map<String, Double> ingredientDTOMap = toIngredientMap(ingredientDTOList);
-
-        List<Ingredient> availableIngredients = extractAvailableIngredients(currentTime.now(), ingredientList);
-
-        dtoContainCheckBySafeIngredient(ingredientDTOMap,
-                availableIngredients.stream().map(Ingredient::getName).collect(Collectors.toList()));
-
-        availableIngredients.forEach(ingredient -> {
-            Double volume = ingredientDTOMap.get(ingredient.getName());
-            if(volume != null)
-                ingredient.deductionVolume(volume);
-        });
-    }
-
-    public void IngredientsEmptyCheck(List<Ingredient> ingredientList) {
-        if (ingredientList.size() == 0)
-            throw new BusinessException(EMPTY_INGREDIENT_LIST);
-    }
-
-    public Map<String, Double> toIngredientMap(List<IngredientDeductionDTO> ingredientDeductionDTOS){
-        return ingredientDeductionDTOS.stream().collect(Collectors
-                .toMap(IngredientDeductionDTO::getName, IngredientDeductionDTO::getVolume));
-    }
-
-    public List<Ingredient> extractAvailableIngredients(LocalDate now, List<Ingredient> ingredientList) {
-
-        List<Ingredient> availableIngredients = ingredientList.stream()
-                .filter(i -> ChronoUnit.DAYS.between(now, i.getExpirationDate()) >= 0)
-                .collect(Collectors.toList());
-
-        return availableIngredients;
-    }
-
-    public void dtoContainCheckBySafeIngredient(Map<String, Double> ingredientDTOMap, List<String> availableIngredientsNameList) {
-        for (String name : ingredientDTOMap.keySet()) {
-            if(!availableIngredientsNameList.contains(name))
-                throw new BusinessException(EXCEEDED_EXPIRATION_DATE);
-        }
+    public void deduction(String memberId, List<IngredientDeductionDTO> recipeIngredients) {
+        MyIngredientCollection myIngredients = findMyIngredientMapPort.getMap(memberId, currentTime.now());
+        myIngredients.deductByRecipeIngredient(recipeIngredients);
+        myIngredients.updateMyIngredientVolume(updateIngredientVolumePort);
     }
 }

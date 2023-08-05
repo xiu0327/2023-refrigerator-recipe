@@ -39,6 +39,7 @@ public class SecurityConfig {
         setOauth(http);
         setAuth(http);
         setComment(http);
+        setIngredient(http);
         setIdentification(http);
         setMember(http);
         setRecipe(http);
@@ -47,6 +48,7 @@ public class SecurityConfig {
         setJwtFilter(http);
         return http.build();
     }
+
 
     private void setJwtFilter(HttpSecurity http) {
         http.addFilterBefore(
@@ -73,6 +75,12 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .mvcMatchers("/api/recipe/search/word-completion").permitAll()
                 .mvcMatchers("/api/ingredient/search/word-completion").permitAll();
+    }
+
+    private void setIngredient(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .mvcMatchers("/api/ingredients/search/unit").permitAll();
     }
 
     private void setRecipe(HttpSecurity http) throws Exception {

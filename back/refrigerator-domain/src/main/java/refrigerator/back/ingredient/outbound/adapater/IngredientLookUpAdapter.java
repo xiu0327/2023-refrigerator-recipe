@@ -62,8 +62,8 @@ public class IngredientLookUpAdapter implements FindIngredientListPort, FindIngr
 
     @Override
     public List<IngredientDTO> getIngredientListOfAll(String email) {
-        return mapper(ingredientLookUpQueryRepository
-                .findIngredientListOfAll(email));
+        List<OutIngredientDTO> data = ingredientLookUpQueryRepository.findIngredientListOfAll(email);
+        return mapper(data);
     }
 
     @Override

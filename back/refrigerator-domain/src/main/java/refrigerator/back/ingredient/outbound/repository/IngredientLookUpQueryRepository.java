@@ -4,14 +4,12 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.outbound.dto.OutIngredientDTO;
-import refrigerator.back.ingredient.outbound.dto.OutIngredientDetailDTO;
-import refrigerator.back.ingredient.outbound.dto.QOutIngredientDTO;
-import refrigerator.back.ingredient.outbound.dto.QOutIngredientDetailDTO;
+import refrigerator.back.ingredient.outbound.dto.*;
 import refrigerator.back.ingredient.application.domain.*;
 import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
@@ -26,9 +24,25 @@ import static refrigerator.back.ingredient.application.domain.QIngredientImage.i
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class IngredientLookUpQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
+
+    public List<OutMyIngredientDto> selectMyIngredients(String memberId, LocalDate now){
+        return jpaQueryFactory
+                .select(new QOutMyIngredientDto(
+                        ingredient.id,
+                        ingredient.name,
+                        ingredient.capacity,
+                        ingredient.capacityUnit
+                ))
+                .from(ingredient)
+                .where(emailCheck(memberId),
+                        ingredient.deleted.eq(false),
+                        ingredient.expirationDate.goe(now))
+                .fetch();
+    }
 
     public List<OutIngredientDTO> findIngredientList(LocalDate now, IngredientSearchCondition condition, Pageable pageable) {
 

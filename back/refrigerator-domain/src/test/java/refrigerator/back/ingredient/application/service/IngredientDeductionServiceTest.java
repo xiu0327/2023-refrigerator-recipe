@@ -10,8 +10,11 @@ import refrigerator.back.global.exception.BusinessException;
 import refrigerator.back.global.time.CurrentTime;
 import refrigerator.back.ingredient.application.domain.Ingredient;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
+import refrigerator.back.ingredient.application.domain.MyIngredientCollection;
 import refrigerator.back.ingredient.application.dto.IngredientDeductionDTO;
+import refrigerator.back.ingredient.application.dto.MyIngredientDto;
 import refrigerator.back.ingredient.application.port.out.ingredient.lookUp.FindIngredientListPort;
+import refrigerator.back.ingredient.application.port.out.ingredient.update.UpdateIngredientVolumePort;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,216 +25,83 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-@ExtendWith(MockitoExtension.class)
+/**
+ * 2023.08.05 update
+ * 유통기한이 지난 식재료 검사 -> Service 단계가 아닌 쿼리문에서 expireDate 가 현재 날짜보다 큰 식재료만 조회함
+ * 자세한 쿼리 조건은 SelectMyIngredientQueryTest 참고
+ */
 class IngredientDeductionServiceTest {
 
-    @InjectMocks IngredientDeductionService ingredientDeductionService;
-
-    @Mock FindIngredientListPort findIngredientListPort;
-
-    @Mock CurrentTime<LocalDate> currentTime;
+    public static int count;
 
     @Test
     @DisplayName("식재료 차감 : 기존 용량이 차감 용량보다 큰 경우")
     void deductionTest_case1() {
-
         // given
-        String memberId = "email123@gmail.com";
-        LocalDate now = LocalDate.of(2022, 12, 31);
-        LocalDate expirationDate = LocalDate.of(2023,1,1);
-
-        List<Ingredient> ingredients = new ArrayList<>(List.of(Ingredient.builder()
+        MyIngredientDto myIngredient = MyIngredientDto.builder()
                 .id(1L)
                 .name("감자")
-                .registrationDate(now)
-                .expirationDate(expirationDate)
-                .capacity(30.0)
-                .capacityUnit("g")
-                .image(1)
-                .deleted(false)
-                .storageMethod(IngredientStorageType.FRIDGE)
-                .email(memberId)
-                .build()));
-
-        given(findIngredientListPort.getIngredients(memberId))
-                .willReturn(ingredients);
-
-        given(currentTime.now())
-                .willReturn(now);
-
-        List<IngredientDeductionDTO> dtos = new ArrayList<>(List.of(IngredientDeductionDTO.builder()
+                .volume(30.0)
+                .unit("g")
+                .build();
+        IngredientDeductionDTO recipeIngredient = IngredientDeductionDTO.builder()
                 .unit("g")
                 .name("감자")
                 .volume(15.0)
-                .build()));
-
+                .build();
         // when
-        ingredientDeductionService.deduction(memberId, dtos);
-
+        myIngredient.deduct(recipeIngredient);
         // then
-        assertThat(findIngredientListPort.getIngredients(memberId).get(0).getCapacity())
-                .isEqualTo(15.0);
+        assertThat(myIngredient.getVolume()).isEqualTo(15.0);
     }
     
     @Test
-    @DisplayName("식재료 차감 : 기존 용량이 차감 용량보다 작은 경우")
+    @DisplayName("식재료 차감 : 기존 용량이 차감 용량보다 작은 경우 -> 기존 용량 모두 차감")
     void deductionTest_case2() {
-
         // given
-        String memberId = "email123@gmail.com";
-        LocalDate now = LocalDate.of(2022, 12, 31);
-        LocalDate expirationDate = LocalDate.of(2023,1,1);
-
-        List<Ingredient> ingredients = new ArrayList<>(List.of(Ingredient.builder()
+        MyIngredientDto myIngredient = MyIngredientDto.builder()
                 .id(1L)
                 .name("감자")
-                .registrationDate(now)
-                .expirationDate(expirationDate)
-                .capacity(30.0)
-                .capacityUnit("g")
-                .image(1)
-                .deleted(false)
-                .storageMethod(IngredientStorageType.FRIDGE)
-                .email(memberId)
-                .build()));
-        
-        given(findIngredientListPort.getIngredients(memberId))
-                .willReturn(ingredients);
-
-        given(currentTime.now())
-                .willReturn(now);
-
-        List<IngredientDeductionDTO> dtos = new ArrayList<>(List.of(IngredientDeductionDTO.builder()
+                .volume(30.0)
                 .unit("g")
-                .name("감자")
-                .volume(40.0)
-                .build()));
-
-        // when
-        ingredientDeductionService.deduction(memberId, dtos);
-
-        // then
-        assertThat(findIngredientListPort.getIngredients(memberId).get(0).getCapacity())
-                .isEqualTo(0.0);
-    }
-
-    @Test
-    @DisplayName("식재료 차감 실패 : 유통기한 지난 식재료")
-    void deductionTest_case3() {
-
-        // given
-        String memberId = "email123@gmail.com";
-        LocalDate now = LocalDate.of(2023, 1, 2);
-        LocalDate expirationDate = LocalDate.of(2023,1,1);
-
-        List<Ingredient> ingredients = new ArrayList<>(List.of(Ingredient.builder()
-                .id(1L)
-                .name("감자")
-                .registrationDate(expirationDate)
-                .expirationDate(expirationDate)
-                .capacity(30.0)
-                .capacityUnit("g")
-                .image(1)
-                .deleted(false)
-                .storageMethod(IngredientStorageType.FRIDGE)
-                .email(memberId)
-                .build()));
-
-        given(findIngredientListPort.getIngredients(memberId))
-                .willReturn(ingredients);
-
-        given(currentTime.now())
-                .willReturn(now);
-
-        List<IngredientDeductionDTO> dtos = new ArrayList<>(List.of(IngredientDeductionDTO.builder()
-                .unit("g")
-                .name("감자")
-                .volume(40.0)
-                .build()));
-
-        // when, then
-        assertThatThrownBy(() -> ingredientDeductionService.deduction(memberId, dtos))
-                .isInstanceOf(BusinessException.class);
-    }
-
-    @Test
-    @DisplayName("식재료 리스트 비어있는지 체크")
-    void ingredientsEmptyCheckTest() {
-        // given
-        String memberId = "email123@gmail.com";
-        given(findIngredientListPort.getIngredients(memberId))
-                .willReturn(new ArrayList<>());
-
-        // when, then
-        assertThatThrownBy(() -> ingredientDeductionService
-                .IngredientsEmptyCheck(findIngredientListPort.getIngredients(memberId)))
-                .isInstanceOf(BusinessException.class);
-    }
-
-    @Test
-    @DisplayName("식재료 List -> Map 변환 체크")
-    void toIngredientMapTest() {
-        // given
-        IngredientDeductionDTO dto = IngredientDeductionDTO.builder()
+                .build();
+        IngredientDeductionDTO recipeIngredient = IngredientDeductionDTO.builder()
                 .unit("g")
                 .name("감자")
                 .volume(40.0)
                 .build();
-
-        List<IngredientDeductionDTO> dtos = new ArrayList<>(List.of(dto));
-
         // when
-        Map<String, Double> map = ingredientDeductionService.toIngredientMap(dtos);
-
+        myIngredient.deduct(recipeIngredient);
         // then
-        assertThat(map.containsKey(dto.getName())).isTrue();
-        assertThat(map.get(dto.getName())).isEqualTo(40.0);
+        assertThat(myIngredient.getVolume()).isEqualTo(0.0);
     }
 
     @Test
-    @DisplayName("식재료 목록 중 유톻기한이 지나지 않은 식재료 추출")
-    void extractAvailableIngredientsTest() {
+    @DisplayName("식재료 리스트 비어있는지 체크 -> 비어있는 Map으로 collection 생성 시 에러 발생")
+    void ingredientsEmptyCheckTest() {
+        assertThatThrownBy(() -> {
+            MyIngredientCollection myIngredients = new MyIngredientCollection(new HashMap<>());
+        }).isInstanceOf(BusinessException.class);
+    }
 
+    @Test
+    @DisplayName("용량이 변경된 식재료만 update 쿼리 실행")
+    void updateToVolume(){
         // given
-        LocalDate now = LocalDate.of(2023,1,2);
-
-        Ingredient.IngredientBuilder builder = Ingredient.builder()
-                .id(1L)
-                .registrationDate(now.minusDays(1))
-                .capacity(30.0)
-                .capacityUnit("g")
-                .image(1)
-                .deleted(false)
-                .storageMethod(IngredientStorageType.FRIDGE)
-                .email("email123@gmail.com");
-
-        List<Ingredient> ingredients = new ArrayList<>();
-
-        ingredients.add(builder.name("감자").expirationDate(now.minusDays(1)).build());
-        ingredients.add(builder.name("고구마").expirationDate(now.plusDays(1)).build());
-
+        UpdateIngredientVolumePort port = (id, volume) -> count++;
+        MyIngredientCollection myIngredientCollection = new MyIngredientCollection(getMyIngredients());
         // when
-        List<Ingredient> availableIngredients = ingredientDeductionService.extractAvailableIngredients(now, ingredients);
-
+        myIngredientCollection.updateMyIngredientVolume(port);
         // then
-        assertThat(availableIngredients.size()).isEqualTo(1);
-        assertThat(availableIngredients.get(0).getName()).isEqualTo("고구마");
+        assertThat(count).isEqualTo(1);
     }
 
-    @Test
-    @DisplayName("dto의 식재료가 내 식재료 목록에 모두 포함되는지 체크")
-    void dtoContainCheckBySafeIngredientTest() {
-
-        //given
-        List<String> ingredients = new ArrayList<>(List.of("감자", "고구마"));
-
-        Map<String, Double> ingredientDTOMap = new HashMap<>();
-        ingredientDTOMap.put("감자", 40.0);
-        ingredientDTOMap.put("자색고구마", 40.0);
-
-        // when, then
-        assertThatThrownBy(() -> ingredientDeductionService
-                .dtoContainCheckBySafeIngredient(ingredientDTOMap, ingredients))
-                .isInstanceOf(BusinessException.class);
+    private Map<String, MyIngredientDto> getMyIngredients() {
+        Map<String, MyIngredientDto> myIngredients = new HashMap<>();
+        myIngredients.put("안심", new MyIngredientDto(1L, "안심", 20.0, "g", true));
+        myIngredients.put("콩나물", new MyIngredientDto(2L, "콩나물", 20.0, "g", false));
+        myIngredients.put("소고기", new MyIngredientDto(3L, "소고기", 20.0, "g", false));
+        return myIngredients;
     }
+
 }

@@ -33,7 +33,7 @@ public class IngredientUpdateController {
 
     private final GetMemberEmailUseCase memberInformation;
 
-    @PostMapping("/api/ingredients")
+    @PostMapping("/api/ingredients/register")
     @ResponseStatus(HttpStatus.CREATED)
     public IngredientRegisterDTO registerIngredient(@RequestBody @Valid IngredientRegisterRequestDTO request, BindingResult bindingResult) {
         check(bindingResult, NOT_VALID_REQUEST_BODY);
@@ -44,25 +44,26 @@ public class IngredientUpdateController {
                                                                ingredientUnit.getUnit(), request.getStorage(), ingredientUnit.getImage(), memberInformation.getMemberEmail());
     }
 
-    @PutMapping("/api/ingredients/{ingredientId}")
+    @PutMapping("/api/ingredients/{ingredientId}/modify")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifyIngredient(@PathVariable("ingredientId") Long id, @RequestBody @Valid IngredientUpdateRequestDTO request, BindingResult bindingResult) {
+    public void modifyIngredient(@PathVariable("ingredientId") Long id,
+                                 @RequestBody @Valid IngredientUpdateRequestDTO request,
+                                 BindingResult bindingResult) {
         check(bindingResult, NOT_VALID_REQUEST_BODY);
 
         modifyIngredientUseCase.modifyIngredient(id, request.getExpirationDate(), request.getVolume(), request.getStorage());
     }
 
-    @DeleteMapping("/api/ingredients/{ingredientId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeIngredient(@PathVariable("ingredientId") Long id) {
-        removeIngredientUseCase.removeIngredient(id);
-    }
+//    @DeleteMapping("/api/ingredients/{ingredientId}/delete")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void removeIngredient(@PathVariable("ingredientId") Long id) {
+//        removeIngredientUseCase.removeIngredient(id);
+//    }
 
-    @DeleteMapping("/api/ingredients")
+    @DeleteMapping("/api/ingredients/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeAllIngredient(@RequestBody @Valid BasicListResponseDTO<Long> request, BindingResult bindingResult) {
         check(bindingResult, NOT_VALID_REQUEST_BODY);
-
         removeIngredientUseCase.removeAllIngredients(request.getData());
     }
 }
