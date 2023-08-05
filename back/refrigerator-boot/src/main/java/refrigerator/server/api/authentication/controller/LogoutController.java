@@ -1,5 +1,6 @@
 package refrigerator.server.api.authentication.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,6 +26,7 @@ public class LogoutController {
         RefreshTokenCookie refreshTokenCookie = new RefreshTokenCookie();
         String refreshToken = refreshTokenCookie.get(request.getCookies()).getValue();
         restrictAccessUseCase.restrictAccessToTokens(refreshToken);
+        response.setHeader(HttpHeaders.AUTHORIZATION, "");
         response.addCookie(refreshTokenCookie.delete());
     }
 }

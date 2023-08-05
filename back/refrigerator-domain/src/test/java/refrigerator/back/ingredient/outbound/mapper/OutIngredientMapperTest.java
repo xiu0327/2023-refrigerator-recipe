@@ -3,11 +3,13 @@ package refrigerator.back.ingredient.outbound.mapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+import refrigerator.back.ingredient.application.dto.MyIngredientDto;
 import refrigerator.back.ingredient.outbound.dto.OutIngredientDTO;
 import refrigerator.back.ingredient.outbound.dto.OutIngredientDetailDTO;
 import refrigerator.back.ingredient.application.domain.IngredientStorageType;
 import refrigerator.back.ingredient.application.dto.IngredientDTO;
 import refrigerator.back.ingredient.application.dto.IngredientDetailDTO;
+import refrigerator.back.ingredient.outbound.dto.OutMyIngredientDto;
 
 import java.time.LocalDate;
 
@@ -63,5 +65,24 @@ class OutIngredientMapperTest {
         assertThat(dto.getImage()).isEqualTo("/url/test.png");
         assertThat(dto.getExpirationDate()).isEqualTo(LocalDate.of(2023,1,1));
         assertThat(dto.getRemainDays()).isNull();
+    }
+
+    @Test
+    @DisplayName("OutMyIngredientDto -> MyIngredientDto")
+    void toMyIngredientDto(){
+        Long id = 1L;
+        String name = "name";
+        Double volume = 20.2;
+        String unit = "unit";
+        OutMyIngredientDto outMyIngredientDto = new OutMyIngredientDto(id, name, volume, unit);
+        MyIngredientDto result = outIngredientMapper.toMyIngredientDto(outMyIngredientDto, false);
+        MyIngredientDto expected = MyIngredientDto.builder()
+                .id(id)
+                .name(name)
+                .volume(volume)
+                .unit(unit)
+                .modifyState(false)
+                .build();
+        assertThat(result).isEqualTo(expected);
     }
 }

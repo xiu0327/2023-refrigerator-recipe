@@ -60,7 +60,7 @@ public class Ingredient {
         this.deleted = false;
     }
 
-    public Ingredient(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
+    private Ingredient(String name, LocalDate expirationDate, LocalDate registrationDate, Double capacity, String capacityUnit, IngredientStorageType storageMethod, Integer imageId, String email) {
         this.name = name;
         this.expirationDate = expirationDate;
         this.capacity = capacity;

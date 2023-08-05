@@ -16,8 +16,8 @@ public class OwnedRecipeIngredientController {
     private final MatchIngredientByRecipeUseCase matchIngredientByRecipeUseCase;
     private final GetMemberEmailUseCase memberInformation;
 
-    @GetMapping("/api/ingredients/owned/{recipeId}")
-    public BasicListResponseDTO<Long> getOwnedRecipeIngredients(@PathVariable("recipeId") Long recipeId){
-        return new BasicListResponseDTO<>(matchIngredientByRecipeUseCase.getIngredientIds(memberInformation.getMemberEmail(), recipeId));
-    }
+//    @GetMapping("/api/ingredients/owned/{recipeId}")
+//    public BasicListResponseDTO<Long> getOwnedRecipeIngredients(@PathVariable("recipeId") Long recipeId){
+//        return new BasicListResponseDTO<>(matchIngredientByRecipeUseCase.getIngredientIds(memberInformation.getMemberEmail(), recipeId));
+//    }
 }

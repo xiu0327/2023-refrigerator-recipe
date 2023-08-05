@@ -34,7 +34,8 @@ public class IngredientDeductionController {
     private final InIngredientMapper mapper;
 
     @PutMapping("/api/ingredients/deduction")
-    public void deductionIngredientVolume(@RequestBody @Valid BasicListRequestDTO<IngredientDeductionRequestDTO> request, BindingResult bindingResult){
+    public void deductionIngredientVolume(@RequestBody @Valid BasicListRequestDTO<IngredientDeductionRequestDTO> request,
+                                          BindingResult bindingResult){
         check(bindingResult, NOT_VALID_REQUEST_BODY);
 
         List<IngredientDeductionDTO> dtos = request.getData().stream()
