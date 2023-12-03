@@ -12,6 +12,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import refrigerator.back.global.exception.BasicHttpMethod;
@@ -27,20 +28,23 @@ import refrigerator.batch.common.querydsl.reader.QuerydslNoOffsetPagingItemReade
 import refrigerator.batch.common.querydsl.reader.QuerydslPagingItemReader;
 import refrigerator.batch.dto.OutIngredientGroupDTO;
 import refrigerator.batch.dto.QOutIngredientGroupDTO;
+import refrigerator.batch.jabParameter.CreateDateJobParameter;
 
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static java.time.LocalDate.from;
-import static java.time.format.DateTimeFormatter.ofPattern;
 import static refrigerator.back.ingredient.application.domain.QIngredient.ingredient;
 import static refrigerator.back.member.application.domain.QMember.member;
 
 @RequiredArgsConstructor
 @Configuration
 @Slf4j
+@ConditionalOnProperty(name = "job.name", havingValue = "scheduleBatch_Job")
 public class NotificationScheduleConfig {
+
+    public static final String BATCH_NAME = "scheduleBatch";
+    public static final String JOB_NAME = BATCH_NAME + "_Job";
 
     private final EntityManagerFactory entityManagerFactory;
     private final JobBuilderFactory jobBuilderFactory;
@@ -51,12 +55,20 @@ public class NotificationScheduleConfig {
 
     private final CurrentTime<LocalDateTime> currentTime;
 
+    private final CreateDateJobParameter jobParameter;
+
     @Value("${chunkSize:1000}")
     private int chunkSize = 1000;
 
-    @Bean
+    @Bean(name = BATCH_NAME + "jobParameter")
+    @JobScope
+    public CreateDateJobParameter jobParameter() {
+        return new CreateDateJobParameter();
+    }
+
+    @Bean(name = JOB_NAME)
     public Job scheduleJob(){
-        return jobBuilderFactory.get("scheduleJob")
+        return jobBuilderFactory.get(JOB_NAME)
                 .preventRestart()
                 .start(deleteNotificationStep())
                 .next(createDeadlineNotificationByOneStep())
@@ -74,11 +86,13 @@ public class NotificationScheduleConfig {
 
                     deleteNotificationBatchPort.deleteNotification(true, currentTime.now());
                     deleteNotificationBatchPort.deleteNotification(false, currentTime.now().minusDays(14));
-                    
+
                     return RepeatStatus.FINISHED;
                 })
                 .build();
     }
+
+    /////////////////////////////////////////////////////////////////
 
     // 임박 식재료 알림 생성 Step (1일)
     @Bean
@@ -86,7 +100,7 @@ public class NotificationScheduleConfig {
     public Step createDeadlineNotificationByOneStep() {
         return stepBuilderFactory.get("createDeadlineNotificationStep")
                 .<OutIngredientGroupDTO, Notification> chunk(chunkSize)
-                .reader(createDeadlineNotificationByOneReader(null))
+                .reader(createDeadlineNotificationByOneReader())
                 .processor(createDeadlineNotificationByOneProcessor())
                 .writer(createDeadlineNotificationWriter())
                 .build();
@@ -94,10 +108,9 @@ public class NotificationScheduleConfig {
 
     @Bean
     @StepScope
-    public QuerydslPagingItemReader<OutIngredientGroupDTO> createDeadlineNotificationByOneReader(
-                                                                        @Value("#{jobParameters['date']}") String date) {
+    public QuerydslPagingItemReader<OutIngredientGroupDTO> createDeadlineNotificationByOneReader() {
 
-        LocalDate localDate = from(LocalDateTime.parse(date, ofPattern("yyyy-MM-dd HH:mm:ss:SSS")));
+        LocalDate localDate = jobParameter.getCreateDate();
 
         QuerydslNoOffsetStringOptions<OutIngredientGroupDTO> options = new QuerydslNoOffsetStringOptions<>(ingredient.email, Expression.ASC);
 
@@ -135,13 +148,15 @@ public class NotificationScheduleConfig {
         };
     }
 
+    /////////////////////////////////////////////////////////////////
+
     // 임박 식재료 알림 생성 Step (3일)
     @Bean
     @JobScope
     public Step createDeadlineNotificationByThreeStep() {
         return stepBuilderFactory.get("createDeadlineNotificationStep")
                 .<OutIngredientGroupDTO, Notification> chunk(chunkSize)
-                .reader(createDeadlineNotificationByThreeReader(null))
+                .reader(createDeadlineNotificationByThreeReader())
                 .processor(createDeadlineNotificationByThreeProcessor())
                 .writer(createDeadlineNotificationWriter())
                 .build();
@@ -149,10 +164,9 @@ public class NotificationScheduleConfig {
 
     @Bean
     @StepScope
-    public QuerydslNoOffsetPagingItemReader<OutIngredientGroupDTO> createDeadlineNotificationByThreeReader(
-                                                                        @Value("#{jobParameters['date']}") String date) {
+    public QuerydslNoOffsetPagingItemReader<OutIngredientGroupDTO> createDeadlineNotificationByThreeReader() {
 
-        LocalDate localDate = from(LocalDateTime.parse(date, ofPattern("yyyy-MM-dd HH:mm:ss:SSS")));
+        LocalDate localDate = jobParameter.getCreateDate();
 
         QuerydslNoOffsetStringOptions<OutIngredientGroupDTO> options = new QuerydslNoOffsetStringOptions<>(ingredient.email, Expression.ASC);
 
@@ -184,7 +198,7 @@ public class NotificationScheduleConfig {
                     BasicHttpMethod.GET.name(),
                     currentTime.now()
             );
-            notification.createExpirationDateMessage(dto.getName(), dto.getCount() - 1, 3);
+            notification.createExpirationDateMessage(dto.getName(), dto.getCount(), 3);
             return notification;
         };
     }

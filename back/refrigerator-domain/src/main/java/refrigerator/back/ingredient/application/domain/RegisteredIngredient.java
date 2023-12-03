@@ -27,4 +27,11 @@ public class RegisteredIngredient implements Serializable {
     @Column(name = "image", nullable = false)
     private Integer image;
 
+    public static RegisteredIngredient create(String name, String unit, Integer image){
+        return RegisteredIngredient.builder()
+                .name(name)
+                .unit(unit)
+                .image(image)
+                .build();
+    }
 }

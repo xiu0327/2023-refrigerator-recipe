@@ -1,8 +1,10 @@
 package refrigerator.back.mybookmark.outbound.repository.query;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
@@ -12,10 +14,13 @@ import refrigerator.back.mybookmark.application.domain.MyBookmark;
 
 import java.time.LocalDateTime;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Import({QuerydslConfig.class, MyBookmarkDeleteQueryRepository.class})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Slf4j
 class MyBookmarkDeleteQueryRepositoryTest {
 
     @Autowired MyBookmarkDeleteQueryRepository queryRepository;
@@ -53,5 +58,22 @@ class MyBookmarkDeleteQueryRepositoryTest {
         assertEquals(WriteQueryResultType.DUPLICATION, result);
         assertNull(em.find(MyBookmark.class, id1));
         assertNull(em.find(MyBookmark.class, id2));
+    }
+
+    @Test
+    @DisplayName("MyBookmark 삭제 테스트")
+    void deleteMyBookmarkByDeletedStatus() {
+
+        String email = "email123@gmail.com";
+
+        LocalDateTime now = LocalDateTime.of(2023,1,1,0,0,0);
+
+        MyBookmark bookmark = MyBookmark
+                .createForTest(email, 1L, true, now);
+
+        em.persist(bookmark);
+
+        assertThat(queryRepository.deleteMyBookmarkByDeletedStatus())
+                .isEqualTo(1L);
     }
 }

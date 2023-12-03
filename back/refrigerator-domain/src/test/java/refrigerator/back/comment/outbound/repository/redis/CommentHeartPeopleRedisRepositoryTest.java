@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataRedisTest
@@ -48,5 +49,18 @@ class CommentHeartPeopleRedisRepositoryTest {
         List<CommentHeartPeople> result = repository.findByMemberId("email");
         // then
         assertEquals(2, result.size());
+    }
+
+    @Test
+    void findByCommentIdTest(){
+        // given
+        CommentHeartPeople people1 = new CommentHeartPeople("id1", 1L, "email1");
+        CommentHeartPeople people2 = new CommentHeartPeople("id2", 1L, "email2");
+        repository.saveAll(Arrays.asList(people1, people2));
+
+        // when
+        List<CommentHeartPeople> commentHeartPeople = repository.findByCommentId(1L);
+
+        assertThat(commentHeartPeople.size()).isEqualTo(2);
     }
 }

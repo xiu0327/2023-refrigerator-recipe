@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static refrigerator.back.comment.application.domain.QComment.comment;
 import static refrigerator.back.comment.application.domain.QCommentHeart.commentHeart;
 
 @Component
@@ -27,6 +28,25 @@ public class CommentBatchQueryRepository {
         em.clear();
 
         return execute;
+    }
+
+    public Long deleteComment() {
+
+        long execute = jpaQueryFactory.delete(comment)
+                .where(comment.commentRecord.deletedState.eq(true))
+                .execute();
+
+        em.flush();
+        em.clear();
+
+        return execute;
+    }
+
+    public List<Long> findDeletedComment() {
+        return jpaQueryFactory.select(comment.commentId)
+                .from(comment)
+                .where(comment.commentRecord.deletedState.eq(true))
+                .fetch();
     }
 }
 

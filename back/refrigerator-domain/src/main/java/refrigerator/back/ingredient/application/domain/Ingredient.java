@@ -3,7 +3,6 @@ package refrigerator.back.ingredient.application.domain;
 
 import lombok.*;
 import refrigerator.back.global.exception.BusinessException;
-import refrigerator.back.ingredient.exception.IngredientExceptionType;
 
 import javax.persistence.*;
 import java.time.LocalDate;

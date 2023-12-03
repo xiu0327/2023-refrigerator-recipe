@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface CommentHeartPeopleRedisRepository extends CrudRepository<CommentHeartPeople, String> {
     Optional<CommentHeartPeople> findByCommentIdAndMemberId(Long commentId, String memberId);
     List<CommentHeartPeople> findByMemberId(String memberId);
+    List<CommentHeartPeople> findByCommentId(Long commentId);
 }

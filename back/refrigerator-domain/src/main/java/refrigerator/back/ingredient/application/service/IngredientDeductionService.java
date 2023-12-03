@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 
 import static refrigerator.back.ingredient.exception.IngredientExceptionType.*;
 
-// TODO : 벌크 연산으로 바꿔야 할지도 모르겠음
-
 @Service
 @RequiredArgsConstructor
 @Transactional

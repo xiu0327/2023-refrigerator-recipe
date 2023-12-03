@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -25,36 +26,18 @@ public class JobScheduler {
     @Autowired
     private Job scheduleJob;
 
-    //@Autowired
-    //private Job periodicDeleteScheduleJob;
-
     @Scheduled(cron = "0 0 0 * * *")
     public void jobScheduled() throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
-                                JobRestartException, JobInstanceAlreadyCompleteException {
-
-        Map<String, JobParameter> jobParameterMap = new HashMap<>();
-
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
-
-        jobParameterMap.put("date", new JobParameter(LocalDateTime.now().format(format)));
-
-        JobParameters parameters = new JobParameters(jobParameterMap);
-
-        JobExecution jobExecution = jobLauncher.run(scheduleJob, parameters);
-    }
-
-    //@Scheduled(cron = "0 0 0 1,15 * *")
-    public void deleteScheduled() throws JobParametersInvalidException, JobExecutionAlreadyRunningException,
             JobRestartException, JobInstanceAlreadyCompleteException {
 
         Map<String, JobParameter> jobParameterMap = new HashMap<>();
 
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        jobParameterMap.put("date", new JobParameter(LocalDateTime.now().format(format)));
+        jobParameterMap.put("createDate", new JobParameter(LocalDateTime.now().format(format)));
 
         JobParameters parameters = new JobParameters(jobParameterMap);
 
-        //JobExecution jobExecution = jobLauncher.run(periodicDeleteScheduleJob, parameters);
+        JobExecution jobExecution = jobLauncher.run(scheduleJob, parameters);
     }
 }

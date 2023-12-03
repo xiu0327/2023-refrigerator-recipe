@@ -94,6 +94,33 @@ public class IngredientUpdateQueryRepositoryTest {
     }
 
     @Test
+    @DisplayName("식재료 삭제 테스트")
+    void deleteIngredientsTest(){
+
+        LocalDate now2 = LocalDate.of(2023,1,1);
+
+        String email = "email123@gmail.com";
+
+        Ingredient ingredient = Ingredient.builder()
+                .name("감자")
+                .image(1)
+                .email(email)
+                .capacity(30.0)
+                .capacityUnit("g")
+                .deleted(true)
+                .registrationDate(now2)
+                .storageMethod(IngredientStorageType.FRIDGE)
+                .expirationDate(now2.plusDays(1))
+                .build();
+
+        em.persist(ingredient);
+
+        assertThat(ingredientUpdateQueryRepository.deleteIngredients())
+                .isEqualTo(1L);
+
+    }
+
+    @Test
     @DisplayName("deleted 상태인 식재료 데이터 모두 삭제")
     void deleteIngredientsTest() {
 

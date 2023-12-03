@@ -12,6 +12,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import refrigerator.back.global.exception.BasicHttpMethod;
@@ -37,7 +38,11 @@ import static refrigerator.back.member.application.domain.QMember.member;
 @RequiredArgsConstructor
 @Configuration
 @Slf4j
+@ConditionalOnProperty(name = "job.name", havingValue = "updateIngredientBatch_Job")
 public class NotificationAddIngredientConfig {
+
+    public static final String BATCH_NAME = "updateIngredientBatch";
+    public static final String JOB_NAME = BATCH_NAME + "_Job";
 
     private final EntityManagerFactory entityManagerFactory;
     private final JobBuilderFactory jobBuilderFactory;
@@ -51,10 +56,9 @@ public class NotificationAddIngredientConfig {
     @Value("${chunkSize:1000}")
     private int chunkSize = 1000;
 
-
-    @Bean
+    @Bean(name = JOB_NAME)
     public Job updateIngredientJob() {
-        return jobBuilderFactory.get("updateIngredientJob")
+        return jobBuilderFactory.get(JOB_NAME)
                 .preventRestart()
                 .start(updateIngredientStep())
                 .next(deleteSuggestedIngredientStep(null))
@@ -66,7 +70,8 @@ public class NotificationAddIngredientConfig {
     public Step deleteSuggestedIngredientStep(@Value("#{jobParameters['name']}") String name) {
         return stepBuilderFactory.get("deleteSuggestedIngredientStep")
                 .tasklet((contribution, chunkContext) -> {
-                    deleteIngredientBatchPort.deleteSuggestedIngredient(name);
+                    Long aLong = deleteIngredientBatchPort.deleteSuggestedIngredient(name);
+                    log.info("along : {}", aLong);
                     return RepeatStatus.FINISHED;
                 })
                 .build();
@@ -78,7 +83,7 @@ public class NotificationAddIngredientConfig {
         return stepBuilderFactory.get("updateIngredientStep")
                 .<SuggestedIngredient, Notification>chunk(chunkSize)
                 .reader(updateIngredientReader(null))
-                .processor(updateIngredientProcessor(null,null))
+                .processor(updateIngredientProcessor(null))
                 .writer(updateIngredientWriter())
                 .build();
     }
@@ -100,8 +105,7 @@ public class NotificationAddIngredientConfig {
 
     @Bean
     @StepScope
-    public ItemProcessor<SuggestedIngredient, Notification> updateIngredientProcessor(@Value("#{jobParameters['name']}") String name,
-                                                                                      @Value("#{jobParameters['id']}") Long id) {
+    public ItemProcessor<SuggestedIngredient, Notification> updateIngredientProcessor(@Value("#{jobParameters['name']}") String name) {
 
         return suggestedIngredient -> {
 

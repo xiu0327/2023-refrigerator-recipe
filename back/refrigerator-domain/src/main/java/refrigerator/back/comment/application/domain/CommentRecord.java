@@ -30,6 +30,13 @@ public class CommentRecord {
         this.modifiedState = false;
     }
 
+    public CommentRecord(LocalDateTime createDateTime, Boolean deletedState, Boolean modifiedState) {
+        this.createDateTime = createDateTime;
+        this.lastModifiedDateTime = createDateTime;
+        this.deletedState = deletedState;
+        this.modifiedState = modifiedState;
+    }
+
     public LocalDateTime isModified(){
         if (modifiedState){
             return lastModifiedDateTime;

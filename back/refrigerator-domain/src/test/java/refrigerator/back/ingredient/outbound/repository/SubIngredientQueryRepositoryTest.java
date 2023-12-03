@@ -81,4 +81,60 @@ class SubIngredientQueryRepositoryTest {
 
         assertThat(list.size()).isEqualTo(8);
     }
+
+    @Test
+    @DisplayName("이름에 따른 요청 식재료 삭제")
+    void deleteSuggestedIngredientTest() {
+
+        //given
+        String name = "감자";
+
+        SuggestedIngredient.SuggestedIngredientBuilder builder = SuggestedIngredient.builder()
+                .name(name)
+                .unit("g");
+
+        em.persist(builder.email("email123@gmail.com").build());
+        em.persist(builder.email("email234@gmail.com").build());
+        em.persist(builder.email("email345gmail.com").build());
+        em.persist(builder.email("email456@gmail.com").build());
+
+        // when
+        Long execute = subIngredientQueryRepository.deleteSuggestedIngredient(name);
+
+        // then
+        assertThat(execute).isEqualTo(4);
+    }
+
+    @Test
+    void findUnitNameTest(){
+
+        String name = "감자";
+
+        SuggestedIngredient.SuggestedIngredientBuilder builder = SuggestedIngredient.builder()
+                .name(name)
+                .email("email123@gmail.com");
+
+        em.persist(builder.unit("g").build());
+        em.persist(builder.unit("g").build());
+        em.persist(builder.unit("g").build());
+        em.persist(builder.unit("g").build());
+        em.persist(builder.unit("g").build());
+        em.persist(builder.unit("개").build());
+        em.persist(builder.unit("개").build());
+        em.persist(builder.unit("개").build());
+        em.persist(builder.unit("개").build());
+        em.persist(builder.unit("ml").build());
+        em.persist(builder.unit("ml").build());
+        em.persist(builder.unit("ml").build());
+        em.persist(builder.unit("장").build());
+        em.persist(builder.unit("장").build());
+        em.persist(builder.unit("대").build());
+
+        subIngredientQueryRepository.findUnitName(name).ifPresent(
+                unitName -> {
+                    log.info("enter");
+                    assertThat(unitName).isEqualTo("g");
+                }
+        );
+    }
 }

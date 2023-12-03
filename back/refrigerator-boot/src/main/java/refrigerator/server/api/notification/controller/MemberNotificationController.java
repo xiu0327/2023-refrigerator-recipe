@@ -19,8 +19,6 @@ public class MemberNotificationController {
     private final TurnOffMemberNotificationSignUseCase turnOffMemberNotificationSignUseCase;
 
     private final GetMemberEmailUseCase memberInformation;
-
-    // TODO : api path가 너무 별로임 수정해야할 것 같음
     
     @GetMapping("/api/notifications/sign")      // get sign
     public NotificationSignDTO getNotificationSign(){

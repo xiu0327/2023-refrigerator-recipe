@@ -37,6 +37,4 @@ public class MyIngredientCollection {
                 .forEach(myIngredient -> port.updateToVolume(myIngredient.getId(), myIngredient.getVolume()));
     }
 
-
-
 }

@@ -15,6 +15,7 @@ import refrigerator.back.ingredient.outbound.dto.QOutIngredientInRecipeDTO;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static refrigerator.back.ingredient.application.domain.QRegisteredIngredient.registeredIngredient;
 import static refrigerator.back.ingredient.application.domain.QSuggestedIngredient.*;
@@ -77,5 +78,23 @@ public class SubIngredientQueryRepository {
         em.clear();
 
         return ingredient.getId();
+    }
+
+    public Optional<String> findUnitName(String name) {
+
+        List<String> result = jpaQueryFactory.select(suggestedIngredient.unit)
+                .from(suggestedIngredient)
+                .where(suggestedIngredient.name.eq(name))
+                .groupBy(suggestedIngredient.unit)
+                .orderBy(suggestedIngredient.unit.count().desc())
+                .limit(1)
+                .fetch();
+
+        return Optional.ofNullable(result.get(0));
+    }
+
+    public List<SuggestedIngredient> testIngredient() {
+        return jpaQueryFactory.selectFrom(suggestedIngredient)
+                .fetch();
     }
 }

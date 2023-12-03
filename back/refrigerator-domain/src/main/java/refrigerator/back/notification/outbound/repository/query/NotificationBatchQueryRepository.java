@@ -24,7 +24,6 @@ public class NotificationBatchQueryRepository {
 
     // option이 true이면 type이 EXPIRATION_DATE인 알림 삭제
     // option이 false이면 type이 EXPIRATION_DATE가 아닌 알림 삭제
-    @Transactional
     public Long deleteNotification(Boolean option, LocalDateTime date) {
 
         long row = jpaQueryFactory
