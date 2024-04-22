@@ -11,7 +11,7 @@
 <br>
 
 ## 📆 기간
-  - 2023.03 ~ 2023.05
+  - 2023.03 ~ 2023.07
 
 <br>
 
@@ -21,38 +21,16 @@
     
   - Back End - [`김나현`](https://github.com/xiu0327), [`김도현`](https://github.com/ehgus5825)
     - Java
-    - SpringBoot, Spring Data JPA, MySQL, AWS, QueryDsl
+    - SpringBoot, Spring Data JPA, MySQL, QueryDsl
     - Spring Data Redis, Spring Security, Spring Batch
+    - AWS RDS, AWS EC2, AWS S3
+    - JUnit, mockito, 
 
 <br>
 
 ## ✏ 기획 & 설계
 - 도메인 모델링
 ![도메인 모델링](https://github.com/xiu0327/2023-refrigerator-recipe/assets/78461009/bc31d72b-0fcd-4249-b2a0-99604bca79d5)
-
-
-
-<br>
-
-## 🐱‍💻 프론트 역할 분담
-  - 진경
-  - 명선
-
-## 🐱‍💻 백엔드 역할 분담
-  - 도현
-    - [x] 식재료(Ingredient)
-    - [x] 알림(Notification)
-  - 나현
-    - [x] 인증/인가(Authentication)
-    - [x] 댓글(Comment)
-    - [x] 레시피(Recipe)
-    - [x] 본인인증(Identification)
-    - [x] 회원(Member)
-    - [x] 북마크(MyBookmark)
-    - [x] 별점(MyScore)
-    - [x] 검색(Search)
-  - 공통
-    - [x] 인프라
 
 <br>
 
